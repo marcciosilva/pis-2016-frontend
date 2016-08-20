@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using Servicios.Models;
+using Servicios.Filtros;
 
 namespace Servicios.Controllers
 {
@@ -18,11 +19,13 @@ namespace Servicios.Controllers
         private Context db = new Context();
 
         // GET: api/Usuario
+        [RequireHttps]
         public IQueryable<Usuario> GetUsuario()
         {
             return db.Usuario;
         }
 
+        [RequireHttps]
         // GET: api/Usuario/5
         [ResponseType(typeof(Usuario))]
         public async Task<IHttpActionResult> GetUsuario(string id)
@@ -37,6 +40,7 @@ namespace Servicios.Controllers
         }
 
         // PUT: api/Usuario/5
+        [RequireHttps]
         [ResponseType(typeof(void))]
         public async Task<IHttpActionResult> PutUsuario(string id, Usuario usuario)
         {
@@ -72,6 +76,7 @@ namespace Servicios.Controllers
         }
 
         // POST: api/Usuario
+        [RequireHttps]
         [ResponseType(typeof(Usuario))]
         public async Task<IHttpActionResult> PostUsuario(Usuario usuario)
         {
@@ -102,6 +107,7 @@ namespace Servicios.Controllers
         }
 
         // DELETE: api/Usuario/5
+        [RequireHttps]
         [ResponseType(typeof(Usuario))]
         public async Task<IHttpActionResult> DeleteUsuario(string id)
         {
