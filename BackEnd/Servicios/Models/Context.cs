@@ -1,7 +1,9 @@
 ﻿namespace Servicios.Models
 {
+    using Migrations;
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.ModelConfiguration.Conventions;
     using System.Linq;
 
     public class Context : DbContext
@@ -15,13 +17,21 @@
         public Context()
             : base("name=Context")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<Context, Configuration>());
         }
-
+        
         // Agregue un DbSet para cada tipo de entidad que desee incluir en el modelo. Para obtener más información 
         // sobre cómo configurar y usar un modelo Code First, vea http://go.microsoft.com/fwlink/?LinkId=390109.
 
         //
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Evento> Evento { get; set; }
+
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        }
     }
 
     //public class MyEntity
