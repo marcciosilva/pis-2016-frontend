@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<String> list;
     ArrayAdapter adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < values.length; i++) {
             list.add(values[i]);
         }
-        ListView listView = (ListView) findViewById((R.id.list));
+        listView = (ListView) findViewById((R.id.list));
         listView.setAdapter(adapter);
         //end list handling
 
@@ -80,8 +81,19 @@ public class MainActivity extends AppCompatActivity {
         Ortc ortc = new Ortc();
         try {
             factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
-            client = factory.createClient();
-            client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
+//            client = factory.createClient();
+//            client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1");
+
+
+
+
+
+
+            client = (new Ortc()).loadOrtcFactory("IbtRealtimeSJ").createClient();
+            client.setApplicationContext(getApplicationContext());
+            //client.setGoogleProjectId("0123456789");
+            client.setGoogleProjectId("757215377367");
+            client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1/");
             client.connect("HDzwHh", "testToken");
 
             client.onConnected = new OnConnected() {
@@ -106,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                                             //no se puede modificar ninguna view desde otro thread
                                             //que no sea este
                                             adapter.notifyDataSetChanged();
+                                            listView.setSelection(adapter.getCount() - 1);
                                         }
                                     });
                                     //client.send("myChannel", "Acknowledgement");
