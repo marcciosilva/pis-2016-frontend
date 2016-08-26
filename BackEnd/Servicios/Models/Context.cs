@@ -26,6 +26,7 @@
         //
         public virtual DbSet<Usuario> Usuario { get; set; }
         public virtual DbSet<Evento> Evento { get; set; }
+        
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -15,8 +15,10 @@ namespace TriggerProgram
 
             //cambiar esto por una notificacion push 
             Model.Entities db = new Model.Entities();
-            db.Usuario.Add(new Model.Usuario {
-                NombreUsuario = "inserto un evento" + Guid.NewGuid(), Contraseña = "pass"
+            db.Usuario.Add(new Model.Usuario
+            {
+                NombreUsuario = "inserto un evento" + Guid.NewGuid(),
+                Contraseña = "pass"
             });
             db.SaveChanges();
         }
