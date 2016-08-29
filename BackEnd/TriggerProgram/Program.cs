@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils.Notifications;
+using Utils.Notifications;
 namespace TriggerProgram
 {
     class Program
@@ -13,19 +14,19 @@ namespace TriggerProgram
         {
             Console.WriteLine("abrio una app el trigger :D");
 
-            //cambiar esto por una notificacion push 
-            //Model.Entities db = new Model.Entities();
-            //db.Usuario.Add(new Model.Usuario
-            //{
-            //    NombreUsuario = "inserto un evento" + Guid.NewGuid(),
-            //    Contraseña = "pass"
-            //});
-            //db.SaveChanges();
-           
-            var inicioComunicacion = new OrtcUsageForm();
-            inicioComunicacion.ortc_OnSubscribed(new object(),"");
+            //logica para realtime framework                       
+            //var inicioComunicacion = new OrtcUsageForm();
+            //inicioComunicacion.ortc_OnConnected(new object());
+            //inicioComunicacion.ortc_OnSubscribed(new object(),"");
+            //Console.ReadLine();
+
+            //logica para pubnub
+            var cliente = FactoryNotifications.GetInstance();
+            cliente.CreateInstance();
+            string channel = "Channel-15t1x43ar";
+            cliente.SuscribeChanel(channel);
+            cliente.SendMessage(channel,"Esto es una prueba :D");
             Console.ReadLine();
-            // inicioComunicacion.ortc_OnSubscribed();
         }
     }
 }
