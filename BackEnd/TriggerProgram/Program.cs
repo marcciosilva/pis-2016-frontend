@@ -13,7 +13,8 @@ namespace TriggerProgram
         {
             Console.WriteLine("abrio una app el trigger :D");
             var cliente = FactoryNotifications.GetInstance();
-            string channel = "Channel-15t1x43ax";
+            //string channel = "Channel-15t1x43ax";
+            string channel = "myChannel";
             cliente.SubscribeChanel(channel);
             while (true)
             {
