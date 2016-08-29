@@ -24,7 +24,7 @@ namespace TriggerProgram
             var cliente = FactoryNotifications.GetInstance();
             cliente.CreateInstance();
             string channel = "Channel-15t1x43ar";
-            cliente.SuscribeChanel(channel);
+            cliente.SubscribeChanel(channel);
             cliente.SendMessage(channel,"Esto es una prueba :D");
             Console.ReadLine();
         }
