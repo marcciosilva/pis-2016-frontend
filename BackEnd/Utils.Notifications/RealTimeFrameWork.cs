@@ -18,8 +18,8 @@ namespace Utils.Notifications
             IOrtcFactory factory = api.LoadOrtcFactory("IbtRealTimeSJ");
             ortcClient = factory.CreateClient();
 
-            ortcClient.ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
-            ortcClient.ConnectionMetadata = "myConnectionMetadata";
+            ortcClient.ClusterUrl = "http://ortc-developers.realtime.co/server/2.1";
+            ortcClient.ConnectionMetadata = "console client2";
 
             ortcClient.OnConnected += new OnConnectedDelegate(ortc_OnConnected);
             ortcClient.OnSubscribed += new OnSubscribedDelegate(ortc_OnSubscribed);
@@ -37,6 +37,7 @@ namespace Utils.Notifications
 
         public void OnMessageCallback(object sender, string channel, string message)
         {
+            Console.WriteLine("me devolvio algo");
             // Received message from channel
         }
 
