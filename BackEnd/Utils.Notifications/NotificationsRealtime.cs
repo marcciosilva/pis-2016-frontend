@@ -57,12 +57,12 @@ namespace Utils.Notifications
         /// en concreto.
         /// </summary>
         /// <param name="chanelName">Nombre del canal.</param>
-        public void SubscribeChanel(string chanelName)
+        public void SubscribeChanel(string channelName)
         {
-            if (_channelName.Equals(chanelName, StringComparison.Ordinal))
+            if (_channelName.Equals(channelName, StringComparison.Ordinal))
             {
                 PrintDebugMessage("Ya existe una suscripción al canal " 
-                    + chanelName + ".");
+                    + channelName + ".");
             }
             else
             {
@@ -74,7 +74,7 @@ namespace Utils.Notifications
                 }
                 else
                 {
-                    _channelName = chanelName;
+                    _channelName = channelName;
                     _ortcClient.Subscribe(_channelName, true, OnMessageCallback);
                 }
             }
