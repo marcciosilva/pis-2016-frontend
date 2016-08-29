@@ -13,6 +13,7 @@ namespace BackendRealtimeFramework
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Escriba el mensaje que desee enviar a la aplicación en Android a continuación...");
             Program program = new Program();
             program.blah();
             while (true)
@@ -21,6 +22,7 @@ namespace BackendRealtimeFramework
                 Console.WriteLine("Enviando mensaje...");
                 while (ortcClient.IsSubscribed("myChannel") == false) ;
                 ortcClient.Send("myChannel", msg);
+                Console.WriteLine("Mensaje enviado, puede escribir nuevamente...");
             }
         }
 
