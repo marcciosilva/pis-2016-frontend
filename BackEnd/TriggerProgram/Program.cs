@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils.Notifications;
-using Utils.Notifications;
 namespace TriggerProgram
 {
     class Program
@@ -13,20 +12,15 @@ namespace TriggerProgram
         static void Main(string[] args)
         {
             Console.WriteLine("abrio una app el trigger :D");
-
-            //logica para realtime framework                       
-            //var inicioComunicacion = new OrtcUsageForm();
-            //inicioComunicacion.ortc_OnConnected(new object());
-            //inicioComunicacion.ortc_OnSubscribed(new object(),"");
-            //Console.ReadLine();
-
-            //logica para pubnub
             var cliente = FactoryNotifications.GetInstance();
-            cliente.CreateInstance();
-            string channel = "Channel-15t1x43ar";
+            string channel = "Channel-15t1x43ax";
             cliente.SubscribeChanel(channel);
-            cliente.SendMessage(channel,"Esto es una prueba :D");
-            Console.ReadLine();
+            while (true)
+            {
+                Console.WriteLine("Ingrese un mensaje para enviar...");
+                string msg = Console.ReadLine();
+                cliente.SendMessage(channel, msg);
+            }
         }
     }
 }

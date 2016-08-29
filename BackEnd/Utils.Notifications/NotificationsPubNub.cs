@@ -15,6 +15,7 @@ namespace Utils.Notifications
         private static Pubnub _pubnubCliente;
         public void CreateInstance()
         {
+            //TODO eliminar esto en principio.
             _pubnubCliente = new Pubnub(PublishKey, SuscribeKey);
         }
         /// <summary>

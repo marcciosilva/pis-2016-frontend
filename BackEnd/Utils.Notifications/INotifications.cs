@@ -9,8 +9,8 @@ namespace Utils.Notifications
     public interface INotifications
     {
         void CreateInstance();
-        void SubscribeChanel(string ChanelName);
+        void SubscribeChanel(string channelName);
         void UnsubscribeChanel(string channelName);
-        void SendMessage(string channelName, string Message);
+        void SendMessage(string channelName, string message);
     }
 }
