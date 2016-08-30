@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         // Hay que esperar que se conecte al servidor antes de hacer
         // la suscripción.
         while (!notificationSystem.isConnected());
-        notificationSystem.SubscribeChannel("Channel-bnoinu3n0");
+        String ChannelName="myChannel";
+        notificationSystem.SubscribeChannel(ChannelName);
         // Inicio de manejo de lista.
         list = new ArrayList<>();
         adapter = new ArrayAdapter<String>(this,

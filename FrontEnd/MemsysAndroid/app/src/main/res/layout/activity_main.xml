@@ -10,11 +10,12 @@
         android:layout_height="wrap_content"
         android:hint="@string/edit_message"
         android:layout_x="11dp"
-        android:layout_y="10dp" />
+        android:layout_y="10dp"
+        android:text="Usuario" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="302dp"
+        android:layout_height="189dp"
         android:layout_gravity="center">
 
         <ListView
