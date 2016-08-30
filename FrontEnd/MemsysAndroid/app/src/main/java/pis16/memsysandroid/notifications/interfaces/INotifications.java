@@ -10,6 +10,8 @@ import pis16.memsysandroid.ui.MainActivity;
 public interface INotifications
 {
     void SubscribeChannel(String channelName);
+    void SendMessage(String channelName, String message);
     void UnsubscribeChannel(String channelName);
+
     boolean isConnected();
 }

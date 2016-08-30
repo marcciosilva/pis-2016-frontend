@@ -11,14 +11,13 @@ namespace TriggerProgram
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("abrio una app el trigger :D");
+
             var cliente = FactoryNotifications.GetInstance();
-            //string channel = "Channel-15t1x43ax";
-            string channel = "myChannel";
+            string channel = "Channel-bnoinu3n0";
             cliente.SubscribeChanel(channel);
             while (true)
             {
-                Console.WriteLine("Ingrese un mensaje para enviar...");
+                Console.Write("> ");
                 string msg = Console.ReadLine();
                 cliente.SendMessage(channel, msg);
             }

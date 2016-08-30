@@ -61,6 +61,12 @@ public class NotificationsRealtime implements INotifications {
         client.unsubscribe(channelName);
     }
 
+
+    @Override
+    public  void SendMessage(String channelName, String message) {
+
+    }
+
     @Override
     public boolean isConnected() {
         return client.getIsConnected();

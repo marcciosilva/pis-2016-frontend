@@ -29,5 +29,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta1'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta1'
+    compile 'com.pubnub:pubnub-android:3.7.10'
+    //'com.pubnub:pubnub-android-debug:3.7.+' For the debug version
     testCompile 'junit:junit:4.12'
 }

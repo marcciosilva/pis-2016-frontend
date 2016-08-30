@@ -62,9 +62,6 @@
     <Compile Include="INotifications.cs" />
     <Compile Include="NotificationsPubNub.cs" />
     <Compile Include="NotificationsRealtime.cs" />
-    <Compile Include="RealTimeFrameWork.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

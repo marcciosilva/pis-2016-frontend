@@ -26,11 +26,7 @@ namespace Utils.Notifications
             _channelName = "";
         }
 
-        //TODO eliminar esto en principio.
-        public void CreateInstance()
-        {
-
-        }
+       
 
         /// <summary>
         /// Método utilizado para enviar un mensaje a un canal en particular.

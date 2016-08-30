@@ -17,12 +17,12 @@ public class FactoryNotifications {
     public enum PushNotificationsSystem { PubNub, RealtimeFramework };
 
     // Determina qué sistema se utiliza para push notifications.
-    private static PushNotificationsSystem _currentNotificationSystem = PushNotificationsSystem.RealtimeFramework;
+    private static PushNotificationsSystem _currentNotificationSystem = PushNotificationsSystem.PubNub;
 
     public static INotifications GetInstance(MainActivity caller) {
         if (_currentNotificationSystem == PushNotificationsSystem.PubNub)
         {
-            return new NotificationsPubNub();
+            return new NotificationsPubNub(caller);
         }
         else if (_currentNotificationSystem == PushNotificationsSystem.RealtimeFramework)
         {
