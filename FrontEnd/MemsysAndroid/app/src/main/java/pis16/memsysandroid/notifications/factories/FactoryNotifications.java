@@ -10,22 +10,19 @@ import pis16.memsysandroid.notifications.interfaces.INotifications;
  */
 public class FactoryNotifications {
 
-    public enum PushNotificationsSystem { PubNub, RealtimeFramework };
+    public enum PushNotificationsSystem {PubNub, RealtimeFramework}
+
+    ;
 
     // Determina qué sistema se utiliza para push notifications.
     private static PushNotificationsSystem _currentNotificationSystem = PushNotificationsSystem.RealtimeFramework;
 
     public static INotifications GetInstance(INotificationReceiver caller) {
-        if (_currentNotificationSystem == PushNotificationsSystem.PubNub)
-        {
+        if (_currentNotificationSystem == PushNotificationsSystem.PubNub) {
             return new NotificationsPubNub(caller);
-        }
-        else if (_currentNotificationSystem == PushNotificationsSystem.RealtimeFramework)
-        {
+        } else if (_currentNotificationSystem == PushNotificationsSystem.RealtimeFramework) {
             return new NotificationsRealtime(caller);
-        }
-        else
-        {
+        } else {
             return null;
         }
     }

@@ -20,7 +20,7 @@ import pis16.memsysandroid.notifications.interfaces.INotifications;
 
 public class MainActivity extends AppCompatActivity implements INotificationReceiver {
 
-    public  static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
+    public static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 
     ArrayList<String> list;
     ArrayAdapter adapter;
@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements INotificationRece
         notificationSystem = FactoryNotifications.GetInstance(this);
         // Hay que esperar que se conecte al servidor antes de hacer
         // la suscripción.
-        while (!notificationSystem.isConnected());
-        String ChannelName="myChannel";
+        while (!notificationSystem.isConnected()) ;
+        String ChannelName = "myChannel";
         notificationSystem.SubscribeChannel(ChannelName);
         // Inicio de manejo de lista.
         list = new ArrayList<>();

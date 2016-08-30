@@ -7,7 +7,6 @@ import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 import pis16.memsysandroid.notifications.interfaces.INotificationReceiver;
 import pis16.memsysandroid.notifications.interfaces.INotifications;
-import pis16.memsysandroid.ui.MainActivity;
 
 /**
  * Created by marccio on 29-Aug-16.
@@ -27,7 +26,6 @@ public class NotificationsRealtime implements INotifications {
         try {
             factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
             client = factory.createClient();
-//            client.setApplicationContext(caller.getApplicationContext());
             client.setGoogleProjectId(googleProjectId);
             client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1/");
             client.onConnected = new OnConnected() {
@@ -64,7 +62,7 @@ public class NotificationsRealtime implements INotifications {
 
 
     @Override
-    public  void SendMessage(String channelName, String message) {
+    public void SendMessage(String channelName, String message) {
 
     }
 
