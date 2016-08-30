@@ -9,13 +9,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.concurrent.locks.Lock;
 
 import pis16.memsysandroid.R;
-import pis16.memsysandroid.notifications.factories.FactoryNotifications;
+import pis16.memsysandroid.notifications.factories.FactoryNotificationSystem;
 import pis16.memsysandroid.notifications.interfaces.INotificationReceiver;
-import pis16.memsysandroid.notifications.interfaces.INotifications;
+import pis16.memsysandroid.notifications.interfaces.INotificationSystem;
 
 
 public class MainActivity extends AppCompatActivity implements INotificationReceiver {
@@ -30,11 +28,11 @@ public class MainActivity extends AppCompatActivity implements INotificationRece
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        INotifications notificationSystem;
+        INotificationSystem notificationSystem;
         // Se pasa la MainActivity por parámetro para poder enviar de vuelta
         // los mensajes recibidos a esta actividad.
         //TODO encontrar una manera mejor.
-        notificationSystem = FactoryNotifications.GetInstance(this);
+        notificationSystem = FactoryNotificationSystem.GetInstance(this);
         // Hay que esperar que se conecte al servidor antes de hacer
         // la suscripción.
         while (!notificationSystem.isConnected()) ;
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements INotificationRece
     }
 
     @Override
-    public void onMessageReceived(String msg) {
+    public void onNotificationReceived(String msg) {
         list.add(msg);
         runOnUiThread(new Runnable() {
             @Override

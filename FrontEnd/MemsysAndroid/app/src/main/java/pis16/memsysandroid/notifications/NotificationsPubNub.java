@@ -6,12 +6,12 @@ import com.pubnub.api.PubnubError;
 import com.pubnub.api.PubnubException;
 
 import pis16.memsysandroid.notifications.interfaces.INotificationReceiver;
-import pis16.memsysandroid.notifications.interfaces.INotifications;
+import pis16.memsysandroid.notifications.interfaces.INotificationSystem;
 
 /**
  * Created by marccio on 29-Aug-16.
  */
-public class NotificationsPubNub implements INotifications {
+public class NotificationsPubNub implements INotificationSystem {
 
     private static Pubnub pubnub;
     private String PublishKey = "pub-c-a024c6ed-96da-40cd-8e1a-45279bd4b63b";
@@ -51,7 +51,7 @@ public class NotificationsPubNub implements INotifications {
                         public void successCallback(String channel, Object message) {
                             System.out.println("SUBSCRIBE : " + channel + " : "
                                     + message.toString());
-                            caller.onMessageReceived(message.toString());
+                            caller.onNotificationReceived(message.toString());
                         }
 
                         @Override

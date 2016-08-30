@@ -11,6 +11,6 @@ public interface INotificationReceiver {
      *
      * @param msg Se recibe el mensaje como un String.
      */
-    void onMessageReceived(String msg);
+    void onNotificationReceived(String msg);
 
 }

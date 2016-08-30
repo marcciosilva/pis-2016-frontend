@@ -6,12 +6,12 @@ import ibt.ortc.extensibility.OnMessage;
 import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
 import pis16.memsysandroid.notifications.interfaces.INotificationReceiver;
-import pis16.memsysandroid.notifications.interfaces.INotifications;
+import pis16.memsysandroid.notifications.interfaces.INotificationSystem;
 
 /**
  * Created by marccio on 29-Aug-16.
  */
-public class NotificationsRealtime implements INotifications {
+public class NotificationsRealtime implements INotificationSystem {
 
     private OrtcClient client;
     INotificationReceiver caller;
@@ -49,7 +49,7 @@ public class NotificationsRealtime implements INotifications {
                     public void run(OrtcClient sender, String channel, String message) {
                         // Received a message
                         System.out.println(channel + " > " + message);
-                        caller.onMessageReceived(message);
+                        caller.onNotificationReceived(message);
                     }
                 });
         System.out.println("Cliente suscrito al canal " + channelName);
