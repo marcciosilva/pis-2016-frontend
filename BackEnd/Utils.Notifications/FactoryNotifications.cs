@@ -12,7 +12,7 @@ namespace Utils.Notifications
         public enum PushNotificationsSystem { PubNub, RealtimeFramework };
 
         // Determina qué sistema se utiliza para push notifications.
-        private static PushNotificationsSystem _currentNotificationSystem = PushNotificationsSystem.PubNub;
+        private static PushNotificationsSystem _currentNotificationSystem = PushNotificationsSystem.RealtimeFramework;
 
         public static INotifications GetInstance() {
             if (_currentNotificationSystem == PushNotificationsSystem.PubNub)

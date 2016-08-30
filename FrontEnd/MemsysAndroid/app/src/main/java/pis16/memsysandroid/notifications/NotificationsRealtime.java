@@ -5,6 +5,7 @@ import ibt.ortc.extensibility.OnConnected;
 import ibt.ortc.extensibility.OnMessage;
 import ibt.ortc.extensibility.OrtcClient;
 import ibt.ortc.extensibility.OrtcFactory;
+import pis16.memsysandroid.notifications.interfaces.INotificationReceiver;
 import pis16.memsysandroid.notifications.interfaces.INotifications;
 import pis16.memsysandroid.ui.MainActivity;
 
@@ -14,19 +15,19 @@ import pis16.memsysandroid.ui.MainActivity;
 public class NotificationsRealtime implements INotifications {
 
     private OrtcClient client;
-    MainActivity caller;
+    INotificationReceiver caller;
     String appKey = "HDzwHh";
     String token = "testToken";
     String googleProjectId = "757215377367";
 
-    public NotificationsRealtime(final MainActivity caller) {
+    public NotificationsRealtime(final INotificationReceiver caller) {
         this.caller = caller;
         OrtcFactory factory;
         Ortc ortc = new Ortc();
         try {
             factory = ortc.loadOrtcFactory("IbtRealtimeSJ");
             client = factory.createClient();
-            client.setApplicationContext(caller.getApplicationContext());
+//            client.setApplicationContext(caller.getApplicationContext());
             client.setGoogleProjectId(googleProjectId);
             client.setClusterUrl("http://ortc-developers.realtime.co/server/2.1/");
             client.onConnected = new OnConnected() {

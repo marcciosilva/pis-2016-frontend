@@ -14,10 +14,11 @@ import java.util.concurrent.locks.Lock;
 
 import pis16.memsysandroid.R;
 import pis16.memsysandroid.notifications.factories.FactoryNotifications;
+import pis16.memsysandroid.notifications.interfaces.INotificationReceiver;
 import pis16.memsysandroid.notifications.interfaces.INotifications;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements INotificationReceiver {
 
     public  static final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
     public void onMessageReceived(String msg) {
         list.add(msg);
         runOnUiThread(new Runnable() {
@@ -71,6 +73,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 }
