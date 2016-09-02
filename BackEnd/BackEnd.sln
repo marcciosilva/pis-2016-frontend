@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriggerProgram", "TriggerPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils.Notifications", "Utils.Notifications\Utils.Notifications.csproj", "{A10BB2F4-E63F-40D5-A9B7-52BAE04A6316}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlDependecyProject", "SqlDependecyProject\SqlDependecyProject.csproj", "{1DDB2C9B-93DB-4962-8DCC-E8615FDB1068}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A10BB2F4-E63F-40D5-A9B7-52BAE04A6316}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A10BB2F4-E63F-40D5-A9B7-52BAE04A6316}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A10BB2F4-E63F-40D5-A9B7-52BAE04A6316}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DDB2C9B-93DB-4962-8DCC-E8615FDB1068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DDB2C9B-93DB-4962-8DCC-E8615FDB1068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DDB2C9B-93DB-4962-8DCC-E8615FDB1068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DDB2C9B-93DB-4962-8DCC-E8615FDB1068}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

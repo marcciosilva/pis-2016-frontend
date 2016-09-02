@@ -11,7 +11,6 @@ namespace TriggerProgram
     {
         static void Main(string[] args)
         {
-
             var cliente = FactoryNotifications.GetInstance();
             string channel = "myChannel";
             cliente.SubscribeChanel(channel);
