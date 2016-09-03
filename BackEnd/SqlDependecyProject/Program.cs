@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
+using TableDependency.Mappers;
+using TableDependency.SqlClient;
+using TableDependency.Enums;
 
 namespace SqlDependecyProject
 {
@@ -14,48 +17,57 @@ namespace SqlDependecyProject
         private static bool llamo = true;
         static void Main(string[] args)
         {
-            while (true) {
-                if (llamo) {
+            while (true)
+            {
+                if (llamo)
+                {
                     Listener();
                     llamo = false;
                 }
             }
         }
-        private static SqlCommand comand;
+
         static void Listener()
         {
-            string conectionString = "Data Source=DESKTOP-T27K22L\\SQLExpressLocal;Initial Catalog=Prototipo1;Integrated Security=True";//ConfigurationManager.ConnectionStrings["Entities"].ConnectionString
-            var sampleSqlConnection = new SqlConnection(conectionString);
-            SqlDependency.Stop(conectionString);
-            SqlDependency.Start(conectionString);
-            //var
-            comand = new SqlCommand();
-            comand.Connection = sampleSqlConnection;
-            comand.Connection.Open();
-            comand.CommandType = CommandType.Text;
-            comand.CommandText = "SELECT [NombreGenerador],[Descripcion],[Direccion],[FechaCreacion] FROM[dbo].[Evento];";
-            comand.Notification = null;
-            comand.CommandTimeout = 15;
-
-            var sampleSqlDependency = new SqlDependency(comand);
-            sampleSqlDependency.OnChange += new OnChangeEventHandler(SqlDependencyOnChange);
-            var EjecuarLectura = comand.ExecuteReader();
-            EjecuarLectura.Read();
+            Model.Prototipo1 db = new Model.Prototipo1();
+            var mapper = new ModelToTableMapper<Model.Evento>();
+            mapper.AddMapping(model => model.NombreGenerador, "NombreGenerador");
+            _dependency = new SqlTableDependency<Model.Evento>(_connectionString, "Evento", mapper);
+            _dependency.OnChanged += _dependency_OnChanged;
+            _dependency.OnError += _dependency_OnError;
+            _dependency.Start();
         }
 
-        static void SqlDependencyOnChange(object sender, SqlNotificationEventArgs eventArgs)
+        // private static IList<Model.Evento> _stocks;
+        private static readonly string _connectionString = "data source=DESKTOP-T27K22L\\SQLExpressLocal;initial catalog=Prototipo1;integrated security=True";
+        private static SqlTableDependency<Model.Evento> _dependency;
+
+        private static void _dependency_OnError(object sender, TableDependency.EventArgs.ErrorEventArgs e)
         {
-            if (eventArgs.Info == SqlNotificationInfo.Invalid)
+            throw e.Error;
+        }
+        private static void _dependency_OnChanged(object sender,
+        TableDependency.EventArgs.RecordChangedEventArgs<Model.Evento> e)
+        {
+            if (e.ChangeType != ChangeType.None)
             {
-                Console.WriteLine("The above notification query is not valid.");
-            }
-            else
-            {
-                Console.WriteLine("Notification Info: " + eventArgs.Info);//esto dice siu es un delete, update o insert
-                //Console.WriteLine("Notification source: " + eventArgs.Source);
-                //Console.WriteLine("Notification type: " + eventArgs.Type);
-                //aca tengo que disparar un mensaje para que actualice.
-                llamo = true;
+                switch (e.ChangeType)
+                {
+                    case ChangeType.Delete:
+                        Console.WriteLine("Boorrroo: " +e.Entity.NombreGenerador);
+                    //_stocks.Remove(_stocks.FirstOrDefault(c => c.NombreGenerador == e.Entity.NombreGenerador));
+                        break;
+                    case ChangeType.Insert:
+                        Console.WriteLine("Agrego: " + e.Entity.NombreGenerador);
+                    //_stocks.Add(e.Entity);
+                    break;
+                    case ChangeType.Update:
+                        //var customerIndex = _stocks.IndexOf(
+                        //        _stocks.FirstOrDefault(c => c.NombreGenerador == e.Entity.NombreGenerador));
+                        //if (customerIndex >= 0) _stocks[customerIndex] = e.Entity;
+                        Console.WriteLine("Actualizo: " + e.Entity.NombreGenerador);
+                        break;
+                }
             }
         }
     }
