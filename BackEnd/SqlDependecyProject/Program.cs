@@ -11,46 +11,36 @@ namespace SqlDependecyProject
 {
     class Program
     {
-        static  void Main(string[] args)
+        private static bool llamo = true;
+        static void Main(string[] args)
         {
-            Task.Run(() =>
-            {
-                MainAsync();
-            }).Wait();
+            while (true) {
+                if (llamo) {
+                    Listener();
+                    llamo = false;
+                }
+            }
         }
-
-        static async void MainAsync()
+        private static SqlCommand comand;
+        static void Listener()
         {
             string conectionString = "Data Source=DESKTOP-T27K22L\\SQLExpressLocal;Initial Catalog=Prototipo1;Integrated Security=True";//ConfigurationManager.ConnectionStrings["Entities"].ConnectionString
             var sampleSqlConnection = new SqlConnection(conectionString);
+            SqlDependency.Stop(conectionString);
             SqlDependency.Start(conectionString);
-            var comand = new SqlCommand();
+            //var
+            comand = new SqlCommand();
             comand.Connection = sampleSqlConnection;
-            var conection= comand.Connection.OpenAsync();
-            Task.WaitAll(conection); //make sure the task is completed
-            if (conection.IsFaulted) // in case of failure
-            {
-                throw new Exception("Connection failure", conection.Exception);
-            }
+            comand.Connection.Open();
             comand.CommandType = CommandType.Text;
             comand.CommandText = "SELECT [NombreGenerador],[Descripcion],[Direccion],[FechaCreacion] FROM[dbo].[Evento];";
             comand.Notification = null;
+            comand.CommandTimeout = 15;
 
             var sampleSqlDependency = new SqlDependency(comand);
             sampleSqlDependency.OnChange += new OnChangeEventHandler(SqlDependencyOnChange);
-            var EjecuarLectura= comand.ExecuteReaderAsync();
-
-            Task.WaitAll(EjecuarLectura); //make sure the task is completed
-            if (EjecuarLectura.IsFaulted) // in case of failure
-            {
-                throw new Exception("Connection failure", EjecuarLectura.Exception);
-            }
-
-            Console.ReadLine();
-            //while (true)
-            //{
-            //    Console.ReadLine();
-            //}
+            var EjecuarLectura = comand.ExecuteReader();
+            EjecuarLectura.Read();
         }
 
         static void SqlDependencyOnChange(object sender, SqlNotificationEventArgs eventArgs)
@@ -61,13 +51,11 @@ namespace SqlDependecyProject
             }
             else
             {
-                Console.WriteLine("Notification Info: " + eventArgs.Info);
-                Console.WriteLine("Notification source: " + eventArgs.Source);
-                Console.WriteLine("Notification type: " + eventArgs.Type);
-                Task.Run(() =>
-                {
-                    MainAsync();
-                }).Wait();
+                Console.WriteLine("Notification Info: " + eventArgs.Info);//esto dice siu es un delete, update o insert
+                //Console.WriteLine("Notification source: " + eventArgs.Source);
+                //Console.WriteLine("Notification type: " + eventArgs.Type);
+                //aca tengo que disparar un mensaje para que actualice.
+                llamo = true;
             }
         }
     }
