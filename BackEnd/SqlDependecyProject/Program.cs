@@ -25,6 +25,7 @@ namespace SqlDependecyProject
             {
                 if (llamo)
                 {
+                    Console.WriteLine("Estoy esperando por modificaciones..");
                     Listener();
                     llamo = false;
                 }
