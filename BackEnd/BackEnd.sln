@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emsys.ObserverDataBase", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Emsys.DataAccesLayer", "CapaAcessoDatos\Emsys.DataAccesLayer.csproj", "{E3ED4CD6-6749-42EC-9140-F97453140BEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PruebaSubirImagenes", "PruebaSubirImagenes\PruebaSubirImagenes.csproj", "{4F2EAC84-0EC9-4777-AD33-5B5782889CC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{E3ED4CD6-6749-42EC-9140-F97453140BEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3ED4CD6-6749-42EC-9140-F97453140BEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3ED4CD6-6749-42EC-9140-F97453140BEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F2EAC84-0EC9-4777-AD33-5B5782889CC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F2EAC84-0EC9-4777-AD33-5B5782889CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F2EAC84-0EC9-4777-AD33-5B5782889CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F2EAC84-0EC9-4777-AD33-5B5782889CC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
