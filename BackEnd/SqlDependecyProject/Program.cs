@@ -9,6 +9,8 @@ using System.Data;
 using TableDependency.Mappers;
 using TableDependency.SqlClient;
 using TableDependency.Enums;
+using Emsys.DataAccesLayer.Model;
+using System.Data.Entity;
 
 namespace SqlDependecyProject
 {
@@ -17,6 +19,8 @@ namespace SqlDependecyProject
         private static bool llamo = true;
         static void Main(string[] args)
         {
+            
+            //me quedo loopeando
             while (true)
             {
                 if (llamo)
@@ -29,25 +33,25 @@ namespace SqlDependecyProject
 
         static void Listener()
         {
-            Model.Prototipo1 db = new Model.Prototipo1();
-            var mapper = new ModelToTableMapper<Model.Evento>();
+            Model  db = new Model();
+            var mapper = new ModelToTableMapper<Evento>();
             mapper.AddMapping(model => model.NombreGenerador, "NombreGenerador");
-            _dependency = new SqlTableDependency<Model.Evento>(_connectionString, "Evento", mapper);
+            _dependency = new SqlTableDependency<Evento>(_connectionString, "Evento", mapper);
             _dependency.OnChanged += _dependency_OnChanged;
             _dependency.OnError += _dependency_OnError;
             _dependency.Start();
         }
 
         // private static IList<Model.Evento> _stocks;
-        private static readonly string _connectionString = "data source=DESKTOP-T27K22L\\SQLExpressLocal;initial catalog=Prototipo1;integrated security=True";
-        private static SqlTableDependency<Model.Evento> _dependency;
+        private static readonly string _connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["Context"].ConnectionString;
+        // "data source=DESKTOP-T27K22L\\SQLExpressLocal;initial catalog=Prototipo1;integrated security=True";
+        private static SqlTableDependency<Evento> _dependency;
 
         private static void _dependency_OnError(object sender, TableDependency.EventArgs.ErrorEventArgs e)
         {
             throw e.Error;
         }
-        private static void _dependency_OnChanged(object sender,
-        TableDependency.EventArgs.RecordChangedEventArgs<Model.Evento> e)
+        private static void _dependency_OnChanged(object sender, TableDependency.EventArgs.RecordChangedEventArgs<Evento> e)
         {
             if (e.ChangeType != ChangeType.None)
             {

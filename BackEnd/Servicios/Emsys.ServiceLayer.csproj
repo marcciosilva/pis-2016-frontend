@@ -136,7 +136,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Models\Script\Trigger.sql" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="Web.config" />
@@ -149,18 +148,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608180240181__Inicio.cs" />
-    <Compile Include="Migrations\201608180240181__Inicio.Designer.cs">
-      <DependentUpon>201608180240181__Inicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608230033576__AltaTablaEventos.cs" />
-    <Compile Include="Migrations\201608230033576__AltaTablaEventos.Designer.cs">
-      <DependentUpon>201608230033576__AltaTablaEventos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Context.cs" />
-    <Compile Include="Models\Evento.cs" />
-    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -177,12 +164,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608180240181__Inicio.resx">
-      <DependentUpon>201608180240181__Inicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608230033576__AltaTablaEventos.resx">
-      <DependentUpon>201608230033576__AltaTablaEventos.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\CapaAcessoDatos\Emsys.DataAccesLayer.csproj">
+      <Project>{e3ed4cd6-6749-42ec-9140-f97453140bea}</Project>
+      <Name>Emsys.DataAccesLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

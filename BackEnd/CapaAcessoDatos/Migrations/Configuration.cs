@@ -1,18 +1,18 @@
-namespace Servicios.Migrations
+namespace Emsys.DataAccesLayer.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Servicios.Models.Context>
+    internal sealed class Configuration : DbMigrationsConfiguration<Model.Model>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Servicios.Models.Context context)
+        protected override void Seed(Model.Model context)
         {
             //  This method will be called after migrating to the latest version.
 

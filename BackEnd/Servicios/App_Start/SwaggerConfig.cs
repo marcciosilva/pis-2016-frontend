@@ -1,11 +1,11 @@
 using System.Web.Http;
 using WebActivatorEx;
-using Servicios;
 using Swashbuckle.Application;
+using Emsys.ServiceLayer;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace Servicios
+namespace Emsys.ServiceLayer
 {
     public class SwaggerConfig
     {

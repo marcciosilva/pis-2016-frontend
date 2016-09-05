@@ -1,13 +1,12 @@
-namespace Servicios.Migrations
+namespace Emsys.DataAccesLayer.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _AltaTablaEventos : DbMigration
+    public partial class _Inicio : DbMigration
     {
         public override void Up()
         {
-            RenameTable(name: "dbo.Usuarios", newName: "Usuario");
             CreateTable(
                 "dbo.Evento",
                 c => new
@@ -19,12 +18,21 @@ namespace Servicios.Migrations
                     })
                 .PrimaryKey(t => t.NombreGenerador);
             
+            CreateTable(
+                "dbo.Usuario",
+                c => new
+                    {
+                        NombreUsuario = c.String(nullable: false, maxLength: 128),
+                        Contraseña = c.String(),
+                    })
+                .PrimaryKey(t => t.NombreUsuario);
+            
         }
         
         public override void Down()
         {
+            DropTable("dbo.Usuario");
             DropTable("dbo.Evento");
-            RenameTable(name: "dbo.Usuario", newName: "Usuarios");
         }
     }
 }
