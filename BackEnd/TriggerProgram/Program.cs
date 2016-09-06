@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Utils.Notifications;
-namespace TriggerProgram
+namespace Emsys.ObserverDataBase
 {
     class Program
     {

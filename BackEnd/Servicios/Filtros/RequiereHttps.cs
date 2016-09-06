@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace Servicios.Filtros
+namespace Emsys.ServiceLayer.Filtros
 {
     public class RequireHttpsAttribute : AuthorizationFilterAttribute
     {
