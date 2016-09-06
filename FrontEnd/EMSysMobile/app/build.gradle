@@ -17,12 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             buildConfigField "String", "BASE_URL", "\"http://demo4229498.mockable.io\""
+            buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
         }
         debug {
-            applicationIdSuffix '.debug'
-            versionNameSuffix '-DEBUG'
-
             buildConfigField "String", "BASE_URL", "\"http://demo4229498.mockable.io\""
+            buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
         }
     }
 }
@@ -33,4 +32,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.4'
+    compile 'com.google.firebase:firebase-messaging:9.4.0'
 }
+
+//Do not move this, should be at the bottom
+apply plugin: 'com.google.gms.google-services'
