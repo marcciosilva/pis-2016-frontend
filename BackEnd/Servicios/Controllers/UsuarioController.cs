@@ -11,7 +11,7 @@ namespace Emsys.ServiceLayer.Controllers
 {
     public class UsuarioController : ApiController
     {
-        private Model db = new Model();
+        private EmsysContext db = new EmsysContext();
 
         // GET: api/Usuario
         //[RequireHttps]

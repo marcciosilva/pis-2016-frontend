@@ -18,21 +18,21 @@ namespace Emsys.DataAccesLayer.Migrations
                     })
                 .PrimaryKey(t => t.NombreGenerador);
             
-            CreateTable(
-                "dbo.Usuario",
-                c => new
-                    {
-                        NombreUsuario = c.String(nullable: false, maxLength: 128),
-                        Contraseña = c.String(),
-                    })
-                .PrimaryKey(t => t.NombreUsuario);
+            //CreateTable(
+            //    "dbo.Usuario",
+            //    c => new
+            //        {
+            //            NombreUsuario = c.String(nullable: false, maxLength: 128),
+            //            Contraseña = c.String(),
+            //        })
+            //    .PrimaryKey(t => t.NombreUsuario);
             
         }
         
         public override void Down()
         {
-            DropTable("dbo.Usuario");
-            DropTable("dbo.Evento");
+            //DropTable("dbo.Usuario");
+            //DropTable("Evento");
         }
     }
 }

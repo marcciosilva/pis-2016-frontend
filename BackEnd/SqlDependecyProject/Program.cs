@@ -34,7 +34,7 @@ namespace SqlDependecyProject
 
         static void Listener()
         {
-            Model  db = new Model();
+            EmsysContext  db = new EmsysContext();
             var mapper = new ModelToTableMapper<Evento>();
             mapper.AddMapping(model => model.NombreGenerador, "NombreGenerador");
             _dependency = new SqlTableDependency<Evento>(_connectionString, "Evento", mapper);
