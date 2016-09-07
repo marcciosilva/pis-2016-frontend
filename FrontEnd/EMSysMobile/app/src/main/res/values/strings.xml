@@ -6,6 +6,8 @@
     <!-- Main Activity -->
     <string name="button_consume_ws">Consumir WS GET</string>
     <string name="button_goto_app">Ir a la APP</string>
+    <string name="button_log_notifications_token">Imprimir token de Notificaciones</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
 
     <!-- Consume WS Activity-->
     <string name="action_send">Enviar</string>
