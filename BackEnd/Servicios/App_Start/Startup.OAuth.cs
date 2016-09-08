@@ -21,16 +21,16 @@ namespace Servicios
             var secret = TextEncodings.Base64Url.Decode(ConfigurationManager.AppSettings["secret"]);
             app.CreatePerOwinContext(() => new EmsysContext());
             app.CreatePerOwinContext(() => new EmsysUserManager());
-            //app.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions
-            //{
-            //    AuthenticationMode = AuthenticationMode.Active,
-            //    AllowedAudiences = new[] { "Any" },
-            //    Realm = "test-realm",
-            //    IssuerSecurityTokenProviders = new IIssuerSecurityTokenProvider[]
-            //    {
-            //        new SymmetricKeyIssuerSecurityTokenProvider(issuer, secret)
-            //    }
-            //});
+            app.UseJwtBearerAuthentication(new JwtBearerAuthenticationOptions
+            {
+                AuthenticationMode = AuthenticationMode.Active,
+                AllowedAudiences = new[] { "Any" },
+                Realm = "test-realm",
+                IssuerSecurityTokenProviders = new IIssuerSecurityTokenProvider[]
+                {
+                    new SymmetricKeyIssuerSecurityTokenProvider(issuer, secret)
+                }
+            });
 
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {

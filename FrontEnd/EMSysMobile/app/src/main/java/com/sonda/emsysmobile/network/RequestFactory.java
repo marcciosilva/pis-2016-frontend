@@ -3,9 +3,6 @@ package com.sonda.emsysmobile.network;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.model.LoginResponse;
 
@@ -30,6 +27,7 @@ public class RequestFactory {
         try {
             jsonObject.put("username", username);
             jsonObject.put("password", password);
+            jsonObject.put("grant_type", "password");
         } catch (JSONException e) {
             e.printStackTrace();
         }
