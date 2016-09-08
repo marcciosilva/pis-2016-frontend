@@ -13,7 +13,7 @@ namespace Emsys.ServiceLayer
         {
             var thisAssembly = typeof(SwaggerConfig).Assembly;
 
-            GlobalConfiguration.Configuration 
+            GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                     {
                         // By default, the service root url is inferred from the request used to access the docs.
@@ -57,7 +57,7 @@ namespace Emsys.ServiceLayer
                         //c.BasicAuth("basic")
                         //    .Description("Basic HTTP Authentication");
                         //
-						// NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
+                        // NOTE: You must also configure 'EnableApiKeySupport' below in the SwaggerUI section
                         //c.ApiKey("apiKey")
                         //    .Description("API Key Authentication")
                         //    .Name("apiKey")
@@ -66,12 +66,11 @@ namespace Emsys.ServiceLayer
                         //c.OAuth2("oauth2")
                         //    .Description("OAuth2 Implicit Grant")
                         //    .Flow("implicit")
-                        //    .AuthorizationUrl("http://petstore.swagger.wordnik.com/api/oauth/dialog")
+                        //    .AuthorizationUrl("http://localhost:2956/oauth2/token")
                         //    //.TokenUrl("https://tempuri.org/token")
                         //    .Scopes(scopes =>
                         //    {
-                        //        scopes.Add("read", "Read access to protected resources");
-                        //        scopes.Add("write", "Write access to protected resources");
+                        //        scopes.Add("api", "try out the sample api");
                         //    });
 
                         // Set this flag to omit descriptions for any actions decorated with the Obsolete attribute
@@ -133,6 +132,8 @@ namespace Emsys.ServiceLayer
                         // Set this flag to omit schema property descriptions for any type properties decorated with the
                         // Obsolete attribute 
                         //c.IgnoreObsoleteProperties();
+
+                        //c.OperationFilter<AssignOAuth2SecurityRequirements>();
 
                         // In accordance with the built in JsonSerializer, Swashbuckle will, by default, describe enums as integers.
                         // You can change the serializer behavior by configuring the StringToEnumConverter globally or for a given
@@ -228,14 +229,14 @@ namespace Emsys.ServiceLayer
                         // If your API supports the OAuth2 Implicit flow, and you've described it correctly, according to
                         // the Swagger 2.0 specification, you can enable UI support as shown below.
                         //
+                        //c.EnableOAuth2Support("sampleapi", "samplerealm", "Swagger UI");
                         //c.EnableOAuth2Support(
-                        //    clientId: "test-client-id",
-                        //    clientSecret: null,
+                        //    clientId: "administrator",
+                        //    clientSecret: "administrator123",
                         //    realm: "test-realm",
                         //    appName: "Swagger UI"
-                        //    //additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
+                        ////additionalQueryStringParams: new Dictionary<string, string>() { { "foo", "bar" } }
                         //);
-
                         // If your API supports ApiKey, you can override the default values.
                         // "apiKeyIn" can either be "query" or "header"                                                
                         //
