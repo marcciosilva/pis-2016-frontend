@@ -11,29 +11,14 @@ namespace Emsys.DataAccesLayer.Core
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = false;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(EmsysContext context)
         {
-            //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
-            context.Evento.AddOrUpdate(new Evento { NombreGenerador = "event1", Descripcion = "blablalblba", Direccion = "direccion", FechaCreacion = new DateTime(1980,10,10) });
+            context.Evento.AddOrUpdate(new Evento { NombreGenerador = "event1", Descripcion = "blablalblba", Direccion = "direccion", FechaCreacion = new DateTime(1980, 10, 10) });
             context.Evento.AddOrUpdate(new Evento { NombreGenerador = "event2", Descripcion = "blablaasdasdlblba", Direccion = "direccion", FechaCreacion = new DateTime(1980, 11, 12) });
-            //public string NombreGenerador { get; set; }
-            //public string Descripcion { get; set; }
-            //public string Direccion { get; set; }
-            //public DateTime FechaCreacion { get; set; }
 
         }
     }

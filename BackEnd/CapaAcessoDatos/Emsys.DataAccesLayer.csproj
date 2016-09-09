@@ -139,29 +139,26 @@
     <Compile Include="Core\EmsysUserManager.cs" />
     <Compile Include="Core\EmsysUserStore.cs" />
     <Compile Include="Core\Initializer.cs" />
-    <Compile Include="Migrations\201609050144541__Inicio.cs" />
-    <Compile Include="Migrations\201609050144541__Inicio.Designer.cs">
-      <DependentUpon>201609050144541__Inicio.cs</DependentUpon>
-    </Compile>
     <Compile Include="Core\Configuration.cs" />
-    <Compile Include="Migrations\201609071523142_InitialMigrations.cs" />
-    <Compile Include="Migrations\201609071523142_InitialMigrations.Designer.cs">
-      <DependentUpon>201609071523142_InitialMigrations.cs</DependentUpon>
+    <Compile Include="Core\EmsysContext.cs" />
+    <Compile Include="Migrations\201609090128413__AgregoEvento.cs" />
+    <Compile Include="Migrations\201609090128413__AgregoEvento.Designer.cs">
+      <DependentUpon>201609090128413__AgregoEvento.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Evento.cs" />
-    <Compile Include="Core\EmsysContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609050144541__Inicio.resx">
-      <DependentUpon>201609050144541__Inicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609071523142_InitialMigrations.resx">
-      <DependentUpon>201609071523142_InitialMigrations.cs</DependentUpon>
+    <Content Include="Datos\datosprueba usuarios.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201609090128413__AgregoEvento.resx">
+      <DependentUpon>201609090128413__AgregoEvento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

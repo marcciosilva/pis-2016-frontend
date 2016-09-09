@@ -16,7 +16,7 @@ namespace Servicios.Controllers
         {
             using (var context = new EmsysContext())
             {
-                return Ok(await context.Evento.ToListAsync());
+                return null;// Ok(await context.Evento.ToListAsync());
             }
         }
     }

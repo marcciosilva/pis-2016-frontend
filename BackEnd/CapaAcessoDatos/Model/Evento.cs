@@ -1,4 +1,4 @@
-namespace Emsys.DataAccesLayer.Model
+﻿namespace Emsys.DataAccesLayer.Model
 {
     using System;
     using System.Collections.Generic;
