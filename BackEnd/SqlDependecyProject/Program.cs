@@ -11,6 +11,7 @@ using TableDependency.SqlClient;
 using TableDependency.Enums;
 using Emsys.DataAccesLayer.Model;
 using System.Data.Entity;
+using Emsys.DataAccesLayer.Core;
 
 namespace SqlDependecyProject
 {

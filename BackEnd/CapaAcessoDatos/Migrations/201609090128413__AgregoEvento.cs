@@ -1,9 +1,9 @@
-namespace Emsys.DataAccesLayer.Migrations
+namespace Emsys.DataAccesLayer.Core
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _Inicio : DbMigration
+    public partial class _AgregoEvento : DbMigration
     {
         public override void Up()
         {
@@ -18,21 +18,11 @@ namespace Emsys.DataAccesLayer.Migrations
                     })
                 .PrimaryKey(t => t.NombreGenerador);
             
-            //CreateTable(
-            //    "dbo.Usuario",
-            //    c => new
-            //        {
-            //            NombreUsuario = c.String(nullable: false, maxLength: 128),
-            //            Contraseña = c.String(),
-            //        })
-            //    .PrimaryKey(t => t.NombreUsuario);
-            
         }
         
         public override void Down()
         {
-            //DropTable("dbo.Usuario");
-            //DropTable("Evento");
+            DropTable("dbo.Evento");
         }
     }
 }
