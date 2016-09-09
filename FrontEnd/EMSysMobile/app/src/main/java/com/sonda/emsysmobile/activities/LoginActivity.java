@@ -3,6 +3,7 @@ package com.sonda.emsysmobile.activities;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -16,12 +17,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.model.LoginResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
-import com.sonda.emsysmobile.network.GsonPostRequest;
-import com.sonda.emsysmobile.network.RequestFactory;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            }
 //        });
 //        AppRequestQueue.getInstance(this).addToRequestQueue(request);
-        HttpPOSTRequestWithParameters();
+        login(user, pass);
     }
 
     public void goToHome() {
@@ -82,22 +83,39 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
-    public void HttpPOSTRequestWithParameters() {
-//        RequestQueue queue = AppRequestQueue.getInstance(this).getRequestQueue();
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.31:2956/oauth2/token";
+    public void login(String user, String pass) {
+        final String innerUser = user;
+        final String innerPass = pass;
+        RequestQueue queue = AppRequestQueue.getInstance(this).getRequestQueue();
+        //RequestQueue queue = Volley.newRequestQueue(this);
+        String url = BuildConfig.BASE_URL + "/oauth2/token";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", response);
+                        mProgressBar.setVisibility(View.GONE);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String token = (String) jsonObject.get("access_token");
+                            //Se guarda el token en shared preferences.
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("auth_token", token).commit();
+                            System.out.println("Token guardado en preferencias.");
+                        } catch (JSONException e) {
+                            System.out.println("El mensaje no tenia token.");
+                        }
+                        if (response.contains("access_token")) {
+                            mProgressBar.setVisibility(View.GONE);
+                            goToHome();
+                        }
                     }
                 },
                 new Response.ErrorListener()
                 {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        System.out.println("Error");
                         Log.d("ERROR","error => "+error.toString());
                     }
                 }
@@ -109,10 +127,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Map<String, String> params = new HashMap<>();
                 params.put("grant_type", "password");
                 //TODO reemplazar por username pasado desde interfaz
-                params.put("username", "administrator");
+                params.put("username", innerUser);
                 //TODO reemplazar por password pasada desde interfaz
-                params.put("password", "administrator123");
-
+                params.put("password", innerPass);
                 return params;
             }
         };
