@@ -7,24 +7,19 @@ import com.google.gson.annotations.SerializedName;
  */
 public class LoginResponse {
 
-    public String username;
+    @SerializedName("access_token")
+    public String accessToken;
 
-    @SerializedName("docNumber")
-    public String document;
+    @SerializedName("expires_in")
+    public int expirationTime;
 
-    public String getUsername() {
-        return username;
-    }
+    public String getAccessToken() { return accessToken; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setAccessToken(String accessToken) { this.accessToken = accessToken; }
 
-    public String getDocument() {
-        return document;
-    }
+    public int getExpirationTime() { return expirationTime; }
 
-    public void setDocument(String document) {
-        this.document = document;
-    }
+    public void setExpirationTime(int expirationTime) { this.expirationTime = expirationTime; }
+
+
 }
