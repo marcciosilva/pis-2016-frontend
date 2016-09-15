@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.persistence.DatabaseTest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mGoToAppButton;
     private Button mConsumeWSButton;
     private Button mLogNotificationsTokenButton;
+    private Button mTestDatabaseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mConsumeWSButton.setOnClickListener(this);
         mLogNotificationsTokenButton = (Button) findViewById(R.id.button_log_notifications_token);
         mLogNotificationsTokenButton.setOnClickListener(this);
+        mTestDatabaseButton = (Button) findViewById(R.id.button_test_database);
+        mTestDatabaseButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String msg = getString(R.string.msg_token_fmt, token);
             Log.d(TAG, msg);
             Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+        } else if (view.getId() == R.id.button_test_database) {
+            DatabaseTest.executeTest();
         }
     }
 

@@ -33,6 +33,12 @@ dependencies {
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
+    compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
 //Do not move this, should be at the bottom

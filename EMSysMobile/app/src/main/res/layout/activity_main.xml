@@ -30,4 +30,12 @@
         android:text="@string/button_log_notifications_token"
         style="@style/AppButton"/>
 
+    <Button
+        style="@style/AppButton"
+        android:id="@+id/button_test_database"
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/button_test_database" />
+
 </LinearLayout>
