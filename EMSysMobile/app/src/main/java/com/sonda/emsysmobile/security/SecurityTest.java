@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.security;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.sonda.emsysmobile.R;
 
@@ -10,6 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.KeyStore;
+import java.security.cert.Certificate;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -20,6 +22,7 @@ import javax.net.ssl.TrustManagerFactory;
  */
 public class SecurityTest extends AsyncTask<Void, Void, Void>{
 
+    private static final String TAG = SecurityTest.class.getName();
     private Context mContext;
 
     public SecurityTest(Context context) {
@@ -66,14 +69,18 @@ public class SecurityTest extends AsyncTask<Void, Void, Void>{
             context.init(null, tmf.getTrustManagers(), null);
 
             // Tell the URLConnection to use a SocketFactory from our SSLContext
-            URL url = new URL("http://192.168.1.31:4000");
+            URL url = new URL("https://10.0.3.2:44316");
             HttpsURLConnection urlConnection =
                     (HttpsURLConnection) url.openConnection();
+            urlConnection.setHostnameVerifier(new TrustAllHostNameVerifier());
             urlConnection.setSSLSocketFactory(context.getSocketFactory());
             in = urlConnection.getInputStream();
             copyInputStreamToOutputStream(in, System.out);
+            Log.d(TAG, "Success my nigga");
         } catch (Exception e) {
+            Log.d(TAG, "Exception");
             e.printStackTrace();
+            Log.d(TAG, e.getStackTrace().toString());
         }
         return null;
     }
