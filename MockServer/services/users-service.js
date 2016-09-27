@@ -5,6 +5,7 @@ var auth_user_fail = require('../replies/auth_user_fail.json');
 var auth_pass_fail = require('../replies/auth_pass_fail.json');
 
 var getUsers = function (request, response, next) {
+	response.setHeader("content-type","application/json");
     response.send(JSON.stringify(user_list), 200);
 };
 
@@ -12,16 +13,19 @@ var getUsers = function (request, response, next) {
 
 // Devuelve una response exitosa siempre
 var postUserSuccess = function(request, response, next) {
+	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(auth_success));
 };
 
 // Devuelve una response fallida siempre
 var postUserIdFail = function(request, response, next) {
+	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(auth_user_fail));
 };
 
 // Devuelve una response fallida siempre
 var postUserPassFail = function(request, response, next) {
+	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(auth_pass_fail));
 };
 

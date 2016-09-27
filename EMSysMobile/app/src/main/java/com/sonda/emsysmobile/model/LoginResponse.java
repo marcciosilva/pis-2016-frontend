@@ -2,24 +2,63 @@ package com.sonda.emsysmobile.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by ssainz on 8/30/16.
  */
 public class LoginResponse {
 
-    @SerializedName("access_token")
-    public String accessToken;
+    @SerializedName("cod")
+    public int codigoRespuesta;
 
-    @SerializedName("expires_in")
-    public int expirationTime;
+    @SerializedName("response")
+    public CustomResponse response;
 
-    public String getAccessToken() { return accessToken; }
+    public class CustomResponse {
+        @SerializedName("access_token")
+        public String accessToken;
 
-    public void setAccessToken(String accessToken) { this.accessToken = accessToken; }
+        @SerializedName("expires_in")
+        public int expirationTime;
 
-    public int getExpirationTime() { return expirationTime; }
+        @SerializedName("roles")
+        public List<Rol> roleSet = new ArrayList<Rol>();
+    }
 
-    public void setExpirationTime(int expirationTime) { this.expirationTime = expirationTime; }
+    public class Rol {
 
+        @SerializedName("tipo")
+        public String tipo;
+
+        @SerializedName("id")
+        public int id;
+    }
+
+    public int getCodigoRespuesta() {
+        return codigoRespuesta;
+    }
+
+    public List<Rol> getRoles() {
+        return response.roleSet;
+    }
+
+
+    public String getAccessToken() {
+        if (response != null) {
+            return response.accessToken;
+        } else {
+            return null;
+        }
+    }
+
+    public int getExpirationTime() {
+        if (response != null) {
+            return response.expirationTime;
+        } else {
+            return -1;
+        }
+    }
 
 }
