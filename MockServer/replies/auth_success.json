@@ -1,0 +1,23 @@
+{
+	"cod":0,
+	"response":
+		{
+			"acces_token":"Bearer 113aasdd12saf3f2s42d34f4",
+			"expiration":"1800",
+			"type":"bearer",
+			"roles":[
+				{
+                    	"tipo":"zona",
+                    	"id":"1"
+                },
+				{
+                    	"tipo":"zona",
+                    	"id":"2"
+                },
+				{
+                    	"tipo":"recurso",
+                    	"id":"1"
+                }                  
+			]
+		}
+}
