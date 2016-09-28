@@ -7,9 +7,13 @@
 			"type":"bearer",
 			"roles":[
 				{
-                    	"tipo":"zona",
+                    	"tipo":"recurso",
                     	"id":"1"
                 },
+				{
+                    	"tipo":"recurso",
+                    	"id":"tuvieja"
+                },                
 				{
                     	"tipo":"zona",
                     	"id":"3"

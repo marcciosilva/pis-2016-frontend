@@ -26,5 +26,8 @@
     <string name="button_sin_seleccion">Ingresar sin selección</string>
     <string name="textview_role_chooser">Seleccione qué zonas o recurso desea elegir</string>
 
+    <!--Zona recursos chooser-->
+    <string name="button_continuar">Continuar</string>
+
 
 </resources>

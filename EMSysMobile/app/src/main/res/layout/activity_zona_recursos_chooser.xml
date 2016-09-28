@@ -36,7 +36,8 @@
             android:text="@string/button_despachador"
             style="@style/AppButtonDark"
             android:textAllCaps="false"
-            android:layout_weight="0.06" />
+            android:layout_weight="0.06"
+            android:background="@drawable/custom_button" />
 
         <Button
             android:id="@+id/button_recurso"
@@ -46,43 +47,10 @@
             android:text="@string/button_recurso"
             style="@style/AppButtonDark"
             android:textAllCaps="false"
-            android:layout_weight="0.06" />
+            android:layout_weight="0.06"
+            android:background="@drawable/custom_button" />
 
     </LinearLayout>
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/choice_scrollview"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/buttons_container"
-        android:layout_toEndOf="@+id/buttons_container"
-        android:layout_marginLeft="27dp"
-        android:layout_marginStart="27dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/choice_container"
-            android:layout_below="@+id/textView2"
-            android:layout_toRightOf="@+id/buttons_container"
-            android:layout_toEndOf="@+id/buttons_container"
-            android:layout_marginLeft="52dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="136dp">
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/textView2"
-                android:layout_toRightOf="@+id/buttons_container"
-                android:layout_toEndOf="@+id/buttons_container"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="90dp" />
-        </LinearLayout>
-    </ScrollView>
 
     <TextView
         android:text="@string/textview_role_chooser"
@@ -93,5 +61,30 @@
         android:layout_centerHorizontal="true"
         android:textSize="24sp"
         android:textColor="@color/colorAccent" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignTop="@+id/buttons_container"
+        android:layout_toRightOf="@+id/buttons_container"
+        android:layout_toEndOf="@+id/buttons_container"
+        android:id="@+id/listview_roles"
+        android:background="@color/colorAccent"
+        android:layout_alignBottom="@+id/buttons_container" />
+
+    <Button
+        android:id="@+id/button_continuar"
+        android:text="@string/button_continuar"
+        style="@style/AppButtonDark"
+        android:textAllCaps="false"
+        android:layout_weight="0.06"
+        android:background="@drawable/custom_button"
+        android:layout_height="30dp"
+        android:layout_width="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

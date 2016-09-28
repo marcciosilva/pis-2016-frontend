@@ -21,7 +21,6 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.activities.HomeActivity;
 import com.sonda.emsysmobile.model.LoginResponse;
 import com.sonda.emsysmobile.model.core.DtoRecurso;
 import com.sonda.emsysmobile.model.core.DtoRol;
@@ -32,7 +31,6 @@ import com.sonda.emsysmobile.network.RequestFactory;
 import com.sonda.emsysmobile.utils.LoggingUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
