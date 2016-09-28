@@ -1,5 +1,8 @@
 package com.sonda.emsysmobile.network;
 
+import android.content.Context;
+import android.preference.PreferenceManager;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -23,19 +26,27 @@ public class RequestFactory {
     public static final String LOGIN_SUCCESS_PATH = "/users/success";
     public static final String LOGIN_USERNAME_FAIL_PATH = "/users/username-fail";
     public static final String LOGIN_PASSWORD_FAIL_PATH = "/users/pass-fail";
-    private static final boolean mDebug = true;
+
     private enum LoginCase {Success, UsernameFail, PassFail}
+
     private static final LoginCase loginCase = LoginCase.Success;
 
-    public static JsonArrayRequest genericGETRequest(String url, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
+    public static JsonArrayRequest genericGETRequest(String url, Response.Listener<JSONArray> listener,
+                                                     Response.ErrorListener errorListener) {
         return new JsonArrayRequest(Request.Method.GET, url, null, listener, errorListener);
     }
 
-    public static GsonPostRequest<LoginResponse> loginRequest(String username, String password, Response.Listener<LoginResponse> listener, Response.ErrorListener errorListener) {
+    public static GsonPostRequest<LoginResponse> loginRequest(String username, String password,
+                                                              Response.Listener<LoginResponse> listener,
+                                                              Response.ErrorListener errorListener,
+                                                              Context context) {
+        // Determino si estoy en modo debug de acuerdo a shared preferences.
+        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
         String url = null;
-        if (!mDebug) {
+        if (!debugMode) {
             url = BuildConfig.BASE_URL + LOGIN_PATH;
         } else {
+            // Se utilizan web services del mock server con respuestas fijas.
             switch (loginCase) {
                 case Success:
                     url = BuildConfig.BASE_MOCK_URL + LOGIN_SUCCESS_PATH;
@@ -44,8 +55,8 @@ public class RequestFactory {
                     url = BuildConfig.BASE_MOCK_URL + LOGIN_USERNAME_FAIL_PATH;
                     break;
                 case PassFail:
-                url = BuildConfig.BASE_MOCK_URL + LOGIN_PASSWORD_FAIL_PATH;
-                break;
+                    url = BuildConfig.BASE_MOCK_URL + LOGIN_PASSWORD_FAIL_PATH;
+                    break;
                 default:
                     break;
             }
@@ -57,7 +68,7 @@ public class RequestFactory {
         jsonObject.addProperty("username", username);
         System.out.println(jsonObject.toString());
         //Hay que mandar el string url encoded.
-        if (!mDebug) {
+        if (!debugMode) {
             return new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), LoginResponse.class, listener, errorListener);
         } else {
             // En el mock server no se exige un string url encoded.

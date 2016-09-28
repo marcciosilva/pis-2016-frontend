@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     LoggingUtils.printLoginResponse(response);
                     //Se guarda el token en shared preferences para usar en cada consulta al web service.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
-                    System.out.println("Token guardado en preferencias.");
+                    Log.d(TAG, "Token guardado en preferencias.");
                     mProgressBar.setVisibility(View.GONE);
                     goToHome();
                 } else {
@@ -112,10 +112,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("Error desconocido en el Login.");
+                Log.d(TAG, "Error desconocido en el Login.");
                 mProgressBar.setVisibility(View.GONE);
             }
-        });
+        }, getApplicationContext());
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 

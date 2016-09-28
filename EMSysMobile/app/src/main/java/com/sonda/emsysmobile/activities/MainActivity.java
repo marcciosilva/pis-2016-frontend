@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "Key: " + key + " Value: " + value);
             }
         }
+
+        // Agregar preferencia de modo debug.
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", true).commit();
 
         mGoToAppButton = (Button) findViewById(R.id.button_goto_app);
         mGoToAppButton.setOnClickListener(this);
