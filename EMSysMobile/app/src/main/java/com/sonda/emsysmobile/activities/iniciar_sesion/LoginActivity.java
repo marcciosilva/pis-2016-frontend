@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.activities;
+package com.sonda.emsysmobile.activities.iniciar_sesion;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.activities.HomeActivity;
 import com.sonda.emsysmobile.model.LoginResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                         Log.d(TAG, "Token guardado en preferencias.");
                         mProgressBar.setVisibility(View.GONE);
-                        goToHome();
+                        goToRoleChooser();
                     } else {
                         String errorMsg = getErrorMessage(codigoRespuesta);
                         Log.d(TAG, "errorMsg : " + errorMsg);
@@ -110,6 +111,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 
+    private void goToRoleChooser() {
+        Intent intent = new Intent(this, RoleChooserActivity.class);
+        startActivity(intent);
+    }
+
     private String getErrorMessage(int codigoRespuesta) {
         if (codigoRespuesta == 1) {
             return "Nombre de usuario no existe.";
@@ -127,12 +133,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             default:
                 return false;
         }
-    }
-
-
-    public void goToHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
     }
 
     /**

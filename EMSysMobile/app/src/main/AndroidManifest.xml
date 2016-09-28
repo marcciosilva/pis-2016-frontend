@@ -25,7 +25,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.iniciar_sesion.LoginActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities.iniciar_sesion.RoleChooserActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities.iniciar_sesion.ZonasRecursosChooserActivity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".activities.ConsumeWSActivity" />
         <activity android:name=".activities.HomeActivity"/>

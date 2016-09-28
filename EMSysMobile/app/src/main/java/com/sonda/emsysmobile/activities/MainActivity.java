@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.activities.iniciar_sesion.LoginActivity;
 import com.sonda.emsysmobile.persistence.DatabaseTest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
