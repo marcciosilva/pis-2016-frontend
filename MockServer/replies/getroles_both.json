@@ -1,0 +1,25 @@
+{
+   "cod": 0,
+   "response": {
+      "zonas": [
+         {
+            "id": "1124",
+            "nombre": "zona 1",
+            "nombreUnidadEjecutora": "unidad 1"
+         },
+         {
+            "id": "5231",
+            "nombre": "zona 2",
+            "nombreUnidadEjecutora": "unidad 5"
+         }
+      ],
+      "recursos": [
+         {
+            "codigo": "A123F"
+         },
+         {
+            "codigo": "B8E32"
+         }
+      ]
+   }
+}

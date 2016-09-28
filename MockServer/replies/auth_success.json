@@ -2,26 +2,6 @@
 	"cod":0,
 	"response":
 		{
-			"access_token":"Bearer 113aasdd12saf3f2s42d34f4",
-			"expires_in":"1800",
-			"type":"bearer",
-			"roles":[
-				{
-                    	"tipo":"recurso",
-                    	"id":"1"
-                },
-				{
-                    	"tipo":"recurso",
-                    	"id":"tuvieja"
-                },                
-				{
-                    	"tipo":"zona",
-                    	"id":"3"
-                },
-				{
-                    	"tipo":"zona",
-                    	"id":"1"
-                }                  
-			]
+			"access_token":"Bearer 113aasdd12saf3f2s42d34f4"
 		}
 }

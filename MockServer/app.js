@@ -21,6 +21,7 @@ app.get('/events', events.getEvents);
 app.get('/events/:event_id/detail/special_case', events.getSpecialCase);
 
 //Manejo usuarios
+//auth
 app.get('/users', users.getUsers);
 //http://localhost:8081/users/success
 app.post('/users/success', users.postUserSuccess);
@@ -29,5 +30,14 @@ app.post('/users/username-fail', users.postUserIdFail);
 //http://localhost:8081/users/success
 app.post('/users/pass-fail', users.postUserPassFail);
 
+//getRoles
+app.post('/users/getroles-both', users.postUserGetRolesBoth);
+app.post('/users/getroles-fail', users.postUserGetRolesFail);
+app.post('/users/getroles-recursos', users.postUserGetRolesRecursos);
+app.post('/users/getroles-zonas', users.postUserGetRolesZonas);
+
+//login
+app.post('/users/login-success', users.postUserLoginSuccess);
+app.post('/users/login-fail', users.postUserLoginFail);
 
 app.listen(8081); 

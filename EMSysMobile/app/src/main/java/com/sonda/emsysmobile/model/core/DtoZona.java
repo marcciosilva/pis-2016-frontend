@@ -6,12 +6,11 @@ import java.io.Serializable;
  * Created by marccio on 9/28/16.
  */
 
-public class DtoZona extends DtoRol {
+public class DtoZona {
 
     private String mNombre;
 
     public DtoZona(String nombre) {
-        super();
         mNombre = nombre;
     }
 

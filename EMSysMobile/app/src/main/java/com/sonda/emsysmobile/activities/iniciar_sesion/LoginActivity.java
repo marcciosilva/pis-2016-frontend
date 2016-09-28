@@ -88,25 +88,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         //Se guarda el token en shared preferences para usar en cada consulta al web service.
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                         Log.d(TAG, "Token guardado en preferencias.");
-                        mProgressBar.setVisibility(View.GONE);
+                        // TODO obtener roles con otra request
+                        DtoRol modelIntentRoles = obtenerRoles();
                         // Lista (serializable) a pasar en el intent que pasa a la siguiente
                         // actividad. Dicha lista se compone de roles pasados al modelo de datos
                         // manejado desde el Frontend.
-                        ArrayList<DtoRol> modelIntentRoles = new ArrayList<>();
+//                        ArrayList<DtoRol> modelIntentRoles = new ArrayList<>();
                         // Booleanos a agregar al intent, para que la activity siguiente
                         // sepa si la lista de roles pasados en el mismo tiene zonas/recursos.
-                        boolean containsZona = false;
-                        boolean containsRecurso = false;
-                        for (LoginResponse.Rol rol : response.getRoles()) {
-                            if (rol.tipo.equals("zona")) {
-                                containsZona = true;
-                                modelIntentRoles.add(new DtoZona(rol.id));
-                            } else if (rol.tipo.equals("recurso")) {
-                                containsRecurso = true;
-                                modelIntentRoles.add(new DtoRecurso(rol.id));
-                            }
-                        }
-                        goToRoleChooser(modelIntentRoles, containsZona, containsRecurso);
+                        // TODO determinar estos booleanos en base al DtoRol recibido
+//                        boolean containsZona = false;
+//                        boolean containsRecurso = false;
+                        // TODO agregar booleanos al intent
+//                        for (LoginResponse.Rol rol : response.getRoles()) {
+//                            if (rol.tipo.equals("zona")) {
+//                                containsZona = true;
+//                                modelIntentRoles.add(new DtoZona(rol.id));
+//                            } else if (rol.tipo.equals("recurso")) {
+//                                containsRecurso = true;
+//                                modelIntentRoles.add(new DtoRecurso(rol.id));
+//                            }
+//                        }
+                        mProgressBar.setVisibility(View.GONE);
+                        // TODO Rehacer transicion a role chooser
+//                        goToRoleChooser(modelIntentRoles, containsZona, containsRecurso);
                     } else {
                         String errorMsg = getErrorMessage(codigoRespuesta);
                         Log.d(TAG, "errorMsg : " + errorMsg);
@@ -125,11 +130,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error desconocido en el Login.");
+                Log.d(TAG, "Error en la comunicación con el servidor.");
                 mProgressBar.setVisibility(View.GONE);
             }
         }, getApplicationContext());
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
+    }
+
+    private DtoRol obtenerRoles() {
+        return null;
     }
 
     /**
@@ -150,10 +159,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private String getErrorMessage(int codigoRespuesta) {
         if (codigoRespuesta == 1) {
-            return "Nombre de usuario no existe.";
-        } else {
-            return "La clave es incorrecta.";
+            return "Credenciales no válidas.";
         }
+        return "";
     }
 
     private boolean isSuccessfulResponse(int codigoRespuesta) {

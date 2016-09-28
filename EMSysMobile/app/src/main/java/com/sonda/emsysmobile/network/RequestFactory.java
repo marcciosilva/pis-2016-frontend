@@ -21,7 +21,7 @@ import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
  */
 public class RequestFactory {
 
-    public static final String LOGIN_PATH = "/oauth2/token";
+    public static final String LOGIN_PATH = "/users/authenticate";
     // Con el fin de probar cada caso de login con Mock Server:
     public static final String LOGIN_SUCCESS_PATH = "/users/success";
     public static final String LOGIN_USERNAME_FAIL_PATH = "/users/username-fail";
@@ -67,7 +67,6 @@ public class RequestFactory {
 
         }
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("grant_type", "password");
         jsonObject.addProperty("password", password);
         jsonObject.addProperty("username", username);
         System.out.println(jsonObject.toString());
