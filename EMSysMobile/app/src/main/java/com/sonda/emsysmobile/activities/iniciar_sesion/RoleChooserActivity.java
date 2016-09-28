@@ -15,6 +15,9 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.HomeActivity;
+import com.sonda.emsysmobile.model.core.DtoRol;
+
+import java.util.ArrayList;
 
 /**
  * Created by marccio on 9/28/16.
@@ -46,6 +49,15 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        // Obtengo elementos pasados del intent.
+        ArrayList<DtoRol> modelIntentRoles = (ArrayList<DtoRol>) getIntent().getSerializableExtra("modelIntentRoles");
+        boolean containsZona = getIntent().getBooleanExtra("containsZona", false);
+        mDespachadorButton.setEnabled(containsZona);
+        boolean containsRecurso = getIntent().getBooleanExtra("containsRecurso", false);
+        mRecursoButton.setEnabled(containsRecurso);
+
+
     }
 
     @Override

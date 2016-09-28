@@ -23,10 +23,16 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.HomeActivity;
 import com.sonda.emsysmobile.model.LoginResponse;
+import com.sonda.emsysmobile.model.core.DtoRecurso;
+import com.sonda.emsysmobile.model.core.DtoRol;
+import com.sonda.emsysmobile.model.core.DtoZona;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 import com.sonda.emsysmobile.utils.LoggingUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
@@ -85,7 +91,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                         Log.d(TAG, "Token guardado en preferencias.");
                         mProgressBar.setVisibility(View.GONE);
-                        goToRoleChooser();
+                        // Lista (serializable) a pasar en el intent que pasa a la siguiente
+                        // actividad. Dicha lista se compone de roles pasados al modelo de datos
+                        // manejado desde el Frontend.
+                        ArrayList<DtoRol> modelIntentRoles = new ArrayList<>();
+                        // Booleanos a agregar al intent, para que la activity siguiente
+                        // sepa si la lista de roles pasados en el mismo tiene zonas/recursos.
+                        boolean containsZona = false;
+                        boolean containsRecurso = false;
+                        for (LoginResponse.Rol rol : response.getRoles()) {
+                            if (rol.tipo.equals("zona")) {
+                                containsZona = true;
+                                modelIntentRoles.add(new DtoZona(rol.id));
+                            } else if (rol.tipo.equals("recurso")) {
+                                containsRecurso = true;
+                                modelIntentRoles.add(new DtoRecurso(rol.id));
+                            }
+                        }
+                        goToRoleChooser(modelIntentRoles, containsZona, containsRecurso);
                     } else {
                         String errorMsg = getErrorMessage(codigoRespuesta);
                         Log.d(TAG, "errorMsg : " + errorMsg);
@@ -111,8 +134,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 
-    private void goToRoleChooser() {
+    /**
+     * Metodo utilizado para pasar desde la activity de login hacia
+     * la de eleccion del rol del usuario.
+     *
+     * @param modelIntentRoles Lista con modelos correspondientes a roles.
+     * @param containsZona Indica si la lista contiene zonas.
+     * @param containsRecurso Indica si la lista contiene recursos.
+     */
+    private void goToRoleChooser(ArrayList<DtoRol> modelIntentRoles, boolean containsZona, boolean containsRecurso) {
         Intent intent = new Intent(this, RoleChooserActivity.class);
+        intent.putExtra("modelIntentRoles", modelIntentRoles);
+        intent.putExtra("containsZona", containsZona);
+        intent.putExtra("containsRecurso", containsRecurso);
         startActivity(intent);
     }
 

@@ -12,10 +12,10 @@
                 },
 				{
                     	"tipo":"zona",
-                    	"id":"2"
+                    	"id":"3"
                 },
 				{
-                    	"tipo":"recurso",
+                    	"tipo":"zona",
                     	"id":"1"
                 }                  
 			]

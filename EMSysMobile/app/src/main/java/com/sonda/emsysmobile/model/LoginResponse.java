@@ -24,7 +24,7 @@ public class LoginResponse {
         public int expirationTime;
 
         @SerializedName("roles")
-        public List<Rol> roleSet = new ArrayList<Rol>();
+        public List<Rol> roleSet = new ArrayList<>();
     }
 
     public class Rol {
@@ -33,7 +33,7 @@ public class LoginResponse {
         public String tipo;
 
         @SerializedName("id")
-        public int id;
+        public String id;
     }
 
     public String getCodigoRespuesta() {
@@ -41,6 +41,10 @@ public class LoginResponse {
     }
 
     public List<Rol> getRoles() {
+        // Se asegura que no se maneje una lista null.
+        if (response.roleSet == null) {
+            response.roleSet = new ArrayList<>();
+        }
         return response.roleSet;
     }
 
@@ -49,7 +53,7 @@ public class LoginResponse {
         if (response != null) {
             return response.accessToken;
         } else {
-            return null;
+            return "";
         }
     }
 
