@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by ssainz on 8/30/16.
  */
-public class LoginResponse {
+public class LoginResponse extends EmsysResponse {
 
     @SerializedName("access_token")
     public String accessToken;
@@ -20,6 +20,4 @@ public class LoginResponse {
     public int getExpirationTime() { return expirationTime; }
 
     public void setExpirationTime(int expirationTime) { this.expirationTime = expirationTime; }
-
-
 }

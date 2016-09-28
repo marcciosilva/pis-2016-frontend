@@ -5,6 +5,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.JsonObject;
 import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.model.EventsResponse;
 import com.sonda.emsysmobile.model.LoginResponse;
 
 import org.json.JSONArray;
@@ -19,6 +20,7 @@ import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
 public class RequestFactory {
 
     public static final String LOGIN_PATH = "/oauth2/token";
+    public static final String EVENTS_PATH = "/events";
 
     public static JsonArrayRequest genericGETRequest(String url, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
         return new JsonArrayRequest(Request.Method.GET, url, null, listener, errorListener);
@@ -33,5 +35,10 @@ public class RequestFactory {
         System.out.println(jsonObject.toString());
         //Hay que mandar el string url encoded.
         return new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), LoginResponse.class, listener, errorListener);
+    }
+
+    public static GsonGetRequest<EventsResponse> eventsRequest(Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
+        String url = BuildConfig.BASE_URL + EVENTS_PATH;
+        return new GsonGetRequest<>(url, EventsResponse.class, listener, errorListener);
     }
 }

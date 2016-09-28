@@ -51,26 +51,27 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void login() {
-        String user = mUserEditText.getText().toString();
-        String pass = mPassEditText.getText().toString();
-        mProgressBar.setVisibility(View.VISIBLE);
-        GsonPostRequest<LoginResponse> request = RequestFactory.loginRequest(user, pass, new Response.Listener<LoginResponse>() {
-            @Override
-            public void onResponse(LoginResponse response) {
-                //Se guarda el token en shared preferences para usar en cada consulta al web service.
-                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
-                System.out.println("Token guardado en preferencias.");
-                mProgressBar.setVisibility(View.GONE);
-                goToHome();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Error en el Login.");
-                mProgressBar.setVisibility(View.GONE);
-            }
-        });
-        AppRequestQueue.getInstance(this).addToRequestQueue(request);
+        goToHome();
+//        String user = mUserEditText.getText().toString();
+//        String pass = mPassEditText.getText().toString();
+//        mProgressBar.setVisibility(View.VISIBLE);
+//        GsonPostRequest<LoginResponse> request = RequestFactory.loginRequest(user, pass, new Response.Listener<LoginResponse>() {
+//            @Override
+//            public void onResponse(LoginResponse response) {
+//                //Se guarda el token en shared preferences para usar en cada consulta al web service.
+//                PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
+//                System.out.println("Token guardado en preferencias.");
+//                mProgressBar.setVisibility(View.GONE);
+//                goToHome();
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                System.out.println("Error en el Login.");
+//                mProgressBar.setVisibility(View.GONE);
+//            }
+//        });
+//        AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 
     public void goToHome() {
