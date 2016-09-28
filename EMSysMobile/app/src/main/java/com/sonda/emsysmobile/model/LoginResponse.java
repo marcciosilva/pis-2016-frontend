@@ -11,7 +11,7 @@ import java.util.List;
 public class LoginResponse {
 
     @SerializedName("cod")
-    public int codigoRespuesta;
+    public String codigoRespuesta;
 
     @SerializedName("response")
     public CustomResponse response;
@@ -36,7 +36,7 @@ public class LoginResponse {
         public int id;
     }
 
-    public int getCodigoRespuesta() {
+    public String getCodigoRespuesta() {
         return codigoRespuesta;
     }
 

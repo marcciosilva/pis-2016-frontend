@@ -44,17 +44,21 @@ public class RequestFactory {
         boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
         String url = null;
         if (!debugMode) {
+            // Se envia request a la url de login que ofrece el web service.
             url = BuildConfig.BASE_URL + LOGIN_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
             switch (loginCase) {
                 case Success:
+                    // Siempre se obtiene una respuesta exitosa frente a login.
                     url = BuildConfig.BASE_MOCK_URL + LOGIN_SUCCESS_PATH;
                     break;
                 case UsernameFail:
+                    // Siempre se obtiene una respuesta fallida frente a login.
                     url = BuildConfig.BASE_MOCK_URL + LOGIN_USERNAME_FAIL_PATH;
                     break;
                 case PassFail:
+                    // Siempre se obtiene una respuesta fallida frente a login.
                     url = BuildConfig.BASE_MOCK_URL + LOGIN_PASSWORD_FAIL_PATH;
                     break;
                 default:

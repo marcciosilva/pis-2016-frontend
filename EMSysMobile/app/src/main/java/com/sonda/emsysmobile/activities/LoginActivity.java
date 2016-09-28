@@ -74,39 +74,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GsonPostRequest<LoginResponse> request = RequestFactory.loginRequest(user, pass, new Response.Listener<LoginResponse>() {
             @Override
             public void onResponse(LoginResponse response) {
-                int codigoRespuesta = response.getCodigoRespuesta();
-                String errorMsg = null;
-                boolean loginExitoso = false;
-                switch (codigoRespuesta) {
-                    // Login exitoso.
-                    case 0:
-                        loginExitoso = true;
-                        break;
-                    case 1:
-                        errorMsg = "Nombre de usuario no existe.";
-                        break;
-                    case 2:
-                        errorMsg = "La clave es incorrecta.";
-                        break;
-                    default:
-                        break;
-                }
-                if (loginExitoso) {
-                    LoggingUtils.printLoginResponse(response);
-                    //Se guarda el token en shared preferences para usar en cada consulta al web service.
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
-                    Log.d(TAG, "Token guardado en preferencias.");
-                    mProgressBar.setVisibility(View.GONE);
-                    goToHome();
+                String codigoRespuestaString = response.getCodigoRespuesta();
+                if (codigoRespuestaString != null) {
+                    int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
+                    boolean loginExitoso = isSuccessfulResponse(codigoRespuesta);
+                    if (loginExitoso) {
+                        LoggingUtils.printLoginResponse(response);
+                        //Se guarda el token en shared preferences para usar en cada consulta al web service.
+                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
+                        Log.d(TAG, "Token guardado en preferencias.");
+                        mProgressBar.setVisibility(View.GONE);
+                        goToHome();
+                    } else {
+                        String errorMsg = getErrorMessage(codigoRespuesta);
+                        Log.d(TAG, "errorMsg : " + errorMsg);
+                        mProgressBar.setVisibility(View.GONE);
+                        //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
+                        builder.setTitle("Error");
+                        builder.setMessage(errorMsg);
+                        builder.setPositiveButton("OK", null);
+                        builder.show();
+                    }
                 } else {
-                    Log.d(TAG, "errorMsg : " + errorMsg);
-                    mProgressBar.setVisibility(View.GONE);
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
-                    builder.setTitle("Error");
-                    builder.setMessage(errorMsg);
-                    builder.setPositiveButton("OK", null);
-                    builder.show();
+                    Log.d(TAG, "Error en el formato del mensaje recibido.");
                 }
             }
         }, new Response.ErrorListener() {
@@ -117,6 +108,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }, getApplicationContext());
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
+    }
+
+    private String getErrorMessage(int codigoRespuesta) {
+        if (codigoRespuesta == 1) {
+            return "Nombre de usuario no existe.";
+        } else {
+            return "La clave es incorrecta.";
+        }
+    }
+
+    private boolean isSuccessfulResponse(int codigoRespuesta) {
+        switch (codigoRespuesta) {
+            // Login exitoso.
+            case 0:
+                return true;
+            // Login fallido.
+            default:
+                return false;
+        }
     }
 
 
