@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/spacing_normal"
+    android:background="@color/colorPrimary_700"
+    tools:context="com.sonda.emsysmobile.activities.iniciar_sesion.ZonasRecursosChooserActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttons_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:indeterminate="true"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle" />
+
+    <LinearLayout
+        android:id="@+id/buttons_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="47dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/progressBar"
+        android:weightSum="1">
+
+        <Button
+            android:id="@+id/button_despachador"
+            android:layout_width="271dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/button_despachador"
+            style="@style/AppButtonDark"
+            android:textAllCaps="false"
+            android:layout_weight="0.06"
+            android:background="@drawable/custom_button" />
+
+        <Button
+            android:id="@+id/button_recurso"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/button_recurso"
+            style="@style/AppButtonDark"
+            android:textAllCaps="false"
+            android:layout_weight="0.06"
+            android:background="@drawable/custom_button" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="@string/textview_role_chooser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_above="@+id/choice_scrollview"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:textColor="@color/colorAccent" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignTop="@+id/buttons_container"
+        android:layout_toRightOf="@+id/buttons_container"
+        android:layout_toEndOf="@+id/buttons_container"
+        android:id="@+id/listview_roles"
+        android:background="@color/colorAccent"
+        android:layout_alignBottom="@+id/buttons_container" />
+
+    <Button
+        android:id="@+id/button_continuar"
+        android:text="@string/button_continuar"
+        style="@style/AppButtonDark"
+        android:textAllCaps="false"
+        android:layout_weight="0.06"
+        android:background="@drawable/custom_button"
+        android:layout_height="30dp"
+        android:layout_width="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

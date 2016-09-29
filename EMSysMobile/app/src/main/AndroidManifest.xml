@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sonda.emsysmobile">
 
-    <uses-permission android:name="android.permission.ACCOUNT_MANAGER" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -26,7 +25,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.iniciar_sesion.AuthActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities.iniciar_sesion.RoleChooserActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activities.iniciar_sesion.ZonasRecursosChooserActivity"
             android:theme="@style/NoActionBar" />
         <activity android:name=".activities.ConsumeWSActivity" />
         <activity android:name=".activities.HomeActivity"/>
@@ -44,7 +49,11 @@
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
-        </service>
+        </service><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <!-- [END firebase_iid_service] -->
     </application>
 </manifest>

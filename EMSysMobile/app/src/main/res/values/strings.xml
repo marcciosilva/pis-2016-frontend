@@ -21,4 +21,14 @@
     <string name="hint_username">Nombre de usuario</string>
     <string name="hint_password">Contraseña</string>
 
+    <!--Role Chooser Activity-->
+    <string name="button_despachador">Despachador de zona</string>
+    <string name="button_recurso">Recurso</string>
+    <string name="button_sin_seleccion">Ingresar sin selección</string>
+    <string name="textview_role_chooser">Seleccione qué zonas o recurso desea elegir</string>
+
+    <!--Zona recursos chooser-->
+    <string name="button_continuar">Continuar</string>
+
+
 </resources>

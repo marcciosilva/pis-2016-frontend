@@ -1,7 +1,7 @@
 package com.sonda.emsysmobile.activities;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.activities.iniciar_sesion.AuthActivity;
 import com.sonda.emsysmobile.persistence.DatabaseTest;
 import com.sonda.emsysmobile.security.SecurityTest;
 
@@ -36,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "Key: " + key + " Value: " + value);
             }
         }
+
+        // Agregar preferencia de modo debug.
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", true).commit();
 
         mGoToAppButton = (Button) findViewById(R.id.button_goto_app);
         mGoToAppButton.setOnClickListener(this);
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void goToLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
     }
 

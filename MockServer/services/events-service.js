@@ -16,6 +16,11 @@ var getSpecialCase = function (request, response, next) {
     }
 };
 
+var postEvents = function (request, response, next) {
+   response.send(JSON.stringify(events_list), 200);
+};
+
 
 exports.getEvents = getEvents;
 exports.getSpecialCase = getSpecialCase;
+exports.postEvents = postEvents

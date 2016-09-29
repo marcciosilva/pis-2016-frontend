@@ -3,23 +3,34 @@ package com.sonda.emsysmobile.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by ssainz on 8/30/16.
+ * Created by marccio on 9/28/16.
  */
+
 public class LoginResponse {
 
-    @SerializedName("access_token")
-    public String accessToken;
+    @SerializedName("cod")
+    public String codigoRespuesta;
 
-    @SerializedName("expires_in")
-    public int expirationTime;
+    @SerializedName("response")
+    public CustomResponse response;
 
-    public String getAccessToken() { return accessToken; }
+    public class CustomResponse {
+        @SerializedName("msg")
+        public String errorMsg;
+    }
 
-    public void setAccessToken(String accessToken) { this.accessToken = accessToken; }
+    public String getCodigoRespuesta() {
+        return codigoRespuesta;
+    }
 
-    public int getExpirationTime() { return expirationTime; }
-
-    public void setExpirationTime(int expirationTime) { this.expirationTime = expirationTime; }
-
+    public String getErrorMessage() {
+        if (response != null) {
+            if (response.errorMsg != null) {
+                return response.errorMsg;
+            } else {
+                return "";
+            }
+        } return "";
+    }
 
 }

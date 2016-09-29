@@ -33,4 +33,29 @@ public class JsonUtils {
         return urlString;
     }
 
+    public static boolean isSuccessfulResponse(int codigoRespuesta) {
+        switch (codigoRespuesta) {
+            case 0:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static String getErrorMessage(int codigoRespuesta) {
+        switch (codigoRespuesta) {
+            case 1:
+                return "Credenciales no válidas.";
+            case 2:
+                return "El usuario no se encuentra autenticado.";
+            case 3:
+                return "Se ha seleccionado más de un recurso.";
+            case 4:
+                return "Se han seleecionado zonas y recursos a la vez.";
+            default:
+                break;
+        }
+        return "";
+    }
+
 }
