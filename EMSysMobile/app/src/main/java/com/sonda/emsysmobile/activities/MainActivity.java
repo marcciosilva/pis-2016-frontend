@@ -13,6 +13,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.iniciar_sesion.AuthActivity;
 import com.sonda.emsysmobile.persistence.DatabaseTest;
+import com.sonda.emsysmobile.security.SecurityTest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mConsumeWSButton;
     private Button mLogNotificationsTokenButton;
     private Button mTestDatabaseButton;
+    private Button mTestSsl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mLogNotificationsTokenButton.setOnClickListener(this);
         mTestDatabaseButton = (Button) findViewById(R.id.button_test_database);
         mTestDatabaseButton.setOnClickListener(this);
+        mTestSsl = (Button) findViewById(R.id.button_test_ssl);
+        mTestSsl.setOnClickListener(this);
 
     }
 
@@ -65,6 +69,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
         } else if (view.getId() == R.id.button_test_database) {
             DatabaseTest.executeTest();
+        } else if (view.getId() == R.id.button_test_ssl) {
+//            System.out.println("USER LOCATION: " + System.getProperty("user.dir"));
+            SecurityTest securityTest = new SecurityTest(getApplicationContext());
+            securityTest.execute();
         }
     }
 
