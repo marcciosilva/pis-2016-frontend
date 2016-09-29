@@ -43,8 +43,17 @@ public class JsonUtils {
     }
 
     public static String getErrorMessage(int codigoRespuesta) {
-        if (codigoRespuesta == 1) {
-            return "Credenciales no válidas.";
+        switch (codigoRespuesta) {
+            case 1:
+                return "Credenciales no válidas.";
+            case 2:
+                return "El usuario no se encuentra autenticado.";
+            case 3:
+                return "Se ha seleccionado más de un recurso.";
+            case 4:
+                return "Se han seleecionado zonas y recursos a la vez.";
+            default:
+                break;
         }
         return "";
     }

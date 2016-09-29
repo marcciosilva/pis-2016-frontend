@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.activities.iniciar_sesion.LoginActivity;
+import com.sonda.emsysmobile.activities.iniciar_sesion.AuthActivity;
 import com.sonda.emsysmobile.persistence.DatabaseTest;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void goToLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
     }
 

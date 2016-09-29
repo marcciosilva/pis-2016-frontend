@@ -16,15 +16,10 @@ public class DtoRol implements Serializable {
     @SerializedName("recursos")
     private ArrayList<DtoRecurso> mRecursos = new ArrayList<>();
 
-//    public DtoRol() {
-//        mZonas = new ArrayList<>();
-//        mRecursos = new ArrayList<>();
-//    }
-//
-//    public DtoRol(ArrayList<DtoZona> zonas, ArrayList<DtoRecurso> recursos) {
-//        mZonas = zonas;
-//        mRecursos = recursos;
-//    }
+    public DtoRol(ArrayList<DtoZona> zonas, ArrayList<DtoRecurso> recursos) {
+        mZonas = zonas;
+        mRecursos = recursos;
+    }
 
     public ArrayList<DtoZona> getZonas() {
         return mZonas;
@@ -32,5 +27,13 @@ public class DtoRol implements Serializable {
 
     public ArrayList<DtoRecurso> getRecursos() {
         return mRecursos;
+    }
+
+    public void setZonas(ArrayList<DtoZona> mZonas) {
+        this.mZonas = mZonas;
+    }
+
+    public void setRecursos(ArrayList<DtoRecurso> mRecursos) {
+        this.mRecursos = mRecursos;
     }
 }

@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.iniciar_sesion.LoginActivity"
+            android:name=".activities.iniciar_sesion.AuthActivity"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".activities.iniciar_sesion.RoleChooserActivity"

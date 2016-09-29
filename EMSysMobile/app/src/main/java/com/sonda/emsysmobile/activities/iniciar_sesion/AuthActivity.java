@@ -30,11 +30,11 @@ import com.sonda.emsysmobile.utils.LoggingUtils;
 import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
 import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
     private EditText mPassEditText;
     private Button mLoginButton;
-    private static final String TAG = LoginActivity.class.getName();
+    private static final String TAG = AuthActivity.class.getName();
     private ProgressBar mProgressBar;
 
     /**
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.d(TAG, "errorMsg : " + errorMsg);
                         mProgressBar.setVisibility(View.GONE);
                         //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
                         builder.setTitle("Error");
                         builder.setMessage(errorMsg);
                         builder.setPositiveButton("OK", null);

@@ -1,10 +1,10 @@
 package com.sonda.emsysmobile.activities.iniciar_sesion;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,8 +27,6 @@ import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
 import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
@@ -46,7 +44,6 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
 
     public enum EleccionRol {Despachador, Recurso;}
 
-    private Bundle mExtras;
     private static final String TAG = RoleChooserActivity.class.getName();
 
     /**
@@ -73,33 +70,37 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
-        obtenerRoles(new VolleyCallback() {
+        obtenerRoles(new VolleyCallbackGetRoles() {
             @Override
             public void onSuccess(DtoRol roles) {
                 mRoles = roles;
+                // Habilito o deshabilito botones en base a los roles obtenidos en
+                // respuestas a la request.
                 ArrayList<DtoZona> zonas = roles.getZonas();
                 ArrayList<DtoRecurso> recursos = roles.getRecursos();
-                boolean containsZona = zonas.size() > 0;
+                boolean containsZona = zonas != null && zonas.size() > 0;
                 mDespachadorButton.setEnabled(containsZona);
-                boolean containsRecurso = recursos.size() > 0;
+                boolean containsRecurso = recursos != null && recursos.size() > 0;
                 mRecursoButton.setEnabled(containsRecurso);
             }
         });
 
     }
 
-    private void obtenerRoles(final VolleyCallback callback) {
+    private void obtenerRoles(final VolleyCallbackGetRoles callback) {
         GsonPostRequest<GetRolesResponse> request = RequestFactory.getRolesRequest(new Response.Listener<GetRolesResponse>() {
             @Override
             public void onResponse(GetRolesResponse response) {
                 String codigoRespuestaString = response.getCodigoRespuesta();
                 if (codigoRespuestaString != null) {
-                    int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
+                    // Parseo el codigo de respuesta y determino el exito de la operacion.
+                    final int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
                     boolean getRolesExitoso = isSuccessfulResponse(codigoRespuesta);
                     if (getRolesExitoso) {
                         DtoRol roles = response.getRoles();
                         callback.onSuccess(roles);
                     } else {
+                        // Obtengo mensaje de error correspondiente al codigo.
                         String errorMsg = getErrorMessage(codigoRespuesta);
                         Log.d(TAG, "errorMsg : " + errorMsg);
                         //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
@@ -108,7 +109,16 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                                 android.R.style.Theme_Material_Light_Dialog_MinWidth);
                         builder.setTitle("Error");
                         builder.setMessage(errorMsg);
-                        builder.setPositiveButton("OK", null);
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // En caso de no estar autenticado, se vuelve a la activity
+                                // de autenticacion.
+                                if (codigoRespuesta == 2) {
+                                    goToAuth();
+                                }
+                            }
+                        });
                         builder.show();
                     }
                 } else {
@@ -124,7 +134,11 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 
-    public interface VolleyCallback {
+    /**
+     * Interfaz implementada para recibir el resultado de la request
+     * de Volley una vez que finalice.
+     */
+    public interface VolleyCallbackGetRoles {
         void onSuccess(DtoRol result);
     }
 
@@ -144,12 +158,19 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         startActivity(intent);
     }
 
+    public void goToAuth() {
+        Intent intent = new Intent(this, AuthActivity.class);
+        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     private void goToZonasRecursosChooser(EleccionRol eleccionRol) {
         Intent intent = new Intent(this, ZonasRecursosChooserActivity.class);
         // Paso data a la siguiente activity.
         if (eleccionRol == EleccionRol.Despachador) {
             intent.putExtra("zonas", mRoles.getZonas());
-        } else if (eleccionRol == EleccionRol.Recurso){
+        } else if (eleccionRol == EleccionRol.Recurso) {
             intent.putExtra("recursos", mRoles.getRecursos());
         }
         intent.putExtra("eleccionRol", eleccionRol);
