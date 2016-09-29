@@ -9,6 +9,7 @@
     <string name="button_log_notifications_token">Imprimir token de Notificaciones</string>
     <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
     <string name="button_test_database" translatable="false">Test Database</string>
+    <string name="button_test_ssl" translatable="false">Test SSL</string>
 
     <!-- Consume WS Activity-->
     <string name="action_send">Enviar</string>

@@ -38,4 +38,13 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:text="@string/button_test_database" />
 
+    <Button
+        style="@style/AppButton"
+        android:id="@+id/button_test_ssl"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:text="@string/button_test_ssl"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
