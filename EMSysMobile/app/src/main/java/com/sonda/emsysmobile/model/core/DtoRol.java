@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.model.core;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -7,20 +9,22 @@ import java.util.ArrayList;
  * Created by marccio on 9/28/16.
  */
 
-public abstract class DtoRol implements Serializable {
+public class DtoRol implements Serializable {
 
-    private ArrayList<DtoZona> mZonas;
-    private ArrayList<DtoRecurso> mRecursos ;
+    @SerializedName("zonas")
+    private ArrayList<DtoZona> mZonas = new ArrayList<>();
+    @SerializedName("recursos")
+    private ArrayList<DtoRecurso> mRecursos = new ArrayList<>();
 
-    public DtoRol() {
-        mZonas = new ArrayList<>();
-        mRecursos = new ArrayList<>();
-    }
-
-    public DtoRol(ArrayList<DtoZona> zonas, ArrayList<DtoRecurso> recursos) {
-        mZonas = zonas;
-        mRecursos = recursos;
-    }
+//    public DtoRol() {
+//        mZonas = new ArrayList<>();
+//        mRecursos = new ArrayList<>();
+//    }
+//
+//    public DtoRol(ArrayList<DtoZona> zonas, ArrayList<DtoRecurso> recursos) {
+//        mZonas = zonas;
+//        mRecursos = recursos;
+//    }
 
     public ArrayList<DtoZona> getZonas() {
         return mZonas;

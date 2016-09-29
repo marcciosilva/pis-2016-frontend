@@ -35,6 +35,8 @@ app.post('/users/getroles-both', users.postUserGetRolesBoth);
 app.post('/users/getroles-fail', users.postUserGetRolesFail);
 app.post('/users/getroles-recursos', users.postUserGetRolesRecursos);
 app.post('/users/getroles-zonas', users.postUserGetRolesZonas);
+app.post('/users/getroles-empty', users.postUserGetRolesEmpty);
+
 
 //login
 app.post('/users/login-success', users.postUserLoginSuccess);

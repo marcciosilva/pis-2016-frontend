@@ -1,6 +1,6 @@
 package com.sonda.emsysmobile.utils;
 
-import com.sonda.emsysmobile.model.LoginResponse;
+import com.sonda.emsysmobile.model.AuthResponse;
 
 import java.util.List;
 
@@ -11,20 +11,20 @@ import java.util.List;
 public class LoggingUtils {
 
     /**
-     * Imprime contenido de una LoginResponse.
+     * Imprime contenido de una AuthResponse.
      * @param response Response a imprimir.
      */
-    public static void printLoginResponse(LoginResponse response) {
-        List<LoginResponse.Rol> roles = response.getRoles();
-        System.out.println("RESPONSE:\n"
-                + "cod : " + response.getCodigoRespuesta() + "\n"
-                + "access_token : " + response.getAccessToken() + "\n"
-                + "expires_in : " + response.getExpirationTime() + "\n"
-                + "roles : \n");
-        for (LoginResponse.Rol rol : roles) {
-            System.out.println("    tipo : " + rol.tipo);
-            System.out.println("    id : " + rol.id);
-        }
+    public static void printAuthResponse(AuthResponse response) {
+//        List<AuthResponse.Rol> roles = response.getRoles();
+//        System.out.println("RESPONSE:\n"
+//                + "cod : " + response.getCodigoRespuesta() + "\n"
+//                + "access_token : " + response.getAccessToken() + "\n"
+//                + "expires_in : " + response.getExpirationTime() + "\n"
+//                + "mRoles : \n");
+//        for (AuthResponse.Rol rol : roles) {
+//            System.out.println("    tipo : " + rol.tipo);
+//            System.out.println("    id : " + rol.id);
+//        }
     }
 
 }

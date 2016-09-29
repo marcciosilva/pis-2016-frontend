@@ -9,6 +9,7 @@ var getroles_both = require('../replies/getroles_both.json');
 var getroles_zonas = require('../replies/getroles_zonas.json');
 var getroles_recursos = require('../replies/getroles_recursos.json');
 var getroles_fail = require('../replies/getroles_fail.json');
+var getroles_empty = require('../replies/getroles_empty.json');
 // login
 var login_success = require('../replies/login_success.json');
 var login_no_auth = require('../replies/login_no_auth.json');
@@ -58,6 +59,11 @@ var postUserGetRolesFail = function(request, response, next) {
 	response.send(JSON.stringify(getroles_fail));
 };
 
+var postUserGetRolesEmpty = function(request, response, next) {
+	response.setHeader("content-type","application/json");
+	response.send(JSON.stringify(getroles_empty));
+};
+
 var postUserLoginSuccess = function(request, response, next) {
 	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(login_success));
@@ -76,5 +82,6 @@ exports.postUserGetRolesBoth = postUserGetRolesBoth;
 exports.postUserGetRolesFail = postUserGetRolesFail;
 exports.postUserGetRolesRecursos = postUserGetRolesRecursos;
 exports.postUserGetRolesZonas = postUserGetRolesZonas;
+exports.postUserGetRolesEmpty = postUserGetRolesEmpty;
 exports.postUserLoginSuccess = postUserLoginSuccess;
 exports.postUserLoginFail = postUserLoginFail;

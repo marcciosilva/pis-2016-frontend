@@ -21,23 +21,21 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.model.LoginResponse;
-import com.sonda.emsysmobile.model.core.DtoRecurso;
-import com.sonda.emsysmobile.model.core.DtoRol;
-import com.sonda.emsysmobile.model.core.DtoZona;
+import com.sonda.emsysmobile.model.AuthResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 import com.sonda.emsysmobile.utils.LoggingUtils;
 
-import java.util.ArrayList;
+import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
+import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
     private EditText mPassEditText;
     private Button mLoginButton;
-    private ProgressBar mProgressBar;
     private static final String TAG = LoginActivity.class.getName();
+    private ProgressBar mProgressBar;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -76,42 +74,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String user = mUserEditText.getText().toString();
         String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
-        GsonPostRequest<LoginResponse> request = RequestFactory.loginRequest(user, pass, new Response.Listener<LoginResponse>() {
+        GsonPostRequest<AuthResponse> request = RequestFactory.authRequest(user, pass, new Response.Listener<AuthResponse>() {
             @Override
-            public void onResponse(LoginResponse response) {
+            public void onResponse(AuthResponse response) {
                 String codigoRespuestaString = response.getCodigoRespuesta();
                 if (codigoRespuestaString != null) {
                     int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
                     boolean loginExitoso = isSuccessfulResponse(codigoRespuesta);
                     if (loginExitoso) {
-                        LoggingUtils.printLoginResponse(response);
+                        LoggingUtils.printAuthResponse(response);
                         //Se guarda el token en shared preferences para usar en cada consulta al web service.
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                         Log.d(TAG, "Token guardado en preferencias.");
-                        // TODO obtener roles con otra request
-                        DtoRol modelIntentRoles = obtenerRoles();
-                        // Lista (serializable) a pasar en el intent que pasa a la siguiente
-                        // actividad. Dicha lista se compone de roles pasados al modelo de datos
-                        // manejado desde el Frontend.
-//                        ArrayList<DtoRol> modelIntentRoles = new ArrayList<>();
-                        // Booleanos a agregar al intent, para que la activity siguiente
-                        // sepa si la lista de roles pasados en el mismo tiene zonas/recursos.
-                        // TODO determinar estos booleanos en base al DtoRol recibido
-//                        boolean containsZona = false;
-//                        boolean containsRecurso = false;
-                        // TODO agregar booleanos al intent
-//                        for (LoginResponse.Rol rol : response.getRoles()) {
-//                            if (rol.tipo.equals("zona")) {
-//                                containsZona = true;
-//                                modelIntentRoles.add(new DtoZona(rol.id));
-//                            } else if (rol.tipo.equals("recurso")) {
-//                                containsRecurso = true;
-//                                modelIntentRoles.add(new DtoRecurso(rol.id));
-//                            }
-//                        }
-                        mProgressBar.setVisibility(View.GONE);
-                        // TODO Rehacer transicion a role chooser
-//                        goToRoleChooser(modelIntentRoles, containsZona, containsRecurso);
+                        goToRoleChooser();
                     } else {
                         String errorMsg = getErrorMessage(codigoRespuesta);
                         Log.d(TAG, "errorMsg : " + errorMsg);
@@ -137,42 +112,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 
-    private DtoRol obtenerRoles() {
-        return null;
-    }
+
 
     /**
      * Metodo utilizado para pasar desde la activity de login hacia
      * la de eleccion del rol del usuario.
-     *
-     * @param modelIntentRoles Lista con modelos correspondientes a roles.
-     * @param containsZona Indica si la lista contiene zonas.
-     * @param containsRecurso Indica si la lista contiene recursos.
      */
-    private void goToRoleChooser(ArrayList<DtoRol> modelIntentRoles, boolean containsZona, boolean containsRecurso) {
+    private void goToRoleChooser() {
         Intent intent = new Intent(this, RoleChooserActivity.class);
-        intent.putExtra("modelIntentRoles", modelIntentRoles);
-        intent.putExtra("containsZona", containsZona);
-        intent.putExtra("containsRecurso", containsRecurso);
         startActivity(intent);
-    }
-
-    private String getErrorMessage(int codigoRespuesta) {
-        if (codigoRespuesta == 1) {
-            return "Credenciales no válidas.";
-        }
-        return "";
-    }
-
-    private boolean isSuccessfulResponse(int codigoRespuesta) {
-        switch (codigoRespuesta) {
-            // Login exitoso.
-            case 0:
-                return true;
-            // Login fallido.
-            default:
-                return false;
-        }
     }
 
     /**

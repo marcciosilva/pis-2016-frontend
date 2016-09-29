@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by ssainz on 8/30/16.
  */
-public class LoginResponse {
+public class AuthResponse {
 
     @SerializedName("cod")
     public String codigoRespuesta;

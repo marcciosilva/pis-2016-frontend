@@ -66,25 +66,24 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         mExtras = getIntent().getExtras();
         EleccionRol eleccionRol =
                 (EleccionRol) mExtras.getSerializable("eleccionRol");
+        final ArrayList<String> list = new ArrayList<>();
         // Deshabilito el boton que corresponda en base a la eleccion previa del usuario.
         if (eleccionRol == EleccionRol.Despachador) {
             mRecursoButton.setEnabled(false);
             mRolesListView .setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            ArrayList<DtoZona> zonas = (ArrayList<DtoZona>) mExtras.getSerializable("zonas");
+            for (DtoZona zona : zonas) {
+                list.add(zona.getId() + " - " + zona.getNombre() + " - " + zona.getNombreUnidadEjecutora());
+            }
         } else {
             mDespachadorButton.setEnabled(false);
             mRolesListView .setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        }
-
-        // Configuracion de ListView.
-        ArrayList<DtoRol> modelIntentRoles = (ArrayList<DtoRol>) mExtras.getSerializable("modelIntentRoles");
-        final ArrayList<String> list = new ArrayList<>();
-        for (DtoRol rol : modelIntentRoles) {
-            if (rol instanceof DtoRecurso && mRecursoButton.isEnabled()) {
-                list.add(((DtoRecurso) rol).getCodigo());
-            } else if (rol instanceof DtoZona && mDespachadorButton.isEnabled()) {
-                list.add(((DtoZona) rol).getNombre());
+            ArrayList<DtoRecurso> recursos = (ArrayList<DtoRecurso>) mExtras.getSerializable("recursos");
+            for (DtoRecurso recurso : recursos) {
+                list.add(recurso.getCodigo());
             }
         }
+
         ArrayAdapter adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_multiple_choice,
                 list);
