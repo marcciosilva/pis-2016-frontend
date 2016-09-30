@@ -3,6 +3,7 @@ package com.sonda.emsysmobile.model.responses;
 import com.sonda.emsysmobile.model.responses.LoginInnerResponse;
 import com.sonda.emsysmobile.model.responses.LoginResponse;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,15 +13,24 @@ import static org.junit.Assert.*;
  */
 public class LoginInnerResponseTest {
 
-    @Test
-    public void testLoginInnerResponse() {
-//        LoginInnerResponse innerResponse1 = new LoginInnerResponse();
-//        innerResponse1.errorMsg = "errorMsg";
-//        LoginInnerResponse innerResponse2 = new LoginInnerResponse();
-//        innerResponse2.errorMsg = "errorMsg";
-//        assertTrue(innerResponse1.errorMsg.equals(innerResponse2.errorMsg));
+    private LoginInnerResponse mInnerResponse;
+
+    @Before
+    public void executeBeforeEach() {
+        mInnerResponse = new LoginInnerResponse();
+        mInnerResponse.setErrorMsg("errorMsg");
     }
 
+    @Test
+    public void testGetErrorMsg() {
+        assertTrue(mInnerResponse.getErrorMsg().equals("errorMsg"));
+    }
 
+    @Test
+    public void testSetErrorMsg() {
+        String altErrorMsg = "alt_errorMsg";
+        mInnerResponse.setErrorMsg(altErrorMsg);
+        assertTrue(mInnerResponse.getErrorMsg().equals(altErrorMsg));
+    }
 
 }
