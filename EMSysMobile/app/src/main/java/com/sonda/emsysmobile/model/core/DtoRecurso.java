@@ -21,4 +21,23 @@ public class DtoRecurso implements Serializable {
         return mCodigo;
     }
 
+    public void setCodigo(String codigo) {
+        mCodigo = codigo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!DtoRecurso.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final DtoRecurso other = (DtoRecurso) obj;
+        if (mCodigo != other.mCodigo) {
+            return false;
+        }
+        return true;
+    }
+
 }

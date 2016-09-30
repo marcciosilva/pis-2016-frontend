@@ -18,7 +18,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.HomeActivity;
-import com.sonda.emsysmobile.model.GetRolesResponse;
+import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.model.core.DtoRecurso;
 import com.sonda.emsysmobile.model.core.DtoRol;
 import com.sonda.emsysmobile.model.core.DtoZona;

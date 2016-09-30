@@ -21,11 +21,10 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.model.AuthResponse;
+import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
-import com.sonda.emsysmobile.utils.LoggingUtils;
 
 import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
 import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
@@ -82,7 +81,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
                     boolean loginExitoso = isSuccessfulResponse(codigoRespuesta);
                     if (loginExitoso) {
-                        LoggingUtils.printAuthResponse(response);
                         //Se guarda el token en shared preferences para usar en cada consulta al web service.
                         PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                         Log.d(TAG, "Token guardado en preferencias.");
