@@ -2,7 +2,6 @@ package com.sonda.emsysmobile.services.request;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,6 +21,7 @@ public abstract class AbstractRequest<T> {
     protected Type type;
 
     protected Response.Listener<T> listener;
+    protected Response.ErrorListener errorListener;
 
 
     private static final int GET = 0;
@@ -47,19 +47,28 @@ public abstract class AbstractRequest<T> {
         this.listener = listener;
     }
 
-    protected Response.ErrorListener getErrorListener(){
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error en la comunicación con el servidor.");
+    protected Response.Listener<T> getListener(){
+        return this.listener;
+    }
 
-            }
-        };
+    public void setErrorListener(Response.ErrorListener errorListener){
+        this.errorListener = errorListener;
+    }
+
+    protected Response.ErrorListener getErrorListener(){
+        if(errorListener == null){
+            errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "Error en la comunicación con el servidor.");
+                }
+            };
+        }
+        return errorListener;
     }
 
     abstract protected String getPath();
     abstract protected JsonObject getBody();
-    abstract protected Response.Listener<T> getListener();
 
 
 

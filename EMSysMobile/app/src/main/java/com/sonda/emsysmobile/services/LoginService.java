@@ -3,7 +3,7 @@ package com.sonda.emsysmobile.services;
 import android.content.Context;
 
 import com.android.volley.Response;
-import com.sonda.emsysmobile.model.AuthResponse;
+import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.services.request.AuthRequest;
 
 

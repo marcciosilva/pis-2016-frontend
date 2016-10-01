@@ -2,10 +2,12 @@ package com.sonda.emsysmobile.services.endpoint;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.google.gson.JsonObject;
 import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 
@@ -28,6 +30,7 @@ public class EndpointService<T> {
     }
 
     public void execute(int method, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
+        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
 
         String url = BuildConfig.BASE_URL + path;
         System.out.println(jsonObject.toString());
@@ -37,8 +40,14 @@ public class EndpointService<T> {
             jsonObject.addProperty("authorization",accesToken);
         }
 
-        GsonPostRequest<T> request = new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), type, listener, errorListener);
-
+        Log.d("IP_REQUEST", url);
+        GsonPostRequest<T> request;
+        if(debugMode){
+            request = new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), type, listener, errorListener);
+        } else {
+            // En el mock server no se exige un string url encoded.
+            request =  new GsonPostRequest<>(url, jsonObject.toString(), type, listener, errorListener);
+        }
         AppRequestQueue.getInstance(context).addToRequestQueue(request);
     }
 
