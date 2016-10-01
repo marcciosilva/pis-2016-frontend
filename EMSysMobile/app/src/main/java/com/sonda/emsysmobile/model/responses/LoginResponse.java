@@ -6,38 +6,26 @@ import com.google.gson.annotations.SerializedName;
  * Created by marccio on 9/28/16.
  */
 
-public class LoginResponse {
-
-    @SerializedName("cod")
-    private String mCodigoRespuesta;
+public class LoginResponse extends EmsysResponse {
 
     @SerializedName("response")
-    private LoginInnerResponse mInnerResponse;
-
-    public String getCodigoRespuesta() {
-        return mCodigoRespuesta;
-    }
-
-    public void setCodigoRespuesta(String codigoRespuesta) {
-        mCodigoRespuesta = codigoRespuesta;
-    }
+    private LoginInnerResponse innerResponse;
 
     public LoginInnerResponse getInnerResponse() {
-        return mInnerResponse;
+        return innerResponse;
     }
 
-    public void setResponse(LoginInnerResponse innerResponse) {
-        mInnerResponse = innerResponse;
+    public void setInnerResponse(LoginInnerResponse innerResponse) {
+        this.innerResponse = innerResponse;
     }
 
     public String getErrorMessage() {
-        if (mInnerResponse != null) {
-            if (mInnerResponse.getErrorMsg() != null) {
-                return mInnerResponse.getErrorMsg();
+        if (innerResponse != null) {
+            if (innerResponse.getErrorMsg() != null) {
+                return innerResponse.getErrorMsg();
             } else {
                 return "";
             }
         } return "";
     }
-
 }

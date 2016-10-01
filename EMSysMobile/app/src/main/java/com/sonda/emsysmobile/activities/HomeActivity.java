@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.model.EventsResponse;
+import com.sonda.emsysmobile.model.responses.EventsResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.RequestFactory;
 
@@ -25,12 +25,12 @@ public class HomeActivity extends AppCompatActivity {
         Request eventsRequest = RequestFactory.eventsRequest(new Response.Listener<EventsResponse>() {
             @Override
             public void onResponse(EventsResponse response) {
-
+                int a = 1;
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                
+                int a = 1;
             }
         });
         AppRequestQueue.getInstance(getApplicationContext()).addToRequestQueue(eventsRequest);

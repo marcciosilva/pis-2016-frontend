@@ -33,15 +33,6 @@ public class JsonUtils {
         return urlString;
     }
 
-    public static boolean isSuccessfulResponse(int codigoRespuesta) {
-        switch (codigoRespuesta) {
-            case 0:
-                return true;
-            default:
-                return false;
-        }
-    }
-
     public static String getErrorMessage(int codigoRespuesta) {
         switch (codigoRespuesta) {
             case 1:

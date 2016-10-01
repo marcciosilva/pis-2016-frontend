@@ -7,12 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class CategoryDto {
 
-//    "id":3,
-//    "codigo":"codigo2",
-//    "clave":"clave2",
-//    "prioridad":"valor_prioridad",
-//    "activo":true
-
     @SerializedName("id")
     public int identifier;
 
@@ -27,4 +21,44 @@ public class CategoryDto {
 
     @SerializedName("activo")
     public boolean isActive;
+
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(int identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public ExtensionPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(ExtensionPriority priority) {
+        this.priority = priority;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

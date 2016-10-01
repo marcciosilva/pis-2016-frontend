@@ -8,25 +8,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class AuthInnerResponse {
     @SerializedName("access_token")
-    private String mAccessToken;
+    private String accessToken;
 
     @SerializedName("expires_in")
-    private int mExpirationTime;
+    private int expirationTime;
 
     public String getAccessToken() {
-        return mAccessToken;
+        return accessToken;
     }
 
     public void setAccessToken(String accessToken) {
-        mAccessToken = accessToken;
+        this.accessToken = accessToken;
     }
 
     public int getExpirationTime() {
-        return mExpirationTime;
+        return expirationTime;
     }
 
     public void setExpirationTime(int expirationTime) {
-        mExpirationTime = expirationTime;
+        this.expirationTime = expirationTime;
     }
-
 }

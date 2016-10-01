@@ -21,10 +21,10 @@ public class AuthResponseUnitTest {
     public void executeBeforeEach() {
         mAuthResponse = new AuthResponse();
         mInnerResponse = new AuthInnerResponse();
-        mAuthResponse.setResponse(mInnerResponse);
+        mAuthResponse.setInnerResponse(mInnerResponse);
         mInnerResponse.setAccessToken("token");
         mInnerResponse.setExpirationTime(1);
-        mAuthResponse.setCodigoRespuesta("0");
+        mAuthResponse.setCode(0);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class AuthResponseUnitTest {
 
     @Test
     public void testGetCodigoRespuesta() {
-        assertTrue(mAuthResponse.getCodigoRespuesta().equals("0"));
+        assertTrue(mAuthResponse.getCode() == 0);
     }
 
     @Test
@@ -58,5 +58,4 @@ public class AuthResponseUnitTest {
     public void testGetExpirationTime_nonNull() {
         assertTrue(mAuthResponse.getExpirationTime() == 1);
     }
-
 }

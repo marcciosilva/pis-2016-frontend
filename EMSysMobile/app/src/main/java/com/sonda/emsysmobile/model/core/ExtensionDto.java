@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.model.core;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -7,19 +9,61 @@ import java.util.Date;
  */
 public class ExtensionDto {
 
-//    "id":1,
-//    "descripción":"descripción de la extension",
-//    "estado":"estado_extensión",
-//    "timeStamp":"24-09-2016 2:44:33",
-//    "categoria":null,
-
+    @SerializedName("id")
     public int identifier;
 
+    @SerializedName("descripcion")
     public String description;
 
+    @SerializedName("estado")
     public ExtensionState extensionState;
 
+    @SerializedName("timeStamp")
     public Date timeStamp;
 
+    @SerializedName("categoria")
     public CategoryDto category;
+
+    @SerializedName("zona")
+    public ZoneDto zone;
+
+    public int getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(int identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ExtensionState getExtensionState() {
+        return extensionState;
+    }
+
+    public void setExtensionState(ExtensionState extensionState) {
+        this.extensionState = extensionState;
+    }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public CategoryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDto category) {
+        this.category = category;
+    }
 }

@@ -55,8 +55,7 @@
         "clave":"clave2",
         "prioridad":"valor_prioridad",
         "activo":true
-      },
-      "zona":2
+      }
     }
   ]
 }

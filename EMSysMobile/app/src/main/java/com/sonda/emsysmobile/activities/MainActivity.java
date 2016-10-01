@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.activities.iniciar_sesion.AuthActivity;
+import com.sonda.emsysmobile.activities.login.AuthActivity;
 import com.sonda.emsysmobile.persistence.DatabaseTest;
 import com.sonda.emsysmobile.security.SecurityTest;
 

@@ -8,21 +8,21 @@ import java.io.Serializable;
  * Created by marccio on 9/28/16.
  */
 
-public class DtoRecurso implements Serializable {
+public class ResourceDto implements Serializable {
 
     @SerializedName("codigo")
-    private String mCodigo;
+    private String code;
 
-    public DtoRecurso(String mCodigo) {
-        this.mCodigo = mCodigo;
+    public ResourceDto(String code) {
+        this.code = code;
     }
 
-    public String getCodigo() {
-        return mCodigo;
+    public String getCode() {
+        return code;
     }
 
-    public void setCodigo(String codigo) {
-        mCodigo = codigo;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -30,14 +30,13 @@ public class DtoRecurso implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!DtoRecurso.class.isAssignableFrom(obj.getClass())) {
+        if (!ResourceDto.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
-        final DtoRecurso other = (DtoRecurso) obj;
-        if (mCodigo != other.mCodigo) {
+        final ResourceDto other = (ResourceDto) obj;
+        if (code != other.code) {
             return false;
         }
         return true;
     }
-
 }

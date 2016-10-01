@@ -7,14 +7,15 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class LoginInnerResponse {
+
     @SerializedName("msg")
-    private String mErrorMsg;
+    private String errorMsg;
 
     public String getErrorMsg() {
-        return mErrorMsg;
+        return errorMsg;
     }
 
     public void setErrorMsg(String errorMsg) {
-        mErrorMsg = errorMsg;
+        this.errorMsg = errorMsg;
     }
 }

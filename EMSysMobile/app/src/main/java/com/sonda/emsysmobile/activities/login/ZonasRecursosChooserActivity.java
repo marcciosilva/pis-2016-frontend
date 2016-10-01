@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.activities.iniciar_sesion;
+package com.sonda.emsysmobile.activities.login;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -21,11 +21,11 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.HomeActivity;
-import com.sonda.emsysmobile.activities.iniciar_sesion.RoleChooserActivity.EleccionRol;
+import com.sonda.emsysmobile.activities.login.RoleChooserActivity.EleccionRol;
 import com.sonda.emsysmobile.model.responses.LoginResponse;
-import com.sonda.emsysmobile.model.core.DtoRecurso;
-import com.sonda.emsysmobile.model.core.DtoRol;
-import com.sonda.emsysmobile.model.core.DtoZona;
+import com.sonda.emsysmobile.model.core.ResourceDto;
+import com.sonda.emsysmobile.model.core.RoleDto;
+import com.sonda.emsysmobile.model.core.ZoneDto;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
@@ -35,7 +35,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
-import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
 
 /**
  * Created by marccio on 9/28/16.
@@ -84,16 +83,16 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         if (eleccionRol == EleccionRol.Despachador) {
             mRecursoButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-            ArrayList<DtoZona> zonas = (ArrayList<DtoZona>) mExtras.getSerializable("zonas");
-            for (DtoZona zona : zonas) {
-                list.add(zona.getId() + " - " + zona.getNombre() + " - " + zona.getNombreUnidadEjecutora());
+            ArrayList<ZoneDto> zonas = (ArrayList<ZoneDto>) mExtras.getSerializable("zonas");
+            for (ZoneDto zona : zonas) {
+                list.add(zona.getIdentifier() + " - " + zona.getName() + " - " + zona.getExecUnitName());
             }
         } else {
             mDespachadorButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            ArrayList<DtoRecurso> recursos = (ArrayList<DtoRecurso>) mExtras.getSerializable("recursos");
-            for (DtoRecurso recurso : recursos) {
-                list.add(recurso.getCodigo());
+            ArrayList<ResourceDto> recursos = (ArrayList<ResourceDto>) mExtras.getSerializable("recursos");
+            for (ResourceDto recurso : recursos) {
+                list.add(recurso.getCode());
             }
         }
 
@@ -112,12 +111,12 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         if (view.getId() == R.id.button_continuar) {
             if (mContinuarButton.isEnabled()) {
                 // Construyo listas que van a servir para construir
-                // el DtoRol para la request.
-                ArrayList<DtoZona> zonas = new ArrayList<>();
-                ArrayList<DtoRecurso> recursos = new ArrayList<>();
+                // el RoleDto para la request.
+                ArrayList<ZoneDto> zonas = new ArrayList<>();
+                ArrayList<ResourceDto> recursos = new ArrayList<>();
                 if (mDespachadorButton.isEnabled()) {
                     // Se parsea cada item seleccionado para construir
-                    // un DtoRol para cada uno.
+                    // un RoleDto para cada uno.
                     String regex = "^(.*)\\s-\\s(.*)\\s-\\s(.*)$";
                     Pattern pattern = Pattern.compile(regex);
                     for (String item : mItemsSeleccionados) {
@@ -130,15 +129,15 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                             nombre = matcher.group(2);
                             nombreUE = matcher.group(3);
                         }
-                        zonas.add(new DtoZona(nombre, id, nombreUE));
+                        zonas.add(new ZoneDto(nombre, id, nombreUE));
                     }
                 } else if (mRecursoButton.isEnabled()){
                     // Debe haber un solo recurso en los items.
                     for (String item : mItemsSeleccionados) {
-                        recursos.add(new DtoRecurso(item));
+                        recursos.add(new ResourceDto(item));
                     }
                 }
-                loginUser(new DtoRol(zonas, recursos), new VolleyCallbackLoginUser() {
+                loginUser(new RoleDto(zonas, recursos), new VolleyCallbackLoginUser() {
                     @Override
                     public void onSuccess() {
                         // TODO agregar logica posterior al inicio de sesion.
@@ -149,32 +148,26 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         }
     }
 
-    private void loginUser(DtoRol roles, final VolleyCallbackLoginUser callback) {
+    private void loginUser(RoleDto roles, final VolleyCallbackLoginUser callback) {
         GsonPostRequest<LoginResponse> request = RequestFactory.loguearUsuarioRequest(roles, new Response.Listener<LoginResponse>() {
             @Override
             public void onResponse(LoginResponse response) {
                 // Parseo el codigo de respuesta y determino el exito de la operacion.
-                String codigoRespuestaString = response.getCodigoRespuesta();
-                if (codigoRespuestaString != null) {
-                    int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
-                    boolean loginExitoso = isSuccessfulResponse(codigoRespuesta);
-                    if (loginExitoso) {
-                        callback.onSuccess();
-                    } else {
-                        // Obtengo mensaje de error correspondiente al codigo.
-                        String errorMsg = getErrorMessage(codigoRespuesta);
-                        Log.d(TAG, "errorMsg : " + errorMsg);
-                        //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                        AlertDialog.Builder builder = new AlertDialog.Builder(
-                                ZonasRecursosChooserActivity.this,
-                                android.R.style.Theme_Material_Light_Dialog_MinWidth);
-                        builder.setTitle("Error");
-                        builder.setMessage(errorMsg);
-                        builder.setPositiveButton("OK", null);
-                        builder.show();
-                    }
+                int responseCode = response.getCode();
+                if (responseCode == 0) {
+                    callback.onSuccess();
                 } else {
-                    Log.d(TAG, "Error en el formato del mensaje recibido.");
+                    // Obtengo mensaje de error correspondiente al codigo.
+                    String errorMsg = getErrorMessage(responseCode);
+                    Log.d(TAG, "errorMsg : " + errorMsg);
+                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(
+                            ZonasRecursosChooserActivity.this,
+                            android.R.style.Theme_Material_Light_Dialog_MinWidth);
+                    builder.setTitle("Error");
+                    builder.setMessage(errorMsg);
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
                 }
             }
         }, new Response.ErrorListener() {

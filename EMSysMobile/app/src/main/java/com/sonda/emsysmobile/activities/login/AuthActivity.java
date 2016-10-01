@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.activities.iniciar_sesion;
+package com.sonda.emsysmobile.activities.login;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -26,7 +26,6 @@ import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 
-import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
 import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
@@ -76,28 +75,22 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         GsonPostRequest<AuthResponse> request = RequestFactory.authRequest(user, pass, new Response.Listener<AuthResponse>() {
             @Override
             public void onResponse(AuthResponse response) {
-                String codigoRespuestaString = response.getCodigoRespuesta();
-                if (codigoRespuestaString != null) {
-                    int codigoRespuesta = Integer.parseInt(codigoRespuestaString);
-                    boolean loginExitoso = isSuccessfulResponse(codigoRespuesta);
-                    if (loginExitoso) {
-                        //Se guarda el token en shared preferences para usar en cada consulta al web service.
-                        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
-                        Log.d(TAG, "Token guardado en preferencias.");
-                        goToRoleChooser();
-                    } else {
-                        String errorMsg = getErrorMessage(codigoRespuesta);
-                        Log.d(TAG, "errorMsg : " + errorMsg);
-                        mProgressBar.setVisibility(View.GONE);
-                        //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                        AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
-                        builder.setTitle("Error");
-                        builder.setMessage(errorMsg);
-                        builder.setPositiveButton("OK", null);
-                        builder.show();
-                    }
+                int responseCode = response.getCode();
+                if (responseCode == 0) {
+                    //Se guarda el token en shared preferences para usar en cada consulta al web service.
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
+                    Log.d(TAG, "Token guardado en preferencias.");
+                    goToRoleChooser();
                 } else {
-                    Log.d(TAG, "Error en el formato del mensaje recibido.");
+                    String errorMsg = getErrorMessage(0);
+                    Log.d(TAG, "errorMsg : " + errorMsg);
+                    mProgressBar.setVisibility(View.GONE);
+                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
+                    builder.setTitle("Error");
+                    builder.setMessage(errorMsg);
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
                 }
             }
         }, new Response.ErrorListener() {
