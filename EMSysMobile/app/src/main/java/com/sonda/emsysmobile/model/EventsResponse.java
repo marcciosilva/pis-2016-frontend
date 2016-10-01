@@ -1,7 +1,7 @@
 package com.sonda.emsysmobile.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.sonda.emsysmobile.model.core.DtoEvent;
+import com.sonda.emsysmobile.model.core.EventDto;
 
 import java.util.ArrayList;
 
@@ -20,5 +20,5 @@ public class EventsResponse {
      * The list of events returned by the service
      */
     @SerializedName("response")
-    private ArrayList<DtoEvent> events;
+    private ArrayList<EventDto> events;
 }

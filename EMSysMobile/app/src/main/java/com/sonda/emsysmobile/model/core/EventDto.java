@@ -8,7 +8,7 @@ import java.util.Date;
  * Created by ssainz on 9/25/16.
  */
 
-public class DtoEvent {
+public class EventDto {
 
     @SerializedName("id")
     public int identifier;
@@ -20,9 +20,9 @@ public class DtoEvent {
     public String phone;
 
     @SerializedName("time_stamp")
-    public Date modifiedDate;
+    public Date timeStamp;
 
-    @SerializedName("date")
+    @SerializedName("fecha")
     public Date createdDate;
 
     @SerializedName("en_proceso")
@@ -34,9 +34,17 @@ public class DtoEvent {
     @SerializedName("cod_sector")
     public String sectorCode;
 
-    @SerializedName("estado")
-    public EventState state;
+    @SerializedName("calle")
+    public String street;
 
-    @SerializedName("direccion")
-    public DtoAddress address;
+    @SerializedName("esquina")
+    public String corner;
+
+    @SerializedName("numero")
+    public String number;
+
+    @SerializedName("departamento")
+    public String department;
+
+
 }
