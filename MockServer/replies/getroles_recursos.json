@@ -1,0 +1,15 @@
+{
+   "cod": 0,
+   "response": {
+      "recursos": [
+         {
+            "codigo": "A123F"
+         },
+         {
+            "codigo": "B8E32"
+         }
+      ],
+      "zonas": [
+      ]
+   }
+}

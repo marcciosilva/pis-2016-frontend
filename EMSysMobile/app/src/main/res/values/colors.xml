@@ -3,11 +3,11 @@
 
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorAccent">#ffffff</color>
 
     <!-- Material design Blue Color Palette -->
     <!-- https://material.google.com/style/color.html#color-color-palette -->
-    <color name="colorPrimary_50">#E3F2FD</color>
+    <color name="colorPrimary_50">#e3f2fd</color>
     <color name="colorPrimary_100">#BBDEFB</color>
     <color name="colorPrimary_200">#90CAF9</color>
     <color name="colorPrimary_300">#64B5F6</color>

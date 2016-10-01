@@ -1,0 +1,6 @@
+{
+	"cod":1,
+	"response": {
+		"msg":"User does not exist."
+	}
+}
