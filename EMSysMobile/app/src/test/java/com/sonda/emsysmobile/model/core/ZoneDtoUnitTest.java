@@ -61,7 +61,7 @@ public class ZoneDtoUnitTest {
     @Test
     public void testEquals_differentClass() {
         ZoneDto zona = new ZoneDto(null, null, null);
-        ResourceDto recurso = new ResourceDto(null);
+        ResourceDto recurso = new ResourceDto(null, 0);
         assertFalse(zona.equals(recurso));
     }
 
