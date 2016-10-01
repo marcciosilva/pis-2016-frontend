@@ -22,7 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.HomeActivity;
 import com.sonda.emsysmobile.activities.login.RoleChooserActivity.EleccionRol;
-import com.sonda.emsysmobile.model.responses.LoginResponse;
+import com.sonda.emsysmobile.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.model.core.ResourceDto;
 import com.sonda.emsysmobile.model.core.RoleDto;
 import com.sonda.emsysmobile.model.core.ZoneDto;
@@ -92,7 +92,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             ArrayList<ResourceDto> recursos = (ArrayList<ResourceDto>) mExtras.getSerializable("recursos");
             for (ResourceDto recurso : recursos) {
-                list.add(recurso.getCode());
+                list.add(recurso.getId() + " - " + recurso.getCode());
             }
         }
 
@@ -133,8 +133,19 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     }
                 } else if (mRecursoButton.isEnabled()){
                     // Debe haber un solo recurso en los items.
+                    // Se parsea cada item seleccionado para construir
+                    // un RoleDto para cada uno.
+                    String regex = "^(.*)\\s-\\s(.*)$";
+                    Pattern pattern = Pattern.compile(regex);
                     for (String item : mItemsSeleccionados) {
-                        recursos.add(new ResourceDto(item));
+                        Matcher matcher = pattern.matcher(item);
+                        String idString = "";
+                        String code = "";
+                        if (matcher.find()) {
+                            idString = matcher.group(1);
+                            code = matcher.group(2);
+                        }
+                        recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
                     }
                 }
                 loginUser(new RoleDto(zonas, recursos), new VolleyCallbackLoginUser() {
@@ -149,9 +160,9 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     }
 
     private void loginUser(RoleDto roles, final VolleyCallbackLoginUser callback) {
-        GsonPostRequest<LoginResponse> request = RequestFactory.loguearUsuarioRequest(roles, new Response.Listener<LoginResponse>() {
+        GsonPostRequest<LoginLogoutResponse> request = RequestFactory.loguearUsuarioRequest(roles, new Response.Listener<LoginLogoutResponse>() {
             @Override
-            public void onResponse(LoginResponse response) {
+            public void onResponse(LoginLogoutResponse response) {
                 // Parseo el codigo de respuesta y determino el exito de la operacion.
                 int responseCode = response.getCode();
                 if (responseCode == 0) {

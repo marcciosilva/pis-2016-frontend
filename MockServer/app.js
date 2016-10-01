@@ -39,6 +39,10 @@ app.post('/users/getroles-recursos', users.postUserGetRolesRecursos);
 app.post('/users/getroles-zonas', users.postUserGetRolesZonas);
 app.post('/users/getroles-empty', users.postUserGetRolesEmpty);
 
+//logout
+app.post('/users/logout-success', users.postUserLogoutSuccess);
+app.post('/users/logout-cod2', users.postUserLogoutCod2);
+app.post('/users/logout-cod5', users.postUserLogoutCod5);
 
 //login
 app.post('/users/login-success', users.postUserLoginSuccess);

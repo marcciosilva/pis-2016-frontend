@@ -48,7 +48,7 @@ public class ZoneDtoUnitTest {
 
     @Test
     public void testSetNombreUnidadEjecutora() {
-        mZoneDto.setIdentifier("ue2");
+        mZoneDto.setExecUnitName("ue2");
         assertTrue(mZoneDto.getExecUnitName().equals("ue2"));
     }
 
