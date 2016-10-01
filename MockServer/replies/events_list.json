@@ -5,51 +5,56 @@
       "id":1,
       "informante":"Juan Diego Alvarez",
       "telefono":"+598 99 25 74 74",
-      "estado":"estado_evento",
+      "estado":"created",
       "time_stamp":"24-09-2016 2:44:33",
       "fecha":"24-09-2016 2:44:33",
       "en_proceso":true,
       "origen":"El origen del evento",
       "cod_sector":"1234",
-      "direccion":{
-        "calle":"Baldomir",
-        "esquina":"Obligado",
-        "numero":"2448 - 203",
-        "departamento":"Montevideo"
-      }
-    },
-    {
-      "id":2,
-      "informante":"Martín López",
-      "telefono":"+598 99 25 12 34",
-      "estado":"estado_evento",
-      "time_stamp":"24-09-2016 2:44:33",
-      "fecha":"24-09-2016 2:44:33",
-      "en_proceso":true,
-      "origen":"El origen del evento",
-      "cod_sector":"1234",
-      "direccion":{
-        "calle":"Rivera",
-        "esquina":"Sanchez",
-        "numero":"425",
-        "departamento":"Soriano"
-      }
-    },
-    {
-      "id":3,
-      "informante":"Carlos Valdez",
-      "telefono":"+598 99 21 32 45",
-      "estado":"estado_evento",
-      "time_stamp":"24-09-2016 2:44:33",
-      "fecha":"24-09-2016 2:44:33",
-      "en_proceso":true,
-      "origen":"El origen del evento",
-      "cod_sector":"1234",
-      "direccion":{
-        "calle":"Baldomir",
-        "esquina":"Obligado",
-        "numero":"2448 - 203",
-        "departamento":"Montevideo"
+      "calle":"Baldomir",
+      "esquina":"Obligado",
+      "numero":"2448 - 203",
+      "departamento":"Montevideo",
+      "extensiones":[
+        {
+          "id":1,
+          "descripción":"descripción de la extension",
+          "estado":"estado_extensión",
+          "timeStamp":"24-09-2016 2:44:33",
+          "categoria":null,
+          "zona":
+           {
+                  "id": 1,
+                  "nombre": "zona1",
+                  "nombre_ue": "unidad1"
+           }
+        },
+        {
+          "id":2,
+          "descripción":"descripción de la extension2",
+          "estado":"estado_extensión",
+          "timeStamp":"24-09-2016 2:44:33",
+          "categoria":{
+            "id":3,
+            "codigo":"codigo2",
+            "clave":"clave2",
+            "prioridad":"valor_prioridad",
+            "activo":true
+          },
+          "zona":
+           {
+                  "id": 2,
+                  "nombre": "zona2",
+                  "nombre_ue": "unidad2"
+           }
+        }
+      ],
+      "categoria":{
+        "id":3,
+        "codigo":"codigo2",
+        "clave":"clave2",
+        "prioridad":"valor_prioridad",
+        "activo":true
       }
     }
   ]

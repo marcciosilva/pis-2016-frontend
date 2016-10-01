@@ -11,10 +11,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.model.responses.EventsResponse;
 import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.model.responses.LoginResponse;
-import com.sonda.emsysmobile.model.core.DtoRol;
+import com.sonda.emsysmobile.model.core.RoleDto;
 
 import org.json.JSONArray;
 
@@ -25,6 +26,8 @@ import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
  */
 public class RequestFactory {
 
+
+    public static final String EVENTS_PATH = "/events";
     public static final String AUTH_PATH = "/users/authenticate";
     public static final String GET_ROLES_PATH = "/users/getroles";
     public static final String LOGIN_PATH = "/users/login";
@@ -153,9 +156,13 @@ public class RequestFactory {
         }
     }
 
+    public static GsonGetRequest<EventsResponse> eventsRequest(Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
+        String url = BuildConfig.BASE_URL + EVENTS_PATH;
+        return new GsonGetRequest<>(url, EventsResponse.class, listener, errorListener);
+    }
 
     public static GsonPostRequest<LoginResponse> loguearUsuarioRequest(
-            DtoRol roles,
+            RoleDto roles,
             Response.Listener<LoginResponse> listener,
             Response.ErrorListener errorListener,
             Context context) {
@@ -198,6 +205,4 @@ public class RequestFactory {
             return new GsonPostRequest<>(url, jsonObject.toString(), LoginResponse.class, listener, errorListener);
         }
     }
-
-
 }

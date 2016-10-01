@@ -15,6 +15,8 @@ app.configure(function(){
 });
 
 app.get('/events', events.getEvents);
+app.post('/events', events.postEvents);
+
 
 //just a special get to test more easily
 //request it like: 'http://10.17.32.136:8081/events/1/detail/special_case?caso=un_json_cualquiera'

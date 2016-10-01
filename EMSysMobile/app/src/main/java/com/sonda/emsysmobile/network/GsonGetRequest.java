@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.network;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -8,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
@@ -19,6 +21,9 @@ public class GsonGetRequest<T> extends Request<T>
     private final Type type;
     private final Response.Listener<T> listener;
 
+    public static final String TAG = "VolleyRequest";
+    public String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
+
     public GsonGetRequest
     (
             @NonNull final String url,
@@ -29,7 +34,10 @@ public class GsonGetRequest<T> extends Request<T>
     {
         super(Method.GET, url, errorListener);
 
-        this.gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+
+        this.gson = gsonBuilder.create();
         this.type = type;
         this.listener = listener;
     }
@@ -43,6 +51,7 @@ public class GsonGetRequest<T> extends Request<T>
     protected Response<T> parseNetworkResponse(NetworkResponse response)
     {
         try {
+            Log.i(TAG, response.toString());
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {

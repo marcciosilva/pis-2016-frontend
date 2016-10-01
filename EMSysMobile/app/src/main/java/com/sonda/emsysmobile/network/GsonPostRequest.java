@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.UnsupportedEncodingException;
@@ -18,6 +19,8 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     private final Gson gson;
     private final Type type;
     private final Response.Listener<T> listener;
+
+    public String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
 
     public GsonPostRequest
     (
@@ -30,7 +33,10 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     {
         super(Method.POST, url, body, listener, errorListener);
 
-        this.gson = new Gson();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat(DATE_FORMAT);
+
+        this.gson = gsonBuilder.create();
         this.type = type;
         this.listener = listener;
     }

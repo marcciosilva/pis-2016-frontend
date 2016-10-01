@@ -32,5 +32,4 @@ public class LoginInnerResponseTest {
         mInnerResponse.setErrorMsg(altErrorMsg);
         assertTrue(mInnerResponse.getErrorMsg().equals(altErrorMsg));
     }
-
 }

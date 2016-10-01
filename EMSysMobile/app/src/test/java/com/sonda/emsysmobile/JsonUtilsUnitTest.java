@@ -3,14 +3,10 @@ package com.sonda.emsysmobile;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONObject;
 import org.junit.Test;
-import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
-import static com.sonda.emsysmobile.utils.JsonUtils.isSuccessfulResponse;
 import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -18,18 +14,6 @@ import static org.junit.Assert.assertTrue;
  */
 
 public class JsonUtilsUnitTest {
-
-    @Test
-    public void testIsSuccessfulResponse_correct() {
-        // Testeo que si el codigo de respuesta se clasifica correctamente.
-        assertTrue(isSuccessfulResponse(0));
-    }
-
-    @Test
-    public void testIsSuccessfulResponse_incorrect() {
-        // Testeo que si el codigo de respuesta se clasifica correctamente.
-        assertFalse(isSuccessfulResponse(1));
-    }
 
     @Test
     public void testGetErrorMessage_1() {
@@ -69,5 +53,4 @@ public class JsonUtilsUnitTest {
         String urlEncodedString = jsonToUrlEncodedString(jsonObject);
         assertTrue(urlEncodedString.equals("cod=2&response[msg]=Usuario no autenticado.&"));
     }
-
 }

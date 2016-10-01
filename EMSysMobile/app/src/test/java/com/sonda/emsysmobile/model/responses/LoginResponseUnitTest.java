@@ -11,7 +11,6 @@ import static junit.framework.Assert.assertTrue;
 /**
  * Created by marccio on 9/30/16.
  */
-
 public class LoginResponseUnitTest {
 
     private LoginInnerResponse mInnerResponse;
@@ -21,14 +20,14 @@ public class LoginResponseUnitTest {
     public void executeBeforeEach() {
         mLoginResponse = new LoginResponse();
         mInnerResponse = new LoginInnerResponse();
-        mLoginResponse.setResponse(mInnerResponse);
+        mLoginResponse.setInnerResponse(mInnerResponse);
         mInnerResponse.setErrorMsg("errorMsg");
-        mLoginResponse.setCodigoRespuesta("0");
+        mLoginResponse.setCode(0);
     }
 
     @Test
     public void testGetCodigoRespuesta() {
-        assertTrue(mLoginResponse.getCodigoRespuesta().equals("0"));
+        assertTrue(mLoginResponse.getCode() == 0);
     }
 
     @Test
@@ -44,8 +43,7 @@ public class LoginResponseUnitTest {
 
     @Test
     public void testGetErrorMessage_null() {
-        mLoginResponse.setResponse(null);
+        mLoginResponse.setInnerResponse(null);
         assertTrue(mLoginResponse.getErrorMessage().equals(""));
     }
-
 }
