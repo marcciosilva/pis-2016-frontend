@@ -35,4 +35,32 @@ public class DtoZona implements Serializable {
         return mNombreUnidadEjecutora;
     }
 
+    public void setNombre(String nombre) {
+        mNombre = nombre;
+    }
+
+    public void setId(String id) {
+        mId = id;
+    }
+
+    public void setNombreUnidadEjecutora(String nombreUnidadEjecutora) {
+        mNombreUnidadEjecutora = nombreUnidadEjecutora;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!DtoZona.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final DtoZona other = (DtoZona) obj;
+        if (mNombre != other.mNombre || mId != other.mId
+                || mNombreUnidadEjecutora != other.mNombreUnidadEjecutora) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.model;
+package com.sonda.emsysmobile.model.responses;
 
 import com.google.gson.annotations.SerializedName;
 import com.sonda.emsysmobile.model.core.DtoRol;

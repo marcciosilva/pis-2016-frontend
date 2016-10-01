@@ -45,6 +45,4 @@ public class EventDto {
 
     @SerializedName("departamento")
     public String department;
-
-
 }

@@ -15,8 +15,10 @@ import com.sonda.emsysmobile.model.EventsResponse;
 import com.sonda.emsysmobile.model.AuthResponse;
 import com.sonda.emsysmobile.model.GetRolesResponse;
 import com.sonda.emsysmobile.model.LoginResponse;
+import com.sonda.emsysmobile.model.responses.AuthResponse;
+import com.sonda.emsysmobile.model.responses.GetRolesResponse;
+import com.sonda.emsysmobile.model.responses.LoginResponse;
 import com.sonda.emsysmobile.model.core.DtoRol;
-import com.sonda.emsysmobile.model.core.DtoZona;
 
 import org.json.JSONArray;
 
