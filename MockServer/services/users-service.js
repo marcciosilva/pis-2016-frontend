@@ -13,6 +13,10 @@ var getroles_empty = require('../replies/getroles_empty.json');
 // login
 var login_success = require('../replies/login_success.json');
 var login_no_auth = require('../replies/login_no_auth.json');
+//logout
+var logout_success = require('../replies/logout_success.json');
+var logout_cod5 = require('../replies/logout_cod5.json');
+var logout_cod2 = require('../replies/logout_cod2.json');
 
 var getUsers = function (request, response, next) {
 	response.setHeader("content-type","application/json");
@@ -74,14 +78,35 @@ var postUserLoginFail = function(request, response, next) {
 	response.send(JSON.stringify(login_no_auth));
 };
 
+var postUserLogoutSuccess = function(request, response, next) {
+	response.setHeader("content-type","application/json");
+	response.send(JSON.stringify(logout_success));
+};
+
+var postUserLogoutCod2 = function(request, response, next) {
+	response.setHeader("content-type","application/json");
+	response.send(JSON.stringify(logout_cod2));
+};
+
+var postUserLogoutCod5 = function(request, response, next) {
+	response.setHeader("content-type","application/json");
+	response.send(JSON.stringify(logout_cod5));
+};
+
 exports.getUsers = getUsers;
 exports.postUserSuccess = postUserSuccess;
 exports.postUserIdFail = postUserIdFail;
 exports.postUserPassFail = postUserPassFail;
+//getroles
 exports.postUserGetRolesBoth = postUserGetRolesBoth;
 exports.postUserGetRolesFail = postUserGetRolesFail;
 exports.postUserGetRolesRecursos = postUserGetRolesRecursos;
 exports.postUserGetRolesZonas = postUserGetRolesZonas;
 exports.postUserGetRolesEmpty = postUserGetRolesEmpty;
+//login
 exports.postUserLoginSuccess = postUserLoginSuccess;
 exports.postUserLoginFail = postUserLoginFail;
+//logout
+exports.postUserLogoutSuccess = postUserLogoutSuccess;
+exports.postUserLogoutCod2 = postUserLogoutCod2;
+exports.postUserLogoutCod5 = postUserLogoutCod5;

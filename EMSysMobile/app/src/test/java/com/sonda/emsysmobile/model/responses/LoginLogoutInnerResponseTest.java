@@ -1,8 +1,5 @@
 package com.sonda.emsysmobile.model.responses;
 
-import com.sonda.emsysmobile.model.responses.LoginInnerResponse;
-import com.sonda.emsysmobile.model.responses.LoginResponse;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,13 +8,13 @@ import static org.junit.Assert.*;
 /**
  * Created by marccio on 9/30/16.
  */
-public class LoginInnerResponseTest {
+public class LoginLogoutInnerResponseTest {
 
-    private LoginInnerResponse mInnerResponse;
+    private LoginLogoutInnerResponse mInnerResponse;
 
     @Before
     public void executeBeforeEach() {
-        mInnerResponse = new LoginInnerResponse();
+        mInnerResponse = new LoginLogoutInnerResponse();
         mInnerResponse.setErrorMsg("errorMsg");
     }
 

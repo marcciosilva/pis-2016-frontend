@@ -48,7 +48,7 @@ public class ZoneDtoUnitTest {
 
     @Test
     public void testSetNombreUnidadEjecutora() {
-        mZoneDto.setIdentifier("ue2");
+        mZoneDto.setExecUnitName("ue2");
         assertTrue(mZoneDto.getExecUnitName().equals("ue2"));
     }
 
@@ -61,7 +61,7 @@ public class ZoneDtoUnitTest {
     @Test
     public void testEquals_differentClass() {
         ZoneDto zona = new ZoneDto(null, null, null);
-        ResourceDto recurso = new ResourceDto(null);
+        ResourceDto recurso = new ResourceDto(null, 0);
         assertFalse(zona.equals(recurso));
     }
 

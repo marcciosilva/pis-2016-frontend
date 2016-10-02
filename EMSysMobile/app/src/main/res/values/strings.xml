@@ -30,5 +30,13 @@
     <!--Zona recursos chooser-->
     <string name="button_continuar">Continuar</string>
 
+    <!--Menu superior-->
+    <string name="menu_title_string">tuvieja</string>
+    <string name="menu_create_event_string">Crear Evento</string>
+    <string name="menu_list_events_string">Lista de eventos</string>
+    <string name="menu_view_map_string">Ver mapa</string>
+    <string name="menu_external_service_string">Servicio externo</string>
+    <string name="menu_logout_string">Cerrar sesión</string>
+    <string name="test_content_description">Test content description</string>
 
 </resources>

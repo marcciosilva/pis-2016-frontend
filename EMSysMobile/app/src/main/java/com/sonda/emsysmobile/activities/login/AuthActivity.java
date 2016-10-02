@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -27,8 +29,6 @@ import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 
-import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
-
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
     private EditText mPassEditText;
@@ -46,20 +46,71 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mLoginButton = (Button) findViewById(R.id.button_login);
+        mLoginButton.setOnClickListener(this);
+        mLoginButton.setEnabled(false);
 
         mUserEditText = (EditText) findViewById(R.id.input_username);
+        mUserEditText.addTextChangedListener(new TextWatcher()  {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                updateLoginButton(mLoginButton, mUserEditText);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                updateLoginButton(mLoginButton, mUserEditText);
+            }
+        });
+
+
 
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
         mPassEditText.setTransformationMethod(new PasswordTransformationMethod());
+        mPassEditText.addTextChangedListener(new TextWatcher()  {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-        mLoginButton = (Button) findViewById(R.id.button_login);
-        mLoginButton.setOnClickListener(this);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                updateLoginButton(mLoginButton, mPassEditText);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                updateLoginButton(mLoginButton, mPassEditText);
+            }
+        });
+
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void updateLoginButton(Button mLoginButton, EditText editText) {
+        if (!checkEmptyEditText(editText)) {
+            mLoginButton.setEnabled(true);
+        } else {
+            mLoginButton.setEnabled(false);
+        }
+    }
+
+    private boolean checkEmptyEditText(EditText editText) {
+        if (editText.getText().toString().length() <= 0) {
+            editText.setError("Este campo no puede estar vacío.");
+            return true;
+        } else {
+            editText.setError(null);
+            return false;
+        }
     }
 
     @Override
@@ -85,7 +136,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "Token guardado en preferencias.");
                     goToRoleChooser();
                 } else {
-                    String errorMsg = getErrorMessage(0);
+                    String errorMsg = response.getInnerResponse().getMsg();
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     mProgressBar.setVisibility(View.GONE);
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.

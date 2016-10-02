@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.model.core;
 
 import com.google.gson.annotations.SerializedName;
+import com.sonda.emsysmobile.model.responses.ErrorResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
  * Created by marccio on 9/28/16.
  */
 
-public class RoleDto implements Serializable {
+public class RoleDto extends ErrorResponse implements Serializable {
 
     @SerializedName("zonas")
     private ArrayList<ZoneDto> zones = new ArrayList<>();

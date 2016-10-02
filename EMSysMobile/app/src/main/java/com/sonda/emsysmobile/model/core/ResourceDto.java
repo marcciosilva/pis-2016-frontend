@@ -13,8 +13,13 @@ public class ResourceDto implements Serializable {
     @SerializedName("codigo")
     private String code;
 
-    public ResourceDto(String code) {
+    @SerializedName("id")
+    private int id;
+
+
+    public ResourceDto(String code, int id) {
         this.code = code;
+        this.id = id;
     }
 
     public String getCode() {
@@ -23,6 +28,15 @@ public class ResourceDto implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -34,7 +48,7 @@ public class ResourceDto implements Serializable {
             return false;
         }
         final ResourceDto other = (ResourceDto) obj;
-        if (code != other.code) {
+        if (code != other.code || id != other.id) {
             return false;
         }
         return true;

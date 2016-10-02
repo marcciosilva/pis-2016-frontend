@@ -5,12 +5,12 @@
          {
             "id": "1124",
             "nombre": "zona 1",
-            "nombreUnidadEjecutora": "unidad 1"
+            "nombre_ue": "unidad 1"
          },
          {
             "id": "5231",
             "nombre": "zona 2",
-            "nombreUnidadEjecutora": "unidad 5"
+            "nombre_ue": "unidad 5"
          }
       ],
       "recursos": [

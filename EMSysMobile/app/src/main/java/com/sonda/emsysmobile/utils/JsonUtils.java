@@ -33,20 +33,24 @@ public class JsonUtils {
         return urlString;
     }
 
-    public static String getErrorMessage(int codigoRespuesta) {
-        switch (codigoRespuesta) {
-            case 1:
-                return "Credenciales no válidas.";
-            case 2:
-                return "El usuario no se encuentra autenticado.";
-            case 3:
-                return "Se ha seleccionado más de un recurso.";
-            case 4:
-                return "Se han seleecionado zonas y recursos a la vez.";
-            default:
-                break;
-        }
-        return "";
-    }
+//    public static String getErrorMessage(int codigoRespuesta) {
+//        switch (codigoRespuesta) {
+//            case 1:
+//                return "Credenciales no válidas.";
+//            case 2:
+//                return "El usuario no se encuentra autenticado.";
+//            case 3:
+//                return "Se ha seleccionado más de un recurso.";
+//            case 4:
+//                return "Se han seleecionado zonas y recursos a la vez.";
+//            case 5:
+//                return "El usuario tiene una operación no finalizada.";
+//            case 6:
+//                return "Usuario ya autenticado.";
+//            default:
+//                break;
+//        }
+//        return "";
+//    }
 
 }
