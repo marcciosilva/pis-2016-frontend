@@ -14,6 +14,7 @@ import com.sonda.emsysmobile.network.GsonPostRequest;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import static com.sonda.emsysmobile.BuildConfig.BASE_MOCK_URL;
 import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
 
 /**
@@ -32,7 +33,16 @@ public class EndpointService<T> {
     public void execute(int method, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
         boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
 
-        String url = BuildConfig.BASE_URL + path;
+        String url;
+        if (!debugMode) {
+            url = BuildConfig.BASE_URL;
+        } else {
+            url = BASE_MOCK_URL;
+        }
+
+
+
+        url += path;
         System.out.println(jsonObject.toString());
         String accesToken = getAccesToken();
 
@@ -42,7 +52,7 @@ public class EndpointService<T> {
 
         Log.d("IP_REQUEST", url);
         GsonPostRequest<T> request;
-        if(debugMode){
+        if(!debugMode){
             request = new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), type, listener, errorListener);
         } else {
             // En el mock server no se exige un string url encoded.

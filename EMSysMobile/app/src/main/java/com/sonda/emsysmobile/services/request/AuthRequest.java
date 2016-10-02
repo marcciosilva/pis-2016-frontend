@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.google.gson.JsonObject;
 
+import static com.sonda.emsysmobile.BuildConfig.*;
 import java.lang.reflect.Type;
 
 /**
@@ -16,16 +17,8 @@ public class AuthRequest<T> extends AbstractRequest<T> {
     private String user;
     private String password;
 
-    public static final String EVENTS_PATH = "/events";
-    public static final String AUTH_PATH = "/users/authenticate";
-    public static final String GET_ROLES_PATH = "/users/getroles";
-    public static final String LOGIN_PATH = "/users/login";
-    // Con el fin de probar cada caso de auth con Mock Server:
-    public static final String AUTH_SUCCESS_PATH = "/users/success";
-    public static final String AUTH_USERNAME_FAIL_PATH = "/users/username-fail";
-    public static final String AUTH_PASSWORD_FAIL_PATH = "/users/pass-fail";
 
-    private enum AuthCase {Success, UsernameFail, PassFail}
+    private enum AuthCase {Success, CredentialsFail, AlreadyAuth}
     private static final AuthCase authCase = AuthCase.Success;
 
     private static final String TAG = AuthRequest.class.getName();
@@ -37,26 +30,27 @@ public class AuthRequest<T> extends AbstractRequest<T> {
     @Override
     protected String getPath() {
         boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
-        String path =  AUTH_SUCCESS_PATH;
-        if (!debugMode) {
+        String path = null;
+        if (!debugMode){
+            path = AUTH_PATH;
+        } else {
             // Se utilizan web services del mock server con respuestas fijas.
             switch (authCase) {
                 case Success:
                     // Siempre se obtiene una respuesta exitosa frente a login.
                     path = AUTH_SUCCESS_PATH;
                     break;
-                case UsernameFail:
+                case CredentialsFail:
                     // Siempre se obtiene una respuesta fallida frente a login.
-                    path = AUTH_USERNAME_FAIL_PATH;
+                    path = AUTH_CREDENTIALS_FAIL;
                     break;
-                case PassFail:
+                case AlreadyAuth:
                     // Siempre se obtiene una respuesta fallida frente a login.
-                    path = AUTH_PASSWORD_FAIL_PATH;
+                    path = AUTH_ALREADY;
                     break;
                 default:
                     break;
             }
-
         }
         return path;
     }
