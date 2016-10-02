@@ -43,6 +43,8 @@ public class JsonUtils {
                 return "Se ha seleccionado más de un recurso.";
             case 4:
                 return "Se han seleecionado zonas y recursos a la vez.";
+            case 5:
+                return "El usuario tiene una operación no finalizada.";
             default:
                 break;
         }

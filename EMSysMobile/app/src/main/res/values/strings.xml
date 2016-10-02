@@ -30,5 +30,24 @@
     <!--Zona recursos chooser-->
     <string name="button_continuar">Continuar</string>
 
+    <!--Menu lateral-->
+
+    <string name="menu_event_list">Lista de eventos</string>
+    <string name="menu_map">Ver mapa</string>
+    <string name="menu_external_service">Servicio externo</string>
+    <string name="menu_notifications">Notificaciones</string>
+    <string name="menu_logout">Cerrar sesión</string>
+    <string-array name="navdrawer_array">
+        <item>@string/menu_event_list</item>
+        <item>@string/menu_notifications</item>
+        <item>@string/menu_external_service</item>
+        <item>@string/menu_notifications</item>
+        <item>@string/menu_logout</item>
+    </string-array>
+    <string name="drawer_open">Abrir menú de navegación</string>
+    <string name="drawer_close">Cerrar menú de navegación</string>
+    <string name="app_not_available">La aplicación no se encuentra disponible.</string>
+    <string name="action_websearch">Búsqueda web</string>
+    <string name="sample_descriptor">sample descriptor</string>
 
 </resources>

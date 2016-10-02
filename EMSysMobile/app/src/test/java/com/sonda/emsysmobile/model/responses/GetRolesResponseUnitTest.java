@@ -26,8 +26,8 @@ public class GetRolesResponseUnitTest {
         mGetRolesResponse.code = 0;
         ZoneDto mZona1 = new ZoneDto("zona 1", "1234", "ue1");
         ZoneDto mZona2 = new ZoneDto("zona 2", "8262", "ue2");
-        ResourceDto mRecurso1 = new ResourceDto("A123");
-        ResourceDto mRecurso2 = new ResourceDto("B621");
+        ResourceDto mRecurso1 = new ResourceDto("A123", 1);
+        ResourceDto mRecurso2 = new ResourceDto("B621", 2);
         ArrayList<ZoneDto> mZonas = new ArrayList<>();
         mZonas.add(mZona1);
         mZonas.add(mZona2);

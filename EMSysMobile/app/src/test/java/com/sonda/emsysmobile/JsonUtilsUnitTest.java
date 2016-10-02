@@ -42,7 +42,7 @@ public class JsonUtilsUnitTest {
     @Test
     public void testGetErrorMessage_other() {
         // Testeo que el mensaje de error sea el correcto.
-        assertTrue(getErrorMessage(5).equals(""));
+        assertTrue(getErrorMessage(6).equals(""));
     }
 
     @Test

@@ -6,16 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by marccio on 9/28/16.
  */
 
-public class LoginResponse extends EmsysResponse {
+public class LoginLogoutResponse extends EmsysResponse {
 
     @SerializedName("response")
-    private LoginInnerResponse innerResponse;
+    private LoginLogoutInnerResponse innerResponse;
 
-    public LoginInnerResponse getInnerResponse() {
+    public LoginLogoutInnerResponse getInnerResponse() {
         return innerResponse;
     }
 
-    public void setInnerResponse(LoginInnerResponse innerResponse) {
+    public void setInnerResponse(LoginLogoutInnerResponse innerResponse) {
         this.innerResponse = innerResponse;
     }
 

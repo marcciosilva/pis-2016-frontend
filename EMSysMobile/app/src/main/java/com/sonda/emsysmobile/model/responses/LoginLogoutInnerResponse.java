@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by marccio on 9/30/16.
  */
 
-public class LoginInnerResponse {
+public class LoginLogoutInnerResponse {
 
     @SerializedName("msg")
     private String errorMsg;
