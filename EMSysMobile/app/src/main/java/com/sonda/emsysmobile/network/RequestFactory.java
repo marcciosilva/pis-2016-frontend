@@ -27,7 +27,7 @@ import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
 public class RequestFactory {
 
 
-    private enum AuthCase {Success, UsernameFail, PassFail}
+    private enum AuthCase {Success, CredentialsFail, AlreadyAuth}
 
     private static final AuthCase authCase = AuthCase.Success;
 
@@ -71,13 +71,13 @@ public class RequestFactory {
                     // Siempre se obtiene una respuesta exitosa frente a login.
                     url = BASE_MOCK_URL + AUTH_SUCCESS_PATH;
                     break;
-                case UsernameFail:
+                case CredentialsFail:
                     // Siempre se obtiene una respuesta fallida frente a login.
-                    url = BASE_MOCK_URL + AUTH_USERNAME_FAIL_PATH;
+                    url = BASE_MOCK_URL + AUTH_CREDENTIALS_FAIL;
                     break;
-                case PassFail:
+                case AlreadyAuth:
                     // Siempre se obtiene una respuesta fallida frente a login.
-                    url = BASE_MOCK_URL + AUTH_PASSWORD_FAIL_PATH;
+                    url = BASE_MOCK_URL + AUTH_ALREADY;
                     break;
                 default:
                     break;

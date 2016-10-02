@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="menu_list_events_button" type="id">2</item>
+    <item name="menu_create_event_button" type="id">1</item>
+    <item name="menu_view_map_button" type="id">3</item>
+    <item name="menu_external_service_button" type="id">4</item>
+    <item name="menu_profile" type="id">5</item>
+    <item name="menu_logout_button" type="id">6</item>
+</resources>

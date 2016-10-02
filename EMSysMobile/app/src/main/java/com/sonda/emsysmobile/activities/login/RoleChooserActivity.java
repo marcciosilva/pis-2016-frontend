@@ -18,17 +18,15 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.HomeActivity;
-import com.sonda.emsysmobile.model.core.RoleDto;
-import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.model.core.ResourceDto;
+import com.sonda.emsysmobile.model.core.RoleDto;
 import com.sonda.emsysmobile.model.core.ZoneDto;
+import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 
 import java.util.ArrayList;
-
-import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
 
 /**
  * Created by marccio on 9/28/16.
@@ -96,7 +94,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                     callback.onSuccess(roles);
                 } else {
                     // Obtengo mensaje de error correspondiente al codigo.
-                    String errorMsg = getErrorMessage(responseCode);
+                    String errorMsg = response.getRoles().getMsg();
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
                     AlertDialog.Builder builder = new AlertDialog.Builder(

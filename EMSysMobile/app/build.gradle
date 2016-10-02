@@ -30,8 +30,8 @@ android {
             buildConfigField "String", "LOGOUT_PATH", "\"/users/logout\""
             // Con el fin de probar cada caso de auth con Mock Server:
             buildConfigField "String", "AUTH_SUCCESS_PATH", "\"/users/success\""
-            buildConfigField "String", "AUTH_USERNAME_FAIL_PATH", "\"/users/username-fail\""
-            buildConfigField "String", "AUTH_PASSWORD_FAIL_PATH", "\"/users/pass-fail\""
+            buildConfigField "String", "AUTH_CREDENTIALS_FAIL", "\"/users/username-fail\""
+            buildConfigField "String", "AUTH_ALREADY", "\"/users/pass-fail\""
             // Con el fin de probar cada caso de getRoles con Mock Server:
             buildConfigField "String", "GET_ROLES_BOTH_PATH", "\"/users/getroles-both\""
             buildConfigField "String", "GET_ROLES_FAIL_PATH", "\"/users/getroles-fail\""
