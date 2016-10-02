@@ -28,8 +28,6 @@ import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 
-import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
-
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
     private EditText mPassEditText;
@@ -135,7 +133,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d(TAG, "Token guardado en preferencias.");
                     goToRoleChooser();
                 } else {
-                    String errorMsg = getErrorMessage(0);
+                    String errorMsg = response.getInnerResponse().getMsg();
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     mProgressBar.setVisibility(View.GONE);
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.

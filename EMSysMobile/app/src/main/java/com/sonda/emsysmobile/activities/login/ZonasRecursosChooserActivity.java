@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
-
 /**
  * Created by marccio on 9/28/16.
  */
@@ -169,7 +167,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     callback.onSuccess();
                 } else {
                     // Obtengo mensaje de error correspondiente al codigo.
-                    String errorMsg = getErrorMessage(responseCode);
+                    String errorMsg = response.getInnerResponse().getMsg();
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
                     AlertDialog.Builder builder = new AlertDialog.Builder(

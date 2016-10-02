@@ -29,18 +29,18 @@ public class LoginLogoutResponseUnitTest {
 
     @Test
     public void testGetErrorMessage_nonNullResponse_nonNullErrorMsg() {
-        assertTrue(mLoginLogoutResponse.getErrorMessage().equals("errorMsg"));
+        assertTrue(mLoginLogoutResponse.getMessage().equals("errorMsg"));
     }
 
     @Test
     public void testGetErrorMessage_nonNullResponse_nullErrorMsg() {
         mLoginLogoutResponse.getInnerResponse().setErrorMsg(null);
-        assertTrue(mLoginLogoutResponse.getErrorMessage().equals(""));
+        assertTrue(mLoginLogoutResponse.getMessage().equals(""));
     }
 
     @Test
     public void testGetErrorMessage_null() {
         mLoginLogoutResponse.setInnerResponse(null);
-        assertTrue(mLoginLogoutResponse.getErrorMessage().equals(""));
+        assertTrue(mLoginLogoutResponse.getMessage().equals(""));
     }
 }

@@ -9,23 +9,14 @@ import com.google.gson.annotations.SerializedName;
 public class LoginLogoutResponse extends EmsysResponse {
 
     @SerializedName("response")
-    private LoginLogoutInnerResponse innerResponse;
+    private ErrorResponse innerResponse;
 
-    public LoginLogoutInnerResponse getInnerResponse() {
+    public ErrorResponse getInnerResponse() {
         return innerResponse;
     }
 
-    public void setInnerResponse(LoginLogoutInnerResponse innerResponse) {
+    public void setInnerResponse(ErrorResponse innerResponse) {
         this.innerResponse = innerResponse;
     }
 
-    public String getErrorMessage() {
-        if (innerResponse != null) {
-            if (innerResponse.getErrorMsg() != null) {
-                return innerResponse.getErrorMsg();
-            } else {
-                return "";
-            }
-        } return "";
-    }
 }

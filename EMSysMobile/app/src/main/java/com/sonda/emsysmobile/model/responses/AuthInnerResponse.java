@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by marccio on 9/30/16.
  */
 
-public class AuthInnerResponse {
+public class AuthInnerResponse extends ErrorResponse {
     @SerializedName("access_token")
     private String accessToken;
 

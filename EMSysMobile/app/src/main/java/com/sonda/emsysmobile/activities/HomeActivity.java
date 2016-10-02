@@ -5,8 +5,8 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,8 +22,6 @@ import com.sonda.emsysmobile.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
-
-import static com.sonda.emsysmobile.utils.JsonUtils.getErrorMessage;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -102,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (responseCode == 0) {
                     goToMain();
                 } else {
-                    String errorMsg = getErrorMessage(responseCode);
+                    String errorMsg = response.getInnerResponse().getMsg();
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
                     AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
                     builder.setTitle("Error");
