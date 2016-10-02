@@ -3,24 +3,30 @@
    "response": {
       "zonas": [
          {
-            "id": "1124",
-            "nombre": "zona 1",
-            "nombre_ue": "unidad 1"
+            "id": 1,
+            "nombre": "zona1",
+            "nombre_ue": "ue1"
          },
          {
-            "id": "5231",
-            "nombre": "zona 2",
-            "nombre_ue": "unidad 5"
+            "id": 2,
+            "nombre": "zona2",
+            "nombre_ue": "ue1"
+         },
+         {
+            "id": 3,
+            "nombre": "zona3",
+            "nombre_ue": "ue2"
+         },
+         {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
          }
       ],
       "recursos": [
          {
-            "id": 1,
-            "codigo": "A123F"
-         },
-         {
             "id": 2,
-            "codigo": "B8E32"
+            "codigo": "recurso2"
          }
       ]
    }
