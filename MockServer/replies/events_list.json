@@ -18,33 +18,101 @@
       "extensiones":[
         {
           "id":1,
-          "descripción":"descripción de la extension",
-          "estado":"estado_extensión",
+          "descripcion":"Extensión 1 - Una descripcion normal de esta extension",
+          "estado":"faltadespachar",
           "timeStamp":"24-09-2016 2:44:33",
-          "categoria":null,
+          "categoria":{
+            "id":5,
+            "codigo":"codigo5",
+            "clave":"clave5",
+            "prioridad":"alta",
+            "activo":true
+          },
           "zona":
            {
                   "id": 1,
-                  "nombre": "zona1",
+                  "nombre": "Zona 1",
                   "nombre_ue": "unidad1"
            }
         },
         {
           "id":2,
-          "descripción":"descripción de la extension2",
-          "estado":"estado_extensión",
+          "descripcion":"Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
+          "estado":"despachado",
           "timeStamp":"24-09-2016 2:44:33",
           "categoria":{
             "id":3,
             "codigo":"codigo2",
             "clave":"clave2",
-            "prioridad":"valor_prioridad",
+            "prioridad":"baja",
             "activo":true
           },
           "zona":
            {
-                  "id": 2,
-                  "nombre": "zona2",
+                  "id": 1,
+                  "nombre": "Zona 1",
+                  "nombre_ue": "unidad1"
+           }
+        }
+      ],
+      "categoria":{
+        "id":3,
+        "codigo":"codigo2",
+        "clave":"clave2",
+        "prioridad":"media",
+        "activo":true
+      }
+    },
+    {
+      "id":2,
+      "informante":"Juan Diego Alvarez",
+      "telefono":"+598 99 25 74 74",
+      "estado":"sent",
+      "time_stamp":"24-09-2016 2:44:33",
+      "fecha":"24-09-2016 2:44:33",
+      "en_proceso":true,
+      "origen":"El origen del evento",
+      "cod_sector":"1234",
+      "calle":"Baldomir",
+      "esquina":"Obligado",
+      "numero":"2448 - 203",
+      "departamento":"Montevideo",
+      "extensiones":[
+        {
+          "id":3,
+          "descripcion":"Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. ",
+          "estado":"cerrado",
+          "timeStamp":"24-09-2016 2:44:33",
+          "categoria":{
+            "id":5,
+            "codigo":"codigo5",
+            "clave":"clave5",
+            "prioridad":"media",
+            "activo":true
+          },
+          "zona":
+           {
+                  "id": 5,
+                  "nombre": "Zona 5",
+                  "nombre_ue": "unidad1"
+           }
+        },
+        {
+          "id":4,
+          "descripcion":"Cortita y al pie",
+          "estado":"faltadespachar",
+          "timeStamp":"24-09-2016 2:44:33",
+          "categoria":{
+            "id":3,
+            "codigo":"codigo2",
+            "clave":"clave2",
+            "prioridad":"alta",
+            "activo":true
+          },
+          "zona":
+           {
+                  "id": 6,
+                  "nombre": "Zona 6",
                   "nombre_ue": "unidad2"
            }
         }
@@ -53,7 +121,7 @@
         "id":3,
         "codigo":"codigo2",
         "clave":"clave2",
-        "prioridad":"valor_prioridad",
+        "prioridad":"media",
         "activo":true
       }
     }

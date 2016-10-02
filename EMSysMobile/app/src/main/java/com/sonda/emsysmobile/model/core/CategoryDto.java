@@ -17,7 +17,7 @@ public class CategoryDto {
     public String key;
 
     @SerializedName("prioridad")
-    public ExtensionPriority priority;
+    public CategoryPriority priority;
 
     @SerializedName("activo")
     public boolean isActive;
@@ -46,11 +46,11 @@ public class CategoryDto {
         this.key = key;
     }
 
-    public ExtensionPriority getPriority() {
+    public CategoryPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(ExtensionPriority priority) {
+    public void setPriority(CategoryPriority priority) {
         this.priority = priority;
     }
 
