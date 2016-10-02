@@ -19,7 +19,7 @@
         {
           "id":1,
           "descripcion":"Extensión 1 - Una descripcion normal de esta extension",
-          "estado":"estado_extensión",
+          "estado":"faltadespachar",
           "timeStamp":"24-09-2016 2:44:33",
           "categoria":{
             "id":5,
@@ -38,7 +38,7 @@
         {
           "id":2,
           "descripcion":"Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-          "estado":"estado_extensión",
+          "estado":"despachado",
           "timeStamp":"24-09-2016 2:44:33",
           "categoria":{
             "id":3,
@@ -81,7 +81,7 @@
         {
           "id":3,
           "descripcion":"Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. ",
-          "estado":"estado_extensión",
+          "estado":"cerrado",
           "timeStamp":"24-09-2016 2:44:33",
           "categoria":{
             "id":5,
@@ -100,7 +100,7 @@
         {
           "id":4,
           "descripcion":"Cortita y al pie",
-          "estado":"estado_extensión",
+          "estado":"faltadespachar",
           "timeStamp":"24-09-2016 2:44:33",
           "categoria":{
             "id":3,
