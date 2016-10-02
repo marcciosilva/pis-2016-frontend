@@ -67,8 +67,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
-
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
         mPassEditText.setTransformationMethod(new PasswordTransformationMethod());
@@ -116,9 +114,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_login) {
-//            login();
-            Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
+            login();
         }
     }
 

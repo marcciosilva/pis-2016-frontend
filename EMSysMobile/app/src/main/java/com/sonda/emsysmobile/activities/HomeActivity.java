@@ -1,11 +1,11 @@
 package com.sonda.emsysmobile.activities;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -71,15 +71,15 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 Bundle args = new Bundle();
                 args.putString("text", getString(R.string.menu_create_event_string));
                 fragment.setArguments(args);
-                replaceFragment(fragment);
+                replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
                 System.out.println("Tocaste " + getString(R.string.menu_list_events_string));
-                fragment = new TestFragment();
-                args = new Bundle();
-                args.putString("text", getString(R.string.menu_list_events_string));
-                fragment.setArguments(args);
-                replaceFragment(fragment);
+                ExtensionsFragment extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsFragment();
+                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
                 return true;
             case R.id.menu_external_service_button:
                 System.out.println("Tocaste " + getString(R.string.menu_external_service_string));
@@ -87,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 args = new Bundle();
                 args.putString("text", getString(R.string.menu_external_service_string));
                 fragment.setArguments(args);
-                replaceFragment(fragment);
+                replaceFragment(fragment, "fragment2");
                 return true;
             case R.id.menu_view_map_button:
                 System.out.println("Tocaste " + getString(R.string.menu_view_map_string));
@@ -95,7 +95,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 args = new Bundle();
                 args.putString("text", getString(R.string.menu_view_map_string));
                 fragment.setArguments(args);
-                replaceFragment(fragment);
+                replaceFragment(fragment, "fragment3");
                 return true;
             case R.id.menu_logout_button:
                 System.out.println("Tocaste " + getString(R.string.menu_logout_string));
@@ -103,7 +103,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 args = new Bundle();
                 args.putString("text", getString(R.string.menu_logout_string));
                 fragment.setArguments(args);
-                replaceFragment(fragment);
+                replaceFragment(fragment, "fragment4");
                 logout();
             default:
                 // Accion no reconocida, se lo delega a la superclase.
@@ -111,9 +111,8 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
         }
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    private void replaceFragment(Fragment fragment, String fragmentTAG) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.model.core.ExtensionDto;
@@ -29,6 +30,7 @@ public class ExtensionsFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
+    private ProgressBar mProgressBar;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,7 +48,6 @@ public class ExtensionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mExtensions = new ArrayList<>();
-        getEvents();
     }
 
     @Override
@@ -54,27 +55,31 @@ public class ExtensionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_extensions, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            mRecyclerView = (RecyclerView) view;
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        }
+        Context context = view.getContext();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_extensions);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        getEvents();
+
         return view;
     }
 
     private void getEvents() {
+        mProgressBar.setVisibility(View.VISIBLE);
         EventManager eventManager = EventManager.getIntance(getActivity().getApplicationContext());
         eventManager.fetchEvents(new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
+                mProgressBar.setVisibility(View.GONE);
                 mExtensions = extensions;
                 mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(ExtensionsFragment.this.getActivity(), mExtensions, mListener));
             }
 
             @Override
             public void onError(String errorMessage) {
-                //TODO: show alert with error messages
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
