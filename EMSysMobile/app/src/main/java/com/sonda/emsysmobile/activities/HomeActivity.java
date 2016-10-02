@@ -1,11 +1,11 @@
 package com.sonda.emsysmobile.activities;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,21 +14,41 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.fragments.ExtensionsFragment;
+import com.sonda.emsysmobile.model.core.ExtensionDto;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements ExtensionsFragment.OnListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.fragment_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+
+            // Create a new Fragment to be placed in the activity layout
+            ExtensionsFragment extensionsFragment = new ExtensionsFragment();
+
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, extensionsFragment).commit();
+        }
     }
 
     @Override
@@ -36,6 +56,10 @@ public class HomeActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.top_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(ExtensionDto item) {
     }
 
     @Override
@@ -47,17 +71,15 @@ public class HomeActivity extends AppCompatActivity {
                 Bundle args = new Bundle();
                 args.putString("text", getString(R.string.menu_create_event_string));
                 fragment.setArguments(args);
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
                 System.out.println("Tocaste " + getString(R.string.menu_list_events_string));
-                fragment = new TestFragment();
-                args = new Bundle();
-                args.putString("text", getString(R.string.menu_list_events_string));
-                fragment.setArguments(args);
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                ExtensionsFragment extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsFragment();
+                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
                 return true;
             case R.id.menu_external_service_button:
                 System.out.println("Tocaste " + getString(R.string.menu_external_service_string));
@@ -65,8 +87,7 @@ public class HomeActivity extends AppCompatActivity {
                 args = new Bundle();
                 args.putString("text", getString(R.string.menu_external_service_string));
                 fragment.setArguments(args);
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                replaceFragment(fragment, "fragment2");
                 return true;
             case R.id.menu_view_map_button:
                 System.out.println("Tocaste " + getString(R.string.menu_view_map_string));
@@ -74,8 +95,7 @@ public class HomeActivity extends AppCompatActivity {
                 args = new Bundle();
                 args.putString("text", getString(R.string.menu_view_map_string));
                 fragment.setArguments(args);
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                replaceFragment(fragment, "fragment3");
                 return true;
             case R.id.menu_logout_button:
                 System.out.println("Tocaste " + getString(R.string.menu_logout_string));
@@ -83,13 +103,16 @@ public class HomeActivity extends AppCompatActivity {
                 args = new Bundle();
                 args.putString("text", getString(R.string.menu_logout_string));
                 fragment.setArguments(args);
-                fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+                replaceFragment(fragment, "fragment4");
                 logout();
             default:
                 // Accion no reconocida, se lo delega a la superclase.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void replaceFragment(Fragment fragment, String fragmentTAG) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {
@@ -131,7 +154,6 @@ public class HomeActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-
 
     /**
      * Fragment that appears in the "content_frame", shows a planet

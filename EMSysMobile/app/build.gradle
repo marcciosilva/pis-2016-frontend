@@ -60,6 +60,8 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.google.android.gms:play-services-appindexing:9.4.0'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
 }
 
 repositories {

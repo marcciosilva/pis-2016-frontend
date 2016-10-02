@@ -142,7 +142,7 @@ public class RequestFactory {
     }
 
     public static GsonGetRequest<EventsResponse> eventsRequest(Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
-        String url = BASE_URL + EVENTS_PATH;
+        String url = BASE_MOCK_URL + EVENTS_PATH;
         return new GsonGetRequest<>(url, EventsResponse.class, listener, errorListener);
     }
 
