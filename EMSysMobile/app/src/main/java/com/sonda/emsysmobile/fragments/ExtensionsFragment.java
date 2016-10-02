@@ -3,17 +3,20 @@ package com.sonda.emsysmobile.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.model.core.ExtensionDto;
+import com.sonda.emsysmobile.network.ApiCallback;
 import com.sonda.emsysmobile.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.dummy.DummyContent;
-import com.sonda.emsysmobile.dummy.DummyContent.DummyItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -24,6 +27,8 @@ import com.sonda.emsysmobile.dummy.DummyContent.DummyItem;
 public class ExtensionsFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView mRecyclerView;
+    private List<ExtensionDto> mExtensions;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -40,22 +45,38 @@ public class ExtensionsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        
+        mExtensions = new ArrayList<>();
+        getEvents();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_extension_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_extensions, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new ExtensionRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            mRecyclerView = (RecyclerView) view;
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         }
         return view;
+    }
+
+    private void getEvents() {
+        EventManager eventManager = EventManager.getIntance(getActivity().getApplicationContext());
+        eventManager.fetchEvents(new ApiCallback<List<ExtensionDto>>() {
+            @Override
+            public void onSuccess(List<ExtensionDto> extensions) {
+                mExtensions = extensions;
+                mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(ExtensionsFragment.this.getActivity(), mExtensions, mListener));
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                //TODO: show alert with error messages
+            }
+        });
     }
 
     @Override
@@ -86,7 +107,6 @@ public class ExtensionsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(ExtensionDto item);
     }
 }

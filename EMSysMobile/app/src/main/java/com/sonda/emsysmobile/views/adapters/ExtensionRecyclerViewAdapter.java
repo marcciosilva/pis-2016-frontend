@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.views.adapters;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +10,22 @@ import android.widget.TextView;
 
 import com.sonda.emsysmobile.fragments.ExtensionsFragment.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.dummy.DummyContent.DummyItem;
+import com.sonda.emsysmobile.model.core.CategoryPriority;
+import com.sonda.emsysmobile.model.core.ExtensionDto;
+import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<ExtensionRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<ExtensionDto> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private Context mContext;
 
-    public ExtensionRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public ExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions, OnListFragmentInteractionListener listener) {
+        mValues = extensions;
         mListener = listener;
+        mContext = context;
     }
 
     @Override
@@ -36,10 +37,20 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
-
+        ExtensionDto extension = mValues.get(position);
+        String idAndZoneString = "#" + extension.getIdentifier() + " - " + extension.getZone().getName();
+        CategoryPriority priority = extension.getCategory().getPriority();
+        holder.mItem = extension;
+        holder.mIdAndZoneTextView.setText(idAndZoneString);
+        holder.mDescriptionTextView.setText(extension.getDescription());
+        holder.mDateTextView.setText(DateUtils.dateToString(extension.getTimeStamp()));
+        if (priority == CategoryPriority.HIGH) {
+            holder.mPriorityView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_high));
+        } else if (priority == CategoryPriority.MEDIUM) {
+            holder.mPriorityView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_medium));
+        } else if (priority == CategoryPriority.LOW) {
+            holder.mPriorityView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_low));
+        }
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,20 +70,24 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mIdAndZoneTextView;
+        public final TextView mDescriptionTextView;
+        public final TextView mDateTextView;
+        public final View mPriorityView;
+        public ExtensionDto mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
+            mDescriptionTextView = (TextView) view.findViewById(R.id.label_description);
+            mPriorityView = view.findViewById(R.id.view_priority_mark);
+            mDateTextView = (TextView) view.findViewById(R.id.label_date);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mIdAndZoneTextView.getText() + "'";
         }
     }
 }

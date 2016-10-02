@@ -70,6 +70,8 @@ public class EventManager {
     }
 
     private void setEvents(List<EventDto> events) {
+        mEvents = events;
+        mExtensions.clear();
         for (EventDto event: events) {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
