@@ -14,12 +14,12 @@ public class ZoneDto implements Serializable {
     private String name;
 
     @SerializedName("id")
-    private String identifier;
+    private int identifier;
 
     @SerializedName("nombre_ue")
     private String execUnitName;
 
-    public ZoneDto(String name, String identifier, String execUnitName) {
+    public ZoneDto(String name, int identifier, String execUnitName) {
         this.name = name;
         this.identifier = identifier;
         this.execUnitName = execUnitName;
@@ -33,11 +33,11 @@ public class ZoneDto implements Serializable {
         this.name = name;
     }
 
-    public String getIdentifier() {
+    public int getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(String identifier) {
+    public void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 

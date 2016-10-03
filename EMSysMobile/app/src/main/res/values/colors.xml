@@ -32,4 +32,9 @@
     <color name="gray_dark">#5F5F5F</color>
     <color name="black">#323232</color>
 
+    <!-- Priorities colors -->
+    <color name="priority_high">#FF0000</color>
+    <color name="priority_medium">#ffb300</color>
+    <color name="priority_low">#15b62f</color>
+
 </resources>

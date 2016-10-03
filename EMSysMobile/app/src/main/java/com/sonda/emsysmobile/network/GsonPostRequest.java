@@ -20,7 +20,7 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     private final Type type;
     private final Response.Listener<T> listener;
 
-    public String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
+    public String DATE_FORMAT = "dd-MM-yyyy'T'hh:mm:ss.SSS";
 
     public GsonPostRequest
     (

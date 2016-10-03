@@ -2,12 +2,39 @@ package com.sonda.emsysmobile.network;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.R;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by ssainz on 8/28/16.
@@ -50,6 +77,51 @@ public class AppRequestQueue {
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+            if (BuildConfig.BASE_URL.contains("https")) {
+                HurlStack hurlStack = new HurlStack() {
+                    @Override
+                    protected HttpURLConnection createConnection(URL url) throws IOException {
+                        HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
+                        try {
+                            TrustManager[] trustAllCerts = new TrustManager[]{
+                                    new X509TrustManager() {
+                                        public X509Certificate[] getAcceptedIssuers() {
+                                            X509Certificate[] myTrustedAnchors = new X509Certificate[0];
+                                            return myTrustedAnchors;
+                                        }
+
+                                        @Override
+                                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                                        }
+
+                                        @Override
+                                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                                        }
+                                    }
+                            };
+                            SSLContext sc = SSLContext.getInstance("SSL");
+                            sc.init(null, trustAllCerts, new SecureRandom());
+                            httpsURLConnection.setSSLSocketFactory(sc.getSocketFactory());
+                            httpsURLConnection.setHostnameVerifier(new HostnameVerifier() {
+                                @Override
+                                public boolean verify(String arg0, SSLSession arg1) {
+                                    return true;
+                                }
+                            });
+
+
+                        } catch (KeyManagementException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchAlgorithmException e) {
+                            e.printStackTrace();
+                        }
+                        return httpsURLConnection;
+                    }
+                };
+                mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext(), hurlStack);
+            } else {
+                mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+            }
         }
         return mRequestQueue;
     }

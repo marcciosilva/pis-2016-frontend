@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.sonda.emsysmobile.fragments.ExtensionsFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/blue_progress_bar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list_extensions"
+        android:name="com.sonda.emsysmobile.ExtensionsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".fragments.ExtensionsFragment"
+        tools:listitem="@layout/row_extension" />
+
+</FrameLayout>
+
+
+

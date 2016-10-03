@@ -2,8 +2,10 @@ package com.sonda.emsysmobile.network;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
+import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -17,6 +19,9 @@ import com.sonda.emsysmobile.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.model.core.RoleDto;
 
 import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.sonda.emsysmobile.BuildConfig.*;
 import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
@@ -89,13 +94,7 @@ public class RequestFactory {
         jsonObject.addProperty("username", username);
         Log.d(TAG, "Request body:");
         Log.d(TAG, jsonObject.toString());
-        //Hay que mandar el string url encoded.
-        if (!debugMode) {
-            return new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), AuthResponse.class, listener, errorListener);
-        } else {
-            // En el mock server no se exige un string url encoded.
-            return new GsonPostRequest<>(url, jsonObject.toString(), AuthResponse.class, listener, errorListener);
-        }
+        return new GsonPostRequest<>(url, jsonObject.toString(), AuthResponse.class, listener, errorListener);
     }
 
     public static GsonPostRequest<GetRolesResponse> getRolesRequest(Response.Listener<GetRolesResponse> listener,
@@ -130,23 +129,30 @@ public class RequestFactory {
             }
 
         }
-        JsonObject jsonObject = new JsonObject();
+        final Map<String, String> mHeaders = new ArrayMap<>();
         // Agrego token de usuario.
-        jsonObject.addProperty("authorization", getAuthToken(context));
-        Log.d(TAG, "Request body:");
-        Log.d(TAG, jsonObject.toString());
+        mHeaders.put("auth", getAuthToken(context));
         //Hay que mandar el string url encoded.
-        if (!debugMode) {
-            return new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), GetRolesResponse.class, listener, errorListener);
-        } else {
-            // En el mock server no se exige un string url encoded.
-            return new GsonPostRequest<>(url, jsonObject.toString(), GetRolesResponse.class, listener, errorListener);
-        }
+        return new GsonPostRequest(url, null, GetRolesResponse.class, listener, errorListener){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
     }
 
-    public static GsonGetRequest<EventsResponse> eventsRequest(Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
+    public static GsonGetRequest<EventsResponse> eventsRequest(Context context, Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
         String url = BASE_URL + EVENTS_PATH;
-        return new GsonGetRequest<>(url, EventsResponse.class, listener, errorListener);
+        final Map<String, String> mHeaders = new ArrayMap<>();
+        // Agrego token de usuario.
+        mHeaders.put("auth", getAuthToken(context));
+        //Hay que mandar el string url encoded.
+        return new GsonGetRequest(url, EventsResponse.class, listener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
     }
 
     public static GsonPostRequest<LoginLogoutResponse> loguearUsuarioRequest(
@@ -177,20 +183,21 @@ public class RequestFactory {
         // Se prepara el mensaje a enviar.
         String json = new Gson().toJson(roles);
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(json);
-        // Agrego token de usuario.
-        jsonObject.addProperty("authorization", getAuthToken(context));
         // Se imprime string en json.
         Log.d(TAG, "Request body:");
         Log.d(TAG, jsonObject.toString());
-        //Hay que mandar el string url encoded.
-        if (!debugMode) {
-            return new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), LoginLogoutResponse.class, listener, errorListener);
-        } else {
-            // En el mock server no se exige un string url encoded.
-            return new GsonPostRequest<>(url, jsonObject.toString(), LoginLogoutResponse.class, listener, errorListener);
-        }
-    }
+        final Map<String, String> mHeaders = new ArrayMap<>();
 
+        // Agrego token de usuario.
+        mHeaders.put("auth", getAuthToken(context));
+        //Hay que mandar el string url encoded.
+        return new GsonPostRequest(url, jsonObject.toString(), LoginLogoutResponse.class, listener, errorListener){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
+    }
 
     public static GsonPostRequest<LoginLogoutResponse> logoutRequest(
             Response.Listener<LoginLogoutResponse> listener,
@@ -221,22 +228,24 @@ public class RequestFactory {
         // Se prepara el mensaje a enviar.
         JsonObject jsonObject = new JsonObject();
         // Agrego token de usuario.
-        jsonObject.addProperty("authorization", getAuthToken(context));
+        jsonObject.addProperty("auth", getAuthToken(context));
         // Se imprime string en json.
         Log.d(TAG, "Request body:");
         Log.d(TAG, jsonObject.toString());
+        final Map<String, String> mHeaders = new ArrayMap<>();
+        mHeaders.put("auth", getAuthToken(context));
         //Hay que mandar el string url encoded.
-        if (!debugMode) {
-            return new GsonPostRequest<>(url, jsonToUrlEncodedString(jsonObject), LoginLogoutResponse.class, listener, errorListener);
-        } else {
-            // En el mock server no se exige un string url encoded.
-            return new GsonPostRequest<>(url, jsonObject.toString(), LoginLogoutResponse.class, listener, errorListener);
-        }
+        return new GsonPostRequest(url, jsonObject.toString(), LoginLogoutResponse.class, listener, errorListener){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
     }
 
     private static String getAuthToken(Context context) {
-        return "Bearer " + PreferenceManager.
-                getDefaultSharedPreferences(context).getString("access_token", "");
+        String token = PreferenceManager.getDefaultSharedPreferences(context).getString("access_token", "");
+        Log.d(TAG, "El token es: " + token);
+        return token;
     }
-
 }

@@ -18,7 +18,7 @@ public class ExtensionDto {
     @SerializedName("estado")
     public ExtensionState extensionState;
 
-    @SerializedName("timeStamp")
+    @SerializedName("time_stamp")
     public Date timeStamp;
 
     @SerializedName("categoria")
@@ -26,6 +26,8 @@ public class ExtensionDto {
 
     @SerializedName("zona")
     public ZoneDto zone;
+
+    private transient EventDto event;
 
     public int getIdentifier() {
         return identifier;
@@ -65,5 +67,21 @@ public class ExtensionDto {
 
     public void setCategory(CategoryDto category) {
         this.category = category;
+    }
+
+    public ZoneDto getZone() {
+        return zone;
+    }
+
+    public void setZone(ZoneDto zone) {
+        this.zone = zone;
+    }
+
+    public EventDto getEvent() {
+        return event;
+    }
+
+    public void setEvent(EventDto event) {
+        this.event = event;
     }
 }

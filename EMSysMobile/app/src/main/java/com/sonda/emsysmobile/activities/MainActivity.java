@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.activities.login.AuthActivity;
 import com.sonda.emsysmobile.persistence.DatabaseTest;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // Agregar preferencia de modo debug.
-        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", true).commit();
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", BuildConfig.USING_MOCK_SERVER).commit();
 
         mGoToAppButton = (Button) findViewById(R.id.button_goto_app);
         mGoToAppButton.setOnClickListener(this);

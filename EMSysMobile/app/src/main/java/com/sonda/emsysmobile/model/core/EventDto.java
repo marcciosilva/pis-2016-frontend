@@ -147,4 +147,20 @@ public class EventDto {
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    public List<ExtensionDto> getExtensions() {
+        return extensions;
+    }
+
+    public void setExtensions(List<ExtensionDto> extensions) {
+        this.extensions = extensions;
+    }
+
+    public CategoryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryDto category) {
+        this.category = category;
+    }
 }

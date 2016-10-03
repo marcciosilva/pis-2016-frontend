@@ -127,7 +127,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                             nombre = matcher.group(2);
                             nombreUE = matcher.group(3);
                         }
-                        zonas.add(new ZoneDto(nombre, id, nombreUE));
+                        zonas.add(new ZoneDto(nombre, Integer.parseInt(id), nombreUE));
                     }
                 } else if (mRecursoButton.isEnabled()){
                     // Debe haber un solo recurso en los items.

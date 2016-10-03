@@ -22,7 +22,7 @@ public class GsonGetRequest<T> extends Request<T>
     private final Response.Listener<T> listener;
 
     public static final String TAG = "VolleyRequest";
-    public String DATE_FORMAT = "dd-MM-yyyy hh:mm:ss";
+    public String DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS";
 
     public GsonGetRequest
     (
@@ -51,7 +51,6 @@ public class GsonGetRequest<T> extends Request<T>
     protected Response<T> parseNetworkResponse(NetworkResponse response)
     {
         try {
-            Log.i(TAG, response.toString());
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {

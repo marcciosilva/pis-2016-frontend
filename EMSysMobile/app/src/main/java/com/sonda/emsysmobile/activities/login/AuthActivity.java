@@ -23,6 +23,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.activities.HomeActivity;
 import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
@@ -66,8 +67,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 updateLoginButton(mLoginButton, mUserEditText);
             }
         });
-
-
 
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
