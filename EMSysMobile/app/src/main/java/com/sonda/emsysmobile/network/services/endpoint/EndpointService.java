@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.services.endpoint;
+package com.sonda.emsysmobile.network.services.endpoint;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -9,8 +9,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.google.gson.JsonObject;
 import com.sonda.emsysmobile.BuildConfig;
-import com.sonda.emsysmobile.model.responses.AuthResponse;
-import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 

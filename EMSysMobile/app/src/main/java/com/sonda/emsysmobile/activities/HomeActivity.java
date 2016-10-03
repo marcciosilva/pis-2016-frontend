@@ -1,11 +1,13 @@
 package com.sonda.emsysmobile.activities;
 
 import android.app.AlertDialog;
-import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,17 +15,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.model.core.ExtensionDto;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.model.responses.LoginLogoutResponse;
-import com.sonda.emsysmobile.network.AppRequestQueue;
-import com.sonda.emsysmobile.network.GsonPostRequest;
-import com.sonda.emsysmobile.network.RequestFactory;
+import com.sonda.emsysmobile.network.services.request.LogoutRequest;
 
 public class HomeActivity extends AppCompatActivity implements ExtensionsFragment.OnListFragmentInteractionListener {
+
+    private static final String TAG = HomeActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,11 +118,14 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     }
 
     private void logout() {
-        GsonPostRequest<LoginLogoutResponse> request = RequestFactory.logoutRequest(new Response.Listener<LoginLogoutResponse>() {
+        LogoutRequest<LoginLogoutResponse> request = new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
+        request.setListener(new Response.Listener<LoginLogoutResponse>() {
             @Override
             public void onResponse(LoginLogoutResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == 0) {
+                    // Se reinicia el token de autenticacion.
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", "").commit();
                     goToMain();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
@@ -140,12 +146,14 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                     builder.show();
                 }
             }
-        }, new Response.ErrorListener() {
+        });
+        request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error en la comunicación con el servidor.");
             }
-        }, getApplicationContext());
-        AppRequestQueue.getInstance(this).addToRequestQueue(request);
+        });
+        request.execute();
     }
 
     private void goToMain() {

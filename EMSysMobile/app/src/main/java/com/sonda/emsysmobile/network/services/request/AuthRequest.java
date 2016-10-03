@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.services.request;
+package com.sonda.emsysmobile.network.services.request;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

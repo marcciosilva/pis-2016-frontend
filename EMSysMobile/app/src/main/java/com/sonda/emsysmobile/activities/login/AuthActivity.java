@@ -23,12 +23,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.activities.HomeActivity;
 import com.sonda.emsysmobile.model.responses.AuthResponse;
-import com.sonda.emsysmobile.network.AppRequestQueue;
-import com.sonda.emsysmobile.network.GsonPostRequest;
-import com.sonda.emsysmobile.network.RequestFactory;
-import com.sonda.emsysmobile.services.request.AuthRequest;
+import com.sonda.emsysmobile.network.services.request.AuthRequest;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
@@ -155,7 +151,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                 mProgressBar.setVisibility(View.GONE);
             }
         });
-        authRequest.excecute();
+        authRequest.execute();
     }
 
 

@@ -26,9 +26,7 @@ import com.sonda.emsysmobile.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.model.core.ResourceDto;
 import com.sonda.emsysmobile.model.core.RoleDto;
 import com.sonda.emsysmobile.model.core.ZoneDto;
-import com.sonda.emsysmobile.network.AppRequestQueue;
-import com.sonda.emsysmobile.network.GsonPostRequest;
-import com.sonda.emsysmobile.network.RequestFactory;
+import com.sonda.emsysmobile.network.services.request.LoginRequest;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -158,7 +156,8 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     }
 
     private void loginUser(RoleDto roles, final VolleyCallbackLoginUser callback) {
-        GsonPostRequest<LoginLogoutResponse> request = RequestFactory.loguearUsuarioRequest(roles, new Response.Listener<LoginLogoutResponse>() {
+        LoginRequest<LoginLogoutResponse> request = new LoginRequest<>(getApplicationContext(), LoginLogoutResponse.class, roles);
+        request.setListener(new Response.Listener<LoginLogoutResponse>() {
             @Override
             public void onResponse(LoginLogoutResponse response) {
                 // Parseo el codigo de respuesta y determino el exito de la operacion.
@@ -179,13 +178,14 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     builder.show();
                 }
             }
-        }, new Response.ErrorListener() {
+        });
+        request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error en la comunicación con el servidor.");
             }
-        }, getApplicationContext());
-        AppRequestQueue.getInstance(this).addToRequestQueue(request);
+        });
+        request.execute();
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.services.request;
+package com.sonda.emsysmobile.network.services.request;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
-import com.sonda.emsysmobile.services.endpoint.EndpointService;
+import com.sonda.emsysmobile.network.services.endpoint.EndpointService;
 
 import java.lang.reflect.Type;
 
@@ -33,7 +33,7 @@ public abstract class AbstractRequest<T> {
         this.type = type;
     }
 
-    public void excecute () {
+    public void execute() {
         String path = getPath();
         JsonObject jsonObject = getBody();
         Response.Listener listener = getListener();
