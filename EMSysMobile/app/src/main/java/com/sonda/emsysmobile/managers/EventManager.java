@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -46,7 +47,7 @@ public class EventManager {
     }
 
     public void fetchEvents(final ApiCallback<List<ExtensionDto>> callback) {
-        Request eventsRequest = RequestFactory.eventsRequest(new Response.Listener<EventsResponse>() {
+        Request eventsRequest = RequestFactory.eventsRequest(mContext, new Response.Listener<EventsResponse>() {
             @Override
             public void onResponse(EventsResponse response) {
                 int responseCode = response.getCode();
@@ -63,6 +64,7 @@ public class EventManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.i("Tag", error.toString());
                 callback.onError(mContext.getString(R.string.error_generic));
             }
         });

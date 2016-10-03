@@ -18,7 +18,7 @@ public class ExtensionDto {
     @SerializedName("estado")
     public ExtensionState extensionState;
 
-    @SerializedName("timeStamp")
+    @SerializedName("time_stamp")
     public Date timeStamp;
 
     @SerializedName("categoria")

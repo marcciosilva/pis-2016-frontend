@@ -141,9 +141,18 @@ public class RequestFactory {
         };
     }
 
-    public static GsonGetRequest<EventsResponse> eventsRequest(Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
-        String url = BASE_MOCK_URL + EVENTS_PATH;
-        return new GsonGetRequest<>(url, EventsResponse.class, listener, errorListener);
+    public static GsonGetRequest<EventsResponse> eventsRequest(Context context, Response.Listener<EventsResponse> listener, Response.ErrorListener errorListener) {
+        String url = BASE_URL + EVENTS_PATH;
+        final Map<String, String> mHeaders = new ArrayMap<>();
+        // Agrego token de usuario.
+        mHeaders.put("auth", getAuthToken(context));
+        //Hay que mandar el string url encoded.
+        return new GsonGetRequest(url, EventsResponse.class, listener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHeaders;
+            }
+        };
     }
 
     public static GsonPostRequest<LoginLogoutResponse> loguearUsuarioRequest(
@@ -178,6 +187,7 @@ public class RequestFactory {
         Log.d(TAG, "Request body:");
         Log.d(TAG, jsonObject.toString());
         final Map<String, String> mHeaders = new ArrayMap<>();
+
         // Agrego token de usuario.
         mHeaders.put("auth", getAuthToken(context));
         //Hay que mandar el string url encoded.
@@ -187,9 +197,7 @@ public class RequestFactory {
                 return mHeaders;
             }
         };
-//        }
     }
-
 
     public static GsonPostRequest<LoginLogoutResponse> logoutRequest(
             Response.Listener<LoginLogoutResponse> listener,
@@ -240,5 +248,4 @@ public class RequestFactory {
         Log.d(TAG, "El token es: " + token);
         return token;
     }
-
 }

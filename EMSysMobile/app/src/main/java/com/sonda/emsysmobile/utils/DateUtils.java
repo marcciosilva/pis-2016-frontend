@@ -8,8 +8,14 @@ import java.util.Date;
  * Created by ssainz on 10/2/16.
  */
 public class DateUtils {
+
+    public static final String SIMPLE_FORMAT = "MM/dd/yyyy HH:mm:ss";
+
     public static String dateToString(Date date) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-        return df.format(date);
+        if (date != null) {
+            DateFormat df = new SimpleDateFormat(SIMPLE_FORMAT);
+            return df.format(date);
+        }
+        return "";
     }
 }

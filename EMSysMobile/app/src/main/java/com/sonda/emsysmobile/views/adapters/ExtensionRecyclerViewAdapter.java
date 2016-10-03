@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sonda.emsysmobile.fragments.ExtensionsFragment.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.model.core.CategoryDto;
 import com.sonda.emsysmobile.model.core.CategoryPriority;
 import com.sonda.emsysmobile.model.core.ExtensionDto;
 import com.sonda.emsysmobile.utils.DateUtils;
@@ -38,8 +39,12 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ExtensionDto extension = mValues.get(position);
-        String idAndZoneString = "#" + extension.getIdentifier() + " - " + extension.getZone().getName();
-        CategoryPriority priority = extension.getCategory().getPriority();
+        String idAndZoneString = "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
+        CategoryDto category = extension.getCategory();
+        if (category == null) {
+            category = extension.getEvent().getCategory();
+        }
+        CategoryPriority priority = category.getPriority();
         holder.mItem = extension;
         holder.mIdAndZoneTextView.setText(idAndZoneString);
         holder.mDescriptionTextView.setText(extension.getDescription());
