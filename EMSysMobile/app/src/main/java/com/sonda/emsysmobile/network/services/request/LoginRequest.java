@@ -30,7 +30,7 @@ public class LoginRequest<T> extends AbstractRequest<T> {
     private static final String TAG = LoginRequest.class.getName();
 
     public LoginRequest(Context context, Type type, RoleDto roles) {
-        super(context, type);
+        super(context, type, RequestType.POST);
         this.roles = roles;
     }
 
@@ -40,15 +40,15 @@ public class LoginRequest<T> extends AbstractRequest<T> {
         String path = null;
         if (!debugMode) {
             // Se envia request al path de getRoles que ofrece el web service.
-            path = BASE_URL + LOGIN_PATH;
+            path = LOGIN_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
             switch (loginCase) {
                 case Success:
-                    path = BASE_MOCK_URL + LOGIN_SUCCESS_PATH;
+                    path = LOGIN_SUCCESS_PATH;
                     break;
                 case Fail:
-                    path = BASE_MOCK_URL + LOGIN_FAIL_PATH;
+                    path = LOGIN_FAIL_PATH;
                     break;
                 default:
                     break;

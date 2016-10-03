@@ -25,7 +25,7 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
     private static final LogoutCase logoutCase = LogoutCase.Success;
 
     public LogoutRequest(Context context, Type type) {
-        super(context, type);
+        super(context, type, RequestType.POST);
     }
 
     @Override
@@ -34,18 +34,18 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
         String path = null;
         if (!debugMode) {
             // Se envia request al path de getRoles que ofrece el web service.
-            path = BASE_URL + LOGOUT_PATH;
+            path = LOGOUT_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
             switch (logoutCase) {
                 case Success:
-                    path = BASE_MOCK_URL + LOGOUT_SUCCESS_PATH;
+                    path = LOGOUT_SUCCESS_PATH;
                     break;
                 case Cod2:
-                    path = BASE_MOCK_URL + LOGOUT_COD_2_PATH;
+                    path = LOGOUT_COD_2_PATH;
                     break;
                 case Cod5:
-                    path = BASE_MOCK_URL + LOGOUT_COD_5_PATH;
+                    path = LOGOUT_COD_5_PATH;
                     break;
                 default:
                     break;

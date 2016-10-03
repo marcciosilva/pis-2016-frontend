@@ -25,7 +25,7 @@ public class GetRolesRequest<T> extends AbstractRequest<T> {
     private static final GetRolesCase getRolesCase = GetRolesCase.Both;
 
     public GetRolesRequest(Context context, Type type) {
-        super(context, type);
+        super(context, type, RequestType.POST);
     }
 
     @Override

@@ -15,12 +15,12 @@ import static com.sonda.emsysmobile.BuildConfig.*;
 public class EventsRequest<T> extends AbstractRequest<T> {
 
     public EventsRequest(Context context, Type type) {
-        super(context, type);
+        super(context, type, RequestType.GET);
     }
 
     @Override
     protected String getPath() {
-        return BASE_URL + EVENTS_PATH;
+        return EVENTS_PATH;
     }
 
     @Override
