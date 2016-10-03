@@ -28,6 +28,7 @@ import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.GsonPostRequest;
 import com.sonda.emsysmobile.network.RequestFactory;
+import com.sonda.emsysmobile.services.request.AuthRequest;
 
 public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText mUserEditText;
@@ -122,7 +123,10 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         String user = mUserEditText.getText().toString();
         String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
-        GsonPostRequest<AuthResponse> request = RequestFactory.authRequest(user, pass, new Response.Listener<AuthResponse>() {
+
+        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(),AuthResponse.class);
+        authRequest.setAttributes(user, pass);
+        authRequest.setListener(new Response.Listener<AuthResponse>(){
             @Override
             public void onResponse(AuthResponse response) {
                 int responseCode = response.getCode();
@@ -143,14 +147,15 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     builder.show();
                 }
             }
-        }, new Response.ErrorListener() {
+        });
+        authRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error en la comunicación con el servidor.");
                 mProgressBar.setVisibility(View.GONE);
             }
-        }, getApplicationContext());
-        AppRequestQueue.getInstance(this).addToRequestQueue(request);
+        });
+        authRequest.excecute();
     }
 
 

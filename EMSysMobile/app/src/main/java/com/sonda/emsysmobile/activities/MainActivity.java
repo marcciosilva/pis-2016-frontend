@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_goto_app) {
-            goToLoginActivity();
+            goToAuthActivity();
         } else if (view.getId() == R.id.button_consume_ws){
             goToConsumeWSActivity();
         } else if (view.getId() == R.id.button_log_notifications_token) {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void goToLoginActivity() {
+    private void goToAuthActivity() {
         Intent intent = new Intent(this, AuthActivity.class);
         startActivity(intent);
     }
