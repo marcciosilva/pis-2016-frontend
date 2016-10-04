@@ -3,16 +3,14 @@ package com.sonda.emsysmobile.managers;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.model.core.EventDto;
 import com.sonda.emsysmobile.model.core.ExtensionDto;
 import com.sonda.emsysmobile.model.responses.EventsResponse;
-import com.sonda.emsysmobile.network.AppRequestQueue;
 import com.sonda.emsysmobile.network.ApiCallback;
-import com.sonda.emsysmobile.network.RequestFactory;
+import com.sonda.emsysmobile.network.services.request.EventsRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +26,8 @@ public class EventManager {
     private List<EventDto> mEvents;
     private List<ExtensionDto> mExtensions;
 
+    private static final String TAG = EventManager.class.getName();
+
     EventManager(Context context) {
         mContext = context;
         mEvents = new ArrayList<>();
@@ -35,11 +35,12 @@ public class EventManager {
     }
 
     /**
-     * Event Manager singleton to manage events and extensions objects
-     * @param context Must be the Application Context to make requests with the correct context
-     * @return An EventManager instance
+     * Singleton para manejar objetos de eventos y extensiones.
+     * @param context Debe ser el contexto de la aplicacion para realizar requests con el contexto
+     *                correcto.
+     * @return Una instancia de EventManager.
      */
-    public static synchronized EventManager getIntance(Context context) {
+    public static synchronized EventManager getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new EventManager(context);
         }
@@ -47,7 +48,8 @@ public class EventManager {
     }
 
     public void fetchEvents(final ApiCallback<List<ExtensionDto>> callback) {
-        Request eventsRequest = RequestFactory.eventsRequest(mContext, new Response.Listener<EventsResponse>() {
+        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+        request.setListener(new Response.Listener<EventsResponse>() {
             @Override
             public void onResponse(EventsResponse response) {
                 int responseCode = response.getCode();
@@ -61,14 +63,15 @@ public class EventManager {
                         break;
                 }
             }
-        }, new Response.ErrorListener() {
+        });
+        request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("Tag", error.toString());
+                Log.i(TAG, error.toString());
                 callback.onError(mContext.getString(R.string.error_generic));
             }
         });
-        AppRequestQueue.getInstance(mContext).addToRequestQueue(eventsRequest);
+        request.execute();
     }
 
     private void setEvents(List<EventDto> events) {

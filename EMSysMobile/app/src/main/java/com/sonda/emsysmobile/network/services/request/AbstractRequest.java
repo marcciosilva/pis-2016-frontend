@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.services.request;
+package com.sonda.emsysmobile.network.services.request;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
-import com.sonda.emsysmobile.services.endpoint.EndpointService;
+import com.sonda.emsysmobile.network.services.endpoint.EndpointService;
 
 import java.lang.reflect.Type;
 
@@ -18,29 +18,28 @@ public abstract class AbstractRequest<T> {
 
     private static final String TAG = AbstractRequest.class.getName();
     protected Context context;
-    protected Type type;
+    protected Type responseType;
 
     protected Response.Listener<T> listener;
     protected Response.ErrorListener errorListener;
 
+    public enum RequestType {GET, POST}
+    private RequestType requestType;
 
-    private static final int GET = 0;
-    private static final int POST = 1;
-
-
-    public AbstractRequest(Context context, Type type){
+    public AbstractRequest(Context context, Type responseType, RequestType requestType){
         this.context = context;
-        this.type = type;
+        this.responseType = responseType;
+        this.requestType = requestType;
     }
 
-    public void excecute () {
+    public void execute() {
         String path = getPath();
         JsonObject jsonObject = getBody();
         Response.Listener listener = getListener();
         Response.ErrorListener errorListener = getErrorListener();
 
         EndpointService endpointService = new EndpointService(context);
-        endpointService.execute(POST,path,jsonObject, type,listener, errorListener);
+        endpointService.execute(requestType,path,jsonObject, responseType,listener, errorListener);
     }
 
     public void setListener(Response.Listener<T> listener){

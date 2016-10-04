@@ -68,7 +68,7 @@ public class ExtensionsFragment extends Fragment {
 
     private void getEvents() {
         mProgressBar.setVisibility(View.VISIBLE);
-        EventManager eventManager = EventManager.getIntance(getActivity().getApplicationContext());
+        EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
         eventManager.fetchEvents(new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {

@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.services.request;
+package com.sonda.emsysmobile.network.services.request;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
@@ -24,7 +24,7 @@ public class AuthRequest<T> extends AbstractRequest<T> {
     private static final String TAG = AuthRequest.class.getName();
 
     public AuthRequest(Context context, Type type) {
-        super(context, type);
+        super(context, type, RequestType.POST);
     }
 
     @Override

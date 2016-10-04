@@ -1,10 +1,10 @@
-package com.sonda.emsysmobile.services;
+package com.sonda.emsysmobile.network.services;
 
 import android.content.Context;
 
 import com.android.volley.Response;
 import com.sonda.emsysmobile.model.responses.AuthResponse;
-import com.sonda.emsysmobile.services.request.AuthRequest;
+import com.sonda.emsysmobile.network.services.request.AuthRequest;
 
 
 /**

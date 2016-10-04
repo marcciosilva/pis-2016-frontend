@@ -22,9 +22,7 @@ import com.sonda.emsysmobile.model.core.ResourceDto;
 import com.sonda.emsysmobile.model.core.RoleDto;
 import com.sonda.emsysmobile.model.core.ZoneDto;
 import com.sonda.emsysmobile.model.responses.GetRolesResponse;
-import com.sonda.emsysmobile.network.AppRequestQueue;
-import com.sonda.emsysmobile.network.GsonPostRequest;
-import com.sonda.emsysmobile.network.RequestFactory;
+import com.sonda.emsysmobile.network.services.request.GetRolesRequest;
 
 import java.util.ArrayList;
 
@@ -85,7 +83,8 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void obtenerRoles(final VolleyCallbackGetRoles callback) {
-        GsonPostRequest<GetRolesResponse> request = RequestFactory.getRolesRequest(new Response.Listener<GetRolesResponse>() {
+        GetRolesRequest<GetRolesResponse> request = new GetRolesRequest<>(getApplicationContext(), GetRolesResponse.class);
+        request.setListener(new Response.Listener<GetRolesResponse>() {
             @Override
             public void onResponse(GetRolesResponse response) {
                 final int responseCode = response.getCode();
@@ -115,13 +114,14 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                     builder.show();
                 }
             }
-        }, new Response.ErrorListener() {
+        });
+        request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error en la comunicación con el servidor.");
             }
-        }, getApplicationContext());
-        AppRequestQueue.getInstance(this).addToRequestQueue(request);
+        });
+        request.execute();
     }
 
     /**
