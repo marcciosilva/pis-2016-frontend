@@ -28,4 +28,17 @@ public class AuthInnerResponse extends ErrorResponse {
     public void setExpirationTime(int expirationTime) {
         this.expirationTime = expirationTime;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!AuthInnerResponse.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final AuthInnerResponse other = (AuthInnerResponse) obj;
+        return (super.equals(other) && accessToken.equals(other.accessToken) && expirationTime == other.expirationTime);
+    }
+
 }

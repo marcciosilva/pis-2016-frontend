@@ -16,7 +16,7 @@ public class ZoneDtoUnitTest {
 
     @Before
     public void executeBeforeEach() {
-        mZoneDto = new ZoneDto("zona 1", "1", "ue1");
+        mZoneDto = new ZoneDto("zona 1", 1, "ue1");
     }
 
     @Test
@@ -26,7 +26,7 @@ public class ZoneDtoUnitTest {
 
     @Test
     public void testGetId() {
-        assertTrue(mZoneDto.getIdentifier().equals("1"));
+        assertTrue(mZoneDto.getIdentifier() == 1);
     }
 
     @Test
@@ -42,8 +42,8 @@ public class ZoneDtoUnitTest {
 
     @Test
     public void testSetId() {
-        mZoneDto.setIdentifier("2");
-        assertTrue(mZoneDto.getIdentifier().equals("2"));
+        mZoneDto.setIdentifier(2);
+        assertTrue(mZoneDto.getIdentifier() == 2);
     }
 
     @Test
@@ -54,42 +54,42 @@ public class ZoneDtoUnitTest {
 
     @Test
     public void testEquals_null() {
-        ZoneDto zona = new ZoneDto(null, null, null);
+        ZoneDto zona = new ZoneDto(null, -1, null);
         assertFalse(zona.equals(null));
     }
 
     @Test
     public void testEquals_differentClass() {
-        ZoneDto zona = new ZoneDto(null, null, null);
+        ZoneDto zona = new ZoneDto(null, -1, null);
         ResourceDto recurso = new ResourceDto(null, 0);
         assertFalse(zona.equals(recurso));
     }
 
     @Test
     public void testEquals_differentNombre() {
-        ZoneDto zona1 = new ZoneDto("1", "1", "1");
-        ZoneDto zona2 = new ZoneDto("2", "1", "1");
+        ZoneDto zona1 = new ZoneDto("1", 1, "1");
+        ZoneDto zona2 = new ZoneDto("2", 1, "1");
         assertFalse(zona1.equals(zona2));
     }
 
     @Test
     public void testEquals_differentId() {
-        ZoneDto zona1 = new ZoneDto("1", "1", "1");
-        ZoneDto zona2 = new ZoneDto("1", "2", "1");
+        ZoneDto zona1 = new ZoneDto("1", 1, "1");
+        ZoneDto zona2 = new ZoneDto("1", 2, "1");
         assertFalse(zona1.equals(zona2));
     }
 
     @Test
     public void testEquals_differentNombreUnidadEjecutora() {
-        ZoneDto zona1 = new ZoneDto("1", "1", "1");
-        ZoneDto zona2 = new ZoneDto("1", "1", "2");
+        ZoneDto zona1 = new ZoneDto("1", 1, "1");
+        ZoneDto zona2 = new ZoneDto("1", 1, "2");
         assertFalse(zona1.equals(zona2));
     }
 
     @Test
     public void testEquals_equals() {
-        ZoneDto zona1 = new ZoneDto("1", "1", "1");
-        ZoneDto zona2 = new ZoneDto("1", "1", "1");
+        ZoneDto zona1 = new ZoneDto("1", 1, "1");
+        ZoneDto zona2 = new ZoneDto("1", 1, "1");
         assertTrue(zona1.equals(zona2));
     }
 }

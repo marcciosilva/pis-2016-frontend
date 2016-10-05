@@ -19,4 +19,17 @@ public class LoginLogoutResponse extends EmsysResponse {
         this.innerResponse = innerResponse;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+        if (!LoginLogoutResponse.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final LoginLogoutResponse other = (LoginLogoutResponse) obj;
+        return ((super.equals(obj)) && (innerResponse.equals(other.innerResponse)));
+    }
+
 }

@@ -48,9 +48,6 @@ public class ResourceDto implements Serializable {
             return false;
         }
         final ResourceDto other = (ResourceDto) obj;
-        if (code != other.code || id != other.id) {
-            return false;
-        }
-        return true;
+        return ((code == other.code) && (id == other.id));
     }
 }

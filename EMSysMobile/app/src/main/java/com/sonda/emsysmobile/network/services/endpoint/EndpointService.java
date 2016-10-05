@@ -19,7 +19,6 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import static com.sonda.emsysmobile.BuildConfig.BASE_MOCK_URL;
-import static com.sonda.emsysmobile.utils.JsonUtils.jsonToUrlEncodedString;
 
 /**
  * Created by mserralta on 29/9/16.

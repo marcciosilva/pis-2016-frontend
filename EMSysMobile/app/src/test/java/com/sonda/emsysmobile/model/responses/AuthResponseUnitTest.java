@@ -28,7 +28,7 @@ public class AuthResponseUnitTest {
     }
 
     @Test
-    public void testGetResponse() {
+    public void getResponse_SameFields_ReturnsTrue() {
         assertTrue(mAuthResponse.getInnerResponse().equals(mInnerResponse));
     }
 

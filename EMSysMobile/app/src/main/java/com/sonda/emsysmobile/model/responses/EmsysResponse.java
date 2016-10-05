@@ -19,4 +19,17 @@ public class EmsysResponse {
     public void setCode(int code) {
         this.code = code;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!EmsysResponse.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final EmsysResponse other = (EmsysResponse) obj;
+        return (code == other.code);
+    }
+
 }

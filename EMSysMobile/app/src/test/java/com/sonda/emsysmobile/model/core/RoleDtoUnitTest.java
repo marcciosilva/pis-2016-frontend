@@ -23,8 +23,8 @@ public class RoleDtoUnitTest {
 
     @Before
     public void executeBeforeEach() {
-        ZoneDto mZona1 = new ZoneDto("zona 1", "1234", "ue1");
-        ZoneDto mZona2 = new ZoneDto("zona 2", "8262", "ue2");
+        ZoneDto mZona1 = new ZoneDto("zona 1", 1234, "ue1");
+        ZoneDto mZona2 = new ZoneDto("zona 2", 8262, "ue2");
         ResourceDto mRecurso1 = new ResourceDto("A123", 1);
         ResourceDto mRecurso2 = new ResourceDto("B621", 1);
         mZonas = new ArrayList<>();
@@ -50,7 +50,7 @@ public class RoleDtoUnitTest {
 
     @Test
     public void testSetZonas() {
-        mZonas.add(new ZoneDto("zona 3", "5312", "ue1"));
+        mZonas.add(new ZoneDto("zona 3", 5312, "ue1"));
         mRoleDto.setZones(mZonas);
         assertTrue(mRoleDto.getZones().equals(mZonas));
     }

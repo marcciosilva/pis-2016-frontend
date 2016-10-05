@@ -18,4 +18,18 @@ public class ErrorResponse {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!ErrorResponse.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final ErrorResponse other = (ErrorResponse) obj;
+        return (msg == null || msg.equals(other.msg));
+    }
+
 }

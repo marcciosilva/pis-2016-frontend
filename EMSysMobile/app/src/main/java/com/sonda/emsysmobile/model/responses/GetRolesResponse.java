@@ -19,4 +19,18 @@ public class GetRolesResponse extends EmsysResponse {
     public void setRoles(RoleDto roles) {
         this.roles = roles;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+        if (!GetRolesResponse.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final GetRolesResponse other = (GetRolesResponse) obj;
+        return ((super.equals(obj)) && (roles.equals(other.roles)));
+    }
+
 }

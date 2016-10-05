@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -24,27 +25,66 @@ public class GetRolesResponseUnitTest {
     public void executeBeforeEach() {
         mGetRolesResponse = new GetRolesResponse();
         mGetRolesResponse.code = 0;
-        ZoneDto mZona1 = new ZoneDto("zona 1", "1234", "ue1");
-        ZoneDto mZona2 = new ZoneDto("zona 2", "8262", "ue2");
-        ResourceDto mRecurso1 = new ResourceDto("A123", 1);
-        ResourceDto mRecurso2 = new ResourceDto("B621", 2);
-        ArrayList<ZoneDto> mZonas = new ArrayList<>();
-        mZonas.add(mZona1);
-        mZonas.add(mZona2);
-        ArrayList<ResourceDto> mRecursos = new ArrayList<>();
-        mRecursos.add(mRecurso1);
-        mRecursos.add(mRecurso2);
-        mRoleDto = new RoleDto(mZonas, mRecursos);
-        mGetRolesResponse.roles = mRoleDto;
+        ZoneDto mZone1 = new ZoneDto("zona 1", 1234, "ue1");
+        ZoneDto mZone2 = new ZoneDto("zona 2", 8262, "ue2");
+        ArrayList<ZoneDto> mZones = new ArrayList<>();
+        mZones.add(mZone1);
+        mZones.add(mZone2);
+        ResourceDto mResource1 = new ResourceDto("A123", 1);
+        ResourceDto mResource2 = new ResourceDto("B621", 2);
+        ArrayList<ResourceDto> mResources = new ArrayList<>();
+        mResources.add(mResource1);
+        mResources.add(mResource2);
+        mRoleDto = new RoleDto(mZones, mResources);
+        mGetRolesResponse.setRoles(mRoleDto);
     }
 
     @Test
-    public void testGetCodigoRespuesta() {
+    public void getCode_SameCode_ReturnsTrue() {
         assertTrue(mGetRolesResponse.getCode() == 0);
     }
 
     @Test
-    public void testGetRoles() {
+    public void getRoles_SameRoles_ReturnsTrue() {
         assertTrue(mGetRolesResponse.getRoles().equals(mRoleDto));
     }
+
+    /**
+     * Prueba equals en caso de comparar con algo en null.
+     */
+    @Test
+    public void equals_NullComparison_ReturnsFalse() {
+        assertFalse(mGetRolesResponse.equals(null));
+    }
+
+    /**
+     * Prueba equals en caso de comparar otro tipo de objeto.
+     */
+    @Test
+    public void equals_DifferentClass_ReturnsFalse() {
+        assertFalse(mGetRolesResponse.equals(new Object()));
+    }
+
+    /**
+     * Prueba equals en caso exitoso.
+     */
+    @Test
+    public void equals_SameFields_ReturnsTrue() {
+        GetRolesResponse testResponse = new GetRolesResponse();
+        testResponse.setCode(0);
+        ZoneDto testZone1 = new ZoneDto("zona 1", 1234, "ue1");
+        ZoneDto testZone2 = new ZoneDto("zona 2", 8262, "ue2");
+        ResourceDto testResource1 = new ResourceDto("A123", 1);
+        ResourceDto testResource2 = new ResourceDto("B621", 2);
+        ArrayList<ZoneDto> testZones = new ArrayList<>();
+        testZones.add(testZone1);
+        testZones.add(testZone2);
+        ArrayList<ResourceDto> testResources = new ArrayList<>();
+        testResources.add(testResource1);
+        testResources.add(testResource2);
+        RoleDto testRoleDto = new RoleDto(testZones, testResources);
+        testResponse.setRoles(testRoleDto);
+        assertTrue(mGetRolesResponse.equals(testResponse));
+    }
+
 }
