@@ -22,24 +22,24 @@ public class AuthInnerResponseTest {
     }
 
     @Test
-    public void testGetAccessToken() {
+    public void getAccessToken_SameAccessToken_ReturnsTrue() {
         assertTrue(mAuthInnerResponse.getAccessToken().equals("token"));
     }
 
     @Test
-    public void testSetAccessToken() {
+    public void setAccessToken_DifferentAccessToken_ReturnsTrue() {
         String altToken = "alt_token";
         mAuthInnerResponse.setAccessToken(altToken);
         assertTrue(mAuthInnerResponse.getAccessToken().equals(altToken));
     }
 
     @Test
-    public void testGetExpirationTime() {
+    public void getExpirationTime_SameAccessToken_ReturnsTrue() {
         assertTrue(mAuthInnerResponse.getExpirationTime() == 1);
     }
 
     @Test
-    public void testSetExpirationTime() {
+    public void setExpirationTime_DifferentAccessToken_ReturnsTrue() {
         mAuthInnerResponse.setExpirationTime(2);
         assertTrue(mAuthInnerResponse.getExpirationTime() == 2);
     }

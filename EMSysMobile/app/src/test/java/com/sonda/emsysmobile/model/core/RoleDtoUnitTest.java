@@ -37,26 +37,26 @@ public class RoleDtoUnitTest {
     }
 
     @Test
-    public void testGetZonas() {
+    public void getZones_SameZones_ReturnsTrue() {
         ArrayList<ZoneDto> zonas = mRoleDto.getZones();
         assertTrue(zonas.equals(mZonas));
     }
 
     @Test
-    public void testGetRecursos() {
+    public void getResources_SameResources_ReturnsTrue() {
         ArrayList<ResourceDto> recursos = mRoleDto.getResources();
         assertTrue(recursos.equals(mRecursos));
     }
 
     @Test
-    public void testSetZonas() {
+    public void setZones_DifferentZones_ReturnsTrue() {
         mZonas.add(new ZoneDto("zona 3", 5312, "ue1"));
         mRoleDto.setZones(mZonas);
         assertTrue(mRoleDto.getZones().equals(mZonas));
     }
 
     @Test
-    public void testSetRecursos() {
+    public void setResources_DifferentResource_ReturnsTrue() {
         mRecursos.add(new ResourceDto("9875", 1));
         mRoleDto.setResources(mRecursos);
         assertTrue(mRoleDto.getResources().equals(mRecursos));

@@ -6,6 +6,7 @@ import com.sonda.emsysmobile.model.responses.AuthResponse;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -33,29 +34,36 @@ public class AuthResponseUnitTest {
     }
 
     @Test
-    public void testGetCodigoRespuesta() {
+    public void setResponse_DifferentFields_ReturnsTrue() {
+        AuthInnerResponse testInnerResponse = new AuthInnerResponse();
+        testInnerResponse.setAccessToken("alt_token");
+        testInnerResponse.setExpirationTime(1);
+        mAuthResponse.setInnerResponse(testInnerResponse);
+        assertTrue(mAuthResponse.getInnerResponse().equals(testInnerResponse));
+    }
+
+    @Test
+    public void getCode_SameCode_ReturnsTrue() {
         assertTrue(mAuthResponse.getCode() == 0);
     }
 
     @Test
-    public void testGetAccessToken_null() {
+    public void getAccessToken_NewResponseEmptyToken_ReturnsTrue() {
         assertTrue((new AuthResponse()).getAccessToken().equals(""));
     }
 
     @Test
-    public void testGetAccessToken_nonNull() {
+    public void getAccessToken_SameAccessToken_ReturnsTrue() {
         assertTrue(mAuthResponse.getAccessToken().equals("token"));
     }
 
     @Test
-    public void testGetExpirationTime_null() {
-        // Se prueba getExpirationTime con una authResponse con
-        // custom response nula.
+    public void getExpirationTime_NewResponse_ReturnsTrue() {
         assertTrue((new AuthResponse()).getExpirationTime() == -1);
     }
 
     @Test
-    public void testGetExpirationTime_nonNull() {
+    public void getExpirationTime_SameExpirationTime_ReturnsTrue() {
         assertTrue(mAuthResponse.getExpirationTime() == 1);
     }
 }
