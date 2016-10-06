@@ -170,8 +170,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
                     AlertDialog.Builder builder = new AlertDialog.Builder(
-                            ZonasRecursosChooserActivity.this,
-                            android.R.style.Theme_Material_Light_Dialog_MinWidth);
+                            ZonasRecursosChooserActivity.this);
                     builder.setTitle("Error");
                     builder.setMessage(errorMsg);
                     builder.setPositiveButton("OK", null);
