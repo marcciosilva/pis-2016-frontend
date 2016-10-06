@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (view.getId() == R.id.button_test_database) {
             DatabaseTest.executeTest();
         } else if (view.getId() == R.id.button_test_ssl) {
-//            System.out.println("USER LOCATION: " + System.getProperty("user.dir"));
             SecurityTest securityTest = new SecurityTest(getApplicationContext());
             securityTest.execute();
         }

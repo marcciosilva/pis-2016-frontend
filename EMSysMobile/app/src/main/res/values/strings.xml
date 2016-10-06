@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">EMSysMobile</string>
+    <string name="app_name">emsys</string>
     <string name="error_generic">Ha ocurrido un error inesperado. Por favor intente nuevamente.</string>
 
     <!-- Main Activity -->
@@ -20,6 +20,8 @@
     <string name="action_login">Iniciar sesión</string>
     <string name="hint_username">Nombre de usuario</string>
     <string name="hint_password">Contraseña</string>
+    <string name="error_required_username">Por favor, ingresa el nombre de usuario para iniciar sesión</string>
+    <string name="error_required_password">Por favor, ingresa la contraseña para iniciar sesión</string>
 
     <!--Role Chooser Activity-->
     <string name="button_despachador">Despachador de zona</string>
@@ -31,15 +33,11 @@
     <string name="button_continuar">Continuar</string>
 
     <!--Menu superior-->
-    <string name="menu_title_string">tuvieja</string>
     <string name="menu_create_event_string">Crear Evento</string>
     <string name="menu_list_events_string">Lista de eventos</string>
     <string name="menu_view_map_string">Ver mapa</string>
     <string name="menu_external_service_string">Servicio externo</string>
     <string name="menu_logout_string">Cerrar sesión</string>
     <string name="test_content_description">Test content description</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
