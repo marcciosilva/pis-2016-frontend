@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_normal"
     android:orientation="vertical"
-    tools:context="com.sonda.emsysmobile.activities.ConsumeWSActivity">
+    tools:context=".ui.activities.ConsumeWSActivity">
 
     <TextView
         android:layout_width="wrap_content"

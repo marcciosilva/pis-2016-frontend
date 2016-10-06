@@ -1,19 +1,22 @@
 package com.sonda.emsysmobile.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.inputmethod.InputMethodManager;
 
-import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.views.dialogs.SimpleDialog;
+import com.sonda.emsysmobile.ui.views.dialogs.SimpleDialog;
 
 /**
  * Created by ssainz on 8/29/16.
  */
-public class UIUtils {
+public final class UIUtils {
+
+    private UIUtils() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
+
     /**
      * Hides the soft keyboard
      */

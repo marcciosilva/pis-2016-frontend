@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_normal"
     android:background="@color/gray_light"
-    tools:context="com.sonda.emsysmobile.activities.login.ZonasRecursosChooserActivity"
+    tools:context=".ui.activities.login.ZonasRecursosChooserActivity"
     android:orientation="vertical">
 
     <TextView

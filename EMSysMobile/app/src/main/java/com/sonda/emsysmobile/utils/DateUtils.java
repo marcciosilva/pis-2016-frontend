@@ -7,7 +7,11 @@ import java.util.Date;
 /**
  * Created by ssainz on 10/2/16.
  */
-public class DateUtils {
+public final class DateUtils {
+
+    private DateUtils() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
 
     public static final String SIMPLE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
