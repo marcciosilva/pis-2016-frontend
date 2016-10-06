@@ -9,9 +9,11 @@ import org.json.JSONArray;
 /**
  * Created by ssainz on 8/28/16.
  */
-public class RequestFactory {
+public final class RequestFactory {
 
-    private static final String TAG = RequestFactory.class.getName();
+    private RequestFactory() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
 
     public static JsonArrayRequest genericGETRequest(String url, Response.Listener<JSONArray> listener,
                                                      Response.ErrorListener errorListener) {

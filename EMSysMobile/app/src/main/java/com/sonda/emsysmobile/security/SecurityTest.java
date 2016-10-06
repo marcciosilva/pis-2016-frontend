@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.KeyStore;
-import java.security.cert.Certificate;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -33,10 +32,12 @@ public class SecurityTest extends AsyncTask<Void, Void, Void>{
                                                      final OutputStream out) throws IOException {
         try {
             try {
-                final byte[] buffer = new byte[1024];
+                final int size = 1024;
+                final byte[] buffer = new byte[size];
                 int n;
-                while ((n = in.read(buffer)) != -1)
+                while ((n = in.read(buffer)) != -1) {
                     out.write(buffer, 0, n);
+                }
             } finally {
                 out.close();
             }
@@ -46,7 +47,7 @@ public class SecurityTest extends AsyncTask<Void, Void, Void>{
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
+    protected final Void doInBackground(Void... params) {
         try {
             String keyStoreType = "BKS";
             KeyStore keyStore = KeyStore.getInstance(keyStoreType);
@@ -79,7 +80,6 @@ public class SecurityTest extends AsyncTask<Void, Void, Void>{
             Log.d(TAG, "Success my nigga");
         } catch (Exception e) {
             Log.d(TAG, "Exception");
-            e.printStackTrace();
             Log.d(TAG, e.getStackTrace().toString());
         }
         return null;

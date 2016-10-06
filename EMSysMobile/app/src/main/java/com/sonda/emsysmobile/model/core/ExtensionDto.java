@@ -10,22 +10,22 @@ import java.util.Date;
 public class ExtensionDto {
 
     @SerializedName("id")
-    public int identifier;
+    private int identifier;
 
     @SerializedName("descripcion")
-    public String description;
+    private String description;
 
     @SerializedName("estado")
-    public ExtensionState extensionState;
+    private ExtensionState extensionState;
 
     @SerializedName("time_stamp")
-    public Date timeStamp;
+    private Date timeStamp;
 
     @SerializedName("categoria")
-    public CategoryDto category;
+    private CategoryDto category;
 
     @SerializedName("zona")
-    public ZoneDto zone;
+    private ZoneDto zone;
 
     private transient EventDto event;
 
@@ -40,79 +40,90 @@ public class ExtensionDto {
         this.event = event;
     }
 
-    public int getIdentifier() {
+    public final int getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(int identifier) {
+    public final void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public final void setDescription(String description) {
         this.description = description;
     }
 
-    public ExtensionState getExtensionState() {
+    public final ExtensionState getExtensionState() {
         return extensionState;
     }
 
-    public void setExtensionState(ExtensionState extensionState) {
+    public final void setExtensionState(ExtensionState extensionState) {
         this.extensionState = extensionState;
     }
 
-    public Date getTimeStamp() {
+    public final Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
+    public final void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    public CategoryDto getCategory() {
+    public final CategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryDto category) {
+    public final void setCategory(CategoryDto category) {
         this.category = category;
     }
 
-    public ZoneDto getZone() {
+    public final ZoneDto getZone() {
         return zone;
     }
 
-    public void setZone(ZoneDto zone) {
+    public final void setZone(ZoneDto zone) {
         this.zone = zone;
     }
 
-    public EventDto getEvent() {
+    public final EventDto getEvent() {
         return event;
     }
 
-    public void setEvent(EventDto event) {
+    public final void setEvent(EventDto event) {
         this.event = event;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         // No se hace el chequeo de igualdad de EventDto debido a la dependencia circular
         // entre esta y esa clase.
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ExtensionDto that = (ExtensionDto) o;
 
-        if (identifier != that.identifier) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null)
+        if (identifier != that.identifier) {
             return false;
-        if (extensionState != that.extensionState) return false;
-        if (timeStamp != null ? !timeStamp.equals(that.timeStamp) : that.timeStamp != null)
+        }
+        if (description != null ? !description.equals(that.description) : that.description != null) {
             return false;
-        if (category != null ? !category.equals(that.category) : that.category != null)
+        }
+        if (extensionState != that.extensionState) {
             return false;
+        }
+        if (timeStamp != null ? !timeStamp.equals(that.timeStamp) : that.timeStamp != null) {
+            return false;
+        }
+        if (category != null ? !category.equals(that.category) : that.category != null) {
+            return false;
+        }
         return zone != null ? zone.equals(that.zone) : that.zone == null;
 
     }

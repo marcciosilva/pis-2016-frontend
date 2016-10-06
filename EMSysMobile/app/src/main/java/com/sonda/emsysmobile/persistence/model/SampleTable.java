@@ -13,10 +13,10 @@ public class SampleTable extends Model {
     // interna). Si en un INSERT agregamos una tupla con el mismo nombre, se reemplaza la tupla
     // en la base.
     @Column(name = "Name", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    public String name;
+    private String name;
 
     @Column(name = "SampleReferencedTable")
-    public SampleReferencedTable sampleReferencedTable;
+    private SampleReferencedTable sampleReferencedTable;
 
     public SampleTable() {
         super();
@@ -25,6 +25,22 @@ public class SampleTable extends Model {
     public SampleTable(String name, SampleReferencedTable sampleReferencedTable) {
         super();
         this.name = name;
+        this.sampleReferencedTable = sampleReferencedTable;
+    }
+
+    public final String getName() {
+        return name;
+    }
+
+    public final void setName(String name) {
+        this.name = name;
+    }
+
+    public final SampleReferencedTable getSampleReferencedTable() {
+        return sampleReferencedTable;
+    }
+
+    public final void setSampleReferencedTable(SampleReferencedTable sampleReferencedTable) {
         this.sampleReferencedTable = sampleReferencedTable;
     }
 }

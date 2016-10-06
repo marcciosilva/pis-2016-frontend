@@ -10,15 +10,15 @@ public class AuthResponse extends EmsysResponse {
     @SerializedName("response")
     private AuthInnerResponse innerResponse;
 
-    public AuthInnerResponse getInnerResponse() {
+    public final AuthInnerResponse getInnerResponse() {
         return innerResponse;
     }
 
-    public void setInnerResponse(AuthInnerResponse innerResponse) {
+    public final void setInnerResponse(AuthInnerResponse innerResponse) {
         this.innerResponse = innerResponse;
     }
 
-    public String getAccessToken() {
+    public final String getAccessToken() {
         if (innerResponse != null) {
             return innerResponse.getAccessToken();
         } else {
@@ -26,7 +26,7 @@ public class AuthResponse extends EmsysResponse {
         }
     }
 
-    public int getExpirationTime() {
+    public final int getExpirationTime() {
         if (innerResponse != null) {
             return innerResponse.getExpirationTime();
         } else {

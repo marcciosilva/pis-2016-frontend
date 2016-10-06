@@ -21,13 +21,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final String TAG = "MainActivity";
 
     private Button mGoToAppButton;
-    private Button mConsumeWSButton;
-    private Button mLogNotificationsTokenButton;
-    private Button mTestDatabaseButton;
-    private Button mTestSsl;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -43,19 +39,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mGoToAppButton = (Button) findViewById(R.id.button_goto_app);
         mGoToAppButton.setOnClickListener(this);
-        mConsumeWSButton = (Button) findViewById(R.id.button_consume_ws);
-        mConsumeWSButton.setOnClickListener(this);
-        mLogNotificationsTokenButton = (Button) findViewById(R.id.button_log_notifications_token);
-        mLogNotificationsTokenButton.setOnClickListener(this);
-        mTestDatabaseButton = (Button) findViewById(R.id.button_test_database);
-        mTestDatabaseButton.setOnClickListener(this);
-        mTestSsl = (Button) findViewById(R.id.button_test_ssl);
+        Button consumeWSButton = (Button) findViewById(R.id.button_consume_ws);
+        consumeWSButton.setOnClickListener(this);
+        Button logNotificationsTokenButton = (Button) findViewById(R.id.button_log_notifications_token);
+        logNotificationsTokenButton.setOnClickListener(this);
+        Button testDatabaseButton = (Button) findViewById(R.id.button_test_database);
+        testDatabaseButton.setOnClickListener(this);
+        Button mTestSsl = (Button) findViewById(R.id.button_test_ssl);
         mTestSsl.setOnClickListener(this);
 
     }
 
     @Override
-    public void onClick(View view) {
+    public final void onClick(View view) {
         if (view.getId() == R.id.button_goto_app) {
             goToAuthActivity();
         } else if (view.getId() == R.id.button_consume_ws){

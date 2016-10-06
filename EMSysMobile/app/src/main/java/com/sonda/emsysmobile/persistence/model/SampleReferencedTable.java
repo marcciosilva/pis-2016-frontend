@@ -15,10 +15,18 @@ public class SampleReferencedTable extends Model {
     // interna), por lo que esto es una pseudo primary key.
     // Si en un INSERT agregamos una tupla con el mismo nombre, se reemplaza la tupla en la base.
     @Column(name = "Name", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    public String name;
+    private String name;
 
     // Metodo opcional para obtener tuplas asociadas a una tupla de esta tabla.
-    public List<SampleTable> items() {
+    public final List<SampleTable> items() {
         return getMany(SampleTable.class, "SampleReferencedTable");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

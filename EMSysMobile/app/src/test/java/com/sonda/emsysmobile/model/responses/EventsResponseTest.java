@@ -55,7 +55,7 @@ public class EventsResponseTest {
     private int mExtensionZoneIdentifier;
     private String mExtensionZoneExecUnitName;
     EventsResponse mEventsResponse;
-    private ArrayList<EventDto> mEvents;
+    private List<EventDto> mEvents;
 
     @Before
     public void setUp() throws Exception {

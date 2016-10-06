@@ -22,31 +22,37 @@ public class ResourceDto implements Serializable {
         this.id = id;
     }
 
-    public String getCode() {
+    public final String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public final void setCode(String code) {
         this.code = code;
     }
 
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public final void setId(int id) {
         this.id = id;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ResourceDto that = (ResourceDto) o;
 
-        if (id != that.id) return false;
+        if (id != that.id) {
+            return false;
+        }
         return code != null ? code.equals(that.code) : that.code == null;
 
     }

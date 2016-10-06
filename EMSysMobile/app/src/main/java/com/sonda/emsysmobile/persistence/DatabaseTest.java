@@ -11,10 +11,14 @@ import java.util.List;
 /**
  * Created by marccio on 15-Sep-16.
  */
-public class DatabaseTest {
+public final class DatabaseTest {
 
     private static final String TAG = DatabaseTest.class.getName();
     private static boolean seedDatabase = true;
+
+    private DatabaseTest() {
+
+    }
 
     /**
      * La idea de este test es ejecutar algunos inserts (en activeAndroidSeed), y probar
@@ -32,28 +36,28 @@ public class DatabaseTest {
         List<SampleReferencedTable> refTuples = new Select().from(SampleReferencedTable.class).orderBy("Name ASC").execute();
         for (SampleReferencedTable refTuple : refTuples) {
             List<SampleTable> tuples = getAll(refTuple);
-            Log.d(TAG, "#### Items under \"" + refTuple.name + "\" refTuple.####");
+            Log.d(TAG, "#### Items under \"" + refTuple.getName() + "\" refTuple.####");
             for (SampleTable tuple : tuples) {
-                Log.d(TAG, tuple.name);
+                Log.d(TAG, tuple.getName());
             }
         }
     }
 
     private static void activeAndroidSeed() {
         SampleReferencedTable sampleRefTableTuple = new SampleReferencedTable();
-        sampleRefTableTuple.name = "refTuple";
+        sampleRefTableTuple.setName("refTuple");
         sampleRefTableTuple.save();
         SampleTable sampleTableTuple = new SampleTable();
-        sampleTableTuple.sampleReferencedTable = sampleRefTableTuple;
-        sampleTableTuple.name = "tuple1";
+        sampleTableTuple.setSampleReferencedTable(sampleRefTableTuple);
+        sampleTableTuple.setName("tuple1");
         sampleTableTuple.save();
         sampleTableTuple = new SampleTable();
-        sampleTableTuple.sampleReferencedTable = sampleRefTableTuple;
-        sampleTableTuple.name = "tuple2";
+        sampleTableTuple.setSampleReferencedTable(sampleRefTableTuple);
+        sampleTableTuple.setName("tuple2");
         sampleTableTuple.save();
         sampleTableTuple = new SampleTable();
-        sampleTableTuple.sampleReferencedTable = sampleRefTableTuple;
-        sampleTableTuple.name = "tuple3";
+        sampleTableTuple.setSampleReferencedTable(sampleRefTableTuple);
+        sampleTableTuple.setName("tuple3");
         sampleTableTuple.save();
         Log.d(TAG, "Add some tuples.");
     }

@@ -11,8 +11,6 @@ import com.sonda.emsysmobile.model.core.RoleDto;
 
 import java.lang.reflect.Type;
 
-import static com.sonda.emsysmobile.BuildConfig.BASE_MOCK_URL;
-import static com.sonda.emsysmobile.BuildConfig.BASE_URL;
 import static com.sonda.emsysmobile.BuildConfig.LOGIN_FAIL_PATH;
 import static com.sonda.emsysmobile.BuildConfig.LOGIN_PATH;
 import static com.sonda.emsysmobile.BuildConfig.LOGIN_SUCCESS_PATH;
@@ -25,7 +23,7 @@ public class LoginRequest<T> extends AbstractRequest<T> {
 
     private enum LoginCase {Success, Fail}
 
-    private static final LoginCase loginCase = LoginCase.Success;
+    private static final LoginCase LOGIN_CASE = LoginCase.Success;
     private RoleDto roles;
     private static final String TAG = LoginRequest.class.getName();
 
@@ -35,15 +33,15 @@ public class LoginRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
+    protected final String getPath() {
+        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
         String path = null;
         if (!debugMode) {
             // Se envia request al path de getRoles que ofrece el web service.
             path = LOGIN_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
-            switch (loginCase) {
+            switch (LOGIN_CASE) {
                 case Success:
                     path = LOGIN_SUCCESS_PATH;
                     break;
@@ -58,7 +56,7 @@ public class LoginRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         // Se convierten los roles en un objeto de json.
         String json = new Gson().toJson(roles);
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(json);

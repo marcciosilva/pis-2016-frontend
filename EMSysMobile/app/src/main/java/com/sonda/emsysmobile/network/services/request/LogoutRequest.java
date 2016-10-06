@@ -7,8 +7,6 @@ import com.google.gson.JsonObject;
 
 import java.lang.reflect.Type;
 
-import static com.sonda.emsysmobile.BuildConfig.BASE_MOCK_URL;
-import static com.sonda.emsysmobile.BuildConfig.BASE_URL;
 import static com.sonda.emsysmobile.BuildConfig.LOGOUT_COD_2_PATH;
 import static com.sonda.emsysmobile.BuildConfig.LOGOUT_COD_5_PATH;
 import static com.sonda.emsysmobile.BuildConfig.LOGOUT_PATH;
@@ -22,22 +20,22 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
 
     private enum LogoutCase {Success, Cod2, Cod5}
 
-    private static final LogoutCase logoutCase = LogoutCase.Success;
+    private static final LogoutCase LOGOUT_CASE = LogoutCase.Success;
 
     public LogoutRequest(Context context, Type type) {
         super(context, type, RequestType.POST);
     }
 
     @Override
-    protected String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
+    protected final String getPath() {
+        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
         String path = null;
         if (!debugMode) {
             // Se envia request al path de getRoles que ofrece el web service.
             path = LOGOUT_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
-            switch (logoutCase) {
+            switch (LOGOUT_CASE) {
                 case Success:
                     path = LOGOUT_SUCCESS_PATH;
                     break;
@@ -55,7 +53,7 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         return null;
     }
 }

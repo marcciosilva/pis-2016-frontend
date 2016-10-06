@@ -8,19 +8,19 @@ import com.google.gson.annotations.SerializedName;
 public class CategoryDto {
 
     @SerializedName("id")
-    public int identifier;
+    private int identifier;
 
     @SerializedName("codigo")
-    public String code;
+    private String code;
 
     @SerializedName("clave")
-    public String key;
+    private String key;
 
     @SerializedName("prioridad")
-    public CategoryPriority priority;
+    private CategoryPriority priority;
 
     @SerializedName("activo")
-    public boolean isActive;
+    private boolean isActive;
 
     public CategoryDto(int identifier, String code, String key, CategoryPriority priority, boolean isActive) {
         this.identifier = identifier;
@@ -30,57 +30,69 @@ public class CategoryDto {
         this.isActive = isActive;
     }
 
-    public int getIdentifier() {
+    public final int getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(int identifier) {
+    public final void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    public String getCode() {
+    public final String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public final void setCode(String code) {
         this.code = code;
     }
 
-    public String getKey() {
+    public final String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public final void setKey(String key) {
         this.key = key;
     }
 
-    public CategoryPriority getPriority() {
+    public final CategoryPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(CategoryPriority priority) {
+    public final void setPriority(CategoryPriority priority) {
         this.priority = priority;
     }
 
-    public boolean getActive() {
+    public final boolean getActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public final void setActive(boolean active) {
         isActive = active;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         CategoryDto that = (CategoryDto) o;
 
-        if (identifier != that.identifier) return false;
-        if (isActive != that.isActive) return false;
-        if (code != null ? !code.equals(that.code) : that.code != null) return false;
-        if (key != null ? !key.equals(that.key) : that.key != null) return false;
+        if (identifier != that.identifier) {
+            return false;
+        }
+        if (isActive != that.isActive) {
+            return false;
+        }
+        if (code != null ? !code.equals(that.code) : that.code != null) {
+            return false;
+        }
+        if (key != null ? !key.equals(that.key) : that.key != null) {
+            return false;
+        }
         return priority == that.priority;
 
     }

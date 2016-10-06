@@ -21,7 +21,7 @@ import java.util.List;
 public class EventManager {
 
     private static EventManager mInstance;
-    public Context mContext;
+    private Context mContext;
 
     private List<EventDto> mEvents;
     private List<ExtensionDto> mExtensions;
@@ -47,7 +47,7 @@ public class EventManager {
         return mInstance;
     }
 
-    public void fetchEvents(final ApiCallback<List<ExtensionDto>> callback) {
+    public final void fetchEvents(final ApiCallback<List<ExtensionDto>> callback) {
         EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
         request.setListener(new Response.Listener<EventsResponse>() {
             @Override

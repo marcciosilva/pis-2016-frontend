@@ -24,7 +24,8 @@ import com.sonda.emsysmobile.model.core.ZoneDto;
 import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.network.services.request.GetRolesRequest;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by marccio on 9/28/16.
@@ -34,7 +35,6 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
 
     private Button mDespachadorButton;
     private Button mRecursoButton;
-    private Button mSinSeleccionButton;
     private RoleDto mRoles;
 
     public enum EleccionRol {Despachador, Recurso;}
@@ -48,7 +48,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
     private GoogleApiClient client;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_role_chooser);
 
@@ -58,7 +58,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         mRecursoButton = (Button) findViewById(R.id.button_recurso);
         mRecursoButton.setOnClickListener(this);
         mRecursoButton.setEnabled(false);
-        mSinSeleccionButton = (Button) findViewById(R.id.button_sin_seleccion);
+        Button mSinSeleccionButton = (Button) findViewById(R.id.button_sin_seleccion);
         mSinSeleccionButton.setOnClickListener(this);
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -71,8 +71,8 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 mRoles = roles;
                 // Habilito o deshabilito botones en base a los roles obtenidos en
                 // respuestas a la request.
-                ArrayList<ZoneDto> zonas = roles.getZones();
-                ArrayList<ResourceDto> recursos = roles.getResources();
+                List<ZoneDto> zonas = roles.getZones();
+                List<ResourceDto> recursos = roles.getResources();
                 boolean containsZona = zonas != null && zonas.size() > 0;
                 mDespachadorButton.setEnabled(containsZona);
                 boolean containsRecurso = recursos != null && recursos.size() > 0;
@@ -124,16 +124,8 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         request.execute();
     }
 
-    /**
-     * Interfaz implementada para recibir el resultado de la request
-     * de Volley una vez que finalice.
-     */
-    public interface VolleyCallbackGetRoles {
-        void onSuccess(RoleDto result);
-    }
-
     @Override
-    public void onClick(View view) {
+    public final void onClick(View view) {
         if (view.getId() == R.id.button_despachador && mDespachadorButton.isEnabled()) {
             goToZonasRecursosChooser(EleccionRol.Despachador);
         } else if (view.getId() == R.id.button_recurso && mRecursoButton.isEnabled()) {
@@ -143,12 +135,12 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public void goToHome() {
+    public final void goToHome() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
-    public void goToAuth() {
+    public final void goToAuth() {
         Intent intent = new Intent(this, AuthActivity.class);
         // Se saca la activity actual del back stack para mejorar experiencia del usuario.
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -159,16 +151,16 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         Intent intent = new Intent(this, ZonasRecursosChooserActivity.class);
         // Paso data a la siguiente activity.
         if (eleccionRol == EleccionRol.Despachador) {
-            intent.putExtra("zonas", mRoles.getZones());
+            intent.putExtra("zonas", (Serializable) mRoles.getZones());
         } else if (eleccionRol == EleccionRol.Recurso) {
-            intent.putExtra("recursos", mRoles.getResources());
+            intent.putExtra("recursos", (Serializable) mRoles.getResources());
         }
         intent.putExtra("eleccionRol", eleccionRol);
         startActivity(intent);
     }
 
     @Override
-    public void onStart() {
+    public final void onStart() {
         super.onStart();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -177,7 +169,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onStop() {
+    public final void onStop() {
         super.onStop();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -189,7 +181,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    public final Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("RoleChooser Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
@@ -199,6 +191,14 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
+    }
+
+    /**
+     * Interfaz implementada para recibir el resultado de la request
+     * de Volley una vez que finalice.
+     */
+    public interface VolleyCallbackGetRoles {
+        void onSuccess(RoleDto result);
     }
 
 }

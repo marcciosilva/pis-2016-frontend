@@ -19,12 +19,12 @@ public class EventsRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected String getPath() {
+    protected final String getPath() {
         return EVENTS_PATH;
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         return null;
     }
 }

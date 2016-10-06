@@ -13,24 +13,24 @@ public class AuthInnerResponse extends ErrorResponse {
     @SerializedName("expires_in")
     private int expirationTime;
 
-    public String getAccessToken() {
+    public final String getAccessToken() {
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
+    public final void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
 
-    public int getExpirationTime() {
+    public final int getExpirationTime() {
         return expirationTime;
     }
 
-    public void setExpirationTime(int expirationTime) {
+    public final void setExpirationTime(int expirationTime) {
         this.expirationTime = expirationTime;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }

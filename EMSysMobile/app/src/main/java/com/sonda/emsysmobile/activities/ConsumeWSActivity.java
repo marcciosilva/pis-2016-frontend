@@ -23,31 +23,30 @@ import org.json.JSONArray;
 public class ConsumeWSActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText mURLEditText;
-    private Button mSendRequestButton;
     private TextView mResponseTextView;
     private ProgressBar mProgressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consume_ws);
 
         mURLEditText = (EditText) findViewById(R.id.input_url);
         mResponseTextView = (TextView) findViewById(R.id.text_response);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mSendRequestButton = (Button) findViewById(R.id.button_send_request);
-        mSendRequestButton.setOnClickListener(this);
+        Button sendRequestButton = (Button) findViewById(R.id.button_send_request);
+        sendRequestButton.setOnClickListener(this);
     }
 
     @Override
-    public void onClick(View view) {
+    public final void onClick(View view) {
         if (view.getId() == R.id.button_send_request) {
             UIUtils.hideSoftKeyboard(this);
             consumeWS();
         }
     }
 
-    void consumeWS() {
+    final void consumeWS() {
         mResponseTextView.setText("");
         String url = mURLEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);

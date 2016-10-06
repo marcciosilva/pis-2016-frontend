@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -16,7 +17,7 @@ public class RoleDtoUnitTest {
 
     private RoleDto mRoleDto;
     private ArrayList<ZoneDto> mZones;
-    ArrayList<ResourceDto> mResources;
+    List<ResourceDto> mResources;
 
     @Before
     public void setUp() {
@@ -35,13 +36,13 @@ public class RoleDtoUnitTest {
 
     @Test
     public void getZones_CompareWithSameZones_ReturnsTrue() {
-        ArrayList<ZoneDto> zones = mRoleDto.getZones();
+        List<ZoneDto> zones = mRoleDto.getZones();
         assertTrue(zones.equals(mZones));
     }
 
     @Test
     public void getResources_CompareWithSameResources_ReturnsTrue() {
-        ArrayList<ResourceDto> resources = mRoleDto.getResources();
+        List<ResourceDto> resources = mRoleDto.getResources();
         assertTrue(resources.equals(mResources));
     }
 

@@ -20,7 +20,7 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     private final Type type;
     private final Response.Listener<T> listener;
 
-    public String DATE_FORMAT = "dd-MM-yyyy'T'hh:mm:ss.SSS";
+    public static final String DATE_FORMAT = "dd-MM-yyyy'T'hh:mm:ss.SSS";
 
     public GsonPostRequest
     (
@@ -42,13 +42,13 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     }
 
     @Override
-    protected void deliverResponse(T response)
+    protected final void deliverResponse(T response)
     {
         listener.onResponse(response);
     }
 
     @Override
-    protected Response<T> parseNetworkResponse(NetworkResponse response) {
+    protected final Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));

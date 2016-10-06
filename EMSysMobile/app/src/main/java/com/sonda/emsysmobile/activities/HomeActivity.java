@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     private static final String TAG = HomeActivity.class.getName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public final boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.top_menu, menu);
         return true;
@@ -65,18 +65,20 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
+        String textString = "text";
+        String touchedString = "Tocaste ";
         switch (item.getItemId()) {
             case R.id.menu_create_event_button:
-                System.out.println("Tocaste " + getString(R.string.menu_create_event_string));
+                Log.d(TAG, touchedString + getString(R.string.menu_create_event_string));
                 Fragment fragment = new TestFragment();
                 Bundle args = new Bundle();
-                args.putString("text", getString(R.string.menu_create_event_string));
+                args.putString(textString, getString(R.string.menu_create_event_string));
                 fragment.setArguments(args);
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                System.out.println("Tocaste " + getString(R.string.menu_list_events_string));
+                Log.d(TAG, touchedString + getString(R.string.menu_list_events_string));
                 ExtensionsFragment extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
                     extensionsFragment = new ExtensionsFragment();
@@ -84,26 +86,26 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 }
                 return true;
             case R.id.menu_external_service_button:
-                System.out.println("Tocaste " + getString(R.string.menu_external_service_string));
+                Log.d(TAG, touchedString + getString(R.string.menu_external_service_string));
                 fragment = new TestFragment();
                 args = new Bundle();
-                args.putString("text", getString(R.string.menu_external_service_string));
+                args.putString(textString, getString(R.string.menu_external_service_string));
                 fragment.setArguments(args);
                 replaceFragment(fragment, "fragment2");
                 return true;
             case R.id.menu_view_map_button:
-                System.out.println("Tocaste " + getString(R.string.menu_view_map_string));
+                Log.d(TAG, touchedString + getString(R.string.menu_view_map_string));
                 fragment = new TestFragment();
                 args = new Bundle();
-                args.putString("text", getString(R.string.menu_view_map_string));
+                args.putString(textString, getString(R.string.menu_view_map_string));
                 fragment.setArguments(args);
                 replaceFragment(fragment, "fragment3");
                 return true;
             case R.id.menu_logout_button:
-                System.out.println("Tocaste " + getString(R.string.menu_logout_string));
+                Log.d(TAG, touchedString + getString(R.string.menu_logout_string));
                 fragment = new TestFragment();
                 args = new Bundle();
-                args.putString("text", getString(R.string.menu_logout_string));
+                args.putString(textString, getString(R.string.menu_logout_string));
                 fragment.setArguments(args);
                 replaceFragment(fragment, "fragment4");
                 logout();
@@ -172,7 +174,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        public final View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.test_fragment_layout, container, false);
             String text = getArguments().getString("text");

@@ -6,16 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * Created by marccio on 10/2/16.
  */
 
-public class ErrorResponse {
+public abstract class ErrorResponse {
 
     @SerializedName("msg")
     private String msg;
 
-    public String getMsg() {
+    public final String getMsg() {
         return msg;
     }
 
-    public void setMsg(String msg) {
+    public final void setMsg(String msg) {
         this.msg = msg;
     }
 

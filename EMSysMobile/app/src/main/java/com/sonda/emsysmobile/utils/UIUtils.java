@@ -7,7 +7,12 @@ import android.view.inputmethod.InputMethodManager;
 /**
  * Created by ssainz on 8/29/16.
  */
-public class UIUtils {
+public final class UIUtils {
+
+    private UIUtils() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
+
     /**
      * Hides the soft keyboard
      */

@@ -40,7 +40,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleApiClient client;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mLoginButton = (Button) findViewById(R.id.button_login);
@@ -109,7 +109,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
+    public final void onClick(View view) {
         if (view.getId() == R.id.button_login) {
             login();
         }
@@ -169,7 +169,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    public final Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Login Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
@@ -182,7 +182,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onStart() {
+    public final void onStart() {
         super.onStart();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -192,7 +192,7 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onStop() {
+    public final void onStop() {
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.

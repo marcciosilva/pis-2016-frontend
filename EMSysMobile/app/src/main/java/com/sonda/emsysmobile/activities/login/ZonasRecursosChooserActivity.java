@@ -29,6 +29,7 @@ import com.sonda.emsysmobile.model.core.ZoneDto;
 import com.sonda.emsysmobile.network.services.request.LoginRequest;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,13 +39,11 @@ import java.util.regex.Pattern;
 
 public class ZonasRecursosChooserActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    private Button mDespachadorButton;
-    private Button mRecursoButton;
-    private Button mContinuarButton;
-    private Bundle mExtras;
-    private ListView mRolesListView;
+    private Button mDispatcherButton;
+    private Button mResourceButton;
+    private Button mContinueButton;
     private static final String TAG = ZonasRecursosChooserActivity.class.getName();
-    private ArrayList<String> mItemsSeleccionados = new ArrayList<>();
+    private List<String> mSelectedItems = new ArrayList<>();
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -53,38 +52,38 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     private GoogleApiClient client;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zona_recursos_chooser);
 
-        mRolesListView = (ListView) findViewById(R.id.listview_roles);
+        ListView mRolesListView = (ListView) findViewById(R.id.listview_roles);
         mRolesListView.setItemsCanFocus(false);
         mRolesListView.setOnItemClickListener(this);
         // Los botones no deben ser clickeables segun el mockup.
-        mDespachadorButton = (Button) findViewById(R.id.button_despachador);
-        mDespachadorButton.setClickable(false);
-        mDespachadorButton.setOnClickListener(this);
-        mRecursoButton = (Button) findViewById(R.id.button_recurso);
-        mRecursoButton.setClickable(false);
-        mRecursoButton.setOnClickListener(this);
-        mContinuarButton = (Button) findViewById(R.id.button_continuar);
-        mContinuarButton.setEnabled(false);
-        mContinuarButton.setOnClickListener(this);
+        mDispatcherButton = (Button) findViewById(R.id.button_despachador);
+        mDispatcherButton.setClickable(false);
+        mDispatcherButton.setOnClickListener(this);
+        mResourceButton = (Button) findViewById(R.id.button_recurso);
+        mResourceButton.setClickable(false);
+        mResourceButton.setOnClickListener(this);
+        mContinueButton = (Button) findViewById(R.id.button_continuar);
+        mContinueButton.setEnabled(false);
+        mContinueButton.setOnClickListener(this);
 
-        mExtras = getIntent().getExtras();
+        Bundle mExtras = getIntent().getExtras();
         EleccionRol eleccionRol =
                 (EleccionRol) mExtras.getSerializable("eleccionRol");
         final ArrayList<String> list = new ArrayList<>();
         // Deshabilito el boton que corresponda en base a la eleccion previa del usuario.
         if (eleccionRol == EleccionRol.Despachador) {
-            mRecursoButton.setEnabled(false);
+            mResourceButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             ArrayList<ZoneDto> zonas = (ArrayList<ZoneDto>) mExtras.getSerializable("zonas");
             for (ZoneDto zona : zonas) {
                 list.add(zona.getIdentifier() + " - " + zona.getName() + " - " + zona.getExecUnitName());
             }
         } else {
-            mDespachadorButton.setEnabled(false);
+            mDispatcherButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             ArrayList<ResourceDto> recursos = (ArrayList<ResourceDto>) mExtras.getSerializable("recursos");
             for (ResourceDto recurso : recursos) {
@@ -103,60 +102,61 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     }
 
     @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.button_continuar) {
-            if (mContinuarButton.isEnabled()) {
-                // Construyo listas que van a servir para construir
-                // el RoleDto para la request.
-                ArrayList<ZoneDto> zonas = new ArrayList<>();
-                ArrayList<ResourceDto> recursos = new ArrayList<>();
-                if (mDespachadorButton.isEnabled()) {
-                    // Se parsea cada item seleccionado para construir
-                    // un RoleDto para cada uno.
-                    String regex = "^(.*)\\s-\\s(.*)\\s-\\s(.*)$";
-                    Pattern pattern = Pattern.compile(regex);
-                    for (String item : mItemsSeleccionados) {
-                        Matcher matcher = pattern.matcher(item);
-                        String id = "";
-                        String nombre = "";
-                        String nombreUE = "";
-                        if (matcher.find()) {
-                            id = matcher.group(1);
-                            nombre = matcher.group(2);
-                            nombreUE = matcher.group(3);
-                        }
-                        zonas.add(new ZoneDto(nombre, Integer.parseInt(id), nombreUE));
+    public final void onClick(View view) {
+        if ((view.getId() == R.id.button_continuar) && (mContinueButton.isEnabled())) {
+            // Construyo listas que van a servir para construir
+            // el RoleDto para la request.
+            ArrayList<ZoneDto> zonas = new ArrayList<>();
+            ArrayList<ResourceDto> recursos = new ArrayList<>();
+            String emptyString = "";
+            if (mDispatcherButton.isEnabled()) {
+                // Se parsea cada item seleccionado para construir
+                // un RoleDto para cada uno.
+                String regex = "^(.*)\\s-\\s(.*)\\s-\\s(.*)$";
+                Pattern pattern = Pattern.compile(regex);
+                for (String item : mSelectedItems) {
+                    Matcher matcher = pattern.matcher(item);
+                    String id = emptyString;
+                    String nombre = emptyString;
+                    String nombreUE = emptyString;
+                    if (matcher.find()) {
+                        final int[] indexes = {1, 2, 3};
+                        id = matcher.group(indexes[0]);
+                        nombre = matcher.group(indexes[1]);
+                        nombreUE = matcher.group(indexes[2]);
                     }
-                } else if (mRecursoButton.isEnabled()){
-                    // Debe haber un solo recurso en los items.
-                    // Se parsea cada item seleccionado para construir
-                    // un RoleDto para cada uno.
-                    String regex = "^(.*)\\s-\\s(.*)$";
-                    Pattern pattern = Pattern.compile(regex);
-                    for (String item : mItemsSeleccionados) {
-                        Matcher matcher = pattern.matcher(item);
-                        String idString = "";
-                        String code = "";
-                        if (matcher.find()) {
-                            idString = matcher.group(1);
-                            code = matcher.group(2);
-                        }
-                        recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
-                    }
+                    zonas.add(new ZoneDto(nombre, Integer.parseInt(id), nombreUE));
                 }
-                loginUser(new RoleDto(zonas, recursos), new VolleyCallbackLoginUser() {
-                    @Override
-                    public void onSuccess() {
-                        // TODO agregar logica posterior al inicio de sesion.
-                        goToHome();
+            } else if (mResourceButton.isEnabled()) {
+                // Debe haber un solo recurso en los items.
+                // Se parsea cada item seleccionado para construir
+                // un RoleDto para cada uno.
+                String regex = "^(.*)\\s-\\s(.*)$";
+                Pattern pattern = Pattern.compile(regex);
+                for (String item : mSelectedItems) {
+                    Matcher matcher = pattern.matcher(item);
+                    String idString = emptyString;
+                    String code = emptyString;
+                    if (matcher.find()) {
+                        idString = matcher.group(1);
+                        code = matcher.group(2);
                     }
-                });
+                    recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
+                }
             }
+            loginUser(new RoleDto(zonas, recursos), new VolleyCallbackLoginUser() {
+                @Override
+                public void onSuccess() {
+                    // TODO agregar logica posterior al inicio de sesion.
+                    goToHome();
+                }
+            });
         }
     }
 
     private void loginUser(RoleDto roles, final VolleyCallbackLoginUser callback) {
-        LoginRequest<LoginLogoutResponse> request = new LoginRequest<>(getApplicationContext(), LoginLogoutResponse.class, roles);
+        LoginRequest<LoginLogoutResponse> request = new LoginRequest<>(getApplicationContext(),
+                LoginLogoutResponse.class, roles);
         request.setListener(new Response.Listener<LoginLogoutResponse>() {
             @Override
             public void onResponse(LoginLogoutResponse response) {
@@ -188,15 +188,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         request.execute();
     }
 
-    /**
-     * Interfaz implementada para recibir el resultado de la request
-     * de Volley una vez que finalice.
-     */
-    public interface VolleyCallbackLoginUser {
-        void onSuccess();
-    }
-
-    public void goToHome() {
+    public final void goToHome() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
@@ -205,7 +197,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    public Action getIndexApiAction() {
+    public final Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("ZonasRecursosChooser Page") // TODO: Define a title for the content shown.
                 // TODO: Make sure this auto-generated URL is correct.
@@ -218,7 +210,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     }
 
     @Override
-    public void onStart() {
+    public final void onStart() {
         super.onStart();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -227,7 +219,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     }
 
     @Override
-    public void onStop() {
+    public final void onStop() {
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -237,14 +229,14 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    public final void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         if (adapterView instanceof ListView) {
             ListView lv = (ListView) adapterView;
             SparseBooleanArray checkedItems = lv.getCheckedItemPositions();
             // Como solo se puede seleccionar un recurso, al seleccionar otro se vacia
             // la lista por completo.
-            if (mRecursoButton.isEnabled()) {
-                mItemsSeleccionados.clear();
+            if (mResourceButton.isEnabled()) {
+                mSelectedItems.clear();
             }
             if (checkedItems != null) {
                 int itemsSeleccionados = 0;
@@ -255,29 +247,39 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                         itemsSeleccionados++;
                         Log.i(TAG, item + " was selected");
                         // Solo se agrega un item en caso de ya no estar en la lista.
-                        if (!mItemsSeleccionados.contains(item)) {
-                            mItemsSeleccionados.add(item);
+                        if (!mSelectedItems.contains(item)) {
+                            mSelectedItems.add(item);
                         }
                     } else {
                         // Remuevo todas las ocurrencias del item en mi lista
                         // de items seleccionados.
-                        while (mItemsSeleccionados.remove(item)) {
+                        boolean allItemsRemoved = false;
+                        while (!allItemsRemoved) {
+                            allItemsRemoved = !mSelectedItems.remove(item);
                         }
                     }
                 }
                 // Imprimo items seleccionados hasta el momento.
                 Log.d(TAG, "Items seleccionados = " + Integer.toString(itemsSeleccionados));
-                for (String item : mItemsSeleccionados) {
+                for (String item : mSelectedItems) {
                     Log.d(TAG, item);
                 }
                 // Habilito o deshabilito el boton de continuar en base a la cantidad
                 // de elementos seleccionados.
                 if (itemsSeleccionados > 0) {
-                    mContinuarButton.setEnabled(true);
+                    mContinueButton.setEnabled(true);
                 } else {
-                    mContinuarButton.setEnabled(false);
+                    mContinueButton.setEnabled(false);
                 }
             }
         }
+    }
+
+    /**
+     * Interfaz implementada para recibir el resultado de la request
+     * de Volley una vez que finalice.
+     */
+    public interface VolleyCallbackLoginUser {
+        void onSuccess();
     }
 }

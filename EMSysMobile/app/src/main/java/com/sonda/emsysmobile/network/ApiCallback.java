@@ -10,12 +10,12 @@ public interface ApiCallback<T> {
      * @param object
      */
     @SuppressWarnings("unused")
-    public void onSuccess(T object);
+    void onSuccess(T object);
 
     /**
      * This method must be implemented inline in any Activity, Fragment or etc to handle
      * networking error callback.
      */
     @SuppressWarnings("unused")
-    public void onError(String errorMessage);
+    void onError(String errorMessage);
 }

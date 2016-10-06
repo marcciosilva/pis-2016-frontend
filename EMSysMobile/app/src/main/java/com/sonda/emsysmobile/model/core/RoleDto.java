@@ -2,10 +2,10 @@ package com.sonda.emsysmobile.model.core;
 
 import com.google.gson.annotations.SerializedName;
 import com.sonda.emsysmobile.model.responses.ErrorResponse;
-import com.sonda.emsysmobile.model.responses.GetRolesResponse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by marccio on 9/28/16.
@@ -14,41 +14,49 @@ import java.util.ArrayList;
 public class RoleDto extends ErrorResponse implements Serializable {
 
     @SerializedName("zonas")
-    private ArrayList<ZoneDto> zones = new ArrayList<>();
+    private List<ZoneDto> zones = new ArrayList<>();
 
     @SerializedName("recursos")
-    private ArrayList<ResourceDto> resources = new ArrayList<>();
+    private List<ResourceDto> resources = new ArrayList<>();
 
-    public RoleDto(ArrayList<ZoneDto> zones, ArrayList<ResourceDto> resources) {
+    public RoleDto(List<ZoneDto> zones, List<ResourceDto> resources) {
         this.zones = zones;
         this.resources = resources;
     }
 
-    public ArrayList<ZoneDto> getZones() {
+    public final List<ZoneDto> getZones() {
         return zones;
     }
 
-    public void setZones(ArrayList<ZoneDto> zones) {
+    public final void setZones(List<ZoneDto> zones) {
         this.zones = zones;
     }
 
-    public ArrayList<ResourceDto> getResources() {
+    public final List<ResourceDto> getResources() {
         return resources;
     }
 
-    public void setResources(ArrayList<ResourceDto> resources) {
+    public final void setResources(List<ResourceDto> resources) {
         this.resources = resources;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         RoleDto roleDto = (RoleDto) o;
 
-        if (zones != null ? !zones.equals(roleDto.zones) : roleDto.zones != null) return false;
+        if (zones != null ? !zones.equals(roleDto.zones) : roleDto.zones != null) {
+            return false;
+        }
         return resources != null ? resources.equals(roleDto.resources) : roleDto.resources == null;
 
     }

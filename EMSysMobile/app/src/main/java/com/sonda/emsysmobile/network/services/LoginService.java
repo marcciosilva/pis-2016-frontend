@@ -18,7 +18,7 @@ public class LoginService {
         this.context = context;
     }
 
-    public Response<AuthResponse> login(String user, String password){
+    public final Response<AuthResponse> login(String user, String password){
         AuthRequest<AuthResponse> authRequest = new AuthRequest<>(context,AuthResponse.class);
         authRequest.setAttributes(user, password);
         authRequest.setListener(new Response.Listener<AuthResponse>(){

@@ -25,39 +25,47 @@ public class ZoneDto implements Serializable {
         this.execUnitName = execUnitName;
     }
 
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public final void setName(String name) {
         this.name = name;
     }
 
-    public int getIdentifier() {
+    public final int getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(int identifier) {
+    public final void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    public String getExecUnitName() {
+    public final String getExecUnitName() {
         return execUnitName;
     }
 
-    public void setExecUnitName(String execUnitName) {
+    public final void setExecUnitName(String execUnitName) {
         this.execUnitName = execUnitName;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ZoneDto zoneDto = (ZoneDto) o;
 
-        if (identifier != zoneDto.identifier) return false;
-        if (name != null ? !name.equals(zoneDto.name) : zoneDto.name != null) return false;
+        if (identifier != zoneDto.identifier) {
+            return false;
+        }
+        if (name != null ? !name.equals(zoneDto.name) : zoneDto.name != null) {
+            return false;
+        }
         return execUnitName != null ? execUnitName.equals(zoneDto.execUnitName) : zoneDto.execUnitName == null;
 
     }

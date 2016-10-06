@@ -22,22 +22,22 @@ public class GetRolesRequest<T> extends AbstractRequest<T> {
 
     private enum GetRolesCase {Both, Resources, Zones, Fail, Empty}
 
-    private static final GetRolesCase getRolesCase = GetRolesCase.Both;
+    private static final GetRolesCase GET_ROLES_CASE = GetRolesCase.Both;
 
     public GetRolesRequest(Context context, Type type) {
         super(context, type, RequestType.POST);
     }
 
     @Override
-    protected String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
+    protected final String getPath() {
+        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
         String path = null;
         if (!debugMode) {
             // Se envia request al path de getRoles que ofrece el web service.
             path = GET_ROLES_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
-            switch (getRolesCase) {
+            switch (GET_ROLES_CASE) {
                 case Both:
                     path = GET_ROLES_BOTH_PATH;
                     break;
@@ -61,7 +61,7 @@ public class GetRolesRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         return null;
     }
 }

@@ -11,40 +11,32 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.sonda.emsysmobile.BuildConfig;
-import com.sonda.emsysmobile.R;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 /**
  * Created by ssainz on 8/28/16.
  */
-public class AppRequestQueue {
+public final class AppRequestQueue {
 
     private static AppRequestQueue mInstance;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static Context mCtx;
+    private static final String TAG = AppRequestQueue.class.getName();
 
     private AppRequestQueue(Context context) {
         mCtx = context;
@@ -86,8 +78,7 @@ public class AppRequestQueue {
                             TrustManager[] trustAllCerts = new TrustManager[]{
                                     new X509TrustManager() {
                                         public X509Certificate[] getAcceptedIssuers() {
-                                            X509Certificate[] myTrustedAnchors = new X509Certificate[0];
-                                            return myTrustedAnchors;
+                                            return new X509Certificate[0];
                                         }
 
                                         @Override
@@ -111,9 +102,9 @@ public class AppRequestQueue {
 
 
                         } catch (KeyManagementException e) {
-                            e.printStackTrace();
+                            Log.d(TAG, e.getStackTrace().toString());
                         } catch (NoSuchAlgorithmException e) {
-                            e.printStackTrace();
+                            Log.d(TAG, e.getStackTrace().toString());
                         }
                         return httpsURLConnection;
                     }

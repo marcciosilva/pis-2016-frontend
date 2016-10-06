@@ -11,46 +11,46 @@ import java.util.List;
 public class EventDto {
 
     @SerializedName("id")
-    public int identifier;
+    private int identifier;
 
     @SerializedName("informante")
-    public String informant;
+    private String informant;
 
     @SerializedName("telefono")
-    public String phone;
+    private String phone;
 
     @SerializedName("time_stamp")
-    public Date timeStamp;
+    private Date timeStamp;
 
     @SerializedName("fecha")
-    public Date createdDate;
+    private Date createdDate;
 
     @SerializedName("en_proceso")
-    public boolean inProcess;
+    private boolean inProcess;
 
     @SerializedName("origen")
-    public String origin;
+    private String origin;
 
     @SerializedName("cod_sector")
-    public String sectorCode;
+    private String sectorCode;
 
     @SerializedName("calle")
-    public String street;
+    private String street;
 
     @SerializedName("esquina")
-    public String corner;
+    private String corner;
 
     @SerializedName("numero")
-    public String number;
+    private String number;
 
     @SerializedName("departamento")
-    public String department;
+    private String department;
 
     @SerializedName("extensiones")
-    public List<ExtensionDto> extensions;
+    private List<ExtensionDto> extensions;
 
     @SerializedName("categoria")
-    public CategoryDto category;
+    private CategoryDto category;
 
     public EventDto(int identifier, String informant, String phone, Date timeStamp,
                     Date createdDate, boolean inProcess, String origin, String sectorCode,
@@ -72,148 +72,168 @@ public class EventDto {
         this.category = category;
     }
 
-    public int getIdentifier() {
+    public final int getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(int identifier) {
+    public final void setIdentifier(int identifier) {
         this.identifier = identifier;
     }
 
-    public String getInformant() {
+    public final String getInformant() {
         return informant;
     }
 
-    public void setInformant(String informant) {
+    public final void setInformant(String informant) {
         this.informant = informant;
     }
 
-    public String getPhone() {
+    public final String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public final void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public Date getTimeStamp() {
+    public final Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
+    public final void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 
-    public Date getCreatedDate() {
+    public final Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public final void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public boolean isInProcess() {
+    public final boolean isInProcess() {
         return inProcess;
     }
 
-    public void setInProcess(boolean inProcess) {
+    public final void setInProcess(boolean inProcess) {
         this.inProcess = inProcess;
     }
 
-    public String getOrigin() {
+    public final String getOrigin() {
         return origin;
     }
 
-    public void setOrigin(String origin) {
+    public final void setOrigin(String origin) {
         this.origin = origin;
     }
 
-    public String getSectorCode() {
+    public final String getSectorCode() {
         return sectorCode;
     }
 
-    public void setSectorCode(String sectorCode) {
+    public final void setSectorCode(String sectorCode) {
         this.sectorCode = sectorCode;
     }
 
-    public String getStreet() {
+    public final String getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
+    public final void setStreet(String street) {
         this.street = street;
     }
 
-    public String getCorner() {
+    public final String getCorner() {
         return corner;
     }
 
-    public void setCorner(String corner) {
+    public final void setCorner(String corner) {
         this.corner = corner;
     }
 
-    public String getNumber() {
+    public final String getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public final void setNumber(String number) {
         this.number = number;
     }
 
-    public String getDepartment() {
+    public final String getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public final void setDepartment(String department) {
         this.department = department;
     }
 
-    public List<ExtensionDto> getExtensions() {
+    public final List<ExtensionDto> getExtensions() {
         return extensions;
     }
 
-    public void setExtensions(List<ExtensionDto> extensions) {
+    public final void setExtensions(List<ExtensionDto> extensions) {
         this.extensions = extensions;
     }
 
-    public CategoryDto getCategory() {
+    public final CategoryDto getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryDto category) {
+    public final void setCategory(CategoryDto category) {
         this.category = category;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         EventDto eventDto = (EventDto) o;
 
-        if (identifier != eventDto.identifier) return false;
-        if (inProcess != eventDto.inProcess) return false;
-        if (informant != null ? !informant.equals(eventDto.informant) : eventDto.informant != null)
+        if (identifier != eventDto.identifier) {
             return false;
-        if (phone != null ? !phone.equals(eventDto.phone) : eventDto.phone != null) return false;
-        if (timeStamp != null ? !timeStamp.equals(eventDto.timeStamp) : eventDto.timeStamp != null)
+        }
+        if (inProcess != eventDto.inProcess) {
             return false;
-        if (createdDate != null ? !createdDate.equals(eventDto.createdDate) : eventDto.createdDate != null)
+        }
+        if (informant != null ? !informant.equals(eventDto.informant) : eventDto.informant != null) {
             return false;
-        if (origin != null ? !origin.equals(eventDto.origin) : eventDto.origin != null)
+        }
+        if (phone != null ? !phone.equals(eventDto.phone) : eventDto.phone != null) {
             return false;
-        if (sectorCode != null ? !sectorCode.equals(eventDto.sectorCode) : eventDto.sectorCode != null)
+        }
+        if (timeStamp != null ? !timeStamp.equals(eventDto.timeStamp) : eventDto.timeStamp != null) {
             return false;
-        if (street != null ? !street.equals(eventDto.street) : eventDto.street != null)
+        }
+        if (createdDate != null ? !createdDate.equals(eventDto.createdDate) : eventDto.createdDate != null) {
             return false;
-        if (corner != null ? !corner.equals(eventDto.corner) : eventDto.corner != null)
+        }
+        if (origin != null ? !origin.equals(eventDto.origin) : eventDto.origin != null) {
             return false;
-        if (number != null ? !number.equals(eventDto.number) : eventDto.number != null)
+        }
+        if (sectorCode != null ? !sectorCode.equals(eventDto.sectorCode) : eventDto.sectorCode != null) {
             return false;
-        if (department != null ? !department.equals(eventDto.department) : eventDto.department != null)
+        }
+        if (street != null ? !street.equals(eventDto.street) : eventDto.street != null) {
             return false;
-        if (extensions != null ? !extensions.equals(eventDto.extensions) : eventDto.extensions != null)
+        }
+        if (corner != null ? !corner.equals(eventDto.corner) : eventDto.corner != null) {
             return false;
+        }
+        if (number != null ? !number.equals(eventDto.number) : eventDto.number != null) {
+            return false;
+        }
+        if (department != null ? !department.equals(eventDto.department) : eventDto.department != null) {
+            return false;
+        }
+        if (extensions != null ? !extensions.equals(eventDto.extensions) : eventDto.extensions != null) {
+            return false;
+        }
         return category != null ? category.equals(eventDto.category) : eventDto.category == null;
 
     }

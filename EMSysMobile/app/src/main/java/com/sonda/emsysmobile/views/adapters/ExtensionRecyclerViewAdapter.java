@@ -30,14 +30,14 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_extension, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public final void onBindViewHolder(final ViewHolder holder, int position) {
         ExtensionDto extension = mValues.get(position);
         String idAndZoneString = "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
         CategoryDto category = extension.getCategory();
@@ -45,54 +45,82 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
             category = extension.getEvent().getCategory();
         }
         CategoryPriority priority = category.getPriority();
-        holder.mItem = extension;
-        holder.mIdAndZoneTextView.setText(idAndZoneString);
-        holder.mDescriptionTextView.setText(extension.getDescription());
-        holder.mDateTextView.setText(DateUtils.dateToString(extension.getTimeStamp()));
+        holder.setItem(extension);
+        holder.getIdAndZoneTextView().setText(idAndZoneString);
+        holder.getDescriptionTextView().setText(extension.getDescription());
+        holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
         if (priority == CategoryPriority.HIGH) {
-            holder.mPriorityView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_high));
+            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_high));
         } else if (priority == CategoryPriority.MEDIUM) {
-            holder.mPriorityView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_medium));
+            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_medium));
         } else if (priority == CategoryPriority.LOW) {
-            holder.mPriorityView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_low));
+            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_low));
         }
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.getItem());
                 }
             }
         });
     }
 
     @Override
-    public int getItemCount() {
+    public final int getItemCount() {
         return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdAndZoneTextView;
-        public final TextView mDescriptionTextView;
-        public final TextView mDateTextView;
-        public final View mPriorityView;
-        public ExtensionDto mItem;
+        private final View view;
+        private final TextView idAndZoneTextView;
+        private final TextView descriptionTextView;
+        private final TextView dateTextView;
+        private final View priorityView;
+        private ExtensionDto item;
+
+        public View getView() {
+            return view;
+        }
+
+        public TextView getIdAndZoneTextView() {
+            return idAndZoneTextView;
+        }
+
+        public TextView getDescriptionTextView() {
+            return descriptionTextView;
+        }
+
+        public TextView getDateTextView() {
+            return dateTextView;
+        }
+
+        public View getPriorityView() {
+            return priorityView;
+        }
+
+        public ExtensionDto getItem() {
+            return item;
+        }
+
+        public void setItem(ExtensionDto item) {
+            this.item = item;
+        }
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
-            mDescriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            mPriorityView = view.findViewById(R.id.view_priority_mark);
-            mDateTextView = (TextView) view.findViewById(R.id.label_date);
+            this.view = view;
+            idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
+            descriptionTextView = (TextView) view.findViewById(R.id.label_description);
+            priorityView = view.findViewById(R.id.view_priority_mark);
+            dateTextView = (TextView) view.findViewById(R.id.label_date);
         }
 
         @Override
-        public String toString() {
-            return super.toString() + " '" + mIdAndZoneTextView.getText() + "'";
+        public final String toString() {
+            return super.toString() + " '" + idAndZoneTextView.getText() + "'";
         }
     }
 }

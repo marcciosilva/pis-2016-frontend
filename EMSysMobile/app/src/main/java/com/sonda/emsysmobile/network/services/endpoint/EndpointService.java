@@ -26,12 +26,13 @@ import static com.sonda.emsysmobile.BuildConfig.BASE_MOCK_URL;
 public class EndpointService<T> {
 
     private Context context;
+    private static final String TAG = EndpointService.class.getName();
 
     public EndpointService(Context context) {
         this.context = context;
     }
 
-    public void execute(AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
+    public final void execute(AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
         boolean debugMode = BuildConfig.USING_MOCK_SERVER;
         // Se construye la URL de la request.
         String url;
@@ -43,7 +44,7 @@ public class EndpointService<T> {
         url += path;
         if (jsonObject != null) {
             // Se imprime body en json a enviar y la IP a la que va dirigida la request.
-            System.out.println(jsonObject.toString());
+            Log.d(TAG, jsonObject.toString());
         }
         Log.d("IP_REQUEST", url);
         // Se obtiene el token de autenticacion.

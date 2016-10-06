@@ -19,7 +19,7 @@ public class AuthRequest<T> extends AbstractRequest<T> {
 
 
     private enum AuthCase {Success, CredentialsFail, AlreadyAuth}
-    private static final AuthCase authCase = AuthCase.Success;
+    private static final AuthCase AUTH_CASE = AuthCase.Success;
 
     private static final String TAG = AuthRequest.class.getName();
 
@@ -28,14 +28,14 @@ public class AuthRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(context).getBoolean("debugMode", false);
+    protected final String getPath() {
+        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
         String path = null;
         if (!debugMode){
             path = AUTH_PATH;
         } else {
             // Se utilizan web services del mock server con respuestas fijas.
-            switch (authCase) {
+            switch (AUTH_CASE) {
                 case Success:
                     // Siempre se obtiene una respuesta exitosa frente a login.
                     path = AUTH_SUCCESS_PATH;
@@ -57,7 +57,7 @@ public class AuthRequest<T> extends AbstractRequest<T> {
     
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         JsonObject body = new JsonObject(); 
         body.addProperty("password", password);
         body.addProperty("username", user);
@@ -68,7 +68,7 @@ public class AuthRequest<T> extends AbstractRequest<T> {
     }
 
 
-    public void setAttributes(String user, String password) {
+    public final void setAttributes(String user, String password) {
         this.user = user;
         this.password = password;
     }

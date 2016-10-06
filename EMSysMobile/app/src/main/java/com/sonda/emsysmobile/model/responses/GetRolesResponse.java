@@ -10,18 +10,18 @@ import com.sonda.emsysmobile.model.core.RoleDto;
 public class GetRolesResponse extends EmsysResponse {
 
     @SerializedName("response")
-    public RoleDto roles;
+    private RoleDto roles;
 
-    public RoleDto getRoles() {
+    public final RoleDto getRoles() {
         return roles;
     }
 
-    public void setRoles(RoleDto roles) {
+    public final void setRoles(RoleDto roles) {
         this.roles = roles;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
 
         if (obj == null) {
             return false;
