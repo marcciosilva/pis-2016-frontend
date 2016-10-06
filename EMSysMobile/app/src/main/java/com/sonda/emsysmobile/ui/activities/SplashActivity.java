@@ -2,9 +2,11 @@ package com.sonda.emsysmobile.ui.activities;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
@@ -15,6 +17,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // Agregar preferencia de modo debug.
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", BuildConfig.USING_MOCK_SERVER).commit();
         final Handler handler = new Handler();
         final long delayMillis = 2000;
         handler.postDelayed(new Runnable() {

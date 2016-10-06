@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity.EleccionRol;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
@@ -161,8 +163,8 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             @Override
             public void onResponse(LoginLogoutResponse response) {
                 // Parseo el codigo de respuesta y determino el exito de la operacion.
-                int responseCode = response.getCode();
-                if (responseCode == 0) {
+                final int responseCode = response.getCode();
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
                     callback.onSuccess();
                 } else {
                     // Obtengo mensaje de error correspondiente al codigo.
@@ -173,7 +175,20 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                             ZonasRecursosChooserActivity.this);
                     builder.setTitle("Error");
                     builder.setMessage(errorMsg);
-                    builder.setPositiveButton("OK", null);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
+                                Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            } else if (responseCode == ResponseCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
+                                Intent intent = new Intent(getApplicationContext(), RoleChooserActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        }
+                    });
                     builder.show();
                 }
             }

@@ -17,6 +17,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
@@ -87,7 +88,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onResponse(GetRolesResponse response) {
                 final int responseCode = response.getCode();
-                if (responseCode == 0) {
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
                     RoleDto roles = response.getRoles();
                     callback.onSuccess(roles);
                 } else {
@@ -104,7 +105,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                         public void onClick(DialogInterface dialogInterface, int i) {
                             // En caso de no estar autenticado, se vuelve a la activity
                             // de autenticacion.
-                            if (responseCode == 2) {
+                            if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
                                 goToAuth();
                             }
                         }

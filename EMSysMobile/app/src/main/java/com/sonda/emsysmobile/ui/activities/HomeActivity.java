@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
@@ -137,11 +138,8 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                     builder.setMessage(errorMsg);
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            switch (responseCode) {
-                                case 2:
-                                    goToSplash();
-                                default:
-                                    break;
+                            if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
+                                goToSplash();
                             }
                         }
                     });

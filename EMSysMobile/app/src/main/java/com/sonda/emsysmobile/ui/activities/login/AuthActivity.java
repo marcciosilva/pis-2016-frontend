@@ -21,6 +21,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -85,7 +86,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onResponse(AuthResponse response) {
                 int responseCode = response.getCode();
-                if (responseCode == 0) {
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
                     //Se guarda el token en shared preferences para usar en cada consulta al web service.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                     Log.d(TAG, "Token guardado en preferencias.");

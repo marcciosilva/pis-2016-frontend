@@ -33,9 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // Agregar preferencia de modo debug.
-        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", BuildConfig.USING_MOCK_SERVER).commit();
-
         mGoToAppButton = (Button) findViewById(R.id.button_goto_app);
         mGoToAppButton.setOnClickListener(this);
         Button consumeWSButton = (Button) findViewById(R.id.button_consume_ws);

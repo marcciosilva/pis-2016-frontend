@@ -23,7 +23,7 @@ public class LoginRequest<T> extends AbstractRequest<T> {
 
     private enum LoginCase {Success, Fail}
 
-    private static final LoginCase LOGIN_CASE = LoginCase.Success;
+    private static final LoginCase LOGIN_CASE = LoginCase.Fail;
     private RoleDto roles;
     private static final String TAG = LoginRequest.class.getName();
 
