@@ -18,7 +18,7 @@ public class LoginLogoutResponseUnitTest {
      * Ejecuta antes de cada test de la suite.
      */
     @Before
-    public void executeBeforeEach() {
+    public void setUp() {
         mLoginLogoutResponse = new LoginLogoutResponse();
         mInnerResponse = new ErrorResponse();
         mLoginLogoutResponse.setInnerResponse(mInnerResponse);
@@ -30,7 +30,7 @@ public class LoginLogoutResponseUnitTest {
      * Prueba get de respuesta interna.
      */
     @Test
-    public void getInnerResponse_SameInnerResponse_ReturnsTrue() {
+    public void getInnerResponse_CompareWithSameInnerResponse_ReturnsTrue() {
         assertTrue(mLoginLogoutResponse.getInnerResponse().equals(mInnerResponse));
     }
 
@@ -63,7 +63,7 @@ public class LoginLogoutResponseUnitTest {
      * Prueba equals en caso exitoso.
      */
     @Test
-    public void equals_SameFields_ReturnsTrue() {
+    public void equals_CompareWithSameFields_ReturnsTrue() {
         LoginLogoutResponse testResponse = new LoginLogoutResponse();
         testResponse.setCode(0);
         ErrorResponse testInnerResponse = new ErrorResponse();

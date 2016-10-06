@@ -14,7 +14,7 @@ public class ErrorResponseTest {
     private ErrorResponse mErrorResponse;
 
     @Before
-    public void executeBeforeEach() {
+    public void setUp() {
         mErrorResponse = new ErrorResponse();
         mErrorResponse.setMsg("errorMsg");
     }
@@ -23,7 +23,7 @@ public class ErrorResponseTest {
      * Prueba que el get del msg funcione bien.
      */
     @Test
-    public void getMsg_SameMessage_ReturnsTrue() {
+    public void getMsg_CompareWithSameMessage_ReturnsTrue() {
         assertTrue(mErrorResponse.getMsg().equals("errorMsg"));
     }
 
@@ -57,7 +57,7 @@ public class ErrorResponseTest {
      * Prueba equals en caso exitoso.
      */
     @Test
-    public void equals_SameFields_ReturnsTrue() {
+    public void equals_CompareWithSameFields_ReturnsTrue() {
         ErrorResponse testInnerResponse = new ErrorResponse();
         testInnerResponse.setMsg("errorMsg");
         assertTrue(mErrorResponse.equals(testInnerResponse));

@@ -16,7 +16,7 @@ public class EmsysResponseTest {
     private int mResponseCode;
 
     @Before
-    public void executeBeforeEach() {
+    public void setUp() {
         mEmsysResponse = new EmsysResponse();
         mResponseCode = 1;
         mEmsysResponse.setCode(mResponseCode);
@@ -26,7 +26,7 @@ public class EmsysResponseTest {
      * Prueba que el get del code funcione bien.
      */
     @Test
-    public void getCode_SameCode_ReturnsTrue() {
+    public void getCode_CompareWithSameCode_ReturnsTrue() {
         assertTrue(mEmsysResponse.getCode() == mResponseCode);
     }
 
@@ -59,7 +59,7 @@ public class EmsysResponseTest {
      * Prueba equals en caso exitoso.
      */
     @Test
-    public void equals_SameFields_ReturnsTrue() {
+    public void equals_CompareWithSameFields_ReturnsTrue() {
         EmsysResponse testResponse = new EmsysResponse();
         testResponse.setCode(mResponseCode);
         assertTrue(mEmsysResponse.equals(testResponse));

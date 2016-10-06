@@ -16,6 +16,10 @@ public class EventsResponse extends EmsysResponse {
     @SerializedName("response")
     private ArrayList<EventDto> events;
 
+    public EventsResponse(ArrayList<EventDto> events) {
+        this.events = events;
+    }
+
     public ArrayList<EventDto> getEvents() {
         return events;
     }

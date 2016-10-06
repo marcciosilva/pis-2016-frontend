@@ -50,18 +50,16 @@ public class ZoneDto implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!ZoneDto.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        final ZoneDto other = (ZoneDto) obj;
-        if (name != other.name || identifier != other.identifier
-                || execUnitName != other.execUnitName) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ZoneDto zoneDto = (ZoneDto) o;
+
+        if (identifier != zoneDto.identifier) return false;
+        if (name != null ? !name.equals(zoneDto.name) : zoneDto.name != null) return false;
+        return execUnitName != null ? execUnitName.equals(zoneDto.execUnitName) : zoneDto.execUnitName == null;
+
     }
+
 }

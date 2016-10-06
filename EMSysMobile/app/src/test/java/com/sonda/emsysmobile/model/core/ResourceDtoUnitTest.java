@@ -15,12 +15,12 @@ public class ResourceDtoUnitTest {
     private ResourceDto mResourceDto;
 
     @Before
-    public void executeBeforeEach() {
+    public void setUp() {
         mResourceDto = new ResourceDto("1", 1);
     }
 
     @Test
-    public void getId_SameId_ReturnsTrue() {
+    public void getId_CompareWithSameId_ReturnsTrue() {
         assertTrue(mResourceDto.getId() == 1);
     }
 
@@ -31,7 +31,7 @@ public class ResourceDtoUnitTest {
     }
 
     @Test
-    public void getCode_SameCode_ReturnsTrue() {
+    public void getCode_CompareWithSameCode_ReturnsTrue() {
         assertTrue(mResourceDto.getCode().equals("1"));
     }
 
@@ -43,22 +43,29 @@ public class ResourceDtoUnitTest {
 
     @Test
     public void equals_NullComparison_ReturnsFalse() {
-        ResourceDto recurso = new ResourceDto(null, 0);
-        assertFalse(recurso.equals(null));
+        ResourceDto resource = new ResourceDto(null, 0);
+        assertFalse(resource.equals(null));
     }
 
     @Test
     public void equals_DifferentClass_ReturnsFalse() {
-        ResourceDto recurso = new ResourceDto(null, 0);
+        ResourceDto resource = new ResourceDto(null, 0);
         RoleDto rol = new RoleDto(null, null);
-        assertFalse(recurso.equals(rol));
+        assertFalse(resource.equals(rol));
     }
 
     @Test
-    public void equals_SameFields_ReturnsTrue() {
-        ResourceDto recurso1 = new ResourceDto("1", 1);
-        ResourceDto recurso2 = new ResourceDto("1", 1);
-        assertTrue(recurso1.equals(recurso2));
+    public void equals_CompareWithSameFields_ReturnsTrue() {
+        ResourceDto resource1 = new ResourceDto("1", 1);
+        ResourceDto resource2 = new ResourceDto("1", 1);
+        assertTrue(resource1.equals(resource2));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentFields_ReturnsFalse() {
+        ResourceDto resource1 = new ResourceDto("1", 1);
+        ResourceDto resource2 = new ResourceDto("1", 2);
+        assertFalse(resource1.equals(resource2));
     }
 
 }

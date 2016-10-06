@@ -22,7 +22,7 @@ public class GetRolesResponseUnitTest {
     private RoleDto mRoleDto;
 
     @Before
-    public void executeBeforeEach() {
+    public void setUp() {
         mGetRolesResponse = new GetRolesResponse();
         mGetRolesResponse.code = 0;
         ZoneDto mZone1 = new ZoneDto("zona 1", 1234, "ue1");
@@ -40,12 +40,12 @@ public class GetRolesResponseUnitTest {
     }
 
     @Test
-    public void getCode_SameCode_ReturnsTrue() {
+    public void getCode_CompareWithSameCode_ReturnsTrue() {
         assertTrue(mGetRolesResponse.getCode() == 0);
     }
 
     @Test
-    public void getRoles_SameRoles_ReturnsTrue() {
+    public void getRoles_CompareWithSameRoles_ReturnsTrue() {
         assertTrue(mGetRolesResponse.getRoles().equals(mRoleDto));
     }
 
@@ -69,7 +69,7 @@ public class GetRolesResponseUnitTest {
      * Prueba equals en caso exitoso.
      */
     @Test
-    public void equals_SameFields_ReturnsTrue() {
+    public void equals_CompareWithSameFields_ReturnsTrue() {
         GetRolesResponse testResponse = new GetRolesResponse();
         testResponse.setCode(0);
         ZoneDto testZone1 = new ZoneDto("zona 1", 1234, "ue1");

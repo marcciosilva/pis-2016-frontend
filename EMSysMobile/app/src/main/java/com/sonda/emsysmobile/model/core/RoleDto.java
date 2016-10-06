@@ -41,17 +41,16 @@ public class RoleDto extends ErrorResponse implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
-        if (obj == null) {
-            return false;
-        }
-        if (!RoleDto.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        final RoleDto other = (RoleDto) obj;
-        return ((super.equals(obj)) && (zones.equals(other.zones))
-                && (resources.equals(other.resources)));
+        RoleDto roleDto = (RoleDto) o;
+
+        if (zones != null ? !zones.equals(roleDto.zones) : roleDto.zones != null) return false;
+        return resources != null ? resources.equals(roleDto.resources) : roleDto.resources == null;
+
     }
 
 }

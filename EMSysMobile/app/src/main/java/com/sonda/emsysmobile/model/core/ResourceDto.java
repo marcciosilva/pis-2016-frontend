@@ -40,14 +40,15 @@ public class ResourceDto implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!ResourceDto.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        final ResourceDto other = (ResourceDto) obj;
-        return ((code == other.code) && (id == other.id));
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ResourceDto that = (ResourceDto) o;
+
+        if (id != that.id) return false;
+        return code != null ? code.equals(that.code) : that.code == null;
+
     }
+
 }

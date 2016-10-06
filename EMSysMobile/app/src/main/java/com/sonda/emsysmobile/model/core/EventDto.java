@@ -52,6 +52,26 @@ public class EventDto {
     @SerializedName("categoria")
     public CategoryDto category;
 
+    public EventDto(int identifier, String informant, String phone, Date timeStamp,
+                    Date createdDate, boolean inProcess, String origin, String sectorCode,
+                    String street, String corner, String number, String department,
+                    List<ExtensionDto> extensions, CategoryDto category) {
+        this.identifier = identifier;
+        this.informant = informant;
+        this.phone = phone;
+        this.timeStamp = timeStamp;
+        this.createdDate = createdDate;
+        this.inProcess = inProcess;
+        this.origin = origin;
+        this.sectorCode = sectorCode;
+        this.street = street;
+        this.corner = corner;
+        this.number = number;
+        this.department = department;
+        this.extensions = extensions;
+        this.category = category;
+    }
+
     public int getIdentifier() {
         return identifier;
     }
@@ -162,5 +182,39 @@ public class EventDto {
 
     public void setCategory(CategoryDto category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EventDto eventDto = (EventDto) o;
+
+        if (identifier != eventDto.identifier) return false;
+        if (inProcess != eventDto.inProcess) return false;
+        if (informant != null ? !informant.equals(eventDto.informant) : eventDto.informant != null)
+            return false;
+        if (phone != null ? !phone.equals(eventDto.phone) : eventDto.phone != null) return false;
+        if (timeStamp != null ? !timeStamp.equals(eventDto.timeStamp) : eventDto.timeStamp != null)
+            return false;
+        if (createdDate != null ? !createdDate.equals(eventDto.createdDate) : eventDto.createdDate != null)
+            return false;
+        if (origin != null ? !origin.equals(eventDto.origin) : eventDto.origin != null)
+            return false;
+        if (sectorCode != null ? !sectorCode.equals(eventDto.sectorCode) : eventDto.sectorCode != null)
+            return false;
+        if (street != null ? !street.equals(eventDto.street) : eventDto.street != null)
+            return false;
+        if (corner != null ? !corner.equals(eventDto.corner) : eventDto.corner != null)
+            return false;
+        if (number != null ? !number.equals(eventDto.number) : eventDto.number != null)
+            return false;
+        if (department != null ? !department.equals(eventDto.department) : eventDto.department != null)
+            return false;
+        if (extensions != null ? !extensions.equals(eventDto.extensions) : eventDto.extensions != null)
+            return false;
+        return category != null ? category.equals(eventDto.category) : eventDto.category == null;
+
     }
 }

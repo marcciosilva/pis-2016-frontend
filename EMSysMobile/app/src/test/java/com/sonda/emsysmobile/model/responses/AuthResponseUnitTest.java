@@ -19,7 +19,7 @@ public class AuthResponseUnitTest {
     private AuthResponse mAuthResponse;
 
     @Before
-    public void executeBeforeEach() {
+    public void setUp() {
         mAuthResponse = new AuthResponse();
         mInnerResponse = new AuthInnerResponse();
         mAuthResponse.setInnerResponse(mInnerResponse);
@@ -29,7 +29,7 @@ public class AuthResponseUnitTest {
     }
 
     @Test
-    public void getResponse_SameFields_ReturnsTrue() {
+    public void getResponse_CompareWithSameFields_ReturnsTrue() {
         assertTrue(mAuthResponse.getInnerResponse().equals(mInnerResponse));
     }
 
@@ -43,7 +43,7 @@ public class AuthResponseUnitTest {
     }
 
     @Test
-    public void getCode_SameCode_ReturnsTrue() {
+    public void getCode_CompareWithSameCode_ReturnsTrue() {
         assertTrue(mAuthResponse.getCode() == 0);
     }
 
@@ -53,7 +53,7 @@ public class AuthResponseUnitTest {
     }
 
     @Test
-    public void getAccessToken_SameAccessToken_ReturnsTrue() {
+    public void getAccessToken_CompareWithSameAccessToken_ReturnsTrue() {
         assertTrue(mAuthResponse.getAccessToken().equals("token"));
     }
 
@@ -63,7 +63,7 @@ public class AuthResponseUnitTest {
     }
 
     @Test
-    public void getExpirationTime_SameExpirationTime_ReturnsTrue() {
+    public void getExpirationTime_CompareWithSameExpirationTime_ReturnsTrue() {
         assertTrue(mAuthResponse.getExpirationTime() == 1);
     }
 }

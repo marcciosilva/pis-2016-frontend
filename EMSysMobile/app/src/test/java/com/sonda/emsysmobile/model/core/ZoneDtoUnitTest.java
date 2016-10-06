@@ -13,25 +13,27 @@ import static org.junit.Assert.assertTrue;
 public class ZoneDtoUnitTest {
 
     private ZoneDto mZoneDto;
+    private String mZone1String = "zone 1";
+    private String mZone2String = "zone 2";
 
     @Before
-    public void executeBeforeEach() {
-        mZoneDto = new ZoneDto("zona 1", 1, "ue1");
+    public void setUp() {
+        mZoneDto = new ZoneDto(mZone1String, 1, "ue1");
     }
 
     @Test
-    public void getName_SameName_ReturnsTrue() {
-        assertTrue(mZoneDto.getName().equals("zona 1"));
+    public void getName_CompareWithSameName_ReturnsTrue() {
+        assertTrue(mZoneDto.getName().equals(mZone1String));
     }
 
     @Test
     public void setName_DifferentName_ReturnsTrue() {
-        mZoneDto.setName("zona 2");
-        assertTrue(mZoneDto.getName().equals("zona 2"));
+        mZoneDto.setName(mZone2String);
+        assertTrue(mZoneDto.getName().equals(mZone2String));
     }
 
     @Test
-    public void getIdentifier_SameIdentifier_ReturnsTrue() {
+    public void getIdentifier_CompareWithSameIdentifier_ReturnsTrue() {
         assertTrue(mZoneDto.getIdentifier() == 1);
     }
 
@@ -42,7 +44,7 @@ public class ZoneDtoUnitTest {
     }
 
     @Test
-    public void getExecUnitName_SameExecUnitName_ReturnsTrue() {
+    public void getExecUnitName_CompareWithSameExecUnitName_ReturnsTrue() {
         assertTrue(mZoneDto.getExecUnitName().equals("ue1"));
     }
 
@@ -87,7 +89,7 @@ public class ZoneDtoUnitTest {
     }
 
     @Test
-    public void equals_SameFields_ReturnsTrue() {
+    public void equals_CompareWithSameFields_ReturnsTrue() {
         ZoneDto zona1 = new ZoneDto("1", 1, "1");
         ZoneDto zona2 = new ZoneDto("1", 1, "1");
         assertTrue(zona1.equals(zona2));

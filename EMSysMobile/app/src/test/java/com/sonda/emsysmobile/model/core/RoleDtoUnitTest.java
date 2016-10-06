@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -14,52 +15,91 @@ import static org.junit.Assert.assertTrue;
 public class RoleDtoUnitTest {
 
     private RoleDto mRoleDto;
-    private ZoneDto mZona1;
-    private ZoneDto mZona2;
-    private ResourceDto mRecurso1;
-    private ResourceDto mRecurso2;
-    private ArrayList<ZoneDto> mZonas;
-    ArrayList<ResourceDto> mRecursos;
+    private ArrayList<ZoneDto> mZones;
+    ArrayList<ResourceDto> mResources;
 
     @Before
-    public void executeBeforeEach() {
-        ZoneDto mZona1 = new ZoneDto("zona 1", 1234, "ue1");
-        ZoneDto mZona2 = new ZoneDto("zona 2", 8262, "ue2");
-        ResourceDto mRecurso1 = new ResourceDto("A123", 1);
-        ResourceDto mRecurso2 = new ResourceDto("B621", 1);
-        mZonas = new ArrayList<>();
-        mZonas.add(mZona1);
-        mZonas.add(mZona2);
-        mRecursos = new ArrayList<>();
-        mRecursos.add(mRecurso1);
-        mRecursos.add(mRecurso2);
-        mRoleDto = new RoleDto(mZonas, mRecursos);
+    public void setUp() {
+        ZoneDto testZone1 = new ZoneDto("zone 1", 1234, "ue1");
+        ZoneDto testZone2 = new ZoneDto("zone 2", 8262, "ue2");
+        ResourceDto testResource1 = new ResourceDto("A123", 1);
+        ResourceDto testResource2 = new ResourceDto("B621", 1);
+        mZones = new ArrayList<>();
+        mZones.add(testZone1);
+        mZones.add(testZone2);
+        mResources = new ArrayList<>();
+        mResources.add(testResource1);
+        mResources.add(testResource2);
+        mRoleDto = new RoleDto(mZones, mResources);
     }
 
     @Test
-    public void getZones_SameZones_ReturnsTrue() {
-        ArrayList<ZoneDto> zonas = mRoleDto.getZones();
-        assertTrue(zonas.equals(mZonas));
+    public void getZones_CompareWithSameZones_ReturnsTrue() {
+        ArrayList<ZoneDto> zones = mRoleDto.getZones();
+        assertTrue(zones.equals(mZones));
     }
 
     @Test
-    public void getResources_SameResources_ReturnsTrue() {
-        ArrayList<ResourceDto> recursos = mRoleDto.getResources();
-        assertTrue(recursos.equals(mRecursos));
+    public void getResources_CompareWithSameResources_ReturnsTrue() {
+        ArrayList<ResourceDto> resources = mRoleDto.getResources();
+        assertTrue(resources.equals(mResources));
     }
 
     @Test
     public void setZones_DifferentZones_ReturnsTrue() {
-        mZonas.add(new ZoneDto("zona 3", 5312, "ue1"));
-        mRoleDto.setZones(mZonas);
-        assertTrue(mRoleDto.getZones().equals(mZonas));
+        mZones.add(new ZoneDto("zone 3", 5312, "ue1"));
+        mRoleDto.setZones(mZones);
+        assertTrue(mRoleDto.getZones().equals(mZones));
     }
 
     @Test
     public void setResources_DifferentResource_ReturnsTrue() {
-        mRecursos.add(new ResourceDto("9875", 1));
-        mRoleDto.setResources(mRecursos);
-        assertTrue(mRoleDto.getResources().equals(mRecursos));
+        mResources.add(new ResourceDto("9875", 1));
+        mRoleDto.setResources(mResources);
+        assertTrue(mRoleDto.getResources().equals(mResources));
+    }
+
+    @Test
+    public void equals_NullComparison_ReturnsFalse() {
+        assertFalse(mRoleDto.equals(null));
+    }
+
+    @Test
+    public void equals_DifferentClass_ReturnsFalse() {
+        ResourceDto resource = new ResourceDto(null, 0);
+        assertFalse(mRoleDto.equals(resource));
+    }
+
+    @Test
+    public void equals_CompareWithSameFields_ReturnsTrue() {
+        ZoneDto testZone1 = new ZoneDto("zone 1", 1234, "ue1");
+        ZoneDto testZone2 = new ZoneDto("zone 2", 8262, "ue2");
+        ResourceDto testResource1 = new ResourceDto("A123", 1);
+        ResourceDto testResource2 = new ResourceDto("B621", 1);
+        ArrayList<ZoneDto> testZones = new ArrayList<>();
+        testZones.add(testZone1);
+        testZones.add(testZone2);
+        ArrayList<ResourceDto> testResources = new ArrayList<>();
+        testResources.add(testResource1);
+        testResources.add(testResource2);
+        RoleDto testRoleDto = new RoleDto(testZones, testResources);
+        assertTrue(mRoleDto.equals(testRoleDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentFields_ReturnsFalse() {
+        ZoneDto testZone1 = new ZoneDto("zone 1", 1239, "ue1");
+        ZoneDto testZone2 = new ZoneDto("zone 2", 8262, "ue2");
+        ResourceDto testResource1 = new ResourceDto("A123", 1);
+        ResourceDto testResource2 = new ResourceDto("B621", 2);
+        ArrayList<ZoneDto> testZones = new ArrayList<>();
+        testZones.add(testZone1);
+        testZones.add(testZone2);
+        ArrayList<ResourceDto> testResources = new ArrayList<>();
+        testResources.add(testResource1);
+        testResources.add(testResource2);
+        RoleDto testRoleDto = new RoleDto(testZones, testResources);
+        assertFalse(mRoleDto.equals(testRoleDto));
     }
 
 }
