@@ -79,7 +79,6 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 mRecursoButton.setEnabled(containsRecurso);
             }
         });
-
     }
 
     private void obtenerRoles(final VolleyCallbackGetRoles callback) {
@@ -97,8 +96,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
                     AlertDialog.Builder builder = new AlertDialog.Builder(
-                            RoleChooserActivity.this,
-                            android.R.style.Theme_Material_Light_Dialog_MinWidth);
+                            RoleChooserActivity.this);
                     builder.setTitle("Error");
                     builder.setMessage(errorMsg);
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

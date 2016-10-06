@@ -3,7 +3,7 @@
 
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#ffffff</color>
+    <color name="colorAccent">#1976D2</color>
 
     <!-- Material design Blue Color Palette -->
     <!-- https://material.google.com/style/color.html#color-color-palette -->
@@ -18,6 +18,9 @@
     <color name="colorPrimary_800">#1565C0</color>
     <color name="colorPrimary_900">#0D47A1</color>
 
+    <!-- emsys blue is colorPrimary 700 -->
+    <!-- emsys gray is gray_light -->
+
     <!-- Material Design Blue greys -->
     <color name="blue_grey_500">#607D8B</color>
     <color name="blue_grey_600">#546E7A</color>
@@ -25,9 +28,11 @@
     <color name="blue_grey_800">#37474F</color>
     <color name="blue_grey_900">#263238</color>
 
+    <color name="disabled_blue">#b40d47a1</color>
+
     <!-- Gray scale -->
     <color name="white">#FFFFFF</color>
-    <color name="gray_light">#DBDBDB</color>
+    <color name="gray_light">#F5F5F5</color>
     <color name="gray">#939393</color>
     <color name="gray_dark">#5F5F5F</color>
     <color name="black">#323232</color>

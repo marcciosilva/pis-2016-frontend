@@ -6,10 +6,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.text.method.PasswordTransformationMethod;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +23,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.model.responses.AuthResponse;
 import com.sonda.emsysmobile.network.services.request.AuthRequest;
+import com.sonda.emsysmobile.utils.UIUtils;
 
-public class AuthActivity extends AppCompatActivity implements View.OnClickListener {
+public class AuthActivity extends FragmentActivity implements View.OnClickListener {
+
     private EditText mUserEditText;
     private EditText mPassEditText;
     private Button mLoginButton;
@@ -45,43 +45,11 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_login);
         mLoginButton = (Button) findViewById(R.id.button_login);
         mLoginButton.setOnClickListener(this);
-        mLoginButton.setEnabled(false);
 
         mUserEditText = (EditText) findViewById(R.id.input_username);
-        mUserEditText.addTextChangedListener(new TextWatcher()  {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                updateLoginButton(mLoginButton, mUserEditText);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                updateLoginButton(mLoginButton, mUserEditText);
-            }
-        });
 
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
-        mPassEditText.setTransformationMethod(new PasswordTransformationMethod());
-        mPassEditText.addTextChangedListener(new TextWatcher()  {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                updateLoginButton(mLoginButton, mPassEditText);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)  {
-                updateLoginButton(mLoginButton, mPassEditText);
-            }
-        });
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -90,29 +58,24 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
-    private void updateLoginButton(Button mLoginButton, EditText editText) {
-        if (!checkEmptyEditText(editText)) {
-            mLoginButton.setEnabled(true);
-        } else {
-            mLoginButton.setEnabled(false);
-        }
-    }
-
-    private boolean checkEmptyEditText(EditText editText) {
-        if (editText.getText().toString().length() <= 0) {
-            editText.setError("Este campo no puede estar vacío.");
-            return true;
-        } else {
-            editText.setError(null);
-            return false;
-        }
-    }
-
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_login) {
-            login();
+            if (validLogin()) {
+                login();
+            }
         }
+    }
+
+    private boolean validLogin() {
+        if (mUserEditText.getText().toString().isEmpty()) {
+            mUserEditText.setError(getResources().getString(R.string.error_required_username));
+            return false;
+        } else if (mPassEditText.getText().toString().isEmpty()) {
+            mPassEditText.setError(getResources().getString(R.string.error_required_password));
+            return false;
+        }
+        return true;
     }
 
     private void login() {
@@ -135,12 +98,8 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
                     String errorMsg = response.getInnerResponse().getMsg();
                     Log.d(TAG, "errorMsg : " + errorMsg);
                     mProgressBar.setVisibility(View.GONE);
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(AuthActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
-                    builder.setTitle("Error");
-                    builder.setMessage(errorMsg);
-                    builder.setPositiveButton("OK", null);
-                    builder.show();
+                    DialogFragment dialog = UIUtils.getSimpleDialog(errorMsg);
+                    dialog.show(getSupportFragmentManager(), TAG);
                 }
             }
         });
@@ -153,8 +112,6 @@ public class AuthActivity extends AppCompatActivity implements View.OnClickListe
         });
         authRequest.execute();
     }
-
-
 
     /**
      * Metodo utilizado para pasar desde la activity de login hacia

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_normal"
-    android:background="@color/colorPrimary_700"
+    android:background="@color/gray_light"
     tools:context="com.sonda.emsysmobile.activities.login.AuthActivity">
 
     <LinearLayout
@@ -14,33 +14,39 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/logo_emsys_shadow"/>
+
         <EditText
             android:id="@+id/input_username"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height_normal"
+            android:layout_marginTop="@dimen/spacing_small"
             android:paddingLeft="@dimen/spacing_small"
             android:paddingRight="@dimen/spacing_small"
-            android:textColor="@color/colorPrimary_900"
-            android:textSize="@dimen/font_normal"
             android:hint="@string/hint_username"
-            android:background="@color/white"
-            android:inputType="text"
+            android:inputType="textNoSuggestions"
             android:maxLines="1"
-            android:imeOptions="actionNext"/>
+            android:imeOptions="actionNext"
+            android:theme="@style/AppEditText"
+            style="@style/AppEditText"/>
 
         <EditText
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_height_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_small"
             android:paddingLeft="@dimen/spacing_small"
             android:paddingRight="@dimen/spacing_small"
-            android:textColor="@color/colorPrimary_900"
-            android:textSize="@dimen/font_normal"
             android:hint="@string/hint_password"
-            android:background="@color/white"
             android:inputType="textPassword"
-            android:imeOptions="actionDone"/>
+            android:imeOptions="actionDone"
+            android:theme="@style/AppEditText"
+            style="@style/AppEditText"/>
 
         <Button
             android:id="@+id/button_login"
@@ -60,6 +66,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/spacing_large"
         android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/blue_progress_bar"
         android:visibility="gone"
         style="?android:attr/progressBarStyle" />
 

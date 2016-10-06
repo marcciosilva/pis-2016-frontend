@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_normal"
-    android:background="@color/colorPrimary_700"
+    android:background="@color/gray_light"
     tools:context="com.sonda.emsysmobile.activities.login.RoleChooserActivity">
 
     <LinearLayout
@@ -17,7 +17,7 @@
         <Button
             android:id="@+id/button_despachador"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/button_height_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/button_despachador"
             style="@style/AppButtonDark"
@@ -66,7 +66,7 @@
         android:layout_marginBottom="18dp"
         android:textColor="@color/colorAccent"
         android:textAllCaps="false"
-        android:textSize="24sp"
-        android:textAlignment="center" />
+        android:textSize="@dimen/font_larger"
+        android:gravity="center_horizontal"/>
 
 </RelativeLayout>
