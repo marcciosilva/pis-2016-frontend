@@ -28,10 +28,12 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.login.RoleChooserActivity"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".ui.activities.login.ZonasRecursosChooserActivity"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".ui.activities.ConsumeWSActivity" />
         <activity android:name=".ui.activities.HomeActivity">
         </activity>
