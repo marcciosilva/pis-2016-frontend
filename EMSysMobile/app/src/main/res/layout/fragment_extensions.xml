@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sonda.emsysmobile.fragments.ExtensionsFragment">
+    tools:context=".ui.fragments.ExtensionsFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".fragments.ExtensionsFragment"
+        tools:context=".ui.fragments.ExtensionsFragment"
         tools:listitem="@layout/row_extension" />
 
 </FrameLayout>

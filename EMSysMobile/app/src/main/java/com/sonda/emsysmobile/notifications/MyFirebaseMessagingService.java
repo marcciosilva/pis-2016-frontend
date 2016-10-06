@@ -12,7 +12,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.activities.MainActivity;
+import com.sonda.emsysmobile.ui.activities.MainActivity;
 
 /**
  * Created by ssainz on 9/5/16.

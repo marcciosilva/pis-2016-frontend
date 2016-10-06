@@ -23,20 +23,20 @@
             com.sonda.emsysmobile.persistence.model.SampleReferencedTable" />
         <!-- ACTIVITIES -->
         <activity
-            android:name=".activities.login.AuthActivity"
+            android:name=".ui.activities.login.AuthActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activities.login.RoleChooserActivity"
+            android:name=".ui.activities.login.RoleChooserActivity"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activities.login.ZonasRecursosChooserActivity"
+            android:name=".ui.activities.login.ZonasRecursosChooserActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".activities.ConsumeWSActivity" />
-        <activity android:name=".activities.HomeActivity">
+        <activity android:name=".ui.activities.ConsumeWSActivity" />
+        <activity android:name=".ui.activities.HomeActivity">
         </activity>
         <activity
-            android:name=".activities.SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
