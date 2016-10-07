@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
@@ -26,7 +27,10 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesRespon
 import com.sonda.emsysmobile.backendcommunication.services.request.GetRolesRequest;
 
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 
 /**
  * Created by marccio on 9/28/16.
@@ -92,32 +96,15 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                     RoleDto roles = response.getRoles();
                     callback.onSuccess(roles);
                 } else {
-                    // Obtengo mensaje de error correspondiente al codigo.
                     String errorMsg = response.getRoles().getMsg();
-                    Log.d(TAG, "errorMsg : " + errorMsg);
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(
-                            RoleChooserActivity.this);
-                    builder.setTitle("Error");
-                    builder.setMessage(errorMsg);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            // En caso de no estar autenticado, se vuelve a la activity
-                            // de autenticacion.
-                            if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
-                                goToAuth();
-                            }
-                        }
-                    });
-                    builder.show();
+                    handleErrorMessage(RoleChooserActivity.this, responseCode, errorMsg);
                 }
             }
         });
         request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error en la comunicación con el servidor.");
+                Log.d(TAG, "La respuesta del servidor incluye un código de error HTTP.");
             }
         });
         request.execute();

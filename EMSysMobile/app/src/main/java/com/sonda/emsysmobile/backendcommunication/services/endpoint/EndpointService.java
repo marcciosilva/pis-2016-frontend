@@ -74,6 +74,17 @@ public class EndpointService<T> {
                     return mHeaders;
                 }
             };
+            try {
+                Log.d(TAG, "Request prepared.");
+                Log.d(TAG, "Headers:");
+                Log.d(TAG, request.getHeaders().toString());
+                if (jsonObjectString != null) {
+                    Log.d(TAG, "Body:");
+                    Log.d(TAG, jsonObjectString);
+                }
+            } catch (AuthFailureError authFailureError) {
+                authFailureError.printStackTrace();
+            }
         }
         if (request != null) {
             AppRequestQueue.getInstance(context).addToRequestQueue(request);

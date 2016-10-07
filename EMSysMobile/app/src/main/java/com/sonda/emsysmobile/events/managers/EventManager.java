@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
@@ -53,14 +54,12 @@ public class EventManager {
             @Override
             public void onResponse(EventsResponse response) {
                 int responseCode = response.getCode();
-                switch (responseCode) {
-                    case 0:
-                        setEvents(response.getEvents());
-                        callback.onSuccess(mExtensions);
-                        break;
-                    default:
-                        callback.onError(mContext.getString(R.string.error_generic));
-                        break;
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    setEvents(response.getEvents());
+                    callback.onSuccess(mExtensions);
+                } else {
+                    //TODO soportar mensaje de error en EventsResponse
+                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
                 }
             }
         });
@@ -68,7 +67,10 @@ public class EventManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG, error.toString());
-                callback.onError(mContext.getString(R.string.error_generic));
+                //TODO una vez que se soporte el mensaje de error en EventsResponse, descomentar
+                //callback.onError(mContext.getString(R.string.error_generic), -1);
+                //TODO una vez que se soporte el mensaje de error en EventsResponse, comentar
+                callback.onError(mContext.getString(R.string.error_no_auth), ResponseCodeCategory.NO_AUTH.getNumVal());
             }
         });
         request.execute();

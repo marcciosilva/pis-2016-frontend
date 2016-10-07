@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
@@ -30,10 +34,16 @@ import com.sonda.emsysmobile.logic.model.core.RoleDto;
 import com.sonda.emsysmobile.logic.model.core.ZoneDto;
 import com.sonda.emsysmobile.backendcommunication.services.request.LoginRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 
 /**
  * Created by marccio on 9/28/16.
@@ -167,36 +177,15 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                 if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
                     callback.onSuccess();
                 } else {
-                    // Obtengo mensaje de error correspondiente al codigo.
                     String errorMsg = response.getInnerResponse().getMsg();
-                    Log.d(TAG, "errorMsg : " + errorMsg);
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(
-                            ZonasRecursosChooserActivity.this);
-                    builder.setTitle("Error");
-                    builder.setMessage(errorMsg);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
-                                Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            } else if (responseCode == ResponseCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
-                                Intent intent = new Intent(getApplicationContext(), RoleChooserActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        }
-                    });
-                    builder.show();
+                    handleErrorMessage(ZonasRecursosChooserActivity.this, responseCode, errorMsg);
                 }
             }
         });
         request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error en la comunicación con el servidor.");
+                Log.d(TAG, getString(R.string.error_http));
             }
         });
         request.execute();

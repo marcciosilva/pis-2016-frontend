@@ -15,6 +15,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,8 +79,9 @@ public class ExtensionsFragment extends Fragment {
             }
 
             @Override
-            public void onError(String errorMessage) {
+            public void onError(String errorMessage, int errorCode) {
                 mProgressBar.setVisibility(View.GONE);
+                UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
             }
         });
     }

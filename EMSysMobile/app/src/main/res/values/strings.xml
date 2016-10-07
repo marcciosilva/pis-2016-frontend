@@ -2,6 +2,7 @@
 
     <string name="app_name">emsys</string>
     <string name="error_generic">Ha ocurrido un error inesperado. Por favor intente nuevamente.</string>
+    <string name="error_no_auth">Usuario no autenticado.</string>
 
     <!-- Main Activity -->
     <string name="button_consume_ws">Consumir WS GET</string>
@@ -39,5 +40,7 @@
     <string name="menu_external_service_string">Servicio externo</string>
     <string name="menu_logout_string">Cerrar sesión</string>
     <string name="test_content_description">Test content description</string>
+    <string name="HTTP_UNAUTHORIZED_STRING">Pedido no autorizado.</string>
+    <string name="error_http">La respuesta del servidor incluye un código de error HTTP.</string>
 
 </resources>

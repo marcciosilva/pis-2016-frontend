@@ -17,5 +17,5 @@ public interface ApiCallback<T> {
      * networking error callback.
      */
     @SuppressWarnings("unused")
-    void onError(String errorMessage);
+    void onError(String errorMessage, int errorCode);
 }

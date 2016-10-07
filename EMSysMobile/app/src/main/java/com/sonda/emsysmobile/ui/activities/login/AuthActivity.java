@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
@@ -24,6 +25,10 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import java.net.HttpURLConnection;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 
 public class AuthActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -92,19 +97,16 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                     Log.d(TAG, "Token guardado en preferencias.");
                     goToRoleChooser();
                 } else {
-                    String errorMsg = response.getInnerResponse().getMsg();
-                    Log.d(TAG, "errorMsg : " + errorMsg);
                     mProgressBar.setVisibility(View.GONE);
-                    DialogFragment dialog = UIUtils.getSimpleDialog(errorMsg);
-                    dialog.show(getSupportFragmentManager(), TAG);
+                    String errorMsg = response.getInnerResponse().getMsg();
+                    handleErrorMessage(AuthActivity.this, responseCode, errorMsg);
                 }
             }
         });
         authRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error en la comunicación con el servidor.");
-                mProgressBar.setVisibility(View.GONE);
+                Log.d(TAG, getString(R.string.error_http));
             }
         });
         authRequest.execute();

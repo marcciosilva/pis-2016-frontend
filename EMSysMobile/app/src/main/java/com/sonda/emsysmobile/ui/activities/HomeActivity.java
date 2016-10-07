@@ -16,14 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+
+import java.net.HttpURLConnection;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 
 public class HomeActivity extends AppCompatActivity implements ExtensionsFragment.OnListFragmentInteractionListener {
 
@@ -132,25 +138,14 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, android.R.style.Theme_Material_Light_Dialog_MinWidth);
-                    builder.setTitle("Error");
-                    builder.setMessage(errorMsg);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
-                                goToSplash();
-                            }
-                        }
-                    });
-                    builder.show();
+                    handleErrorMessage(HomeActivity.this, responseCode, errorMsg);
                 }
             }
         });
         request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "Error en la comunicación con el servidor.");
+                Log.d(TAG, getString(R.string.error_http));
             }
         });
         request.execute();
