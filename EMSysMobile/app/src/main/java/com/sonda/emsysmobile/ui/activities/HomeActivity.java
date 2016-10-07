@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.net.HttpURLConnection;
 
@@ -65,6 +67,12 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.top_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
+        dialog.show(getSupportFragmentManager(), TAG);
     }
 
     @Override
