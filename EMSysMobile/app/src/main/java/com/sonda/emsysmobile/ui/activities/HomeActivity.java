@@ -1,7 +1,5 @@
 package com.sonda.emsysmobile.ui.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -9,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,25 +16,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
-import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
-import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
-import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
-
-import java.net.HttpURLConnection;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 
 public class HomeActivity extends AppCompatActivity implements ExtensionsFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = HomeActivity.class.getName();
+    private SupportMapFragment mMapFragment = null;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -59,7 +55,16 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, extensionsFragment).commit();
+            // Inicializacion de fragment de mapa.
+            initMapFragment();
         }
+    }
+
+    private void initMapFragment() {
+        mMapFragment = SupportMapFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.map_container,
+                mMapFragment, SupportMapFragment.class.getSimpleName()).commit();
+        hideMapFragment();
     }
 
     @Override
@@ -82,10 +87,11 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
         String textString = "text";
-        String touchedString = "Tocaste ";
+        if (item.getItemId() != R.id.menu_view_map_button) {
+            hideMapFragment();
+        }
         switch (item.getItemId()) {
             case R.id.menu_create_event_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_create_event_string));
                 Fragment fragment = new TestFragment();
                 Bundle args = new Bundle();
                 args.putString(textString, getString(R.string.menu_create_event_string));
@@ -93,7 +99,6 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_list_events_string));
                 ExtensionsFragment extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
                     extensionsFragment = new ExtensionsFragment();
@@ -101,7 +106,6 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 }
                 return true;
             case R.id.menu_external_service_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_external_service_string));
                 fragment = new TestFragment();
                 args = new Bundle();
                 args.putString(textString, getString(R.string.menu_external_service_string));
@@ -109,24 +113,48 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 replaceFragment(fragment, "fragment2");
                 return true;
             case R.id.menu_view_map_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_view_map_string));
-                fragment = new TestFragment();
-                args = new Bundle();
-                args.putString(textString, getString(R.string.menu_view_map_string));
-                fragment.setArguments(args);
-                replaceFragment(fragment, "fragment3");
+                showMapFragment();
+                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsFragment();
+                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
                 return true;
             case R.id.menu_logout_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_logout_string));
-                fragment = new TestFragment();
-                args = new Bundle();
-                args.putString(textString, getString(R.string.menu_logout_string));
-                fragment.setArguments(args);
-                replaceFragment(fragment, "fragment4");
                 logout();
+                return true;
             default:
                 // Accion no reconocida, se lo delega a la superclase.
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showMapFragment() {
+        try {
+            ViewGroup.LayoutParams mapParams = mMapFragment.getView().getLayoutParams();
+            if (mapParams != null) {
+                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+                mMapFragment.getView().setLayoutParams(mapParams);
+            }
+        } catch (NullPointerException e) {
+            Log.d(TAG, e.getStackTrace().toString());
+        }
+        getSupportFragmentManager().beginTransaction().show(mMapFragment).commit();
+    }
+
+    private void hideMapFragment() {
+        try {
+            ViewGroup.LayoutParams mapParams = mMapFragment.getView().getLayoutParams();
+            if (mapParams != null) {
+                mapParams.height = 0;
+                mMapFragment.getView().setLayoutParams(mapParams);
+            }
+        } catch (NullPointerException e) {
+            Log.d(TAG, e.getStackTrace().toString());
+        }
+        if (mMapFragment != null) {
+            getSupportFragmentManager().beginTransaction().hide(mMapFragment).commit();
         }
     }
 
@@ -176,7 +204,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
 
         @Override
         public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+                                       Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.test_fragment_layout, container, false);
             String text = getArguments().getString("text");
             TextView textView = (TextView) rootView.findViewById(R.id.fragment_textview);
