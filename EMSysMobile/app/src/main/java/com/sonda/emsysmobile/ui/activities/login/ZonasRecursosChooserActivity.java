@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 9/28/16.
@@ -186,6 +187,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error);
             }
         });
         request.execute();

@@ -10,6 +10,9 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.ui.activities.SplashActivity;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
@@ -31,7 +34,7 @@ public final class UIUtils {
      * Hides the soft keyboard
      */
     public static void hideSoftKeyboard(Activity activity) {
-        if(activity.getCurrentFocus() != null) {
+        if (activity.getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
@@ -70,5 +73,37 @@ public final class UIUtils {
         });
         builder.show();
     }
+
+    public static void handleVolleyErrorResponse(final Context context, VolleyError error) {
+        // Determino status code de la response (en caso de que el error sea de HTTP).
+        NetworkResponse networkResponse = error.networkResponse;
+        int statusCode = -1;
+        if (networkResponse != null) {
+            statusCode = networkResponse.statusCode;
+        }
+        // Determino mensaje de log.
+        if (statusCode != -1) {
+            Log.d(TAG, "Error HTTP " + Integer.toString(statusCode));
+        } else {
+            Log.d(TAG, "Error de conexión");
+        }
+        // Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                context);
+        builder.setTitle(R.string.error_server_communication_message);
+        // Se ofrece reiniciar la aplicacion o quedarse en el mismo lugar, para no perder
+        // datos.
+        builder.setPositiveButton(R.string.error_connection_go_to_init, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(context, SplashActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+            }
+        });
+        builder.setNegativeButton(R.string.error_connection_remain_here, null);
+        builder.show();
+    }
+
 
 }

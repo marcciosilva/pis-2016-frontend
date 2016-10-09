@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
@@ -19,6 +20,8 @@ import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * A fragment representing a list of Items.
@@ -79,9 +82,15 @@ public class ExtensionsFragment extends Fragment {
             }
 
             @Override
-            public void onError(String errorMessage, int errorCode) {
+            public void onLogicError(String errorMessage, int errorCode) {
                 mProgressBar.setVisibility(View.GONE);
                 UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
+            }
+
+            @Override
+            public void onNetworkError(VolleyError error) {
+                mProgressBar.setVisibility(View.GONE);
+                handleVolleyErrorResponse(getContext(), error);
             }
         });
     }
