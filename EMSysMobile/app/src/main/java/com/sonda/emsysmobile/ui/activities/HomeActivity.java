@@ -156,7 +156,12 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(HomeActivity.this, error);
+                handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
             }
         });
         request.execute();

@@ -167,7 +167,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         }
     }
 
-    private void loginUser(RoleDto roles, final VolleyCallbackLoginUser callback) {
+    private void loginUser(final RoleDto roles, final VolleyCallbackLoginUser callback) {
         LoginRequest<LoginLogoutResponse> request = new LoginRequest<>(getApplicationContext(),
                 LoginLogoutResponse.class, roles);
         request.setListener(new Response.Listener<LoginLogoutResponse>() {
@@ -187,7 +187,12 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error);
+                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loginUser(roles, callback);
+                    }
+                });
             }
         });
         request.execute();

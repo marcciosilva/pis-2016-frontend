@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -104,7 +105,12 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
             public void onErrorResponse(VolleyError error) {
                 mProgressBar.setVisibility(View.GONE);
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(AuthActivity.this, error);
+                handleVolleyErrorResponse(AuthActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        login();
+                    }
+                });
             }
         });
         authRequest.execute();

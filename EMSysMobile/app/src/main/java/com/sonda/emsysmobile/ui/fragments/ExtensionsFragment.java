@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,7 +91,12 @@ public class ExtensionsFragment extends Fragment {
             @Override
             public void onNetworkError(VolleyError error) {
                 mProgressBar.setVisibility(View.GONE);
-                handleVolleyErrorResponse(getContext(), error);
+                handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getEvents();
+                    }
+                });
             }
         });
     }

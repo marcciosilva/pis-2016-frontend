@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -102,7 +103,12 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "La respuesta del servidor incluye un código de error HTTP.");
-                handleVolleyErrorResponse(RoleChooserActivity.this, error);
+                handleVolleyErrorResponse(RoleChooserActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        obtenerRoles(callback);
+                    }
+                });
             }
         });
         request.execute();
