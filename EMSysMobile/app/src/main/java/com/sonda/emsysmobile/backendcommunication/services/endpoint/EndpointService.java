@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.backendcommunication.services.endpoint;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
@@ -18,8 +19,6 @@ import com.sonda.emsysmobile.backendcommunication.services.request.AbstractReque
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import static com.sonda.emsysmobile.BuildConfig.BASE_MOCK_URL;
-
 /**
  * Created by mserralta on 29/9/16.
  */
@@ -35,12 +34,14 @@ public class EndpointService<T> {
     public final void execute(AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
         boolean debugMode = BuildConfig.USING_MOCK_SERVER;
         // Se construye la URL de la request.
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         String url;
         if (!debugMode) {
-            url = BuildConfig.BASE_URL;
+            url = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
         } else {
-            url = BASE_MOCK_URL;
+            url = sharedPrefs.getString("backendUrl", BuildConfig.BASE_MOCK_URL);
         }
+        Log.d(TAG, "Base URL: " + url);
         url += path;
         if (jsonObject != null) {
             // Se imprime body en json a enviar y la IP a la que va dirigida la request.
@@ -83,7 +84,7 @@ public class EndpointService<T> {
                     Log.d(TAG, jsonObjectString);
                 }
             } catch (AuthFailureError authFailureError) {
-                authFailureError.printStackTrace();
+                Log.d(TAG, authFailureError.getStackTrace().toString());
             }
         }
         if (request != null) {

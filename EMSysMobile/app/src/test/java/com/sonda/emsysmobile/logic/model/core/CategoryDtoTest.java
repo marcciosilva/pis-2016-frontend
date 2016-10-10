@@ -65,13 +65,13 @@ public class CategoryDtoTest {
 
     @Test
     public void isActive_CompareWithSameIsActive_ReturnsTrue() {
-        assertTrue(mCategoryDto.getActive());
+        assertTrue(mCategoryDto.isActive());
     }
 
     @Test
     public void setActive_DifferentIsActive_ReturnsFalse() {
         mCategoryDto.setActive(false);
-        assertFalse(mCategoryDto.getActive());
+        assertFalse(mCategoryDto.isActive());
     }
 
     @Test

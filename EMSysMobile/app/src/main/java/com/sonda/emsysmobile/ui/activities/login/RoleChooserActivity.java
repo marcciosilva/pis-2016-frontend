@@ -39,10 +39,9 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
     private Button mDespachadorButton;
     private Button mRecursoButton;
     private RoleDto mRoles;
+    private static final String TAG = RoleChooserActivity.class.getName();
 
     public enum EleccionRol {Despachador, Recurso;}
-
-    private static final String TAG = RoleChooserActivity.class.getName();
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -76,9 +75,9 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 // respuestas a la request.
                 List<ZoneDto> zonas = roles.getZones();
                 List<ResourceDto> recursos = roles.getResources();
-                boolean containsZona = zonas != null && zonas.size() > 0;
+                boolean containsZona = (zonas != null) && (!zonas.isEmpty());
                 mDespachadorButton.setEnabled(containsZona);
-                boolean containsRecurso = recursos != null && recursos.size() > 0;
+                boolean containsRecurso = (recursos != null) && (!recursos.isEmpty());
                 mRecursoButton.setEnabled(containsRecurso);
             }
         });
