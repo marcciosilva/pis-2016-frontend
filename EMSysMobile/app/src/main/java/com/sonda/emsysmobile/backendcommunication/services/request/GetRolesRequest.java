@@ -1,9 +1,9 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 
 import com.google.gson.JsonObject;
+import com.sonda.emsysmobile.BuildConfig;
 
 import java.lang.reflect.Type;
 
@@ -20,9 +20,9 @@ import static com.sonda.emsysmobile.BuildConfig.GET_ROLES_ZONAS_PATH;
 
 public class GetRolesRequest<T> extends AbstractRequest<T> {
 
-    private enum GetRolesCase {Both, Resources, Zones, Fail, Empty}
-
     private static final GetRolesCase GET_ROLES_CASE = GetRolesCase.Both;
+
+    private enum GetRolesCase {Both, Resources, Zones, Fail, Empty}
 
     public GetRolesRequest(Context context, Type type) {
         super(context, type, RequestType.POST);
@@ -30,7 +30,7 @@ public class GetRolesRequest<T> extends AbstractRequest<T> {
 
     @Override
     protected final String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
+        boolean debugMode = BuildConfig.USING_MOCK_SERVER;
         String path = null;
         if (!debugMode) {
             // Se envia request al path de getRoles que ofrece el web service.

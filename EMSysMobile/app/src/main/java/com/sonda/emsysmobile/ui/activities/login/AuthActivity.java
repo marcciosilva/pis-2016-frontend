@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import com.android.volley.Response;
@@ -23,6 +24,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
+import com.sonda.emsysmobile.ui.activities.SettingsActivity;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -54,6 +56,9 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        ImageButton configButton = (ImageButton) findViewById(R.id.button_config);
+        configButton.setOnClickListener(this);
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -63,7 +68,14 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
     public final void onClick(View view) {
         if ((view.getId() == R.id.button_login) && (validLogin())) {
                 login();
+        } else if (view.getId() == R.id.button_config) {
+            goToConfig();
         }
+    }
+
+    private void goToConfig() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private boolean validLogin() {

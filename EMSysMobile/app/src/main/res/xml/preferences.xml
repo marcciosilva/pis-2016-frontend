@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/preferences_routes_title">
+
+        <EditTextPreference
+            android:key="backendUrl"
+            android:title="Ruta del Backend"
+            android:summary="Por favor ingrese la URL donde se encuentra publicado el backend."
+            />
+    </PreferenceCategory>
+
+</PreferenceScreen>

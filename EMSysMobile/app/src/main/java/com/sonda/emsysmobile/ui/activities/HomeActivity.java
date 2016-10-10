@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.activities;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,20 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
-import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
-import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
-import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
-import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
-
-import java.net.HttpURLConnection;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
