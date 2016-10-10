@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -27,6 +28,7 @@ import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends AppCompatActivity implements ExtensionsFragment.OnListFragmentInteractionListener {
 
@@ -182,6 +184,12 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
             }
         });
         request.execute();
