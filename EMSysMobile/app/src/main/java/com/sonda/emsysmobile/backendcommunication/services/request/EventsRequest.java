@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 import java.lang.reflect.Type;
 
-import static com.sonda.emsysmobile.BuildConfig.*;
+import static com.sonda.emsysmobile.BuildConfig.EVENTS_PATH;
 
 /**
  * Created by marccio on 10/3/16.

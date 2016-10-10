@@ -1,10 +1,12 @@
 package com.sonda.emsysmobile.ui.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 
 import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
@@ -12,13 +14,16 @@ import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private static final String TAG = SplashActivity.class.getName();
+
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // Agregar preferencia de modo debug.
-        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean("debugMode", BuildConfig.USING_MOCK_SERVER).commit();
+        setUpPreferences();
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         final Handler handler = new Handler();
         final long delayMillis = 2000;
         handler.postDelayed(new Runnable() {
@@ -27,6 +32,23 @@ public class SplashActivity extends AppCompatActivity {
                 goToAuthActivity();
             }
         }, delayMillis);
+    }
+
+    private void setUpPreferences() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        //Log.d(TAG, "Clearing shared prefs...");
+        //sharedPrefs.edit().clear().commit();
+        final String backendUrl = "backendUrl";
+        String currentBackendUrl = sharedPrefs.getString(backendUrl, null);
+        // Si la url del backend no esta definida en preferencias, se setea en base a BuildConfig.
+        if (currentBackendUrl == null) {
+            Log.d(TAG, "Setting up preferences...");
+            if (BuildConfig.USING_MOCK_SERVER) {
+                sharedPrefs.edit().putString(backendUrl, BuildConfig.BASE_MOCK_URL).commit();
+            } else {
+                sharedPrefs.edit().putString(backendUrl, BuildConfig.BASE_URL).commit();
+            }
+        }
     }
 
     private void goToAuthActivity() {

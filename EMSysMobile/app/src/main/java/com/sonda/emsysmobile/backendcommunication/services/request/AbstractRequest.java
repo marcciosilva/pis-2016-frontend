@@ -19,14 +19,13 @@ public abstract class AbstractRequest<T> {
     private static final String TAG = AbstractRequest.class.getName();
     private Context context;
     private Type responseType;
-
     private Response.Listener<T> listener;
     private Response.ErrorListener errorListener;
-
-    public enum RequestType {GET, POST}
     private RequestType requestType;
 
-    public AbstractRequest(Context context, Type responseType, RequestType requestType){
+    public enum RequestType {GET, POST}
+
+    public AbstractRequest(Context context, Type responseType, RequestType requestType) {
         this.context = context;
         this.responseType = responseType;
         this.requestType = requestType;
@@ -39,7 +38,7 @@ public abstract class AbstractRequest<T> {
         Response.ErrorListener errorListener = getErrorListener();
 
         EndpointService endpointService = new EndpointService(context);
-        endpointService.execute(requestType,path,jsonObject, responseType,listener, errorListener);
+        endpointService.execute(requestType, path, jsonObject, responseType, listener, errorListener);
     }
 
     public final Context getContext() {
@@ -58,20 +57,20 @@ public abstract class AbstractRequest<T> {
         this.responseType = responseType;
     }
 
-    public final void setListener(Response.Listener<T> listener){
+    public final void setListener(Response.Listener<T> listener) {
         this.listener = listener;
     }
 
-    protected final Response.Listener<T> getListener(){
+    protected final Response.Listener<T> getListener() {
         return this.listener;
     }
 
-    public final void setErrorListener(Response.ErrorListener errorListener){
+    public final void setErrorListener(Response.ErrorListener errorListener) {
         this.errorListener = errorListener;
     }
 
-    protected final Response.ErrorListener getErrorListener(){
-        if(errorListener == null){
+    protected final Response.ErrorListener getErrorListener() {
+        if (errorListener == null) {
             errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
@@ -83,8 +82,8 @@ public abstract class AbstractRequest<T> {
     }
 
     protected abstract String getPath();
-    protected abstract JsonObject getBody();
 
+    protected abstract JsonObject getBody();
 
 
 }
