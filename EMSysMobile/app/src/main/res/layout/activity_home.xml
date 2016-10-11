@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.HomeActivity">
 
-    <ScrollView
+    <com.sonda.emsysmobile.ui.views.CustomScrollView
+        android:id="@+id/main_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,6 +27,6 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-    </ScrollView>
+    </com.sonda.emsysmobile.ui.views.CustomScrollView>
 
 </RelativeLayout>

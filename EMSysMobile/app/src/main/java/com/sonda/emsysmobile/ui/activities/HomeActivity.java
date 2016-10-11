@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -25,6 +28,7 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutRes
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
+import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
@@ -34,6 +38,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
 
     private static final String TAG = HomeActivity.class.getName();
     private SupportMapFragment mMapFragment = null;
+    private CustomScrollView mMainScrollView;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,37 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                     .add(R.id.fragment_container, extensionsFragment).commit();
             // Inicializacion de fragment de mapa.
             initMapFragment();
+            mMainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
         }
+
+//        ImageView transparentImageView = (ImageView) findViewById(R.id.transparent_image);
+//
+//        transparentImageView.setOnTouchListener(new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                int action = event.getAction();
+//                switch (action) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        // Disallow ScrollView to intercept touch events.
+//                        mainScrollView.requestDisallowInterceptTouchEvent(true);
+//                        // Disable touch on transparent view
+//                        return false;
+//
+//                    case MotionEvent.ACTION_UP:
+//                        // Allow ScrollView to intercept touch events.
+//                        mainScrollView.requestDisallowInterceptTouchEvent(false);
+//                        return true;
+//
+//                    case MotionEvent.ACTION_MOVE:
+//                        mainScrollView.requestDisallowInterceptTouchEvent(true);
+//                        return false;
+//
+//                    default:
+//                        return true;
+//                }
+//            }
+//        });
     }
 
     private void initMapFragment() {
@@ -139,6 +174,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
                 mMapFragment.getView().setLayoutParams(mapParams);
             }
+            mMainScrollView.addInterceptScrollView(mMapFragment.getView());
         } catch (NullPointerException e) {
             Log.d(TAG, e.getStackTrace().toString());
         }
@@ -152,6 +188,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 mapParams.height = 0;
                 mMapFragment.getView().setLayoutParams(mapParams);
             }
+            mMainScrollView.removeInterceptScrollView(mMapFragment.getView());
         } catch (NullPointerException e) {
             Log.d(TAG, e.getStackTrace().toString());
         }
