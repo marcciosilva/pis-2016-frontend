@@ -33,6 +33,8 @@ public class EventsResponseTest {
     private String mCorner;
     private String mNumber;
     private String mDepartment;
+    private double mLatitude;
+    private double mLongitude;
     private List<ExtensionDto> mExtensions;
     // Category.
     private CategoryDto mCategory;
@@ -71,6 +73,8 @@ public class EventsResponseTest {
         mCorner = "mCorner";
         mNumber = "mNumber";
         mDepartment = "mDepartment";
+        mLatitude = -34.905743;
+        mLongitude = -56.198887;
         mExtensions = new ArrayList<>();
         // Category.
         mCategoryIdentifier = 1;
@@ -94,7 +98,7 @@ public class EventsResponseTest {
         // EventDto.
         mExtensionEvent = new EventDto(mIdentifier, mInformant, mPhone, mTimeStamp, mCreatedDate,
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
-                mExtensions, mCategory);
+                mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
                 mExtensionEvent);
@@ -118,7 +122,8 @@ public class EventsResponseTest {
                 mExtensionEvent.getSectorCode(), mExtensionEvent.getStreet(),
                 mExtensionEvent.getCorner(), mExtensionEvent.getNumber(),
                 mExtensionEvent.getDepartment(), mExtensionEvent.getExtensions(),
-                mExtensionEvent.getCategory());
+                mExtensionEvent.getCategory(), mExtensionEvent.getLatitude(),
+                mExtensionEvent.getLongitude());
         ArrayList<EventDto> testEvents = new ArrayList<>();
         testEvents.add(testEvent);
         mEventsResponse.setEvents(testEvents);
