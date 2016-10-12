@@ -43,11 +43,7 @@ public class SplashActivity extends AppCompatActivity {
         // Si la url del backend no esta definida en preferencias, se setea en base a BuildConfig.
         if (currentBackendUrl == null) {
             Log.d(TAG, "Setting up preferences...");
-            if (BuildConfig.USING_MOCK_SERVER) {
-                sharedPrefs.edit().putString(backendUrl, BuildConfig.BASE_MOCK_URL).commit();
-            } else {
-                sharedPrefs.edit().putString(backendUrl, BuildConfig.BASE_URL).commit();
-            }
+            sharedPrefs.edit().putString(backendUrl, BuildConfig.BASE_URL).commit();
         }
     }
 

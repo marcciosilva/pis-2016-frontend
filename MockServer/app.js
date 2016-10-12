@@ -1,3 +1,20 @@
+// Define an Enum function for the base Object class
+Object.defineProperty(Object.prototype,'Enum', {
+	value: function() {
+		for(i in arguments) {
+			Object.defineProperty(this,arguments[i], {
+				value:parseInt(i),
+				writable:false,
+				enumerable:true,
+				configurable:true
+			});
+		}
+	},
+	writable:false,
+	enumerable:false,
+	configurable:false
+}); 
+
 var events = require('./services/events-service.js');
 var users = require('./services/users-service.js');
 
@@ -23,29 +40,84 @@ app.post('/events', events.postEvents);
 app.get('/events/:event_id/detail/special_case', events.getSpecialCase);
 
 //Manejo usuarios
+
 //auth
-app.get('/users', users.getUsers);
-//http://localhost:8081/users/success
-app.post('/users/success', users.postUserSuccess);
-//http://localhost:8081/users/username-fail
-app.post('/users/username-fail', users.postUserIdFail);
-//http://localhost:8081/users/success
-app.post('/users/pass-fail', users.postUserPassFail);
+//http://localhost:8081/users/authenticate
+var AuthChoice={};
+AuthChoice.Enum('Success', 'InvalidCredentials', 'AlreadyLogged');
+// var AuthChoice = Object.freeze({success:1, invalidCredentials:2, alreadyLogged:3});
+// authChoice = success;
+authChoice = AuthChoice.Success;
+switch (authChoice) {
+	case AuthChoice.Success:
+		app.post('/users/authenticate', users.postUserSuccess);
+		break;
+	case AuthChoice.InvalidCredentials:
+		app.post('/users/authenticate', users.postUserInvalidCredentials);
+	case AuthChoice.AlreadyLogged:
+		app.post('/users/authenticate', users.postUserAlreadyLogged);
+	default:
+		break;
+}
 
 //getRoles
-app.post('/users/getroles-both', users.postUserGetRolesBoth);
-app.post('/users/getroles-fail', users.postUserGetRolesFail);
-app.post('/users/getroles-recursos', users.postUserGetRolesRecursos);
-app.post('/users/getroles-zonas', users.postUserGetRolesZonas);
-app.post('/users/getroles-empty', users.postUserGetRolesEmpty);
+var GetRolesChoice={};
+GetRolesChoice.Enum('Both', 'Fail', 'OnlyResources', 'OnlyZones', 'EmptyResponse');
+///users/getroles
+getRolesChoice = GetRolesChoice.Both;
+switch (getRolesChoice) {
+	case GetRolesChoice.Both:
+		app.post('/users/getroles', users.postUserGetRolesBoth);
+		break;
+	case GetRolesChoice.Fail:
+		app.post('/users/getroles', users.postUserGetRolesFail);
+		break;
+	case GetRolesChoice.OnlyResources:
+		app.post('/users/getroles', users.postUserGetRolesRecursos);
+		break;
+	case GetRolesChoice.OnlyZones:
+		app.post('/users/getroles', users.postUserGetRolesZonas);
+		break;
+	case GetRolesChoice.EmptyResponse:
+		app.post('/users/getroles', users.postUserGetRolesEmpty);
+		break;
+	default:
+		break;
+}
 
 //logout
-app.post('/users/logout-success', users.postUserLogoutSuccess);
-app.post('/users/logout-cod2', users.postUserLogoutCod2);
-app.post('/users/logout-cod5', users.postUserLogoutCod5);
+var LogoutChoice={};
+LogoutChoice.Enum('Success', 'Code2', 'Code5');
+///users/logout
+logoutChoice = LogoutChoice.Success;
+switch (logoutChoice) {
+	case LogoutChoice.Success:
+		app.post('/users/logout', users.postUserLogoutSuccess);
+		break;
+	case LogoutChoice.Code2:
+		app.post('/users/logout', users.postUserLogoutCod2);
+		break;
+	case LogoutChoice.Code5:
+		app.post('/users/logout', users.postUserLogoutCod5);
+		break;
+	default:
+		break;
+}
 
 //login
-app.post('/users/login-success', users.postUserLoginSuccess);
-app.post('/users/login-fail', users.postUserLoginFail);
+///users/login
+var LoginChoice={};
+LoginChoice.Enum('Success', 'Fail');
+loginChoice = LoginChoice.Success;
+switch (loginChoice) {
+	case LoginChoice.Success:
+		app.post('/users/login', users.postUserLoginSuccess);
+		break;
+	case LoginChoice.Fail:
+		app.post('/users/login', users.postUserLoginFail);
+		break;
+	default:
+		break;
+}
 
-app.listen(8081); 
+app.listen(8081);
