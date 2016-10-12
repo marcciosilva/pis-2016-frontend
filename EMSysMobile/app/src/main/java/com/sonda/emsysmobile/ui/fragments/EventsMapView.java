@@ -34,7 +34,7 @@ public class EventsMapView extends SupportMapFragment
     private FragmentActivity mCallingActivity;
     private GoogleMap mMap;
     private static final String TAG = EventsMapView.class.getName();
-    private List<EventsMapPresenter.CustomMarkerData> mMarkerDataList;
+    private List<CustomMarkerData> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
     private CustomScrollView mMainScrollView;
 
@@ -69,7 +69,7 @@ public class EventsMapView extends SupportMapFragment
      *
      * @param markerDataList
      */
-    public void updateEventsData(List<EventsMapPresenter.CustomMarkerData> markerDataList) {
+    public void updateEventsData(List<CustomMarkerData> markerDataList) {
         mMarkerDataList = markerDataList;
         updateView();
     }
@@ -128,7 +128,7 @@ public class EventsMapView extends SupportMapFragment
                 @Override
                 public void onGlobalLayout() {
                     LatLngBounds.Builder bld = new LatLngBounds.Builder();
-                    for (EventsMapPresenter.CustomMarkerData event : mMarkerDataList) {
+                    for (CustomMarkerData event : mMarkerDataList) {
                         bld.include(event.getCoordinates());
                     }
                     LatLngBounds bounds = bld.build();
@@ -142,7 +142,7 @@ public class EventsMapView extends SupportMapFragment
     private void addMarkersToMap() {
         mMap.clear();
         mMarkers.clear();
-        for (EventsMapPresenter.CustomMarkerData markerData : mMarkerDataList) {
+        for (CustomMarkerData markerData : mMarkerDataList) {
             // Se reajustan coordenadas si hay colisiones, ya que la API
             // de Google Maps no soporta marcadores que colisionen.
             BitmapDescriptor bitmapMarker;
@@ -150,7 +150,7 @@ public class EventsMapView extends SupportMapFragment
             Log.i(TAG, "Default marker (red)");
             MarkerOptions markerOptions = new MarkerOptions().position(
                     markerData.getCoordinates()).title(markerData.getTitle())
-                    //.snippet("Texto descriptivo")
+                    .snippet(markerData.getDescription())
                     .icon(bitmapMarker);
             Marker marker = mMap.addMarker(markerOptions);
             mMarkers.add(marker);

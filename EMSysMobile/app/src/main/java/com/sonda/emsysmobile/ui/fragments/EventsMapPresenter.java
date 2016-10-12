@@ -6,13 +6,19 @@ import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
+import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.utils.UIUtils;
 
+import java.text.DateFormat;
+import java.text.FieldPosition;
+import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -28,7 +34,7 @@ public class EventsMapPresenter {
         eventManager.fetchEvents(new ApiCallback<List<EventDto>>() {
             @Override
             public void onSuccess(List<EventDto> events) {
-                List<CustomMarkerData> data = getCustomMarkerData(events);
+                List<CustomMarkerData> data = getCustomMarkerData(events, context);
                 view.updateEventsData(data);
             }
 
@@ -49,13 +55,21 @@ public class EventsMapPresenter {
         });
     }
 
-    private static List<CustomMarkerData> getCustomMarkerData(List<EventDto> events) {
+    private static List<CustomMarkerData> getCustomMarkerData(List<EventDto> events,
+                                                              final Context context) {
         List<CustomMarkerData> data = new ArrayList<>();
         for (EventDto event : events) {
-            LatLng coordinates = getUniqueCoordinates(event, data);
-            CustomMarkerData dataElement = new CustomMarkerData(
-                    "Evento " + Integer.toString(event.getIdentifier()), "", coordinates);
-            data.add(dataElement);
+            // Se chequea si el evento tiene coordenadas.
+            if ((event.getLatitude() != 0.0) && (event.getLongitude() != 0.0)) {
+                LatLng coordinates = getUniqueCoordinates(event, data);
+                DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+                CustomMarkerData dataElement = new CustomMarkerData(
+                        "Evento " + Integer.toString(event.getIdentifier()) + " - " +
+                                df.format(event.getCreatedDate()),
+                        context.getString(R.string.map_event_view_detail).toUpperCase(),
+                        coordinates);
+                data.add(dataElement);
+            }
         }
         return data;
     }
@@ -63,6 +77,7 @@ public class EventsMapPresenter {
     /**
      * Obtiene coordenadas unicas para el evento. Esto es necesario en caso de existir
      * eventos con coordenadas en común.
+     *
      * @param event
      * @return
      */
@@ -91,11 +106,13 @@ public class EventsMapPresenter {
 
     /**
      * Chequea si las coordenadas dadas por coordinates ya se encuentran en customMarkerDataList.
+     *
      * @param coordinates
      * @param customMarkerDataList
      * @return
      */
-    private static boolean duplicateCoordinates(LatLng coordinates, List<CustomMarkerData> customMarkerDataList) {
+    private static boolean duplicateCoordinates(LatLng coordinates,
+                                                List<CustomMarkerData> customMarkerDataList) {
         for (CustomMarkerData marker : customMarkerDataList) {
             if (marker.getCoordinates().equals(coordinates)) {
                 return true;
@@ -103,43 +120,5 @@ public class EventsMapPresenter {
         }
         return false;
     }
-
-    public static class CustomMarkerData {
-
-        private String title;
-        private String description;
-        private LatLng coordinates;
-
-        public CustomMarkerData(String title, String description, LatLng coordinates) {
-            this.title = title;
-            this.description = description;
-            this.coordinates = coordinates;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public LatLng getCoordinates() {
-            return coordinates;
-        }
-
-        public void setCoordinates(LatLng coordinates) {
-            this.coordinates = coordinates;
-        }
-    }
-
 
 }
