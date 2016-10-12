@@ -62,7 +62,7 @@ public class CategoryDto {
         this.priority = priority;
     }
 
-    public final boolean getActive() {
+    public final boolean isActive() {
         return isActive;
     }
 

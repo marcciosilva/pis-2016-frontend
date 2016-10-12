@@ -1,7 +1,5 @@
 package com.sonda.emsysmobile.backendcommunication.model.responses;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by marccio on 06-Oct-16.
  */

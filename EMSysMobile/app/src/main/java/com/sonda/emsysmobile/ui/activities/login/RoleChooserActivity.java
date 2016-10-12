@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
@@ -18,19 +16,19 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
-import com.sonda.emsysmobile.ui.activities.HomeActivity;
+import com.sonda.emsysmobile.backendcommunication.services.request.GetRolesRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
 import com.sonda.emsysmobile.logic.model.core.ZoneDto;
-import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
-import com.sonda.emsysmobile.backendcommunication.services.request.GetRolesRequest;
+import com.sonda.emsysmobile.ui.activities.HomeActivity;
 
 import java.io.Serializable;
-import java.net.HttpURLConnection;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 9/28/16.
@@ -41,10 +39,9 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
     private Button mDespachadorButton;
     private Button mRecursoButton;
     private RoleDto mRoles;
+    private static final String TAG = RoleChooserActivity.class.getName();
 
     public enum EleccionRol {Despachador, Recurso;}
-
-    private static final String TAG = RoleChooserActivity.class.getName();
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -78,9 +75,9 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 // respuestas a la request.
                 List<ZoneDto> zonas = roles.getZones();
                 List<ResourceDto> recursos = roles.getResources();
-                boolean containsZona = zonas != null && zonas.size() > 0;
+                boolean containsZona = (zonas != null) && (!zonas.isEmpty());
                 mDespachadorButton.setEnabled(containsZona);
-                boolean containsRecurso = recursos != null && recursos.size() > 0;
+                boolean containsRecurso = (recursos != null) && (!recursos.isEmpty());
                 mRecursoButton.setEnabled(containsRecurso);
             }
         });
@@ -105,6 +102,12 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "La respuesta del servidor incluye un código de error HTTP.");
+                handleVolleyErrorResponse(RoleChooserActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        obtenerRoles(callback);
+                    }
+                });
             }
         });
         request.execute();

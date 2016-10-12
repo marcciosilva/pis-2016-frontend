@@ -12,9 +12,12 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
+import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by ssainz on 10/1/16.
@@ -60,17 +63,14 @@ public class EventManager {
                 } else {
                     //TODO soportar mensaje de error en EventsResponse
                     //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                    callback.onLogicError("Unsupported", 1);
                 }
             }
         });
         request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, error.toString());
-                //TODO una vez que se soporte el mensaje de error en EventsResponse, descomentar
-                //callback.onError(mContext.getString(R.string.error_generic), -1);
-                //TODO una vez que se soporte el mensaje de error en EventsResponse, comentar
-                callback.onError(mContext.getString(R.string.error_no_auth), ResponseCodeCategory.NO_AUTH.getNumVal());
+                callback.onNetworkError(error);
             }
         });
         request.execute();

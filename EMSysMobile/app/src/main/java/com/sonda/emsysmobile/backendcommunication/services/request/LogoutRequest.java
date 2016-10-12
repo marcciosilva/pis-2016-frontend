@@ -3,6 +3,7 @@ package com.sonda.emsysmobile.backendcommunication.services.request;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.sonda.emsysmobile.BuildConfig;
 
 import java.lang.reflect.Type;
 
@@ -15,8 +16,6 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
     public static final String LOGOUT_PATH = "/users/logout";
 
     private enum LogoutCase {Success, Cod2, Cod5}
-
-    private static final LogoutCase LOGOUT_CASE = LogoutCase.Success;
 
     public LogoutRequest(Context context, Type type) {
         super(context, type, RequestType.POST);

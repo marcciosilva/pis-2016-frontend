@@ -1,8 +1,6 @@
 <resources>
 
     <string name="app_name">emsys</string>
-    <string name="error_generic">Ha ocurrido un error inesperado. Por favor intente nuevamente.</string>
-    <string name="error_no_auth">Usuario no autenticado.</string>
 
     <!-- Main Activity -->
     <string name="button_consume_ws">Consumir WS GET</string>
@@ -39,8 +37,21 @@
     <string name="menu_view_map_string">Ver mapa</string>
     <string name="menu_external_service_string">Servicio externo</string>
     <string name="menu_logout_string">Cerrar sesión</string>
+
+    <!--Test fragment-->
     <string name="test_content_description">Test content description</string>
-    <string name="HTTP_UNAUTHORIZED_STRING">Pedido no autorizado.</string>
+
+    <!--Error messages-->
+    <string name="error_generic">Ha ocurrido un error inesperado. Por favor intente nuevamente.</string>
+    <string name="error_no_auth">Usuario no autenticado.</string>
     <string name="error_http">La respuesta del servidor incluye un código de error HTTP.</string>
+    <string name="error_connection_cancel">Cancelar</string>
+    <string name="error_connection_retry">Reintentar</string>
+    <string name="error_server_communication_message">Error en la comunicación con el servidor.</string>
+    <string name="error_http_unauthorized">Pedido no autorizado</string>
+
+    <!--Preferences-->
+    <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>
+    <string name="preferences_routes_title">Rutas</string>
 
 </resources>
