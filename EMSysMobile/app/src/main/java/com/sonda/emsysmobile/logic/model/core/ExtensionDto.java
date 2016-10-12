@@ -96,6 +96,24 @@ public class ExtensionDto {
         this.event = event;
     }
 
+    /**
+     * Get priority for Event
+     * Try to get priority for his Category, but if it does not have one, return event's category priority.
+     * @return An instance of CategoryPriority Enum.
+     */
+    public final CategoryPriority getPriority() {
+        if (category != null) {
+            return category.getPriority();
+        }
+        CategoryDto eventCategory = event.getCategory();
+        if (eventCategory != null) {
+            //Should alway have an event priority, just in case.
+            return eventCategory.getPriority();
+        }
+        //Default priority is LOW.
+        return CategoryPriority.LOW;
+    }
+
     @Override
     public final boolean equals(Object o) {
         // No se hace el chequeo de igualdad de EventDto debido a la dependencia circular
@@ -127,5 +145,4 @@ public class ExtensionDto {
         return zone != null ? zone.equals(that.zone) : that.zone == null;
 
     }
-
 }

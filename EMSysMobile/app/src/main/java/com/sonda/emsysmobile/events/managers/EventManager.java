@@ -7,6 +7,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.logic.model.core.CategoryDto;
+import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
@@ -14,7 +16,10 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
+import java.security.cert.Extension;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -105,13 +110,22 @@ public class EventManager {
     private void setEvents(List<EventDto> events) {
         mEvents = events;
         mExtensions.clear();
-        for (EventDto event: events) {
+        for (EventDto event: mEvents) {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
                 extension.setEvent(event);
             }
             mExtensions.addAll(eventExtensions);
         }
+        sortExtensionsByPriority();
+    }
+
+    private void sortExtensionsByPriority() {
+        Collections.sort(mExtensions, new Comparator<ExtensionDto>() {
+            public int compare(ExtensionDto ext1, ExtensionDto ext2) {
+                return ext1.getPriority().compareTo(ext2.getPriority());
+            }
+        });
     }
 
 }
