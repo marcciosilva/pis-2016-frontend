@@ -22,7 +22,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.fragments.ExtensionsMapView;
+import com.sonda.emsysmobile.ui.fragments.EventsMapView;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity
         implements ExtensionsFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = HomeActivity.class.getName();
-    private ExtensionsMapView mMapFragment = null;
+    private EventsMapView mMapFragment = null;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class HomeActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, extensionsFragment).commit();
             // Inicializacion de fragment de mapa.
-            mMapFragment = ExtensionsMapView.getInstance();
+            mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
             mMapFragment.initializeView(this, mainScrollView);
 

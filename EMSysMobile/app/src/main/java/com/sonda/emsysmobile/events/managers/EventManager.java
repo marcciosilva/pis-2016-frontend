@@ -51,7 +51,7 @@ public class EventManager {
         return mInstance;
     }
 
-    public final void fetchEvents(final ApiCallback<List<ExtensionDto>> callback) {
+    public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
         EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
         request.setListener(new Response.Listener<EventsResponse>() {
             @Override
@@ -60,6 +60,32 @@ public class EventManager {
                 if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
                     setEvents(response.getEvents());
                     callback.onSuccess(mExtensions);
+                } else {
+                    //TODO soportar mensaje de error en EventsResponse
+                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                    callback.onLogicError("Unsupported", 1);
+                }
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onNetworkError(error);
+            }
+        });
+        request.execute();
+    }
+
+
+    public final void fetchEvents(final ApiCallback<List<EventDto>> callback) {
+        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+        request.setListener(new Response.Listener<EventsResponse>() {
+            @Override
+            public void onResponse(EventsResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    setEvents(response.getEvents());
+                    callback.onSuccess(mEvents);
                 } else {
                     //TODO soportar mensaje de error en EventsResponse
                     //callback.onError(response.getInnerResponse().getMsg(), responseCode);

@@ -20,7 +20,7 @@ android {
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
         }
         debug {
-            buildConfigField "Boolean", "USING_MOCK_SERVER", "false"
+            buildConfigField "Boolean", "USING_MOCK_SERVER", "true"
             buildConfigField "String", "BASE_URL", "\"http://pis-liberacion1-api.azurewebsites.net\""
 //            buildConfigField "String", "BASE_URL", "\"http://192.168.1.31:3000\""
             buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.31:8081\""

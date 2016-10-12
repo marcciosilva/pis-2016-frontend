@@ -22,7 +22,7 @@ import static com.sonda.emsysmobile.BuildConfig.LOGIN_SUCCESS_PATH;
 
 public class LoginRequest<T> extends AbstractRequest<T> {
 
-    private static final LoginCase LOGIN_CASE = LoginCase.Fail;
+    private static final LoginCase LOGIN_CASE = LoginCase.Success;
     private RoleDto roles;
     private static final String TAG = LoginRequest.class.getName();
 
