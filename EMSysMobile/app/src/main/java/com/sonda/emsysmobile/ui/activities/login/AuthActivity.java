@@ -94,7 +94,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
 
-        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(),AuthResponse.class);
+        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(), AuthResponse.class);
         authRequest.setAttributes(user, pass);
         authRequest.setListener(new Response.Listener<AuthResponse>(){
             @Override
