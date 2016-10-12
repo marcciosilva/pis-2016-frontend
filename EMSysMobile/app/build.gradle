@@ -21,32 +21,10 @@ android {
         }
         debug {
             buildConfigField "Boolean", "USING_MOCK_SERVER", "false"
-//            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion1-api.azurewebsites.net\""
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.31:3000\""
+            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion1-api.azurewebsites.net\""
             buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.31:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
-            buildConfigField "String", "EVENTS_PATH", "\"/events\""
-            buildConfigField "String", "AUTH_PATH", "\"/users/authenticate\""
-            buildConfigField "String", "GET_ROLES_PATH", "\"/users/getroles\""
-            buildConfigField "String", "LOGIN_PATH", "\"/users/login\""
-            buildConfigField "String", "LOGOUT_PATH", "\"/users/logout\""
-            // Con el fin de probar cada caso de auth con Mock Server:
-            buildConfigField "String", "AUTH_SUCCESS_PATH", "\"/users/success\""
-            buildConfigField "String", "AUTH_CREDENTIALS_FAIL", "\"/users/username-fail\""
-            buildConfigField "String", "AUTH_ALREADY", "\"/users/pass-fail\""
-            // Con el fin de probar cada caso de getRoles con Mock Server:
-            buildConfigField "String", "GET_ROLES_BOTH_PATH", "\"/users/getroles-both\""
-            buildConfigField "String", "GET_ROLES_FAIL_PATH", "\"/users/getroles-fail\""
-            buildConfigField "String", "GET_ROLES_RECURSOS_PATH", "\"/users/getroles-recursos\""
-            buildConfigField "String", "GET_ROLES_ZONAS_PATH", "\"/users/getroles-zonas\""
-            buildConfigField "String", "GET_ROLES_EMPTY_PATH", "\"/users/getroles-empty\""
-            // Con el fin de probar cada caso de login con Mock Server:
-            buildConfigField "String", "LOGIN_SUCCESS_PATH", "\"/users/login-success\""
-            buildConfigField "String", "LOGIN_FAIL_PATH", "\"/users/login-fail\""
-            // Con el fin de probar cada caso de logout con Mock Server:
-            buildConfigField "String", "LOGOUT_SUCCESS_PATH", "\"/users/logout-success\""
-            buildConfigField "String", "LOGOUT_COD_2_PATH", "\"/users/logout-cod2\""
-            buildConfigField "String", "LOGOUT_COD_5_PATH", "\"/users/logout-cod5\""
+
             testCoverageEnabled true
         }
     }

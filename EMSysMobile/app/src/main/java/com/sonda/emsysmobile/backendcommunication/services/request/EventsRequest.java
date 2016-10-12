@@ -14,6 +14,8 @@ import static com.sonda.emsysmobile.BuildConfig.*;
 
 public class EventsRequest<T> extends AbstractRequest<T> {
 
+    public static final String EVENTS_PATH = "/events";
+
     public EventsRequest(Context context, Type type) {
         super(context, type, RequestType.GET);
     }

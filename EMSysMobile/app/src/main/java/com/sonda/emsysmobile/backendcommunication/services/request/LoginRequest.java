@@ -11,19 +11,14 @@ import com.sonda.emsysmobile.logic.model.core.RoleDto;
 
 import java.lang.reflect.Type;
 
-import static com.sonda.emsysmobile.BuildConfig.LOGIN_FAIL_PATH;
-import static com.sonda.emsysmobile.BuildConfig.LOGIN_PATH;
-import static com.sonda.emsysmobile.BuildConfig.LOGIN_SUCCESS_PATH;
-
 /**
  * Created by marccio on 10/3/16.
  */
 
 public class LoginRequest<T> extends AbstractRequest<T> {
 
-    private enum LoginCase {Success, Fail}
+    public static final String LOGIN_PATH = "/users/login";
 
-    private static final LoginCase LOGIN_CASE = LoginCase.Fail;
     private RoleDto roles;
     private static final String TAG = LoginRequest.class.getName();
 
@@ -34,25 +29,7 @@ public class LoginRequest<T> extends AbstractRequest<T> {
 
     @Override
     protected final String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
-        String path = null;
-        if (!debugMode) {
-            // Se envia request al path de getRoles que ofrece el web service.
-            path = LOGIN_PATH;
-        } else {
-            // Se utilizan web services del mock server con respuestas fijas.
-            switch (LOGIN_CASE) {
-                case Success:
-                    path = LOGIN_SUCCESS_PATH;
-                    break;
-                case Fail:
-                    path = LOGIN_FAIL_PATH;
-                    break;
-                default:
-                    break;
-            }
-        }
-        return path;
+        return LOGIN_PATH;
     }
 
     @Override

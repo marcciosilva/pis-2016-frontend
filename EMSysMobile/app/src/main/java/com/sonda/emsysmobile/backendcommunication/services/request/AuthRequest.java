@@ -13,10 +13,11 @@ import java.lang.reflect.Type;
  * Created by mserralta on 1/10/16.
  */
 public class AuthRequest<T> extends AbstractRequest<T> {
-    
+
+    public static final String AUTH_PATH = "/users/authenticate";
+
     private String user;
     private String password;
-
 
     private enum AuthCase {Success, CredentialsFail, AlreadyAuth}
     private static final AuthCase AUTH_CASE = AuthCase.Success;
@@ -29,30 +30,7 @@ public class AuthRequest<T> extends AbstractRequest<T> {
 
     @Override
     protected final String getPath() {
-        boolean debugMode = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("debugMode", false);
-        String path = null;
-        if (!debugMode){
-            path = AUTH_PATH;
-        } else {
-            // Se utilizan web services del mock server con respuestas fijas.
-            switch (AUTH_CASE) {
-                case Success:
-                    // Siempre se obtiene una respuesta exitosa frente a login.
-                    path = AUTH_SUCCESS_PATH;
-                    break;
-                case CredentialsFail:
-                    // Siempre se obtiene una respuesta fallida frente a login.
-                    path = AUTH_CREDENTIALS_FAIL;
-                    break;
-                case AlreadyAuth:
-                    // Siempre se obtiene una respuesta fallida frente a login.
-                    path = AUTH_ALREADY;
-                    break;
-                default:
-                    break;
-            }
-        }
-        return path;
+        return AUTH_PATH;
     }
     
 

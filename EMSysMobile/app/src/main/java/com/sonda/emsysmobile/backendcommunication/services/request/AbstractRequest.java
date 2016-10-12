@@ -15,7 +15,6 @@ import java.lang.reflect.Type;
  */
 public abstract class AbstractRequest<T> {
 
-
     private static final String TAG = AbstractRequest.class.getName();
     private Context context;
     private Type responseType;
@@ -84,7 +83,4 @@ public abstract class AbstractRequest<T> {
 
     protected abstract String getPath();
     protected abstract JsonObject getBody();
-
-
-
 }
