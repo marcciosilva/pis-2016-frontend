@@ -37,6 +37,7 @@ public class EventsMapView extends SupportMapFragment
     private List<CustomMarkerData> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
     private CustomScrollView mMainScrollView;
+    private boolean mShouldBeVisible = false;
 
     public static EventsMapView getInstance() {
         return new EventsMapView();
@@ -71,11 +72,14 @@ public class EventsMapView extends SupportMapFragment
      */
     public void updateEventsData(List<CustomMarkerData> markerDataList) {
         mMarkerDataList = markerDataList;
-        updateView();
+        if (mShouldBeVisible) {
+            updateView();
+        }
     }
 
     public void hideView() {
         try {
+            mShouldBeVisible = false;
             View view = getView();
             ViewGroup.LayoutParams mapParams = view.getLayoutParams();
             if (mapParams != null) {
@@ -107,6 +111,7 @@ public class EventsMapView extends SupportMapFragment
     }
 
     public void showView() {
+        mShouldBeVisible = true;
         loadEventsData();
     }
 
