@@ -28,6 +28,8 @@ public class ExtensionDtoTest {
     private String mCorner;
     private String mNumber;
     private String mDepartment;
+    private double mLatitude;
+    private double mLongitude;
     private List<ExtensionDto> mExtensions;
     // Category.
     private CategoryDto mCategory;
@@ -64,6 +66,8 @@ public class ExtensionDtoTest {
         mCorner = "mCorner";
         mNumber = "mNumber";
         mDepartment = "mDepartment";
+        mLatitude = -34.905743;
+        mLongitude = -56.198887;
         mExtensions = new ArrayList<>();
         // Category.
         mCategoryIdentifier = 1;
@@ -87,7 +91,7 @@ public class ExtensionDtoTest {
         // EventDto.
         mExtensionEvent = new EventDto(mIdentifier, mInformant, mPhone, mTimeStamp, mCreatedDate,
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
-                mExtensions, mCategory);
+                mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
                 mExtensionEvent);
@@ -200,6 +204,8 @@ public class ExtensionDtoTest {
         String testCorner;
         String testNumber;
         String testDepartment;
+        double testLatitude;
+        double testLongitude;
         List<ExtensionDto> testExtensions;
         // Category.
         CategoryDto testCategory;
@@ -233,6 +239,8 @@ public class ExtensionDtoTest {
         testCorner = "mCorner";
         testNumber = "mNumber";
         testDepartment = "mDepartment";
+        testLatitude = -34.905743;
+        testLongitude = -56.198887;
         testExtensions = new ArrayList<>();
         // Category.
         testCategoryIdentifier = 1;
@@ -256,16 +264,13 @@ public class ExtensionDtoTest {
         // EventDto.
         testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp, testCreatedDate,
                 testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
-                testExtensions, testCategory);
+                testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
                 testExtensionEvent);
         testExtensions.add(testExtension);
-        testEventDto = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp, testCreatedDate,
-                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
-                testExtensions, testCategory);
-        mExtensionDto.setEvent(testEventDto);
-        assertTrue(mExtensionDto.getEvent().equals(testEventDto));
+        mExtensionDto.setEvent(testExtensionEvent);
+        assertTrue(mExtensionDto.getEvent().equals(testExtensionEvent));
     }
 
     @Test

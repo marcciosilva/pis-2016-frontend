@@ -2,8 +2,8 @@
 var user_list = require('../replies/user_list.json');
 // auth
 var auth_success = require('../replies/auth_success.json');
-var auth_user_fail = require('../replies/auth_user_fail.json');
-var auth_pass_fail = require('../replies/auth_pass_fail.json');
+var auth_invalid_credentials = require('../replies/auth_invalid_credentials.json');
+var auth_already_logged = require('../replies/auth_already_logged.json');
 // getRoles
 var getroles_both = require('../replies/getroles_both.json');
 var getroles_zonas = require('../replies/getroles_zonas.json');
@@ -32,15 +32,15 @@ var postUserSuccess = function(request, response, next) {
 };
 
 // Devuelve una response fallida siempre
-var postUserIdFail = function(request, response, next) {
+var postUserInvalidCredentials = function(request, response, next) {
 	response.setHeader("content-type","application/json");
-	response.send(JSON.stringify(auth_user_fail));
+	response.send(JSON.stringify(auth_invalid_credentials));
 };
 
 // Devuelve una response fallida siempre
-var postUserPassFail = function(request, response, next) {
+var postUserAlreadyLogged = function(request, response, next) {
 	response.setHeader("content-type","application/json");
-	response.send(JSON.stringify(auth_pass_fail));
+	response.send(JSON.stringify(auth_already_logged));
 };
 
 var postUserGetRolesBoth = function(request, response, next) {
@@ -95,8 +95,8 @@ var postUserLogoutCod5 = function(request, response, next) {
 
 exports.getUsers = getUsers;
 exports.postUserSuccess = postUserSuccess;
-exports.postUserIdFail = postUserIdFail;
-exports.postUserPassFail = postUserPassFail;
+exports.postUserInvalidCredentials = postUserInvalidCredentials;
+exports.postUserAlreadyLogged = postUserAlreadyLogged;
 //getroles
 exports.postUserGetRolesBoth = postUserGetRolesBoth;
 exports.postUserGetRolesFail = postUserGetRolesFail;

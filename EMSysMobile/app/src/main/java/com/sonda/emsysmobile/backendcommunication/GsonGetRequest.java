@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.backendcommunication;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -55,6 +56,7 @@ public class GsonGetRequest<T> extends Request<T>
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
+            Log.d(TAG, "Error en la sintaxis del mensaje recibido. Chequear JSON.");
             return Response.error(new ParseError(e));
         }
     }

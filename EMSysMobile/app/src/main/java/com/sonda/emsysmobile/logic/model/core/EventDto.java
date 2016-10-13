@@ -52,10 +52,17 @@ public class EventDto {
     @SerializedName("categoria")
     private CategoryDto category;
 
+    @SerializedName("latitud")
+    private double latitude;
+
+    @SerializedName("longitud")
+    private double longitude;
+
     public EventDto(int identifier, String informant, String phone, Date timeStamp,
                     Date createdDate, boolean inProcess, String origin, String sectorCode,
                     String street, String corner, String number, String department,
-                    List<ExtensionDto> extensions, CategoryDto category) {
+                    List<ExtensionDto> extensions, CategoryDto category, double latitude,
+                    double longitude) {
         this.identifier = identifier;
         this.informant = informant;
         this.phone = phone;
@@ -70,6 +77,8 @@ public class EventDto {
         this.department = department;
         this.extensions = extensions;
         this.category = category;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public final int getIdentifier() {
@@ -184,6 +193,22 @@ public class EventDto {
         this.category = category;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) {
@@ -196,6 +221,12 @@ public class EventDto {
         EventDto eventDto = (EventDto) o;
 
         if (identifier != eventDto.identifier) {
+            return false;
+        }
+        if (latitude != eventDto.latitude) {
+            return false;
+        }
+        if (longitude != eventDto.longitude) {
             return false;
         }
         if (inProcess != eventDto.inProcess) {
