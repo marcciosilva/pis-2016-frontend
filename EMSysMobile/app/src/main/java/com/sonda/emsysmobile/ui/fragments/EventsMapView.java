@@ -127,13 +127,15 @@ public class EventsMapView extends SupportMapFragment
                 @SuppressLint("NewApi")
                 @Override
                 public void onGlobalLayout() {
-                    LatLngBounds.Builder bld = new LatLngBounds.Builder();
-                    for (CustomMarkerData event : mMarkerDataList) {
-                        bld.include(event.getCoordinates());
+                    if (!mMarkerDataList.isEmpty()) {
+                        LatLngBounds.Builder bld = new LatLngBounds.Builder();
+                        for (CustomMarkerData event : mMarkerDataList) {
+                            bld.include(event.getCoordinates());
+                        }
+                        LatLngBounds bounds = bld.build();
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
+                        mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
-                    LatLngBounds bounds = bld.build();
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
-                    mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 }
             });
         }
