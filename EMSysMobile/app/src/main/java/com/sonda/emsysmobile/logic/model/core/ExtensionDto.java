@@ -115,9 +115,7 @@ public class ExtensionDto {
     }
 
     @Override
-    public final boolean equals(Object o) {
-        // No se hace el chequeo de igualdad de EventDto debido a la dependencia circular
-        // entre esta y esa clase.
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -130,7 +128,8 @@ public class ExtensionDto {
         if (identifier != that.identifier) {
             return false;
         }
-        if (description != null ? !description.equals(that.description) : that.description != null) {
+        if (description != null ? !description.equals(that.description) :
+                that.description != null) {
             return false;
         }
         if (extensionState != that.extensionState) {
@@ -145,4 +144,5 @@ public class ExtensionDto {
         return zone != null ? zone.equals(that.zone) : that.zone == null;
 
     }
+
 }

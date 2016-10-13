@@ -51,6 +51,28 @@ public class ExtensionDtoTest {
     private String mExtensionZoneName;
     private int mExtensionZoneIdentifier;
     private String mExtensionZoneExecUnitName;
+    // Test.
+    // Category.
+    private CategoryDto testCategory;
+    private int testCategoryIdentifier;
+    private String testCategoryCode;
+    private String testCategoryKey;
+    private CategoryPriority testCategoryPriority;
+    private boolean testCategoryIsActive;
+    // Extension.
+    private ExtensionDto testExtensionDto;
+    private int testExtensionIdentifier;
+    private String testExtensionInformant;
+    private String testExtensionDescription;
+    private ExtensionState testExtensionState;
+    private Date testExtensionTimestamp;
+    private CategoryDto testExtensionCategory;
+    private ZoneDto testExtensionZone;
+    private EventDto testExtensionEvent;
+    // Extension > ZoneDto.
+    private String testExtensionZoneName;
+    private int testExtensionZoneIdentifier;
+    private String testExtensionExecUnitName;
 
     @Before
     public void setUp() throws Exception {
@@ -96,6 +118,33 @@ public class ExtensionDtoTest {
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
                 mExtensionEvent);
         mExtensions.add(mExtensionDto);
+        // Test.
+        // Category.
+        testCategoryIdentifier = 1;
+        testCategoryCode = "categoryCode";
+        testCategoryKey = "categoryKey";
+        testCategoryPriority = CategoryPriority.HIGH;
+        testCategoryIsActive = true;
+        testCategory = new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
+                testCategoryPriority, testCategoryIsActive);
+        testExtensionIdentifier = 1;
+        testExtensionDescription = "description";
+        testExtensionState = ExtensionState.CLOSED;
+        testExtensionTimestamp = new Date(2016, 10, 5);
+        testExtensionCategory = testCategory;
+        testExtensionZoneName = "zone1";
+        testExtensionZoneIdentifier = 1;
+        testExtensionExecUnitName = "ue1";
+        testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
+                testExtensionExecUnitName);
+        // EventDto.
+        // Se deja en null porque el equals no lo chequea (por dependencia circular).
+        testExtensionEvent = null;
+        testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
+                testExtensionState, testExtensionTimestamp, testExtensionCategory,
+                testExtensionZone,
+                testExtensionEvent);
+
     }
 
     @Test
@@ -158,8 +207,9 @@ public class ExtensionDtoTest {
         String testCategoryKey = "categoryKey";
         CategoryPriority testCategoryPriority = CategoryPriority.HIGH;
         boolean testCategoryIsActive = true;
-        CategoryDto testCategory = new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
-                testCategoryPriority, testCategoryIsActive);
+        CategoryDto testCategory =
+                new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
+                        testCategoryPriority, testCategoryIsActive);
         mExtensionDto.setCategory(testCategory);
         assertTrue(mExtensionDto.getCategory().equals(testCategory));
     }
@@ -262,15 +312,32 @@ public class ExtensionDtoTest {
         testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitName);
         // EventDto.
-        testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp, testCreatedDate,
-                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
-                testExtensions, testCategory, testLatitude, testLongitude);
+        testExtensionEvent =
+                new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp,
+                        testCreatedDate,
+                        testInProcess, testOrigin, testSectorCode, testStreet, testCorner,
+                        testNumber, testDepartment,
+                        testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
+                testExtensionState, testExtensionTimeStamp, testExtensionCategory,
+                testExtensionZone,
                 testExtensionEvent);
         testExtensions.add(testExtension);
         mExtensionDto.setEvent(testExtensionEvent);
         assertTrue(mExtensionDto.getEvent().equals(testExtensionEvent));
+    }
+
+    @Test
+    public void getPriority_AllPossibleCases_ReturnsTrue() {
+        // Category no es null.
+        assertTrue(mExtensionDto.getPriority().equals(mCategoryPriority));
+        // Category es null.
+        mExtensionDto.setCategory(null);
+        assertTrue(mExtensionDto.getPriority()
+                .equals(mExtensionDto.getEvent().getCategory().getPriority()));
+        // Category del evento es null.
+        mExtensionDto.getEvent().setCategory(null);
+        assertTrue(mExtensionDto.getPriority().equals(CategoryPriority.LOW));
     }
 
     @Test
@@ -286,97 +353,37 @@ public class ExtensionDtoTest {
 
     @Test
     public void equals_CompareWithSameFields_ReturnsTrue() {
-        // Category.
-        CategoryDto testCategory;
-        int testCategoryIdentifier;
-        String testCategoryCode;
-        String testCategoryKey;
-        CategoryPriority testCategoryPriority;
-        boolean testCategoryIsActive;
-        // Extension.
-        ExtensionDto testExtensionDto;
-        int testExtensionIdentifier;
-        String testExtensionDescription;
-        ExtensionState testExtensionState;
-        Date testExtensionTitesteStatestp;
-        CategoryDto testExtensionCategory;
-        ZoneDto testExtensionZone;
-        EventDto testExtensionEvent;
-        // Extension > ZoneDto.
-        String testExtensionZoneNateste;
-        int testExtensionZoneIdentifier;
-        String testExtensionZoneExecUnitNateste;
-        // Category.
-        testCategoryIdentifier = 1;
-        testCategoryCode = "categoryCode";
-        testCategoryKey = "categoryKey";
-        testCategoryPriority = CategoryPriority.HIGH;
-        testCategoryIsActive = true;
-        testCategory = new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
-                testCategoryPriority, testCategoryIsActive);
-        testExtensionIdentifier = 1;
-        testExtensionDescription = "description";
-        testExtensionState = ExtensionState.CLOSED;
-        testExtensionTitesteStatestp = new Date(2016, 10, 5);
-        testExtensionCategory = testCategory;
-        testExtensionZoneNateste = "zone1";
-        testExtensionZoneIdentifier = 1;
-        testExtensionZoneExecUnitNateste = "ue1";
-        testExtensionZone = new ZoneDto(testExtensionZoneNateste, testExtensionZoneIdentifier,
-                testExtensionZoneExecUnitNateste);
-        // EventDto.
-        testExtensionEvent = null;
-        testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone,
-                testExtensionEvent);
         assertTrue(mExtensionDto.equals(testExtensionDto));
     }
 
     @Test
     public void equals_CompareWithDifferentFields_ReturnsFalse() {
-        // Category.
-        CategoryDto testCategory;
-        int testCategoryIdentifier;
-        String testCategoryCode;
-        String testCategoryKey;
-        CategoryPriority testCategoryPriority;
-        boolean testCategoryIsActive;
-        // Extension.
-        ExtensionDto testExtensionDto;
-        int testExtensionIdentifier;
-        String testExtensionDescription;
-        ExtensionState testExtensionState;
-        Date testExtensionTitesteStatestp;
-        CategoryDto testExtensionCategory;
-        ZoneDto testExtensionZone;
-        EventDto testExtensionEvent;
-        // Extension > ZoneDto.
-        String testExtensionZoneNateste;
-        int testExtensionZoneIdentifier;
-        String testExtensionZoneExecUnitNateste;
-        // Category.
-        testCategoryIdentifier = 1;
-        testCategoryCode = "categoryCode";
-        testCategoryKey = "categoryKey";
-        testCategoryPriority = CategoryPriority.HIGH;
-        testCategoryIsActive = true;
-        testCategory = new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
-                testCategoryPriority, testCategoryIsActive);
-        testExtensionIdentifier = 2;
-        testExtensionDescription = "description";
-        testExtensionState = ExtensionState.CLOSED;
-        testExtensionTitesteStatestp = new Date(2016, 10, 5);
-        testExtensionCategory = testCategory;
-        testExtensionZoneNateste = "zone1";
-        testExtensionZoneIdentifier = 1;
-        testExtensionZoneExecUnitNateste = "ue1";
-        testExtensionZone = new ZoneDto(testExtensionZoneNateste, testExtensionZoneIdentifier,
-                testExtensionZoneExecUnitNateste);
-        // EventDto.
-        testExtensionEvent = null;
-        testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone,
-                testExtensionEvent);
+        testExtensionDto.setZone(null);
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+        testExtensionDto.setZone(new ZoneDto(null, 0, null));
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+
+        testExtensionDto.setCategory(null);
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+        testExtensionDto.setCategory(new CategoryDto(0, null, null, null, false));
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+
+        testExtensionDto.setTimeStamp(null);
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+        testExtensionDto.setTimeStamp(new Date());
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+
+        testExtensionDto.setExtensionState(null);
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+        testExtensionDto.setExtensionState(ExtensionState.DISPATCH_MISSING);
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+
+        testExtensionDto.setDescription(null);
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+        testExtensionDto.setDescription("");
+        assertFalse(mExtensionDto.equals(testExtensionDto));
+
+        testExtensionDto.setIdentifier(testExtensionDto.getIdentifier() + 1);
         assertFalse(mExtensionDto.equals(testExtensionDto));
     }
 
