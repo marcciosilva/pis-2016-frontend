@@ -1,6 +1,10 @@
 package com.sonda.emsysmobile.events.managers;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -14,6 +18,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
+import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 import java.security.cert.Extension;
@@ -127,5 +132,4 @@ public class EventManager {
             }
         });
     }
-
 }

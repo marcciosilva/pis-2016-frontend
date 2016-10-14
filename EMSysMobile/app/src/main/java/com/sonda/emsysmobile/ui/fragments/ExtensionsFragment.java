@@ -1,11 +1,16 @@
 package com.sonda.emsysmobile.ui.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +21,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -54,6 +60,9 @@ public class ExtensionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mExtensions = new ArrayList<>();
+
+        LocalBroadcastManager.getInstance(this.getActivity())
+                .registerReceiver(broadcastReceiverEvents, new IntentFilter("update-events"));
     }
 
     @Override
@@ -132,4 +141,20 @@ public class ExtensionsFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(ExtensionDto item);
     }
+
+    /**
+     * Receives notifications
+     */
+    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getExtras() != null) {
+                Notification notification = (Notification) intent.getExtras().get("notification");
+                if (notification != null) {
+                    Log.i(TAG, "Recibiendo notificación con código: " + notification.getCode());
+                    getEvents();
+                }
+            }
+        }
+    };
 }
