@@ -18,8 +18,7 @@ import com.sonda.emsysmobile.logic.model.core.EventDto;
 public class EventDetailsFragment extends Fragment {
     public static final String EVENT_ID = "event.idetifier";
     public static final String EVENT_EXTENSION_ZONE = "extension.zone";
-    private EventDto event;
-    private EventManager eventManager;
+    private EventDto mEvent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,8 +26,8 @@ public class EventDetailsFragment extends Fragment {
 
         if (getArguments().containsKey(EVENT_ID)) {
             // Cargar modelo según el identificador
-            eventManager = getEventManager();
-            event = eventManager.getEvent("0");
+            EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
+            mEvent = eventManager.getEvent("0");
 //            event = eventManager.getEvent(Integer.parseInt(getArguments().getString(EVENT_ID)));
         }
     }
@@ -38,29 +37,21 @@ public class EventDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_event_details, container, false);
 
-        if (event != null) {
+        if (mEvent != null) {
             // Toolbar en master-detail
 //            Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_detalle);
 //            if (toolbar != null)
 //                toolbar.inflateMenu(R.menu.menu_detalle_articulo);
 
-            ((TextView) v.findViewById(R.id.informant_name_value)).setText(event.getInformant());
-            ((TextView) v.findViewById(R.id.informant_phone_value)).setText(event.getPhone());
-            ((TextView) v.findViewById(R.id.informant_street_value)).setText(event.getStreet());
-            ((TextView) v.findViewById(R.id.informant_corner_value)).setText(event.getCorner());
+            ((TextView) v.findViewById(R.id.informant_name_value)).setText(mEvent.getInformant());
+            ((TextView) v.findViewById(R.id.informant_phone_value)).setText(mEvent.getPhone());
+            ((TextView) v.findViewById(R.id.informant_street_value)).setText(mEvent.getStreet());
+            ((TextView) v.findViewById(R.id.informant_corner_value)).setText(mEvent.getCorner());
 
-            ((TextView) v.findViewById(R.id.category_value)).setText(event.getCategory().getCode());
-            ((TextView) v.findViewById(R.id.type_value)).setText(event.getOrigin());
-
+            ((TextView) v.findViewById(R.id.category_value)).setText(mEvent.getCategory().getCode());
+            ((TextView) v.findViewById(R.id.type_value)).setText(mEvent.getOrigin());
         }
 
         return v;
-    }
-
-    private EventManager getEventManager(){
-        if(eventManager == null) {
-            eventManager.getInstance(getActivity().getApplicationContext());
-        }
-        return eventManager;
     }
 }
