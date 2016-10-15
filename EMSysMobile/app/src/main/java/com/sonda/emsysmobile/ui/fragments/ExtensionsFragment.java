@@ -114,6 +114,6 @@ public class ExtensionsFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(ExtensionDto item);
+        void onListFragmentInteraction(ExtensionDto event);
     }
 }

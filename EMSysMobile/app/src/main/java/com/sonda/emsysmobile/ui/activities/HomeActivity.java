@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
+import com.sonda.emsysmobile.ui.fragments.EventDetailsFragment;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
@@ -76,7 +77,13 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     }
 
     @Override
-    public void onListFragmentInteraction(ExtensionDto item) {
+    public void onListFragmentInteraction(ExtensionDto extension) {
+        Fragment fragment = new EventDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString(EventDetailsFragment.EVENT_ID, String.valueOf(extension.getEvent().getIdentifier()));
+        args.putString(EventDetailsFragment.EVENT_EXTENSION_ZONE, String.valueOf(extension.getZone().getName()));
+        fragment.setArguments(args);
+        replaceFragment(fragment, "fragmentDetails");
     }
 
     @Override
@@ -131,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     }
 
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, fragmentTAG).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {

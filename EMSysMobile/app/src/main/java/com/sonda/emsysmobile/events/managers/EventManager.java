@@ -76,6 +76,11 @@ public class EventManager {
         request.execute();
     }
 
+    public EventDto getEvent(String eventId){
+        return mEvents.get(0);
+
+    }
+
     private void setEvents(List<EventDto> events) {
         mEvents = events;
         mExtensions.clear();

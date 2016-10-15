@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/event_details"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/spacing_normal"
+    android:weightSum="1"
+    tools:context=".ui.fragments.EventDetailsFragment">
+
+    <TextView
+        android:text="Nombre informante"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_name_label" />
+
+    <TextView
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_name_value" />
+
+    <TextView
+        android:text="Telefono informante"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_phone_label" />
+
+    <TextView
+        android:text="telefono"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_phone_value" />
+
+    <TextView
+        android:text="Calle"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_street_label" />
+
+    <TextView
+        android:text="calle"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_street_value" />
+
+    <TextView
+        android:text="Esquina"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_corner_label" />
+
+    <TextView
+        android:text="esquina"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_corner_value" />
+
+    <TextView
+        android:text="Número"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_number_label" />
+
+    <TextView
+        android:text="numero"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/informant_number_value" />
+
+    <TextView
+        android:text="Motivo"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/category_label" />
+
+    <TextView
+        android:text="categoria"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/category_value" />
+
+    <TextView
+        android:text="Tipo"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/type_label" />
+
+    <TextView
+        android:text="tipo"
+        android:layout_width="202dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/type_value" />
+
+
+
+</LinearLayout>
