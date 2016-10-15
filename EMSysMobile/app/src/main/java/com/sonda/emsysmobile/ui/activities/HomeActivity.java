@@ -138,7 +138,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     }
 
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment, fragmentTAG).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {

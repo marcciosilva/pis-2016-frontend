@@ -43,4 +43,7 @@
     <string name="HTTP_UNAUTHORIZED_STRING">Pedido no autorizado.</string>
     <string name="error_http">La respuesta del servidor incluye un código de error HTTP.</string>
 
+    <!-- Events details-->
+    <string name="event_details_missing_value">No tiene</string>
+
 </resources>
