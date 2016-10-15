@@ -31,7 +31,7 @@ app.configure(function(){
   app.use(express.static(__dirname + '/statics'));
 });
 
-app.get('/events', events.getEvents);
+app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
 
 

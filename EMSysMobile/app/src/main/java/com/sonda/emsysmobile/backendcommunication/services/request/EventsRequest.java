@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 
 public class EventsRequest<T> extends AbstractRequest<T> {
 
-    public static final String EVENTS_PATH = "/events";
+    public static final String EVENTS_PATH = "/eventos/listar";
 
     public EventsRequest(Context context, Type type) {
         super(context, type, RequestType.GET);
