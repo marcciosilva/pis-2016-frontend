@@ -21,7 +21,7 @@ import com.sonda.emsysmobile.ui.activities.MainActivity;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
-
+    private static final String NOTIFICATION_KEY = "notification";
     /**
      * Called when message is received.
      *
@@ -46,7 +46,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             int objectIdentifier = Integer.parseInt(remoteMessage.getData().get("primarykey"));
             Notification notification = new Notification(notificationCode, objectIdentifier);
             Log.d(TAG, notification.toString());
-            generateAppEvent(notification);
+            postApplicationEvent(notification);
             return;
         }
 
@@ -80,10 +80,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
-    private void generateAppEvent(Notification notification) {
-//        Intent intent = new Intent(notification.getCode());
-        Intent intent = new Intent("update-events");
-        intent.putExtra("notification", notification);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    /**
+     * Events are generated to notify changes to others app's modules.
+     * These events are posted through a Broadcast Receiver.
+     *
+     * @param notification Contains info about the notification that arrives.
+     */
+    private void postApplicationEvent(Notification notification) {
+        NotificationsEvents event = notification.getEventFromCode();
+        if (event != NotificationsEvents.NONE) {
+            Log.d(TAG, "Posting app event: " + event.toString());
+            Intent intent = new Intent(event.toString());
+            intent.putExtra(NOTIFICATION_KEY, notification);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
     }
 }

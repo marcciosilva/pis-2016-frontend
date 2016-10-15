@@ -83,7 +83,7 @@ public class Notification implements Parcelable {
 
     @Override
     public String toString() {
-        return "Notification received. \n Notification Code: " + this.code + "Primary key: " + this.objectId;
+        return "Notification received. \n Notification Code: " + this.code + "\n Primary key: " + this.objectId;
     }
 
     @Override
@@ -97,5 +97,20 @@ public class Notification implements Parcelable {
         parcel.writeString(description);
         parcel.writeString(code);
         parcel.writeInt(objectId);
+    }
+
+    public NotificationsEvents getEventFromCode() {
+        if (code.equals("AE")) {
+            return NotificationsEvents.UPDATE_EVENTS_LIST;
+        } if (code.equals("ME")) {
+            return NotificationsEvents.UPDATE_ONE_EVENT;
+        } if (code.equals("CE")) {
+            return NotificationsEvents.UPDATE_EVENTS_LIST;
+        } if (code.equals("SE")) {
+            return NotificationsEvents.UPDATE_EVENTS_LIST;
+        } if (code.equals("RE")) {
+            return NotificationsEvents.UPDATE_EVENTS_LIST;
+        }
+        return NotificationsEvents.NONE;
     }
 }

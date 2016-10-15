@@ -19,6 +19,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
@@ -110,8 +111,8 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         if ((view.getId() == R.id.button_continuar) && (mContinueButton.isEnabled())) {
             // Construyo listas que van a servir para construir
             // el RoleDto para la request.
-            ArrayList<ZoneDto> zonas = new ArrayList<>();
-            ArrayList<ResourceDto> recursos = new ArrayList<>();
+            final ArrayList<ZoneDto> zonas = new ArrayList<>();
+            final ArrayList<ResourceDto> recursos = new ArrayList<>();
             String emptyString = "";
             if (mDispatcherButton.isEnabled()) {
                 // Se parsea cada item seleccionado para construir
@@ -151,7 +152,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             loginUser(new RoleDto(zonas, recursos), new VolleyCallbackLoginUser() {
                 @Override
                 public void onSuccess() {
-                    // TODO agregar logica posterior al inicio de sesion.
+                    suscribeToNotificationsTopics(zonas, recursos);
                     goToHome();
                 }
             });
@@ -274,6 +275,20 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     mContinueButton.setEnabled(false);
                 }
             }
+        }
+    }
+
+    private void suscribeToNotificationsTopics(List<ZoneDto> zones, List<ResourceDto> resources) {
+        String topic;
+        for (ZoneDto zone : zones) {
+            topic = "zona-" + Integer.toString(zone.getIdentifier());
+            FirebaseMessaging.getInstance().subscribeToTopic(topic);
+            Log.d(TAG, "Suscribed to topic: " + topic + "\n");
+        }
+        for (ResourceDto resource : resources) {
+            topic = "recurso-" + Integer.toString(resource.getId());
+            FirebaseMessaging.getInstance().subscribeToTopic("recurso-" + Integer.toString(resource.getId()));
+            Log.d(TAG, "Suscribed to topic: " + topic + "\n");
         }
     }
 

@@ -60,9 +60,6 @@ public class ExtensionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mExtensions = new ArrayList<>();
-
-        LocalBroadcastManager.getInstance(this.getActivity())
-                .registerReceiver(broadcastReceiverEvents, new IntentFilter("update-events"));
     }
 
     @Override
@@ -141,20 +138,4 @@ public class ExtensionsFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         void onListFragmentInteraction(ExtensionDto item);
     }
-
-    /**
-     * Receives notifications
-     */
-    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getExtras() != null) {
-                Notification notification = (Notification) intent.getExtras().get("notification");
-                if (notification != null) {
-                    Log.i(TAG, "Recibiendo notificación con código: " + notification.getCode());
-                    getEvents();
-                }
-            }
-        }
-    };
 }

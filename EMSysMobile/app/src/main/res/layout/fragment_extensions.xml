@@ -26,6 +26,3 @@
         tools:listitem="@layout/row_extension" />
 
 </FrameLayout>
-
-
-

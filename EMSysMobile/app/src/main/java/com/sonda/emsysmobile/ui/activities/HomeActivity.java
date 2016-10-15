@@ -42,8 +42,6 @@ public class HomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        FirebaseMessaging.getInstance().subscribeToTopic("eventos");
-
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
@@ -77,8 +75,9 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
-        dialog.show(getSupportFragmentManager(), TAG);
+        super.onBackPressed();
+//        DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
+//        dialog.show(getSupportFragmentManager(), TAG);
     }
 
     @Override
