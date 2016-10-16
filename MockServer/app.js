@@ -120,4 +120,19 @@ switch (loginChoice) {
 		break;
 }
 
+// keepAlive
+var KeepAliveChoice={};
+KeepAliveChoice.Enum('Success', 'Fail');
+KeepAliveChoice = LoginChoice.Success;
+switch (KeepAliveChoice) {
+	case KeepAliveChoice.Success:
+		app.get('/users/expiration_time', users.getUserKeepAliveSuccess);
+		break;
+	case KeepAliveChoice.Fail:
+		app.get('/users/expiration_time', users.getUserKeepAliveFail);
+		break;
+	default:
+		break;
+}
+
 app.listen(8081);
