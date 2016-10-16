@@ -7,14 +7,22 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.logic.model.core.CategoryDto;
+import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
+import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
+import java.security.cert.Extension;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by ssainz on 10/1/16.
@@ -48,7 +56,7 @@ public class EventManager {
         return mInstance;
     }
 
-    public final void fetchEvents(final ApiCallback<List<ExtensionDto>> callback) {
+    public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
         EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
         request.setListener(new Response.Listener<EventsResponse>() {
             @Override
@@ -60,17 +68,40 @@ public class EventManager {
                 } else {
                     //TODO soportar mensaje de error en EventsResponse
                     //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                    callback.onLogicError("Unsupported", 1);
                 }
             }
         });
         request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(TAG, error.toString());
-                //TODO una vez que se soporte el mensaje de error en EventsResponse, descomentar
-                //callback.onError(mContext.getString(R.string.error_generic), -1);
-                //TODO una vez que se soporte el mensaje de error en EventsResponse, comentar
-                callback.onError(mContext.getString(R.string.error_no_auth), ResponseCodeCategory.NO_AUTH.getNumVal());
+                callback.onNetworkError(error);
+            }
+        });
+        request.execute();
+    }
+
+
+    public final void fetchEvents(final ApiCallback<List<EventDto>> callback) {
+        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+        request.setListener(new Response.Listener<EventsResponse>() {
+            @Override
+            public void onResponse(EventsResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    setEvents(response.getEvents());
+                    callback.onSuccess(mEvents);
+                } else {
+                    //TODO soportar mensaje de error en EventsResponse
+                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                    callback.onLogicError("Unsupported", 1);
+                }
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onNetworkError(error);
             }
         });
         request.execute();
@@ -84,12 +115,22 @@ public class EventManager {
     private void setEvents(List<EventDto> events) {
         mEvents = events;
         mExtensions.clear();
-        for (EventDto event: events) {
+        for (EventDto event: mEvents) {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
                 extension.setEvent(event);
             }
             mExtensions.addAll(eventExtensions);
         }
+        sortExtensionsByPriority();
     }
+
+    private void sortExtensionsByPriority() {
+        Collections.sort(mExtensions, new Comparator<ExtensionDto>() {
+            public int compare(ExtensionDto ext1, ExtensionDto ext2) {
+                return ext1.getPriority().compareTo(ext2.getPriority());
+            }
+        });
+    }
+
 }

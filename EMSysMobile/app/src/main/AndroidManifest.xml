@@ -27,6 +27,11 @@
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:label="Preferences"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
             android:name=".ui.activities.login.RoleChooserActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/NoActionBar" />
@@ -61,6 +66,10 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM"
+            />
     </application>
 
 </manifest>

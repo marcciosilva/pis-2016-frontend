@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,15 +11,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
-import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * A fragment representing a list of Items.
@@ -32,6 +36,7 @@ public class ExtensionsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
+    private static final String TAG = ExtensionsFragment.class.getName();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -70,7 +75,7 @@ public class ExtensionsFragment extends Fragment {
     private void getEvents() {
         mProgressBar.setVisibility(View.VISIBLE);
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchEvents(new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 mProgressBar.setVisibility(View.GONE);
@@ -79,9 +84,20 @@ public class ExtensionsFragment extends Fragment {
             }
 
             @Override
-            public void onError(String errorMessage, int errorCode) {
+            public void onLogicError(String errorMessage, int errorCode) {
                 mProgressBar.setVisibility(View.GONE);
                 UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
+            }
+
+            @Override
+            public void onNetworkError(VolleyError error) {
+                mProgressBar.setVisibility(View.GONE);
+                handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getEvents();
+                    }
+                });
             }
         });
     }

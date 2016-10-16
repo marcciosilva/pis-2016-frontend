@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.activities;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
@@ -28,15 +26,20 @@ import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.fragments.EventsMapView;
+import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
+import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-import java.net.HttpURLConnection;
-
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
-public class HomeActivity extends AppCompatActivity implements ExtensionsFragment.OnListFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity
+        implements ExtensionsFragment.OnListFragmentInteractionListener {
 
     private static final String TAG = HomeActivity.class.getName();
+    private EventsMapView mMapFragment = null;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,11 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, extensionsFragment).commit();
+            // Inicializacion de fragment de mapa.
+            mMapFragment = EventsMapView.getInstance();
+            CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
+            mMapFragment.initializeView(this, mainScrollView);
+
         }
     }
 
@@ -89,10 +97,11 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
         String textString = "text";
-        String touchedString = "Tocaste ";
+        if (item.getItemId() != R.id.menu_view_map_button) {
+            mMapFragment.hideView();
+        }
         switch (item.getItemId()) {
             case R.id.menu_create_event_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_create_event_string));
                 Fragment fragment = new TestFragment();
                 Bundle args = new Bundle();
                 args.putString(textString, getString(R.string.menu_create_event_string));
@@ -100,7 +109,6 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_list_events_string));
                 ExtensionsFragment extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
                     extensionsFragment = new ExtensionsFragment();
@@ -108,7 +116,6 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 }
                 return true;
             case R.id.menu_external_service_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_external_service_string));
                 fragment = new TestFragment();
                 args = new Bundle();
                 args.putString(textString, getString(R.string.menu_external_service_string));
@@ -116,21 +123,17 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
                 replaceFragment(fragment, "fragment2");
                 return true;
             case R.id.menu_view_map_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_view_map_string));
-                fragment = new TestFragment();
-                args = new Bundle();
-                args.putString(textString, getString(R.string.menu_view_map_string));
-                fragment.setArguments(args);
-                replaceFragment(fragment, "fragment3");
+                mMapFragment.showView();
+                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsFragment();
+                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
                 return true;
             case R.id.menu_logout_button:
-                Log.d(TAG, touchedString + getString(R.string.menu_logout_string));
-                fragment = new TestFragment();
-                args = new Bundle();
-                args.putString(textString, getString(R.string.menu_logout_string));
-                fragment.setArguments(args);
-                replaceFragment(fragment, "fragment4");
                 logout();
+                return true;
             default:
                 // Accion no reconocida, se lo delega a la superclase.
                 return super.onOptionsItemSelected(item);
@@ -161,6 +164,12 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
             }
         });
         request.execute();
@@ -172,7 +181,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
         startActivity(intent);
     }
 
-    /**
+/**
      * Fragment that appears in the "content_frame", shows a planet
      */
     public static class TestFragment extends Fragment {
@@ -183,7 +192,7 @@ public class HomeActivity extends AppCompatActivity implements ExtensionsFragmen
 
         @Override
         public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+                                       Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.test_fragment_layout, container, false);
             String text = getArguments().getString("text");
             TextView textView = (TextView) rootView.findViewById(R.id.fragment_textview);

@@ -1,19 +1,19 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
@@ -24,11 +24,10 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
-import com.sonda.emsysmobile.utils.UIUtils;
-
-import java.net.HttpURLConnection;
+import com.sonda.emsysmobile.ui.activities.SettingsActivity;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class AuthActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -57,6 +56,9 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+        ImageButton configButton = (ImageButton) findViewById(R.id.button_config);
+        configButton.setOnClickListener(this);
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -66,7 +68,14 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
     public final void onClick(View view) {
         if ((view.getId() == R.id.button_login) && (validLogin())) {
                 login();
+        } else if (view.getId() == R.id.button_config) {
+            goToConfig();
         }
+    }
+
+    private void goToConfig() {
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
     }
 
     private boolean validLogin() {
@@ -85,7 +94,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
 
-        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(),AuthResponse.class);
+        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(), AuthResponse.class);
         authRequest.setAttributes(user, pass);
         authRequest.setListener(new Response.Listener<AuthResponse>(){
             @Override
@@ -106,7 +115,14 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         authRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mProgressBar.setVisibility(View.GONE);
                 Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(AuthActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        login();
+                    }
+                });
             }
         });
         authRequest.execute();

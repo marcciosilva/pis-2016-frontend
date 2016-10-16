@@ -1,8 +1,5 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,9 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.android.gms.appindexing.Action;
@@ -25,25 +20,22 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
-import com.sonda.emsysmobile.ui.activities.HomeActivity;
-import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity.EleccionRol;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.services.request.LoginRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
 import com.sonda.emsysmobile.logic.model.core.ZoneDto;
-import com.sonda.emsysmobile.backendcommunication.services.request.LoginRequest;
+import com.sonda.emsysmobile.ui.activities.HomeActivity;
+import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity.EleccionRol;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 9/28/16.
@@ -166,7 +158,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         }
     }
 
-    private void loginUser(RoleDto roles, final VolleyCallbackLoginUser callback) {
+    private void loginUser(final RoleDto roles, final VolleyCallbackLoginUser callback) {
         LoginRequest<LoginLogoutResponse> request = new LoginRequest<>(getApplicationContext(),
                 LoginLogoutResponse.class, roles);
         request.setListener(new Response.Listener<LoginLogoutResponse>() {
@@ -186,6 +178,12 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loginUser(roles, callback);
+                    }
+                });
             }
         });
         request.execute();

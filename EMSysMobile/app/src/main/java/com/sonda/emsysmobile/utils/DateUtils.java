@@ -9,11 +9,11 @@ import java.util.Date;
  */
 public final class DateUtils {
 
+    public static final String SIMPLE_FORMAT = "MM/dd/yyyy HH:mm:ss";
+
     private DateUtils() {
         // Debe ser privado porque no debe ser utilizado.
     }
-
-    public static final String SIMPLE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
     public static String dateToString(Date date) {
         if (date != null) {

@@ -40,11 +40,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
     public final void onBindViewHolder(final ViewHolder holder, int position) {
         ExtensionDto extension = mValues.get(position);
         String idAndZoneString = "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
-        CategoryDto category = extension.getCategory();
-        if (category == null) {
-            category = extension.getEvent().getCategory();
-        }
-        CategoryPriority priority = category.getPriority();
+        CategoryPriority priority = extension.getPriority();
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(idAndZoneString);
         holder.getDescriptionTextView().setText(extension.getDescription());
