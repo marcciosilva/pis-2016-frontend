@@ -128,7 +128,7 @@ switch (KeepAliveChoice) {
 	case KeepAliveChoice.Success:
 		app.get('/users/expiration_time', users.getUserKeepAliveSuccess);
 		break;
-	case AuthChoice.Fail:
+	case KeepAliveChoice.Fail:
 		app.get('/users/expiration_time', users.getUserKeepAliveFail);
 		break;
 	default:
