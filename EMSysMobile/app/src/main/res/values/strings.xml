@@ -56,5 +56,8 @@
 
     <!--Events Map-->
     <string name="map_event_view_detail">Ver detalle</string>
+    <string name="dummy_third_field_external_service_row">Dummy Third text!</string>
+    <string name="dummy_second_field_external_service_row">Dummy Second text!</string>
+    <string name="dummy_first_field_external_service_row">Dummy First text!</string>
 
 </resources>

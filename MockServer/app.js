@@ -17,6 +17,8 @@ Object.defineProperty(Object.prototype,'Enum', {
 
 var events = require('./services/events-service.js');
 var users = require('./services/users-service.js');
+var consumeWS = require('./services/consumeWS-service.js');
+
 
 var express = require('express')
   , app = express();
@@ -119,5 +121,9 @@ switch (loginChoice) {
 	default:
 		break;
 }
+
+//consumeWS
+app.post('/consumeWS', consumeWS.postConsumeWSSuccess);
+		
 
 app.listen(8081);
