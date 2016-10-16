@@ -44,6 +44,10 @@
             android:name=".ui.activities.HomeActivity"
             android:configChanges="orientation|screenSize" />
         <activity
+            android:name=".ui.activities.EventDetailsView"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
             android:name=".ui.activities.SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>

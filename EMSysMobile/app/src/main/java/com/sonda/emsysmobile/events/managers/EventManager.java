@@ -107,9 +107,13 @@ public class EventManager {
         request.execute();
     }
 
-    public EventDto getEvent(String eventId){
-        return mEvents.get(0);
-
+    public EventDto getEvent(int eventId){
+        for (EventDto event : mEvents) {
+            if (event.getIdentifier() == eventId) {
+                return event;
+            }
+        }
+        return null;
     }
 
     private void setEvents(List<EventDto> events) {
