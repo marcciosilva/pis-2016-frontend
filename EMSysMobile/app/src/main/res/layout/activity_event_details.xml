@@ -1,260 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:orientation="vertical"
-            android:id="@+id/event_details"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/spacing_normal"
-            android:weightSum="1"
-            tools:context=".ui.activities.EventDetailsView">
-    <LinearLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_event_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.eventdetail.EventDetailsView">
+
+    <com.sonda.emsysmobile.ui.views.CustomScrollView
+        android:id="@+id/main_scrollview_map_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_normal"
+        android:weightSum="1">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-                <TextView
-                    android:text="Nombre informante"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_name_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_name_value" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/informant_name_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Nombre informante"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_name_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/informant_phone_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Telefono informante"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_phone_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-                <TextView
-                    android:text="Telefono informante"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_phone_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_phone_value" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/informant_street_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Calle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_street_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_corner_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Corner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_corner_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_number_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Número"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_number_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/informant_department_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Departamento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_department_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_sector_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Sector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/informant_sector_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-                <TextView
-                    android:text="Calle"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_street_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_street_value" />
 
-                <TextView
-                    android:text="Corner"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_corner_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_corner_value" />
 
-                <TextView
-                    android:text="Número"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_number_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_number_value" />
-            </LinearLayout>
-            <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-                <TextView
-                    android:text="Departamento"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_department_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_department_value" />
-
-                <TextView
-                    android:text="Sector"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/informant_sector_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/informant_sector_value" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/map_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!--<LinearLayout-->
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/map_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <!--<LinearLayout-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="wrap_content"-->
             <!--android:background="@color/colorPrimary">-->
             <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:text="Aca va el mapa"-->
-                <!--android:layout_margin="20dp"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textColor="@color/white"-->
-                <!--style="@style/EventDetails.FieldLabel" />-->
-        <!--</LinearLayout>-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            <!--android:layout_width="match_parent"-->
+            <!--android:text="Aca va el mapa"-->
+            <!--android:layout_margin="20dp"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="@color/white"-->
+            <!--style="@style/EventDetails.FieldLabel" />-->
+            <!--</LinearLayout>-->
             <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-                <TextView
-                    android:text="Motivo"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/category_label" />
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/category_value" />
-            </LinearLayout>
-            <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-                <TextView
-                    android:text="Tipo"
-                    style="@style/EventDetails.FieldLabel"
-                    android:id="@+id/type_label" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <TextView
-                    android:text="@string/event_details_missing_value"
-                    style="@style/EventDetails.FieldValue"
-                    android:id="@+id/type_value" />
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/category_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Motivo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/category_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/type_label"
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Tipo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/type_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-
-            </LinearLayout>
-            <LinearLayout
-                style="@style/EventDetails.HalfLinear">
-
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+    </com.sonda.emsysmobile.ui.views.CustomScrollView>
+</RelativeLayout>
 
 
-<!--<RelativeLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--tools:context=".ui.activities.EventDetailsActivity"-->
-    <!--tools:ignore="MergeRootFrame">-->
+    <!--<RelativeLayout--><!--xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:fitsSystemWindows="true"--><!--tools:context=".ui.activities.EventDetailsActivity"--><!--tools:ignore="MergeRootFrame">-->
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/event_details_container"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
+    <!--<FrameLayout--><!--android:id="@+id/event_details_container"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"/>-->
 
 
-<!--</RelativeLayout>-->
+    <!--</RelativeLayout>-->
 
 
-    <!--<?xml version="1.0" encoding="utf-8"?>-->
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="@color/gray_light"-->
-    <!--android:padding="@dimen/spacing_normal"-->
-    <!--tools:context=".ui.activities.login.AuthActivity">-->
+    <!--<?xml version="1.0" encoding="utf-8"?>--><!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:app="http://schemas.android.com/apk/res-auto"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/gray_light"--><!--android:padding="@dimen/spacing_normal"--><!--tools:context=".ui.activities.login.AuthActivity">-->
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/buttons_container"-->
-    <!--android:layout_width="@dimen/field_width_normal"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:orientation="vertical">-->
+    <!--<LinearLayout--><!--android:id="@+id/buttons_container"--><!--android:layout_width="@dimen/field_width_normal"--><!--android:layout_height="wrap_content"--><!--android:layout_centerInParent="true"--><!--android:orientation="vertical">-->
 
-    <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="130dp"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:scaleType="centerCrop"-->
-    <!--android:src="@drawable/logo_emsys_shadow" />-->
+    <!--<ImageView--><!--android:layout_width="match_parent"--><!--android:layout_height="130dp"--><!--android:layout_gravity="center_horizontal"--><!--android:scaleType="centerCrop"--><!--android:src="@drawable/logo_emsys_shadow" />-->
 
-    <!--<EditText-->
-    <!--android:id="@+id/input_username"-->
-    <!--style="@style/AppEditText"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/button_height_normal"-->
-    <!--android:layout_marginTop="@dimen/spacing_small"-->
-    <!--android:hint="@string/hint_username"-->
-    <!--android:imeOptions="actionNext"-->
-    <!--android:inputType="textNoSuggestions"-->
-    <!--android:maxLines="1"-->
-    <!--android:paddingLeft="@dimen/spacing_small"-->
-    <!--android:paddingRight="@dimen/spacing_small"-->
-    <!--android:theme="@style/AppEditText" />-->
+    <!--<EditText--><!--android:id="@+id/input_username"--><!--style="@style/AppEditText"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/button_height_normal"--><!--android:layout_marginTop="@dimen/spacing_small"--><!--android:hint="@string/hint_username"--><!--android:imeOptions="actionNext"--><!--android:inputType="textNoSuggestions"--><!--android:maxLines="1"--><!--android:paddingLeft="@dimen/spacing_small"--><!--android:paddingRight="@dimen/spacing_small"--><!--android:theme="@style/AppEditText" />-->
 
-    <!--<EditText-->
-    <!--android:id="@+id/input_password"-->
-    <!--style="@style/AppEditText"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/button_height_normal"-->
-    <!--android:layout_marginTop="@dimen/spacing_small"-->
-    <!--android:hint="@string/hint_password"-->
-    <!--android:imeOptions="actionDone"-->
-    <!--android:inputType="textPassword"-->
-    <!--android:paddingLeft="@dimen/spacing_small"-->
-    <!--android:paddingRight="@dimen/spacing_small"-->
-    <!--android:theme="@style/AppEditText" />-->
+    <!--<EditText--><!--android:id="@+id/input_password"--><!--style="@style/AppEditText"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/button_height_normal"--><!--android:layout_marginTop="@dimen/spacing_small"--><!--android:hint="@string/hint_password"--><!--android:imeOptions="actionDone"--><!--android:inputType="textPassword"--><!--android:paddingLeft="@dimen/spacing_small"--><!--android:paddingRight="@dimen/spacing_small"--><!--android:theme="@style/AppEditText" />-->
 
-    <!--<Button-->
-    <!--android:id="@+id/button_login"-->
-    <!--style="@style/AppButtonDark"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/button_height_normal"-->
-    <!--android:layout_marginTop="@dimen/spacing_normal"-->
-    <!--android:text="@string/action_login" />-->
+    <!--<Button--><!--android:id="@+id/button_login"--><!--style="@style/AppButtonDark"--><!--android:layout_width="match_parent"--><!--android:layout_height="@dimen/button_height_normal"--><!--android:layout_marginTop="@dimen/spacing_normal"--><!--android:text="@string/action_login" />-->
 
     <!--</LinearLayout>-->
 
-    <!--<ProgressBar-->
-    <!--android:id="@+id/progressBar"-->
-    <!--style="?android:attr/progressBarStyle"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/buttons_container"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:layout_marginTop="@dimen/spacing_large"-->
-    <!--android:indeterminate="true"-->
-    <!--android:indeterminateDrawable="@drawable/blue_progress_bar"-->
-    <!--android:visibility="gone" />-->
+    <!--<ProgressBar--><!--android:id="@+id/progressBar"--><!--style="?android:attr/progressBarStyle"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_below="@+id/buttons_container"--><!--android:layout_centerHorizontal="true"--><!--android:layout_marginTop="@dimen/spacing_large"--><!--android:indeterminate="true"--><!--android:indeterminateDrawable="@drawable/blue_progress_bar"--><!--android:visibility="gone" />-->
 
-    <!--<ImageButton-->
-    <!--android:id="@+id/button_config"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_alignParentTop="true"-->
-    <!--android:background="@color/gray_light"-->
-    <!--android:visibility="visible"-->
-    <!--android:src="@drawable/ic_settings_black_36dp" />-->
+    <!--<ImageButton--><!--android:id="@+id/button_config"--><!--android:layout_width="wrap_content"--><!--android:layout_height="wrap_content"--><!--android:layout_alignParentEnd="true"--><!--android:layout_alignParentRight="true"--><!--android:layout_alignParentTop="true"--><!--android:background="@color/gray_light"--><!--android:visibility="visible"--><!--android:src="@drawable/ic_settings_black_36dp" />-->
 
     <!--</RelativeLayout>-->

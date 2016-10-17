@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -23,7 +22,8 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.fragments.EventsMapView;
+import com.sonda.emsysmobile.ui.changeview.EventsMapView;
+import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;

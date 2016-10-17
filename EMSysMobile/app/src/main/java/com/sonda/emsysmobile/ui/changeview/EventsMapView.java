@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.changeview;
 
 import android.annotation.SuppressLint;
 import android.support.v4.app.DialogFragment;
@@ -20,15 +20,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.events.managers.EventManager;
-import com.sonda.emsysmobile.ui.activities.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by marccio on 11-Oct-16.

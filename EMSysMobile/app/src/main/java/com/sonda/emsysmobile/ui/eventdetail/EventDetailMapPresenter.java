@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,14 +10,11 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
-import com.sonda.emsysmobile.ui.activities.EventDetailsPresenter;
+import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -28,17 +25,19 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 /**
  * Created by marccio on 11-Oct-16.
  */
-public class EventsMapPresenter {
+public class EventDetailMapPresenter {
 
-    private static final String TAG = EventsMapPresenter.class.getName();
+    private static final String TAG = EventDetailMapPresenter.class.getName();
+    private static EventDto mEventDto = null;
 
-    public static void loadEvents(final Context context, final EventsMapView view) {
+    public static void loadEvent(final Context context, final EventDetailMapView view) {
+        //TODO Cambiar esto para solo usar un unico objeto de marker en vez de una lista
         EventManager eventManager = EventManager.getInstance(context);
         eventManager.fetchEvents(new ApiCallback<List<EventDto>>() {
             @Override
             public void onSuccess(List<EventDto> events) {
                 List<CustomMarkerData> data = getCustomMarkerData(events, context);
-                view.updateEventsData(data);
+                view.updateEventData(data);
             }
 
             @Override
@@ -51,7 +50,7 @@ public class EventsMapPresenter {
                 handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        loadEvents(context, view);
+                        loadEvent(context, view);
                     }
                 });
             }
@@ -124,30 +123,7 @@ public class EventsMapPresenter {
         return false;
     }
 
-    /**
-     * Se encarga de hacer lo necesario para que el presenter del detalle del evento
-     * pueda encargarse de mostrar la vista correspondiente.
-     * Si el evento no se encuentra, se devuelve false, y si la operacion es exitosa
-     * se devuelve true.
-     * @param context
-     * @param customMarkerData
-     * @return
-     */
-    public static boolean showEventDetail(final Context context, CustomMarkerData customMarkerData) {
-        EventManager eventManager = EventManager.getInstance(context);
-        int eventId = -1;
-        // Obtengo id del evento a partir del titulo del marker.
-        Pattern p = Pattern.compile(".* (\\d)+ -");
-        Matcher m = p.matcher(customMarkerData.getTitle());
-        if (m.find()) {
-            eventId = Integer.parseInt(m.group(1));
-        }
-        if (eventId != -1) {
-            eventManager.getEvent(eventId);
-            EventDetailsPresenter.loadEventDetails(context, eventId, null);
-            return true;
-        } else {
-            return false;
-        }
+    public static void setEventDto(EventDto eventDto) {
+        mEventDto = eventDto;
     }
 }

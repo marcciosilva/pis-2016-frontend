@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.activities;
+package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.widget.TextView;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
+import com.sonda.emsysmobile.ui.changeview.EventsMapView;
+import com.sonda.emsysmobile.ui.views.CustomScrollView;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -16,7 +18,9 @@ public class EventDetailsView extends AppCompatActivity {
 
     public static final String EVENT_ID = "event.identifier";
     public static final String EVENT_EXTENSION_ZONE = "extension.zone";
+    public static final String EVENT_HAS_GEOLOCATION = "hasGeolocation";
     private EventDto mEvent;
+    private EventDetailMapView mMapFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,15 @@ public class EventDetailsView extends AppCompatActivity {
             ((TextView) findViewById(R.id.category_value)).setText(mEvent.getCategory().getCode());
             ((TextView) findViewById(R.id.type_value)).setText(mEvent.getOrigin());
         }
+
+        // Inicializacion de fragment de mapa.
+//        if (bundle.getBoolean(EVENT_HAS_GEOLOCATION)) {
+        mMapFragment = EventDetailMapView.getInstance();
+        CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview_map_detail);
+        mMapFragment.initializeView(this, mainScrollView);
+        mMapFragment.showView();
+//        }
+
     }
 
 }

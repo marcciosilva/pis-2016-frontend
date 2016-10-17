@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.fragments;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
 
 import org.junit.Before;
 import org.junit.Test;

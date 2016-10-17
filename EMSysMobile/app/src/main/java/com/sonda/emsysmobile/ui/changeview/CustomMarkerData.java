@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.changeview;
 
 import com.google.android.gms.maps.model.LatLng;
 
