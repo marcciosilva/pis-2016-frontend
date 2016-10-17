@@ -10,6 +10,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
+import com.sonda.emsysmobile.ui.activities.EventDetailsPresenter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.text.DateFormat;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -121,4 +124,30 @@ public class EventsMapPresenter {
         return false;
     }
 
+    /**
+     * Se encarga de hacer lo necesario para que el presenter del detalle del evento
+     * pueda encargarse de mostrar la vista correspondiente.
+     * Si el evento no se encuentra, se devuelve false, y si la operacion es exitosa
+     * se devuelve true.
+     * @param context
+     * @param customMarkerData
+     * @return
+     */
+    public static boolean showEventDetail(final Context context, CustomMarkerData customMarkerData) {
+        EventManager eventManager = EventManager.getInstance(context);
+        int eventId = -1;
+        // Obtengo id del evento a partir del titulo del marker.
+        Pattern p = Pattern.compile(".* (\\d)+ -");
+        Matcher m = p.matcher(customMarkerData.getTitle());
+        if (m.find()) {
+            eventId = Integer.parseInt(m.group(1));
+        }
+        if (eventId != -1) {
+            eventManager.getEvent(eventId);
+            EventDetailsPresenter.loadEventDetails(context, eventId, null);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -25,6 +25,8 @@ public class EventDetailsView extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
+        //TODO contemplar el hecho de que la key "extension.zone" puede no traer nada
+        //si es llamada desde el mapa de eventos
         if (bundle.containsKey(EVENT_ID)) {
             // Cargar modelo según el identificador.
             EventManager eventManager = EventManager.getInstance(EventDetailsView.this);

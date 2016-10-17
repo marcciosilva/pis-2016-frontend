@@ -56,6 +56,7 @@
 
     <!--Events Map-->
     <string name="map_event_view_detail">Ver detalle</string>
+    <string name="error_event_details_from_map">Hubo un error al obtener el detalle del evento seleccionado.</string>
 
     <!-- Events details-->
     <string name="event_details_missing_value">No tiene</string>

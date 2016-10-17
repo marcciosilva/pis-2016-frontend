@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.fragments;
 
 import android.annotation.SuppressLint;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -18,10 +19,15 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.ui.activities.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by marccio on 11-Oct-16.
@@ -98,7 +104,8 @@ public class EventsMapView extends SupportMapFragment
             View view = getView();
             ViewGroup.LayoutParams mapParams = view.getLayoutParams();
             if (mapParams != null) {
-                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                        200, getResources().getDisplayMetrics());
                 view.setLayoutParams(mapParams);
             }
             mMainScrollView.addInterceptScrollView(view);
@@ -168,14 +175,22 @@ public class EventsMapView extends SupportMapFragment
 
     @Override
     public void onInfoWindowClick(Marker marker) {
+        // Se pasa al presenter la informacion del marcador, en el tipo de datos
+        // custom utilizado para ellos (CustomMarkerData).
+        boolean successfulOperation = EventsMapPresenter
+                .showEventDetail(mCallingActivity, new CustomMarkerData(marker.getTitle(),
+                marker.getSnippet(), marker.getPosition()));
+        // Si no se pudo completar la operacion de mostrar el detalle del evento,
+        // se presenta un dialog informando al usuario acerca de ello.
+        if (!successfulOperation) {
+            DialogFragment dialog = UIUtils.getSimpleDialog(getString(R.string.error_event_details_from_map));
+            dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
+        }
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
         return false;
-        //DialogFragment dialog = UIUtils.getExtensionMapMarkerDialog("Faggot");
-        //dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
-        //return true;
     }
 
     @Override
