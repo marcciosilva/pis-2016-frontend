@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -110,6 +111,12 @@ public class EventsMapView extends SupportMapFragment
             }
             mMainScrollView.addInterceptScrollView(view);
             mCallingActivity.getSupportFragmentManager().beginTransaction().show(this).commitNow();
+            // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
+            // este cargado.
+            final ScrollView scrollview = (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
+            if (scrollview != null) {
+                scrollview.fullScroll(ScrollView.FOCUS_UP);
+            }
             // Se configura el mapa para tener marcadores.
             setUpMap();
         } catch (NullPointerException e) {
