@@ -123,7 +123,19 @@ switch (loginChoice) {
 }
 
 //consumeWS
-app.post('/consumeWS', consumeWS.postConsumeWSSuccess);
+var WSChoice={};
+WSChoice.Enum('Success', 'Fail');
+wsChoice = LoginChoice.Success;
+switch (wsChoice) {
+	case WSChoice.Success:
+		app.post('/consumeWS', consumeWS.postConsumeWSSuccess);
+		break;
+	case WSChoice.Fail:
+		app.post('/consumeWS', consumeWS.postConsumeWSError);
+		break;
+	default:
+		break;
+}
 		
 
 app.listen(8081);

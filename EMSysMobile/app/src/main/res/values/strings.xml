@@ -79,10 +79,9 @@
     <string name="ninth_param">Noveno parámetro:</string>
     <string name="tenth_param">Décimo parámetro:</string>
     <string name="query">Consultar</string>
-
-
-
-
+    <string name="error_ws_unavailable">El Servicio externo no está disponible</string>
+    <string name="error_title">Error</string>
+    <string name="ok_button">Ok</string>
 
 
 </resources>
