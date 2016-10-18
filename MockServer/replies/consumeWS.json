@@ -1,0 +1,114 @@
+{
+    "cod": 0,
+    "response": [
+   	 {
+   		 "field1": "Red",
+   		 "field2": "Blue",
+   		 "field3": "Maroon",
+   		 "field4": "Red",
+   		 "field5": "Blue",
+   		 "field6": "Turquoise",
+   		 "field7": "Fuchsia",
+   		 "field8": "Fuchsia",
+   		 "field9": "Yellow",
+   		 "field10": "Crimson"
+   	 },
+   	 {
+   		 "field1": "Green",
+   		 "field2": "Aquamarine",
+   		 "field3": "Yellow",
+   		 "field4": "Teal",
+   		 "field5": "Yellow",
+   		 "field6": "Green",
+   		 "field7": "Pink",
+   		 "field8": "Maroon",
+   		 "field9": "Pink",
+   		 "field10": "Puce"
+   	 },
+   	 {
+   		 "field1": "Red",
+   		 "field2": "Fuchsia",
+   		 "field3": "Purple",
+   		 "field4": "Crimson",
+   		 "field5": "Pink",
+   		 "field6": "Black",
+   		 "field7": "Orange",
+   		 "field8": "Crimson",
+   		 "field9": "Turquoise",
+   		 "field10": "Yellow"
+   	 },
+	 {
+   		 "field1": "Red",
+   		 "field2": "Blue",
+   		 "field3": "Maroon",
+   		 "field4": "Red",
+   		 "field5": "Blue",
+   		 "field6": "Turquoise",
+   		 "field7": "Fuchsia",
+   		 "field8": "Fuchsia",
+   		 "field9": "Yellow",
+   		 "field10": "Crimson"
+   	 },
+   	 {
+   		 "field1": "Green",
+   		 "field2": "Aquamarine",
+   		 "field3": "Yellow",
+   		 "field4": "Teal",
+   		 "field5": "Yellow",
+   		 "field6": "Green",
+   		 "field7": "Pink",
+   		 "field8": "Maroon",
+   		 "field9": "Pink",
+   		 "field10": "Puce"
+   	 },
+   	 {
+   		 "field1": "Red",
+   		 "field2": "Fuchsia",
+   		 "field3": "Purple",
+   		 "field4": "Crimson",
+   		 "field5": "Pink",
+   		 "field6": "Black",
+   		 "field7": "Orange",
+   		 "field8": "Crimson",
+   		 "field9": "Turquoise",
+   		 "field10": "Yellow"
+   	 },
+	 {
+   		 "field1": "Red",
+   		 "field2": "Blue",
+   		 "field3": "Maroon",
+   		 "field4": "Red",
+   		 "field5": "Blue",
+   		 "field6": "Turquoise",
+   		 "field7": "Fuchsia",
+   		 "field8": "Fuchsia",
+   		 "field9": "Yellow",
+   		 "field10": "Crimson"
+   	 },
+   	 {
+   		 "field1": "Green",
+   		 "field2": "Aquamarine",
+   		 "field3": "Yellow",
+   		 "field4": "Teal",
+   		 "field5": "Yellow",
+   		 "field6": "Green",
+   		 "field7": "Pink",
+   		 "field8": "Maroon",
+   		 "field9": "Pink",
+   		 "field10": "Puce"
+   	 },
+   	 {
+   		 "field1": "Red",
+   		 "field2": "Fuchsia",
+   		 "field3": "Purple",
+   		 "field4": "Crimson",
+   		 "field5": "Pink",
+   		 "field6": "Black",
+   		 "field7": "Orange",
+   		 "field8": "Crimson",
+   		 "field9": "Turquoise",
+   		 "field10": "Yellow"
+   	 }
+    ]
+}
+

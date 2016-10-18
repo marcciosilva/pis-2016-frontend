@@ -17,6 +17,8 @@ Object.defineProperty(Object.prototype,'Enum', {
 
 var events = require('./services/events-service.js');
 var users = require('./services/users-service.js');
+var consumeWS = require('./services/consumeWS-service.js');
+
 
 var express = require('express')
   , app = express();
@@ -119,6 +121,22 @@ switch (loginChoice) {
 	default:
 		break;
 }
+
+//consumeWS
+var WSChoice={};
+WSChoice.Enum('Success', 'Fail');
+wsChoice = LoginChoice.Success;
+switch (wsChoice) {
+	case WSChoice.Success:
+		app.post('/consumeWS', consumeWS.postConsumeWSSuccess);
+		break;
+	case WSChoice.Fail:
+		app.post('/consumeWS', consumeWS.postConsumeWSError);
+		break;
+	default:
+		break;
+}
+
 
 // keepAlive
 var KeepAliveChoice={};

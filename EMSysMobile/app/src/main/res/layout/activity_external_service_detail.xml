@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.ExternalServiceDetailActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/first_param"
+            android:id="@+id/first_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/first_field_et"
+            android:layout_alignBottom="@+id/first_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_first_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/first_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/second_param"
+            android:id="@+id/second_field_tv"
+            android:layout_below="@+id/first_field_tv"
+            android:layout_alignBaseline="@+id/second_field_et"
+            android:layout_alignBottom="@+id/second_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_second_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/second_field_et"
+            android:layout_toRightOf="@+id/second_field_tv"
+            android:layout_toEndOf="@+id/second_field_tv"
+            android:layout_below="@+id/first_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/third_param"
+            android:id="@+id/third_field_tv"
+            android:layout_below="@+id/second_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/third_field_et"
+            android:layout_alignBottom="@+id/third_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_third_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/third_field_et"
+            android:layout_toRightOf="@+id/third_field_tv"
+            android:layout_toEndOf="@+id/third_field_tv"
+            android:layout_below="@+id/second_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fourth_param"
+            android:id="@+id/fourth_field_tv"
+            android:layout_below="@+id/third_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/fourth_field_et"
+            android:layout_alignBottom="@+id/fourth_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_fourth_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/fourth_field_et"
+            android:layout_toRightOf="@+id/fourth_field_tv"
+            android:layout_toEndOf="@+id/fourth_field_tv"
+            android:layout_below="@+id/third_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fifth_param"
+            android:id="@+id/fifth_field_tv"
+            android:layout_below="@+id/fourth_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/fifth_field_et"
+            android:layout_alignBottom="@+id/fifth_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_fifth_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/fifth_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_toEndOf="@+id/first_field_tv"
+            android:layout_below="@+id/fourth_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sixth_param"
+            android:id="@+id/sixth_field_tv"
+            android:layout_below="@+id/fifth_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/sixth_field_et"
+            android:layout_alignBottom="@+id/sixth_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_sixth_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/sixth_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_toEndOf="@+id/first_field_tv"
+            android:layout_below="@+id/fifth_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/seventh_param"
+            android:id="@+id/seventh_field_tv"
+            android:layout_below="@+id/sixth_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/seventh_field_et"
+            android:layout_alignBottom="@+id/seventh_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_seventh_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/seventh_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_toEndOf="@+id/first_field_tv"
+            android:layout_below="@+id/sixth_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/eighth_param"
+            android:id="@+id/eighth_field_tv"
+            android:layout_below="@+id/seventh_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/eighth_field_et"
+            android:layout_alignBottom="@+id/eighth_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_eighth_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/eighth_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_toEndOf="@+id/first_field_tv"
+            android:layout_below="@+id/seventh_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ninth_param"
+            android:id="@+id/ninth_field_tv"
+            android:layout_below="@+id/eighth_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/ninth_field_et"
+            android:layout_alignBottom="@+id/ninth_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_ninth_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/ninth_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_toEndOf="@+id/first_field_tv"
+            android:layout_below="@+id/eighth_field_et"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tenth_param"
+            android:id="@+id/tenth_field_tv"
+            android:layout_below="@+id/ninth_field_tv"
+            android:layout_alignRight="@+id/second_field_tv"
+            android:layout_alignEnd="@+id/second_field_tv"
+            android:layout_alignLeft="@+id/second_field_tv"
+            android:layout_alignStart="@+id/second_field_tv"
+            android:layout_alignBaseline="@+id/tenth_field_et"
+            android:layout_alignBottom="@+id/tenth_field_et"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dummy_tenth_field_external_service_row"
+            android:enabled="false"
+            android:id="@+id/tenth_field_et"
+            android:layout_toRightOf="@+id/first_field_tv"
+            android:layout_toEndOf="@+id/first_field_tv"
+            android:layout_below="@+id/ninth_field_et"/>
+
+    </RelativeLayout>
+
+</ScrollView>
+
+
+
