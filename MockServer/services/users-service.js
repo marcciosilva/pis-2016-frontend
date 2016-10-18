@@ -17,6 +17,9 @@ var login_no_auth = require('../replies/login_no_auth.json');
 var logout_success = require('../replies/logout_success.json');
 var logout_cod5 = require('../replies/logout_cod5.json');
 var logout_cod2 = require('../replies/logout_cod2.json');
+// keepAlive
+var keepalive_success = require('../replies/keepalive_success.json');
+var keepalive_fail = require('../replies/keepalive_fail.json');
 
 var getUsers = function (request, response, next) {
 	response.setHeader("content-type","application/json");
@@ -93,6 +96,18 @@ var postUserLogoutCod5 = function(request, response, next) {
 	response.send(JSON.stringify(logout_cod5));
 };
 
+// GET
+
+var getUserKeepAliveSuccess = function(request, response, next) {
+	response.setHeader("content-type","application/json");
+	response.send(JSON.stringify(keepalive_success));
+};
+
+var getUserKeepAliveFail = function(request, response, next) {
+	response.setHeader("content-type","application/json");
+	response.send(JSON.stringify(keepalive_fail));
+};
+
 exports.getUsers = getUsers;
 exports.postUserSuccess = postUserSuccess;
 exports.postUserInvalidCredentials = postUserInvalidCredentials;
@@ -110,3 +125,6 @@ exports.postUserLoginFail = postUserLoginFail;
 exports.postUserLogoutSuccess = postUserLogoutSuccess;
 exports.postUserLogoutCod2 = postUserLogoutCod2;
 exports.postUserLogoutCod5 = postUserLogoutCod5;
+//keepAlive
+exports.getUserKeepAliveFail = getUserKeepAliveFail;
+exports.getUserKeepAliveFail = getUserKeepAliveFail;
