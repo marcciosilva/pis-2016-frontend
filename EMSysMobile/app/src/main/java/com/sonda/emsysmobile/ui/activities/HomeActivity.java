@@ -115,6 +115,11 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.menu_view_map_button:
                 mMapFragment.showView();
+                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsFragment();
+                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
                 return true;
             case R.id.menu_logout_button:
                 logout();
@@ -166,7 +171,7 @@ public class HomeActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-/**
+    /**
      * Fragment that appears in the "content_frame", shows a planet
      */
     public static class TestFragment extends Fragment {
