@@ -22,9 +22,10 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
 import com.sonda.emsysmobile.ui.fragments.EventsMapView;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
-import com.sonda.emsysmobile.ui.fragments.ExternalServiceFragment;
+import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -106,20 +107,14 @@ public class HomeActivity extends AppCompatActivity
                 }
                 return true;
             case R.id.menu_external_service_button:
-                ExternalServiceFragment externalServiceFragment = (ExternalServiceFragment) getSupportFragmentManager().findFragmentByTag(ExternalServiceFragment.class.getSimpleName());
-                if(externalServiceFragment == null){
-                    externalServiceFragment = new ExternalServiceFragment();
-                    replaceFragment(externalServiceFragment, ExternalServiceFragment.class.getSimpleName());
+                ExternalServiceQueryFragment externalServiceFragment = (ExternalServiceQueryFragment) getSupportFragmentManager().findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
+                if (externalServiceFragment == null) {
+                    externalServiceFragment = new ExternalServiceQueryFragment();
+                    replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_view_map_button:
                 mMapFragment.showView();
-                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager()
-                        .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
-                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
-                }
                 return true;
             case R.id.menu_logout_button:
                 logout();

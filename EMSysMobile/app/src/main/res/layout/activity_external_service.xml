@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.ExtensionsFragment">
+    tools:context=".ui.activities.ExternalServiceResultActivity">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/blue_progress_bar"
-        android:visibility="gone"
+        android:visibility="visible"
         style="?android:attr/progressBarStyle" />
 
     <android.support.v7.widget.RecyclerView
@@ -22,8 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".ui.fragments.ExternalServiceFragment"
-        tools:listitem="@layout/row_extension" />
+        tools:context=".ui.activities.ExternalServiceResultActivity"
+        tools:listitem="@layout/row_extension"
+        android:visibility="gone"/>
 
 </FrameLayout>
 

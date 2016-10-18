@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +10,18 @@ import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
-import com.sonda.emsysmobile.ui.fragments.ExternalServiceFragment.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.activities.ExternalServiceDetailActivity;
+import com.sonda.emsysmobile.utils.Constants;
 
 import java.util.List;
 
 public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<ExternalServiceRecyclerViewAdapter.ViewHolder> {
 
     private final List<ExternalServiceItemDto> mValues;
-    private final OnListFragmentInteractionListener mListener;
     private Context mContext;
 
-    public ExternalServiceRecyclerViewAdapter(Context context, List<ExternalServiceItemDto> extensions, OnListFragmentInteractionListener listener) {
+    public ExternalServiceRecyclerViewAdapter(Context context, List<ExternalServiceItemDto> extensions) {
         mValues = extensions;
-        mListener = listener;
         mContext = context;
     }
 
@@ -34,7 +34,7 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<Ext
 
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
-        ExternalServiceItemDto externalServiceItemDto = mValues.get(position);
+        final ExternalServiceItemDto externalServiceItemDto = mValues.get(position);
         holder.setItem(externalServiceItemDto);
         holder.getFirstField().setText(externalServiceItemDto.getField1());
         holder.getSecondField().setText(externalServiceItemDto.getField2());
@@ -42,11 +42,10 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<Ext
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
-                    // Envía el llamado a la interfaz que lo implemente
-                    // Se va a implementar en el Fragment de servicio externo
-                    mListener.onListFragmentInteraction(holder.getItem());
-                }
+                // TODO esto podría llegar a ir en un presenter (?) ... si bien nunca lo hice así je
+                Intent i = new Intent(mContext, ExternalServiceDetailActivity.class);
+                i.putExtra(Constants.ExternalService.DETAIL_KEY_PARAM, externalServiceItemDto);
+                mContext.startActivity(i);
             }
         });
     }

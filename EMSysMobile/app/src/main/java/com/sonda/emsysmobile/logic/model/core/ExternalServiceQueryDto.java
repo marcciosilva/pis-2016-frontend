@@ -17,6 +17,12 @@ public class ExternalServiceQueryDto {
     @SerializedName("param3")
     private String parameter3;
 
+    public ExternalServiceQueryDto(String parameter1, String parameter2, String parameter3) {
+        this.parameter1 = parameter1;
+        this.parameter2 = parameter2;
+        this.parameter3 = parameter3;
+    }
+
     public String getParameter1() {
         return parameter1;
     }

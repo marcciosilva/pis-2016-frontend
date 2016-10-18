@@ -56,8 +56,33 @@
 
     <!--Events Map-->
     <string name="map_event_view_detail">Ver detalle</string>
-    <string name="dummy_third_field_external_service_row">Dummy Third text!</string>
-    <string name="dummy_second_field_external_service_row">Dummy Second text!</string>
+
+    <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>
+    <string name="dummy_second_field_external_service_row">Dummy Second text!</string>
+    <string name="dummy_third_field_external_service_row">Dummy Third text!</string>
+    <string name="dummy_fourth_field_external_service_row">Dummy Fourth text!</string>
+    <string name="dummy_fifth_field_external_service_row">Dummy Fifth text!</string>
+    <string name="dummy_sixth_field_external_service_row">Dummy Sixth text!</string>
+    <string name="dummy_seventh_field_external_service_row">Dummy Seventh text!</string>
+    <string name="dummy_eighth_field_external_service_row">Dummy Eighth text!</string>
+    <string name="dummy_ninth_field_external_service_row">Dummy Ninth text!</string>
+    <string name="dummy_tenth_field_external_service_row">Dummy Tenth text!</string>
+    <string name="first_param">Primer parámetro:</string>
+    <string name="third_param">Tercer parámetro:</string>
+    <string name="second_param">Segundo parámetro:</string>
+    <string name="fourth_param">Cuarto parámetro:</string>
+    <string name="fifth_param">Quinto parámetro:</string>
+    <string name="sixth_param">Sexto parámetro:</string>
+    <string name="seventh_param">Séptimo parámetro:</string>
+    <string name="eighth_param">Octavo parámetro:</string>
+    <string name="ninth_param">Noveno parámetro:</string>
+    <string name="tenth_param">Décimo parámetro:</string>
+    <string name="query">Consultar</string>
+
+
+
+
+
 
 </resources>
