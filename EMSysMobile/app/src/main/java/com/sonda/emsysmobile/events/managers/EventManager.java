@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,7 +20,6 @@ import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
-import java.security.cert.Extension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,19 +33,27 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 public class EventManager {
 
     private static final String NOTIFICATION_KEY = "notification";
+    private static final String EVENTS_KEY = "events";
+    private static final String EVENTS_UPDATED = "events_updated";
+    private static final String ONE_EVENT_UPDATED = "one_event_updated";
 
     private static EventManager mInstance;
     private Context mContext;
 
     private List<EventDto> mEvents;
-    private List<ExtensionDto> mExtensions;
+
+    /**
+     * Using SparseArray because it is intended to be more memory efficient than using a HashMap to map Integers to Objects.
+     * Visit this link to know more about use of SparseArray in Android: https://developer.android.com/reference/android/util/SparseArray.html
+     */
+    private SparseArray<ExtensionDto> mExtensions;
 
     private static final String TAG = EventManager.class.getName();
 
-    EventManager(Context context) {
+    private EventManager(Context context) {
         mContext = context;
         mEvents = new ArrayList<>();
-        mExtensions = new ArrayList<>();
+        mExtensions = new SparseArray<>();
         LocalBroadcastManager.getInstance(mContext)
                 .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_EVENTS_LIST.toString()));
         LocalBroadcastManager.getInstance(mContext)
@@ -73,7 +81,7 @@ public class EventManager {
                 int responseCode = response.getCode();
                 if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
                     setEvents(response.getEvents());
-                    callback.onSuccess(mExtensions);
+                    callback.onSuccess(getExtensionsList());
                 } else {
                     //TODO soportar mensaje de error en EventsResponse
                     //callback.onError(response.getInnerResponse().getMsg(), responseCode);
@@ -123,6 +131,8 @@ public class EventManager {
                 @Override
                 public void onResponse(EventsResponse response) {
                     setEvents(response.getEvents());
+                    Intent intent = new Intent(EVENTS_UPDATED);
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
                 }
             };
         }
@@ -146,14 +156,23 @@ public class EventManager {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
                 extension.setEvent(event);
+                mExtensions.append(extension.getIdentifier(), extension);
             }
-            mExtensions.addAll(eventExtensions);
         }
-        sortExtensionsByPriority();
     }
 
-    private void sortExtensionsByPriority() {
-        Collections.sort(mExtensions, new Comparator<ExtensionDto>() {
+    private ArrayList<ExtensionDto> getExtensionsList() {
+        if (mExtensions == null) return null;
+        ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
+        for (int i = 0; i < mExtensions.size(); i++) {
+            arrayList.add(mExtensions.valueAt(i));
+        }
+        sortExtensionsByPriority(arrayList);
+        return arrayList;
+    }
+
+    private void sortExtensionsByPriority(ArrayList<ExtensionDto> extensions) {
+        Collections.sort(extensions, new Comparator<ExtensionDto>() {
             public int compare(ExtensionDto ext1, ExtensionDto ext2) {
                 return ext1.getPriority().compareTo(ext2.getPriority());
             }
@@ -161,7 +180,7 @@ public class EventManager {
     }
 
     /**
-     * Receives notifications
+     * Catches notification events posted by MyFirebaseMessagingService
      */
     private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
         @Override
@@ -172,6 +191,10 @@ public class EventManager {
                     Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
                     if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
                         updateEvents(null, null);
+                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
+                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
+                        //TODO: Update just one event with an API Call
+                        extensionDto.setModified(true);
                     }
                 }
             }

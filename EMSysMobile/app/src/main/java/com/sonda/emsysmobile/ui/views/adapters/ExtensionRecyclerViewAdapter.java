@@ -19,14 +19,20 @@ import java.util.List;
 
 public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<ExtensionRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ExtensionDto> mValues;
+    private final List<ExtensionDto> mExtensions;
     private final OnListFragmentInteractionListener mListener;
     private Context mContext;
 
     public ExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions, OnListFragmentInteractionListener listener) {
-        mValues = extensions;
+        mExtensions = extensions;
         mListener = listener;
         mContext = context;
+    }
+
+    public void setExtensions(List<ExtensionDto> mValues) {
+        mExtensions.clear();
+        mExtensions.addAll(mValues);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -38,7 +44,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
 
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
-        ExtensionDto extension = mValues.get(position);
+        ExtensionDto extension = mExtensions.get(position);
         String idAndZoneString = "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
         CategoryPriority priority = extension.getPriority();
         holder.setItem(extension);
@@ -51,6 +57,11 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
             holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_medium));
         } else if (priority == CategoryPriority.LOW) {
             holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_low));
+        }
+        if (extension.isModified()) {
+            holder.modifiedIndicator.setVisibility(View.VISIBLE);
+        } else {
+            holder.modifiedIndicator.setVisibility(View.GONE);
         }
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +77,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
 
     @Override
     public final int getItemCount() {
-        return mValues.size();
+        return mExtensions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,6 +86,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
         private final TextView descriptionTextView;
         private final TextView dateTextView;
         private final View priorityView;
+        private final View modifiedIndicator;
         private ExtensionDto item;
 
         public final View getView() {
@@ -112,6 +124,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
             priorityView = view.findViewById(R.id.view_priority_mark);
             dateTextView = (TextView) view.findViewById(R.id.label_date);
+            modifiedIndicator = view.findViewById(R.id.modified_indicator);
         }
 
         @Override

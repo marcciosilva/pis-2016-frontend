@@ -16,11 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion1-api.azurewebsites.net\""
+            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion2-api.azurewebsites.net\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
         }
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion1-api.azurewebsites.net\""
+            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion2-api.azurewebsites.net\""
             buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.31:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
 

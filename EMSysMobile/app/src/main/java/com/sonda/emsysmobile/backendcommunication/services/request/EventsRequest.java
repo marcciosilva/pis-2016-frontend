@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 
 public class EventsRequest<T> extends AbstractRequest<T> {
 
-    public static final String EVENTS_PATH = "/events";
+    public static final String EVENTS_PATH = "/eventos/listar";
 
     public EventsRequest(Context context, Type type) {
         super(context, type, RequestType.GET);
@@ -24,5 +24,10 @@ public class EventsRequest<T> extends AbstractRequest<T> {
     @Override
     protected final JsonObject getBody() {
         return null;
+    }
+
+    @Override
+    public String getBaseURL() {
+        return "http://192.168.1.3:8081";
     }
 }

@@ -12,7 +12,7 @@ public class ExtensionDto {
     @SerializedName("id")
     private int identifier;
 
-    @SerializedName("descripcion")
+    @SerializedName("descripcion_supervisor")
     private String description;
 
     @SerializedName("estado")
@@ -26,6 +26,12 @@ public class ExtensionDto {
 
     @SerializedName("zona")
     private ZoneDto zone;
+
+    /**
+     * When this boolean is true, an indicator is shown
+     * for this extension in the extensions list.
+     */
+    private boolean isModified;
 
     private transient EventDto event;
 
@@ -94,6 +100,14 @@ public class ExtensionDto {
 
     public final void setEvent(EventDto event) {
         this.event = event;
+    }
+
+    public boolean isModified() {
+        return isModified;
+    }
+
+    public void setModified(boolean modified) {
+        isModified = modified;
     }
 
     /**

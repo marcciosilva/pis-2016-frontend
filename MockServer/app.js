@@ -31,7 +31,7 @@ app.configure(function(){
   app.use(express.static(__dirname + '/statics'));
 });
 
-app.get('/events', events.getEvents);
+app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
 
 
@@ -41,7 +41,7 @@ app.get('/events/:event_id/detail/special_case', events.getSpecialCase);
 
 //Manejo usuarios
 
-//auth
+//aut
 //http://localhost:8081/users/authenticate
 var AuthChoice={};
 AuthChoice.Enum('Success', 'InvalidCredentials', 'AlreadyLogged');

@@ -1,249 +1,265 @@
 {
    "cod": 0,
-   "response": [
-      {
+   "response": [{
+      "id": 1,
+      "informante": null,
+      "telefono": null,
+      "categoria": {
+         "id": 3,
+         "codigo": "cod3",
+         "clave": "Categoria de prueba 3",
+         "prioridad": "alta",
+         "activo": true
+      },
+      "estado": "enviado",
+      "time_stamp": "2016-10-15T19:49:18.26",
+      "creador": "Usuario1",
+      "fecha_creacion": "2016-10-15T19:49:18.26",
+      "calle": null,
+      "esquina": null,
+      "numero": null,
+      "departamento": "",
+      "sector": "sector3",
+      "geo_ubicacion": null,
+      "descripcion": "Descripción del Evento 1",
+      "en_proceso": true,
+      "extensiones": [{
          "id": 1,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "created",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 1,
-               "descripcion": "Extensión 1 - Una descripcion normal de esta extension",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            },
-            {
-               "id": 2,
-               "descripcion": "Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-               "estado": "despachado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "baja",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 1",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
       },
       {
          "id": 2,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "sent",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 3,
-               "descripcion": "Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. ",
-               "estado": "cerrado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "media",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 5,
-                  "nombre": "Zona 5",
-                  "nombre_ue": "unidad1"
-               }
-            },
-            {
-               "id": 4,
-               "descripcion": "Cortita y al pie",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 6,
-                  "nombre": "Zona 6",
-                  "nombre_ue": "unidad2"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 2",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
       },
       {
          "id": 3,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "created",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "latitud": -34.908599,
-         "longitud": -56.201376,
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 1,
-               "descripcion": "Extensión 1 - Una descripcion normal de esta extension",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            },
-            {
-               "id": 2,
-               "descripcion": "Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-               "estado": "despachado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "baja",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 3",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
+      }],
+      "imagenes": [],
+      "videos": [],
+      "audios": []
+   },
+   {
+      "id": 2,
+      "informante": null,
+      "telefono": null,
+      "categoria": {
+         "id": 3,
+         "codigo": "cod3",
+         "clave": "Categoria de prueba 3",
+         "prioridad": "alta",
+         "activo": true
+      },
+      "estado": "enviado",
+      "time_stamp": "2016-10-15T19:49:18.26",
+      "creador": "Usuario1",
+      "fecha_creacion": "2016-10-15T19:49:18.26",
+      "calle": null,
+      "esquina": null,
+      "numero": null,
+      "departamento": "",
+      "sector": "sector3",
+      "geo_ubicacion": null,
+      "descripcion": "Descripción del Evento 2",
+      "en_proceso": true,
+      "extensiones": [{
+         "id": 4,
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 4",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
       },
       {
-         "id": 4,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "created",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "latitud": -34.909382,
-         "longitud": -56.211418,
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 1,
-               "descripcion": "Extensión 1 - Una descripcion normal de esta extension",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            },
-            {
-               "id": 2,
-               "descripcion": "Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-               "estado": "despachado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "baja",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
-      }
-   ]
+         "id": 5,
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 5",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
+      },
+      {
+         "id": 6,
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 6",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
+      }],
+      "imagenes": [],
+      "videos": [],
+      "audios": []
+   },
+   {
+      "id": 3,
+      "informante": null,
+      "telefono": null,
+      "categoria": {
+         "id": 3,
+         "codigo": "cod3",
+         "clave": "Categoria de prueba 3",
+         "prioridad": "alta",
+         "activo": true
+      },
+      "estado": "enviado",
+      "time_stamp": "2016-10-15T19:49:18.26",
+      "creador": "Usuario1",
+      "fecha_creacion": "2016-10-15T19:49:18.26",
+      "calle": null,
+      "esquina": null,
+      "numero": null,
+      "departamento": "",
+      "sector": "sector3",
+      "geo_ubicacion": null,
+      "descripcion": "Descripción del Evento 3",
+      "en_proceso": true,
+      "extensiones": [{
+         "id": 7,
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 7",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
+      },
+      {
+         "id": 8,
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 8",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
+      },
+      {
+         "id": 9,
+         "zona": {
+            "id": 4,
+            "nombre": "zona4",
+            "nombre_ue": "ue3"
+         },
+         "despachador": null,
+         "descripcion_despachadores": [],
+         "descripcion_supervisor": "Descripción de extensión 9",
+         "asignaciones_recursos": [],
+         "estado": "faltadespachar",
+         "time_stamp": "2016-10-19T23:28:29.62",
+         "segunda_categoria": null,
+         "recursos": [],
+         "imagenes": [],
+         "videos": [],
+         "audios": [],
+         "geo_ubicaciones": []
+      }],
+      "imagenes": [],
+      "videos": [],
+      "audios": []
+   }
+]
 }

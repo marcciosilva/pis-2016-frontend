@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.activities.login;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -84,15 +85,19 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             mResourceButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             ArrayList<ZoneDto> zonas = (ArrayList<ZoneDto>) mExtras.getSerializable("zonas");
-            for (ZoneDto zona : zonas) {
-                list.add(zona.getIdentifier() + " - " + zona.getName() + " - " + zona.getExecUnitName());
+            if (zonas != null) {
+                for (ZoneDto zona : zonas) {
+                    list.add(zona.getIdentifier() + " - " + zona.getName() + " - " + zona.getExecUnitName());
+                }
             }
         } else {
             mDispatcherButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             ArrayList<ResourceDto> recursos = (ArrayList<ResourceDto>) mExtras.getSerializable("recursos");
-            for (ResourceDto recurso : recursos) {
-                list.add(recurso.getId() + " - " + recurso.getCode());
+            if (recursos != null) {
+                for (ResourceDto recurso : recursos) {
+                    list.add(recurso.getId() + " - " + recurso.getCode());
+                }
             }
         }
 
