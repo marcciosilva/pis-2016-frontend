@@ -80,7 +80,22 @@
                     "recursos": [
                         "recurso1"
                     ]
-                }
+                },
+                {
+                	"id": 3,
+                    "zona": {
+                        "id": 3,
+                        "nombre": "zona3",
+                        "nombre_ue": "ue3"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                }                
             ]
         }        
     ]

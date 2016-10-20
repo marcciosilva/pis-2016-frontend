@@ -75,17 +75,20 @@ public class EventDetailsPresenter {
         Intent intent = new Intent(context, EventDetailsView.class);
         EventDetailMapPresenter.setEventDto(event);
         intent.putExtra("EventDto", event);
-        boolean hasGeolocation = true;
-        if ((event.getLatitude() == 0) && (event.getLongitude() == 0)) {
+        boolean hasGeolocation = false;
+        Log.d(TAG, "LATITUD: " + Double.toString(event.getLatitude()));
+        Log.d(TAG, "LONGITUD: " + Double.toString(event.getLongitude()));
+        if ((event.getLatitude() != 0) || (event.getLongitude() != 0)) {
+            hasGeolocation = true;
+        } else {
             // No hay coordenadas del evento.
 //            hasGeolocation = false;
             for (ExtensionDto extensionDto : event.getExtensions()) {
                 //TODO implementar logica que soporte Dto de geoubicacion en extensiones
             }
-            intent.putExtra(EVENT_HAS_GEOLOCATION, hasGeolocation);
-        } else {
-            intent.putExtra(EVENT_HAS_GEOLOCATION, hasGeolocation);
+
         }
+        intent.putExtra(EVENT_HAS_GEOLOCATION, hasGeolocation);
         Log.d(TAG, "Has geolocation is " + Boolean.toString(hasGeolocation));
         context.startActivity(intent);
     }
