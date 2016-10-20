@@ -36,15 +36,14 @@ public class EventDetailsPresenter {
      * @param eventId
      * @param eventExtensionId
      */
-    public static void loadEventDetails(final Context context, final String eventId, final String eventExtensionId, final EventDetailsView view) {
+    public static void loadEventDetails(final Context context, final String eventId, final String eventExtensionId) {
         EventManager eventManager = EventManager.getInstance(context);
         eventManager.getEvent(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
                 List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
                 event.setExtensions(orderedExtensions);
-
-                initEventDetailsView(context, event, view);
+                initEventDetailsView(context, event);
             }
 
             @Override
@@ -57,7 +56,7 @@ public class EventDetailsPresenter {
                 handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        loadEventDetails(context, eventId,eventExtensionId, view);
+                        loadEventDetails(context, eventId,eventExtensionId);
                     }
                 });
             }
@@ -65,7 +64,7 @@ public class EventDetailsPresenter {
 
 //        Bundle args = new Bundle();
 //        args.putString(EventDetailsView.EVENT_ID, eventId);
-//        args.putString(EventDetailsView.EVENT_EXTENSION_ZONE, extensionZoneName);
+//        args.putString(EventDetailsView.EVENT_EXTENSION_ID, extensionZoneName);
 //        initEventDetailsView(context, args);
     }
 
@@ -74,11 +73,8 @@ public class EventDetailsPresenter {
      * para que muestre.
      * @param context
      * @param event
-     * @param view
      */
-    private static void initEventDetailsView(Context context, EventDto event, EventDetailsView view) {
-        view.updateViewData(event);
-
+    private static void initEventDetailsView(Context context, EventDto event) {
         Intent intent = new Intent(context, EventDetailsView.class);
         EventDetailMapPresenter.setEventDto(event);
         boolean hasGeolocation = true;
@@ -97,13 +93,16 @@ public class EventDetailsPresenter {
     }
 
     private static List<ExtensionDto> orderExtensions(List<ExtensionDto> extensions, int extensionId){
+        Log.d(TAG, "Extension id: " + Integer.toString(extensionId));
         List<ExtensionDto> result = new ArrayList<>();
         ExtensionDto currentExtension = null;
-        for (ExtensionDto extension : extensions){
-            if(extension.getIdentifier() == extensionId){
-                currentExtension = extension;
-            } else {
-                result.add(extension);
+        if (extensions != null) {
+            for (ExtensionDto extension : extensions) {
+                if (extension.getIdentifier() == extensionId) {
+                    currentExtension = extension;
+                } else {
+                    result.add(extension);
+                }
             }
         }
         if(currentExtension != null) {

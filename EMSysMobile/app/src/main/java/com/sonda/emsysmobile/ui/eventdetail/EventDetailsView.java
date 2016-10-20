@@ -2,14 +2,15 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
-import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.DateUtils;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -18,10 +19,11 @@ import com.sonda.emsysmobile.utils.DateUtils;
 public class EventDetailsView extends AppCompatActivity {
 
     public static final String EVENT_ID = "event.identifier";
-    public static final String EVENT_EXTENSION_ZONE = "extension.zone";
+    public static final String EVENT_EXTENSION_ID = "extension.zone";
     public static final String EVENT_HAS_GEOLOCATION = "hasGeolocation";
     private EventDto mEvent;
     private EventDetailMapView mMapFragment = null;
+    private static final String TAG = EventDetailsView.class.getName();
 
     private TextView mInformantName;
     private TextView mInformantPhone;
@@ -40,13 +42,6 @@ public class EventDetailsView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-
-        Bundle bundle = getIntent().getExtras();
-
-        EventDetailsPresenter
-                .loadEventDetails(EventDetailsView.this, bundle.getString(EVENT_ID),bundle.getString(EVENT_EXTENSION_ZONE), this);
-
-        //TODO contemplar el hecho de que la key "extension.zone" puede no traer nada
 
         //si es llamada desde el mapa de eventos
 //        if (bundle.containsKey(EVENT_ID)) {
@@ -82,10 +77,10 @@ public class EventDetailsView extends AppCompatActivity {
 
     }
 
-    public void updateViewData(EventDto event){
+    public void updateViewData(EventDto event) {
         mEvent = event;
 
-        if(mEvent != null){
+        if (mEvent != null) {
             mInformantName.setText(mEvent.getInformant());
             mInformantPhone.setText(mEvent.getPhone());
 
@@ -96,7 +91,9 @@ public class EventDetailsView extends AppCompatActivity {
             mNumber.setText(mEvent.getNumber());
             mCorner.setText(mEvent.getCorner());
 
-            mCategory.setText(mEvent.getCategory().getKey());
+            if (mEvent.getCategory() != null) {
+                mCategory.setText(mEvent.getCategory().getKey());
+            }
             mSector.setText(mEvent.getSectorCode());
 
             mType.setText("Aplicación");

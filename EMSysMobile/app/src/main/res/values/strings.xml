@@ -49,6 +49,7 @@
     <string name="error_connection_retry">Reintentar</string>
     <string name="error_server_communication_message">Error en la comunicación con el servidor.</string>
     <string name="error_http_unauthorized">Pedido no autorizado</string>
+    <string name="error_internal">Ocurrió un error interno en la aplicación.</string>
 
     <!--Preferences-->
     <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>

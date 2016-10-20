@@ -1,0 +1,78 @@
+{
+  "cod": 0,
+  "response": {
+    "id": 1,
+    "informante": null,
+    "telefono": null,
+    "categoria": {
+      "id": 1,
+      "codigo": "cod1",
+      "clave": "Categoria de prueba 1",
+      "prioridad": "baja",
+      "activo": true
+    },
+    "estado": "enviado",
+    "time_stamp": "2016-10-15T19:49:18.26",
+    "creador": "Usuario1",
+    "fecha_creacion": "2016-10-15T19:49:18.26",
+    "calle": null,
+    "esquina": null,
+    "numero": null,
+    "departamento": "",
+    "sector": "sector1",
+    "latitud": -34.908599,
+    "longitud": -56.201376,
+    "descripcion": "Lorem Ipsum ... de Lorem Ipsum.",
+    "en_proceso": true,
+    "extensiones": [
+      {
+        "id": 1,
+        "zona": {
+          "id": 1,
+          "nombre": "zona1",
+          "nombre_ue": "ue1"
+        },
+        "despachador": null,
+        "descripcion_despachadores": [],
+        "descripcion_supervisor": null,
+        "asignaciones_recursos": [
+          {
+            "id": 1,
+            "recurso": "recurso1",
+            "descripcion": "",
+            "fecha_arribo": "2016-10-15T19:49:18.26",
+            "actualmente_asignado": true
+          }
+        ],
+        "estado": "faltadespachar",
+        "time_stamp": "2016-10-20T16:36:14.223",
+        "segunda_categoria": null,
+        "recursos": [
+          "recurso1"
+        ],
+        "imagenes": [],
+        "videos": [],
+        "audios": [],
+        "geo_ubicaciones": [
+          {
+            "idExtension": 0,
+            "usuario": null,
+            "fecha_envio": "0001-01-01T00:00:00",
+            "longitud": 66.6,
+            "latitud": 55.5
+          },
+          {
+            "idExtension": 0,
+            "usuario": null,
+            "fecha_envio": "0001-01-01T00:00:00",
+            "longitud": 88.8,
+            "latitud": 77.7
+          }
+        ]
+      }
+    ],
+    "imagenes": [],
+    "videos": [],
+    "audios": []
+  }
+}

@@ -1,30 +1,22 @@
 package com.sonda.emsysmobile.events.managers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsRequest;
-import com.sonda.emsysmobile.logic.model.core.CategoryDto;
-import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
-import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
-import java.security.cert.Extension;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by ssainz on 10/1/16.
@@ -64,7 +56,7 @@ public class EventManager {
             @Override
             public void onResponse(EventsResponse response) {
                 int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     setEvents(response.getEvents());
                     callback.onSuccess(mExtensions);
                 } else {
@@ -90,7 +82,7 @@ public class EventManager {
             @Override
             public void onResponse(EventsResponse response) {
                 int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     setEvents(response.getEvents());
                     callback.onSuccess(mEvents);
                 } else {
@@ -116,7 +108,7 @@ public class EventManager {
             @Override
             public void onResponse(EventDetailsResponse response) {
                 int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     EventDto event = response.getEvent();
                     callback.onSuccess(event);
                 } else {

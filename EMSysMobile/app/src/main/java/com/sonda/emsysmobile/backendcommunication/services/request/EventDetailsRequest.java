@@ -14,29 +14,23 @@ package com.sonda.emsysmobile.backendcommunication.services.request;
 public class EventDetailsRequest<T> extends AbstractRequest<T> {
 
     private static final String TAG = EventDetailsRequest.class.getName();
-    public static final String EVENT_DETAILS_PATH = "/users/authenticate";
+    public static final String EVENT_DETAILS_PATH = "/eventos/obtener";
 
     private String eventId;
 
 
     public EventDetailsRequest(Context context, Type responseType) {
-        super(context, responseType, RequestType.POST);
+        super(context, responseType, RequestType.GET);
     }
 
     @Override
     protected String getPath() {
-        return EVENT_DETAILS_PATH;
+        return EVENT_DETAILS_PATH + "?idEvento=" + this.eventId;
     }
 
     @Override
     protected JsonObject getBody() {
-        JsonObject body = new JsonObject();
-        body.addProperty("idEvento", this.eventId);
-
-        Log.d(TAG, "Request body:");
-        Log.d(TAG, body.toString());
-
-        return body;
+        return null;
     }
 
     public final void setAttributes(String eventId) {

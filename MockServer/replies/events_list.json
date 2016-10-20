@@ -1,249 +1,85 @@
 {
-   "cod": 0,
-   "response": [
-      {
-         "id": 1,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "created",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha_creacion": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 1,
-               "descripcion": "Extensión 1 - Una descripcion normal de esta extension",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
+    "cod": 0,
+    "response": [
+        {
+            "id": 1,
+            "informante": null,
+            "telefono": null,
+            "categoria": {
+                "id": 1,
+                "codigo": "cod1",
+                "clave": "Categoria de prueba 1",
+                "prioridad": "baja",
+                "activo": true
             },
-            {
-               "id": 2,
-               "descripcion": "Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-               "estado": "despachado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "baja",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
-      },
-      {
-         "id": 2,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "sent",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha_creacion": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 3,
-               "descripcion": "Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. Descripción super larga de la extensión muchas veces. ",
-               "estado": "cerrado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "media",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 5,
-                  "nombre": "Zona 5",
-                  "nombre_ue": "unidad1"
-               }
+            "estado": "enviado",
+            "time_stamp": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "departamento": null,
+            "calle": null,
+            "esquina": null,
+            "numero": null,
+            "sector": "sector1",
+            "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
+            "en_proceso": true,
+            "latitud": -34.905743,
+            "longitud": -56.198887,
+            "extensiones": [
+                {
+                    "zona": {
+                        "id": 1,
+                        "nombre": "zona1",
+                        "nombre_ue": "ue1"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "informante": null,
+            "telefono": null,
+            "categoria": {
+                "id": 1,
+                "codigo": "cod1",
+                "clave": "Categoria de prueba 1",
+                "prioridad": "baja",
+                "activo": true
             },
-            {
-               "id": 4,
-               "descripcion": "Cortita y al pie",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 6,
-                  "nombre": "Zona 6",
-                  "nombre_ue": "unidad2"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
-      },
-      {
-         "id": 3,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "created",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha_creacion": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "latitud": -34.908599,
-         "longitud": -56.201376,
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 1,
-               "descripcion": "Extensión 1 - Una descripcion normal de esta extension",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            },
-            {
-               "id": 2,
-               "descripcion": "Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-               "estado": "despachado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "baja",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
-      },
-      {
-         "id": 4,
-         "informante": "Juan Diego Alvarez",
-         "telefono": "+598 99 25 74 74",
-         "estado": "created",
-         "time_stamp": "2016-10-08T21:27:17.023",
-         "fecha_creacion": "2016-10-08T21:27:17.023",
-         "en_proceso": true,
-         "origen": "El origen del evento",
-         "cod_sector": "1234",
-         "calle": "Baldomir",
-         "esquina": "Obligado",
-         "numero": "2448 - 203",
-         "latitud": -34.909382,
-         "longitud": -56.211418,
-         "departamento": "Montevideo",
-         "extensiones": [
-            {
-               "id": 1,
-               "descripcion": "Extensión 1 - Una descripcion normal de esta extension",
-               "estado": "faltadespachar",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 5,
-                  "codigo": "codigo5",
-                  "clave": "clave5",
-                  "prioridad": "alta",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            },
-            {
-               "id": 2,
-               "descripcion": "Una descripción de la extension 2 un poco más larga para ver como se ve con al menos un par de líneas, debería verse bien",
-               "estado": "despachado",
-               "timeStamp": "24-09-2016 2:44:33",
-               "categoria": {
-                  "id": 3,
-                  "codigo": "codigo2",
-                  "clave": "clave2",
-                  "prioridad": "baja",
-                  "activo": true
-               },
-               "zona": {
-                  "id": 1,
-                  "nombre": "Zona 1",
-                  "nombre_ue": "unidad1"
-               }
-            }
-         ],
-         "categoria": {
-            "id": 3,
-            "codigo": "codigo2",
-            "clave": "clave2",
-            "prioridad": "media",
-            "activo": true
-         }
-      }
-   ]
+            "estado": "enviado",
+            "time_stamp": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "departamento": null,
+            "calle": null,
+            "esquina": null,
+            "numero": null,
+            "sector": "sector1",
+            "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
+            "en_proceso": true,
+            "latitud": -35.905743,
+            "longitud": -56.198887,
+            "extensiones": [
+                {
+                    "zona": {
+                        "id": 2,
+                        "nombre": "zona2",
+                        "nombre_ue": "ue2"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                }
+            ]
+        }        
+    ]
 }

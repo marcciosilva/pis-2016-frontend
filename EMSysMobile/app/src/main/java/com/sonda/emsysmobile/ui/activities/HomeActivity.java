@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -84,12 +85,41 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(ExtensionDto extension) {
-        Intent intent = new Intent(this, EventDetailsView.class);
-        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(EventDetailsView.EVENT_ID, extension.getEvent().getIdentifier());
-        intent.putExtra(EventDetailsView.EVENT_EXTENSION_ZONE, extension.getIdentifier());
-        startActivity(intent);
+//        Intent intent = new Intent(this, EventDetailsView.class);
+//        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Log.d(TAG, "EVENT_ID: " + Integer.toString(extension.getEvent().getIdentifier()));
+        Log.d(TAG, "EVENT_EXTENSION_ID: " + Integer.toString(extension.getIdentifier()));
+//        intent.putExtra(EventDetailsView.EVENT_ID,
+//                Integer.toString(extension.getEvent().getIdentifier()));
+//        intent.putExtra(EventDetailsView.EVENT_EXTENSION_ID,
+//                Integer.toString(extension.getIdentifier()));
+//        startActivity(intent);
+
+
+        try {
+            String eventIdString = Integer.toString(extension.getEvent().getIdentifier());
+            if (eventIdString == null) {
+                throw(new NullPointerException("EVENT_ID resulta nulo."));
+            }
+            String eventExtensionZone = Integer.toString(extension.getIdentifier());
+            if (eventExtensionZone == null) {
+                throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
+            }
+            EventDetailsPresenter
+                    .loadEventDetails(HomeActivity.this, eventIdString, eventExtensionZone);
+        } catch (NullPointerException e){
+            UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
+                    getString(R.string.error_internal));
+            Log.d(TAG, e.getMessage());
+        }
+
+
+//        EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent().getIdentifier(), extension.getIdentifier());
+//
+//        EventDetailsPresenter
+//                .loadEventDetails(EventDetailsView.this, bundle.getString(EVENT_ID), bundle.getString(EVENT_EXTENSION_ID), this);
+
 
     }
 
