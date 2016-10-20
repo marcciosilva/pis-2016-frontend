@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
@@ -23,7 +24,6 @@ public class EventDetailsView extends AppCompatActivity implements
     public static final String EVENT_EXTENSION_ID = "extension.zone";
     public static final String EVENT_HAS_GEOLOCATION = "hasGeolocation";
     private EventDto mEvent;
-    private EventDetailMapView mMapFragment = null;
     private static final String TAG = EventDetailsView.class.getName();
 
     private TextView mInformantName;
@@ -82,12 +82,7 @@ public class EventDetailsView extends AppCompatActivity implements
         }
 
         // Inicializacion de fragment de mapa.
-        if (getIntent().getBooleanExtra(EVENT_HAS_GEOLOCATION, false)) {
-            mMapFragment = EventDetailMapView.getInstance();
-            CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview_map_detail);
-            mMapFragment.initializeView(this, mainScrollView);
-            mMapFragment.showView();
-        }
+        EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
 
     }
 

@@ -88,7 +88,7 @@ public class HomeActivity extends AppCompatActivity
 //        Intent intent = new Intent(this, EventDetailsView.class);
 //        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        Log.d(TAG, "EVENT_ID: " + Integer.toString(extension.getEvent().getIdentifier()));
+        Log.d(TAG, "EVENT_ID: " + Integer.toString(extension.getEvent().getIdentifier()));
 //        Log.d(TAG, "EVENT_EXTENSION_ID: " + Integer.toString(extension.getIdentifier()));
 //        intent.putExtra(EventDetailsView.EVENT_ID,
 //                Integer.toString(extension.getEvent().getIdentifier()));

@@ -104,6 +104,7 @@ public class EventManager {
 
     public void getEventDetail(String eventId, final ApiCallback<EventDto> callback){
         EventDetailsRequest<EventDetailsResponse> request = new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
+        Log.d(TAG, "Me llega un eventId = " + eventId);
         request.setAttributes(eventId);
         request.setListener(new Response.Listener<EventDetailsResponse>() {
             @Override

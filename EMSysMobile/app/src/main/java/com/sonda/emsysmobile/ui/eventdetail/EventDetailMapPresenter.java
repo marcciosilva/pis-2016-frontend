@@ -30,48 +30,60 @@ public class EventDetailMapPresenter {
     private static EventDto mEventDto = null;
 
     public static void loadEventDetails(final Context context, final EventDetailMapView view) {
+//        if (mEventDto != null) {
+//            List<CustomMarkerData> data = getCustomMarkerData(mEventDto, context);
+//            view.updateEventData(data);
+//        }
         //TODO Cambiar esto para solo usar un unico objeto de marker en vez de una lista
-        EventManager eventManager = EventManager.getInstance(context);
-        eventManager.fetchEvents(new ApiCallback<List<EventDto>>() {
-            @Override
-            public void onSuccess(List<EventDto> events) {
-                List<CustomMarkerData> data = getCustomMarkerData(events, context);
-                view.updateEventData(data);
-            }
+        if (mEventDto != null) {
+//            List<CustomMarkerData> data = getCustomMarkerData(mEventDto, context);
+//            view.updateEventData(data);
+            EventManager eventManager = EventManager.getInstance(context);
+            Log.d(TAG, "EVENT ID: " + Integer.toString(mEventDto.getIdentifier()));
+            eventManager.getEventDetail(Integer.toString(mEventDto.getIdentifier()),
+                    new ApiCallback<EventDto>() {
+                        @Override
+                        public void onSuccess(EventDto event) {
+                            List<CustomMarkerData> data = getCustomMarkerData(event, context);
+                            view.updateEventData(data);
+                        }
+                        @Override
+                        public void onLogicError(String errorMessage, int errorCode) {
+                            UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                        }
+                        @Override
+                        public void onNetworkError(VolleyError error) {
+                            handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loadEventDetails(context, view);
+                                }
+                            });
+                        }
+                    });
+        }
 
-            @Override
-            public void onLogicError(String errorMessage, int errorCode) {
-                UIUtils.handleErrorMessage(context, errorCode, errorMessage);
-            }
 
-            @Override
-            public void onNetworkError(VolleyError error) {
-                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loadEventDetails(context, view);
-                    }
-                });
-            }
-        });
     }
 
-    private static List<CustomMarkerData> getCustomMarkerData(List<EventDto> events,
+    private static List<CustomMarkerData> getCustomMarkerData(EventDto event,
                                                               final Context context) {
         List<CustomMarkerData> data = new ArrayList<>();
-        for (EventDto event : events) {
-            // Se chequea si el evento tiene coordenadas.
-            if ((event.getLatitude() != 0.0) && (event.getLongitude() != 0.0)) {
-                LatLng coordinates = getUniqueCoordinates(event, data);
-                DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
-                CustomMarkerData dataElement = new CustomMarkerData(
-                        "Evento " + Integer.toString(event.getIdentifier()) + " - " +
-                                df.format(event.getCreatedDate()),
-                        context.getString(R.string.map_event_view_detail).toUpperCase(),
-                        coordinates);
-                data.add(dataElement);
-            }
+//        for (EventDto event : event) {
+        // Se chequea si el evento tiene coordenadas.
+        if ((event.getLatitude() != 0.0) && (event.getLongitude() != 0.0)) {
+            LatLng coordinates = getUniqueCoordinates(event, data);
+            DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+            CustomMarkerData dataElement = new CustomMarkerData(
+                    "Evento " + Integer.toString(event.getIdentifier()) + " - " +
+                            df.format(event.getCreatedDate()),
+                    context.getString(R.string.map_event_view_detail).toUpperCase(),
+                    coordinates);
+            data.add(dataElement);
         }
+//        }
+        Log.d(TAG, "Coordinates = " + (new LatLng(event.getLatitude(), event.getLongitude())).toString());
+        Log.d(TAG, "Custom marker data size = " + Integer.toString(data.size()));
         return data;
     }
 
