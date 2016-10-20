@@ -10,6 +10,10 @@ public class KeepAliveResponse extends EmsysResponse {
     @SerializedName("expires_in")
     private int expirationTime;
 
+    public KeepAliveResponse(int expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
     public final int getExpirationTime() {
         return expirationTime;
     }
