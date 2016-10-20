@@ -31,7 +31,7 @@ app.configure(function(){
   app.use(express.static(__dirname + '/statics'));
 });
 
-app.get('/events', events.getEvents);
+app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
 
 
@@ -115,6 +115,21 @@ switch (loginChoice) {
 		break;
 	case LoginChoice.Fail:
 		app.post('/users/login', users.postUserLoginFail);
+		break;
+	default:
+		break;
+}
+
+// keepAlive
+var KeepAliveChoice={};
+KeepAliveChoice.Enum('Success', 'Fail');
+KeepAliveChoice = LoginChoice.Success;
+switch (KeepAliveChoice) {
+	case KeepAliveChoice.Success:
+		app.get('/users/expiration_time', users.getUserKeepAliveSuccess);
+		break;
+	case KeepAliveChoice.Fail:
+		app.get('/users/expiration_time', users.getUserKeepAliveFail);
 		break;
 	default:
 		break;

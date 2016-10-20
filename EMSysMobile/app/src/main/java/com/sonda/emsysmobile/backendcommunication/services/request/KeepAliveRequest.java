@@ -1,24 +1,25 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
 import android.content.Context;
+
 import com.google.gson.JsonObject;
+
 import java.lang.reflect.Type;
 
 /**
- * Created by marccio on 10/3/16.
+ * Created by nachoprbd on 16/10/2016.
  */
+public class KeepAliveRequest<T> extends AbstractRequest<T> {
 
-public class EventsRequest<T> extends AbstractRequest<T> {
+    public static final String KEEP_ALIVE_PATH = "/users/expiration_time";
 
-    public static final String EVENTS_PATH = "/eventos/listar";
-
-    public EventsRequest(Context context, Type type) {
+    public KeepAliveRequest(Context context, Type type) {
         super(context, type, RequestType.GET);
     }
 
     @Override
     protected final String getPath() {
-        return EVENTS_PATH;
+        return KEEP_ALIVE_PATH;
     }
 
     @Override
