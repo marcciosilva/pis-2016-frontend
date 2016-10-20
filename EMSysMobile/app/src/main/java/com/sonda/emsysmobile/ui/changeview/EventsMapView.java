@@ -29,6 +29,8 @@ import com.sonda.emsysmobile.utils.UIUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sonda.emsysmobile.utils.MapUtils.areBoundsTooSmall;
+
 /**
  * Created by marccio on 11-Oct-16.
  */
@@ -151,7 +153,11 @@ public class EventsMapView extends SupportMapFragment
                             bld.include(event.getCoordinates());
                         }
                         LatLngBounds bounds = bld.build();
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
+                        if (areBoundsTooSmall(bounds, 600)) {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 17));
+                        } else {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
+                        }
                         mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
                 }

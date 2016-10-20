@@ -104,14 +104,12 @@ public class EventManager {
 
     public void getEventDetail(String eventId, final ApiCallback<EventDto> callback){
         EventDetailsRequest<EventDetailsResponse> request = new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
-        Log.d(TAG, "Me llega un eventId = " + eventId);
         request.setAttributes(eventId);
         request.setListener(new Response.Listener<EventDetailsResponse>() {
             @Override
             public void onResponse(EventDetailsResponse response) {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    Log.d(TAG, "Event detail response code is successful");
                     EventDto event = response.getEvent();
                     if (event != null) {
                         for (ExtensionDto extension : event.getExtensions()) {

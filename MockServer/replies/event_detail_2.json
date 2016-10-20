@@ -1,13 +1,13 @@
 {
   "cod": 0,
   "response": {
-    "id": 1,
+    "id": 2,
     "informante": null,
     "telefono": null,
     "categoria": {
       "id": 1,
       "codigo": "cod1",
-      "clave": "Categoria de prueba 1",
+      "clave": "Categoria de prueba 2",
       "prioridad": "baja",
       "activo": true
     },

@@ -88,7 +88,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
     public void updateViewData(EventDto event) {
         mEvent = event;
-
         if (mEvent != null) {
             mInformantName.setText(mEvent.getInformant());
             mInformantPhone.setText(mEvent.getPhone());

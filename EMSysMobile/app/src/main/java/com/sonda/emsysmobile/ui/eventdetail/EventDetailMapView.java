@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.annotation.SuppressLint;
+import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -24,6 +25,8 @@ import com.sonda.emsysmobile.ui.views.CustomScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.MapUtils.areBoundsTooSmall;
 
 /**
  * Created by marccio on 11-Oct-16.
@@ -129,7 +132,7 @@ public class EventDetailMapView extends SupportMapFragment
 
     private void setUpMap() {
         Log.d(TAG, "Map obtained");
-        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         addMarkersToMap();
         // Info window adapter por si se quiere customizar la info window.
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
@@ -150,7 +153,11 @@ public class EventDetailMapView extends SupportMapFragment
                             bld.include(event.getCoordinates());
                         }
                         LatLngBounds bounds = bld.build();
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
+                        if (areBoundsTooSmall(bounds, 600)) {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 17));
+                        } else {
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
+                        }
                         mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
                 }

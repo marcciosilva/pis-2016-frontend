@@ -47,7 +47,7 @@ public class EventDetailsPresenter {
             @Override
             public void onSuccess(EventDto event) {
                 if (eventExtensionId != null) {
-                    Log.d(TAG, "onSuccess");
+                    //Fixme esta llegando un evento con id != eventId
                     List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
                     event.setExtensions(orderedExtensions);
                 }
@@ -106,6 +106,7 @@ public class EventDetailsPresenter {
 
     public static void initMapFragment(Context context, EventDto event) {
         boolean hasGeolocation = false;
+        Log.d(TAG, "Event ID = " + Integer.toString(event.getIdentifier()));
         Log.d(TAG, "LATITUD: " + Double.toString(event.getLatitude()));
         Log.d(TAG, "LONGITUD: " + Double.toString(event.getLongitude()));
         if ((event.getLatitude() != 0) || (event.getLongitude() != 0)) {
