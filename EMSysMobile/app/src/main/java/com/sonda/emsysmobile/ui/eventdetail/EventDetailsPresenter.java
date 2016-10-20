@@ -1,13 +1,23 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.utils.UIUtils;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.sonda.emsysmobile.ui.eventdetail.EventDetailsView.EVENT_HAS_GEOLOCATION;
 
@@ -24,41 +34,85 @@ public class EventDetailsPresenter {
      * la inicializacion de la vista del detalle del evento.
      * @param context
      * @param eventId
-     * @param extensionZoneName
+     * @param eventExtensionId
      */
-    public static void loadEventDetails(Context context, int eventId, String extensionZoneName) {
-        //TODO hacer request para obtener datos detallados del evento
-        Bundle args = new Bundle();
-        args.putInt(EventDetailsView.EVENT_ID, eventId);
-        args.putString(EventDetailsView.EVENT_EXTENSION_ZONE, extensionZoneName);
-        initEventDetailsView(context, args);
+    public static void loadEventDetails(final Context context, final String eventId, final String eventExtensionId, final EventDetailsView view) {
+        EventManager eventManager = EventManager.getInstance(context);
+        eventManager.getEvent(eventId, new ApiCallback<EventDto>() {
+            @Override
+            public void onSuccess(EventDto event) {
+                List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
+                event.setExtensions(orderedExtensions);
+
+                initEventDetailsView(context, event, view);
+            }
+
+            @Override
+            public void onLogicError(String errorMessage, int errorCode) {
+                UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+            }
+
+            @Override
+            public void onNetworkError(VolleyError error) {
+                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loadEventDetails(context, eventId,eventExtensionId, view);
+                    }
+                });
+            }
+        });
+
+//        Bundle args = new Bundle();
+//        args.putString(EventDetailsView.EVENT_ID, eventId);
+//        args.putString(EventDetailsView.EVENT_EXTENSION_ZONE, extensionZoneName);
+//        initEventDetailsView(context, args);
     }
 
     /**
      * Inicializa la vista para el detalle del evento, pasandole los datos que correspondan
      * para que muestre.
      * @param context
-     * @param args
+     * @param event
+     * @param view
      */
-    private static void initEventDetailsView(Context context, Bundle args) {
+    private static void initEventDetailsView(Context context, EventDto event, EventDetailsView view) {
+        view.updateViewData(event);
+
         Intent intent = new Intent(context, EventDetailsView.class);
-        EventDto eventDto = EventManager.getInstance(context)
-                .getEvent(args.getInt(EventDetailsView.EVENT_ID));
-        EventDetailMapPresenter.setEventDto(eventDto);
+        EventDetailMapPresenter.setEventDto(event);
         boolean hasGeolocation = true;
-        if ((eventDto.getLatitude() == 0) && (eventDto.getLongitude() == 0)) {
+        if ((event.getLatitude() == 0) && (event.getLongitude() == 0)) {
             // No hay coordenadas del evento.
 //            hasGeolocation = false;
-            for (ExtensionDto extensionDto : eventDto.getExtensions()) {
+            for (ExtensionDto extensionDto : event.getExtensions()) {
                 //TODO implementar logica que soporte Dto de geoubicacion en extensiones
             }
-            args.putBoolean(EVENT_HAS_GEOLOCATION, hasGeolocation);
+            intent.putExtra(EVENT_HAS_GEOLOCATION, hasGeolocation);
         } else {
-            args.putBoolean(EVENT_HAS_GEOLOCATION, hasGeolocation);
+            intent.putExtra(EVENT_HAS_GEOLOCATION, hasGeolocation);
         }
         Log.d(TAG, "Has geolocation is " + Boolean.toString(hasGeolocation));
-        intent.putExtras(args);
         context.startActivity(intent);
     }
+
+    private static List<ExtensionDto> orderExtensions(List<ExtensionDto> extensions, int extensionId){
+        List<ExtensionDto> result = new ArrayList<>();
+        ExtensionDto currentExtension = null;
+        for (ExtensionDto extension : extensions){
+            if(extension.getIdentifier() == extensionId){
+                currentExtension = extension;
+            } else {
+                result.add(extension);
+            }
+        }
+        if(currentExtension != null) {
+            result.add(0, currentExtension);
+        }
+
+        return result;
+
+    }
+
 
 }

@@ -24,6 +24,7 @@ import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
+import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -83,9 +84,13 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(ExtensionDto extension) {
-        EventDetailsPresenter
-                .loadEventDetails(HomeActivity.this, extension.getEvent().getIdentifier(),
-                        extension.getZone().getName());
+        Intent intent = new Intent(this, EventDetailsView.class);
+        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(EventDetailsView.EVENT_ID, extension.getEvent().getIdentifier());
+        intent.putExtra(EventDetailsView.EVENT_EXTENSION_ZONE, extension.getIdentifier());
+        startActivity(intent);
+
     }
 
     @Override

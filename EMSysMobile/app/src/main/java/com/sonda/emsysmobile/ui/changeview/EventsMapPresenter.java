@@ -140,8 +140,8 @@ public class EventsMapPresenter {
             eventId = Integer.parseInt(m.group(1));
         }
         if (eventId != -1) {
-            eventManager.getEvent(eventId);
-            EventDetailsPresenter.loadEventDetails(context, eventId, null);
+//            eventManager.getEvent(eventId);
+//            EventDetailsPresenter.loadEventDetails(context, eventId, null);
             return true;
         } else {
             return false;

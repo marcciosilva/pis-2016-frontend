@@ -18,132 +18,103 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <LinearLayout style="@style/EventDetails.HalfLinear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
                     <TextView
-                        android:id="@+id/informant_name_label"
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Nombre informante"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        android:text="Fecha de creación"
+                        style="@style/EventDetails.FieldLabel"/>
                     <TextView
-                        android:id="@+id/informant_name_value"
-                        style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/event_date_created" />
                 </LinearLayout>
-
-                <LinearLayout style="@style/EventDetails.HalfLinear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
                     <TextView
-                        android:id="@+id/informant_phone_label"
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Telefono informante"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        android:text="Estado"
+                        style="@style/EventDetails.FieldLabel" />
                     <TextView
-                        android:id="@+id/informant_phone_value"
-                        style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/event_status" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Nombre informante"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_name" />
+
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Telefono informante"
+                        style="@style/EventDetails.FieldLabel" />
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_phone" />
                 </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <LinearLayout style="@style/EventDetails.HalfLinear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
                     <TextView
-                        android:id="@+id/informant_street_label"
-                        style="@style/EventDetails.FieldLabel"
                         android:text="Calle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        style="@style/EventDetails.FieldLabel"/>
                     <TextView
-                        android:id="@+id/informant_street_value"
-                        style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/informant_corner_label"
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Corner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/informant_corner_value"
                         style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        android:id="@+id/informant_street" />
                     <TextView
-                        android:id="@+id/informant_number_label"
-                        style="@style/EventDetails.FieldLabel"
                         android:text="Número"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_number" />
 
                     <TextView
-                        android:id="@+id/informant_number_value"
-                        style="@style/EventDetails.FieldValue"
+                        android:text="Esquina"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_corner" />
+
+
                 </LinearLayout>
-
-                <LinearLayout style="@style/EventDetails.HalfLinear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
                     <TextView
-                        android:id="@+id/informant_department_label"
-                        style="@style/EventDetails.FieldLabel"
                         android:text="Departamento"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        style="@style/EventDetails.FieldLabel"/>
                     <TextView
-                        android:id="@+id/informant_department_value"
-                        style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_department" />
 
                     <TextView
-                        android:id="@+id/informant_sector_label"
-                        style="@style/EventDetails.FieldLabel"
                         android:text="Sector"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
+                        style="@style/EventDetails.FieldLabel"/>
                     <TextView
-                        android:id="@+id/informant_sector_value"
-                        style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_sector" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -153,58 +124,37 @@
                 android:id="@+id/map_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/colorPrimary">-->
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:text="Aca va el mapa"-->
-            <!--android:layout_margin="20dp"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/white"-->
-            <!--style="@style/EventDetails.FieldLabel" />-->
-            <!--</LinearLayout>-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
-                <LinearLayout style="@style/EventDetails.HalfLinear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
                     <TextView
-                        android:id="@+id/category_label"
-                        style="@style/EventDetails.FieldLabel"
                         android:text="Motivo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/category" />
 
                     <TextView
-                        android:id="@+id/category_value"
-                        style="@style/EventDetails.FieldValue"
+                        android:text="Origen"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/origin" />
                 </LinearLayout>
-
-                <LinearLayout style="@style/EventDetails.HalfLinear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Tipo de alarma"
+                        style="@style/EventDetails.FieldLabel"/>
 
                     <TextView
-                        android:id="@+id/type_label"
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Tipo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:id="@+id/type_value"
-                        style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/type" />
                 </LinearLayout>
             </LinearLayout>
 

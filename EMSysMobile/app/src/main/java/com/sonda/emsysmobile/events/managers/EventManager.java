@@ -6,7 +6,9 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsRequest;
 import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -107,13 +109,31 @@ public class EventManager {
         request.execute();
     }
 
-    public EventDto getEvent(int eventId){
-        for (EventDto event : mEvents) {
-            if (event.getIdentifier() == eventId) {
-                return event;
+    public void getEvent(String eventId, final ApiCallback<EventDto> callback){
+        EventDetailsRequest<EventDetailsResponse> request = new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
+        request.setAttributes(eventId);
+        request.setListener(new Response.Listener<EventDetailsResponse>() {
+            @Override
+            public void onResponse(EventDetailsResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    EventDto event = response.getEvent();
+                    callback.onSuccess(event);
+                } else {
+                    //TODO soportar mensaje de error en EventsResponse
+                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                    callback.onLogicError("Unsupported", 1);
+                }
             }
-        }
-        return null;
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onNetworkError(error);
+            }
+        });
+
+        request.execute();
     }
 
     private void setEvents(List<EventDto> events) {

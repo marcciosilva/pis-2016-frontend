@@ -9,6 +9,7 @@ import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
+import com.sonda.emsysmobile.utils.DateUtils;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -22,6 +23,19 @@ public class EventDetailsView extends AppCompatActivity {
     private EventDto mEvent;
     private EventDetailMapView mMapFragment = null;
 
+    private TextView mInformantName;
+    private TextView mInformantPhone;
+    private TextView mCreatedDate;
+    private TextView mStatus;
+    private TextView mStreet;
+    private TextView mNumber;
+    private TextView mCorner;
+    private TextView mCategory;
+    private TextView mSector;
+
+    private TextView mOrigin;
+    private TextView mType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,23 +43,34 @@ public class EventDetailsView extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
 
+        EventDetailsPresenter
+                .loadEventDetails(EventDetailsView.this, bundle.getString(EVENT_ID),bundle.getString(EVENT_EXTENSION_ZONE), this);
+
         //TODO contemplar el hecho de que la key "extension.zone" puede no traer nada
+
         //si es llamada desde el mapa de eventos
-        if (bundle.containsKey(EVENT_ID)) {
-            // Cargar modelo según el identificador.
-            EventManager eventManager = EventManager.getInstance(EventDetailsView.this);
-            mEvent = eventManager.getEvent(bundle.getInt(EVENT_ID));
-        }
+//        if (bundle.containsKey(EVENT_ID)) {
+//            // Cargar modelo según el identificador.
+//            EventManager eventManager = EventManager.getInstance(EventDetailsView.this);
+//            mEvent = eventManager.getEvent(bundle.getInt(EVENT_ID));
+//        }
 
-        if (mEvent != null) {
-            ((TextView) findViewById(R.id.informant_name_value)).setText(mEvent.getInformant());
-            ((TextView) findViewById(R.id.informant_phone_value)).setText(mEvent.getPhone());
-            ((TextView) findViewById(R.id.informant_street_value)).setText(mEvent.getStreet());
-            ((TextView) findViewById(R.id.informant_corner_value)).setText(mEvent.getCorner());
+        mInformantName = (TextView) findViewById(R.id.informant_name);
+        mInformantPhone = (TextView) findViewById(R.id.informant_phone);
 
-            ((TextView) findViewById(R.id.category_value)).setText(mEvent.getCategory().getCode());
-            ((TextView) findViewById(R.id.type_value)).setText(mEvent.getOrigin());
-        }
+        mCreatedDate = (TextView) findViewById(R.id.event_date_created);
+        mStatus = (TextView) findViewById(R.id.event_status);
+
+
+        mStreet = (TextView) findViewById(R.id.informant_street);
+        mCorner = (TextView) findViewById(R.id.informant_corner);
+        mNumber = (TextView) findViewById(R.id.informant_number);
+
+        mCategory = (TextView) findViewById(R.id.category);
+        mSector = (TextView) findViewById(R.id.informant_sector);
+
+        mType = (TextView) findViewById(R.id.type);
+        mOrigin = (TextView) findViewById(R.id.origin);
 
         // Inicializacion de fragment de mapa.
 //        if (bundle.getBoolean(EVENT_HAS_GEOLOCATION)) {
@@ -54,6 +79,29 @@ public class EventDetailsView extends AppCompatActivity {
         mMapFragment.initializeView(this, mainScrollView);
         mMapFragment.showView();
 //        }
+
+    }
+
+    public void updateViewData(EventDto event){
+        mEvent = event;
+
+        if(mEvent != null){
+            mInformantName.setText(mEvent.getInformant());
+            mInformantPhone.setText(mEvent.getPhone());
+
+            mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
+            mStatus.setText(mEvent.getStatus());
+
+            mStreet.setText(mEvent.getStreet());
+            mNumber.setText(mEvent.getNumber());
+            mCorner.setText(mEvent.getCorner());
+
+            mCategory.setText(mEvent.getCategory().getKey());
+            mSector.setText(mEvent.getSectorCode());
+
+            mType.setText("Aplicación");
+            mOrigin.setText(mEvent.getOrigin());
+        }
 
     }
 

@@ -22,8 +22,11 @@ public class EventDto {
     @SerializedName("time_stamp")
     private Date timeStamp;
 
-    @SerializedName("fecha")
+    @SerializedName("fecha_creacion")
     private Date createdDate;
+
+    @SerializedName("estado")
+    private String status;
 
     @SerializedName("en_proceso")
     private boolean inProcess;
@@ -119,6 +122,14 @@ public class EventDto {
 
     public final void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public final String getStatus() {
+        return status;
+    }
+
+    public final void setStatus(String status) {
+        this.status = status;
     }
 
     public final boolean isInProcess() {
