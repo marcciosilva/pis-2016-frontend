@@ -175,6 +175,11 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/extensions_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </com.sonda.emsysmobile.ui.views.CustomScrollView>
 </RelativeLayout>

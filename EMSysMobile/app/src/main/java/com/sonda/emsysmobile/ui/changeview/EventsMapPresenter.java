@@ -8,8 +8,10 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
+import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -140,7 +142,19 @@ public class EventsMapPresenter {
             eventId = Integer.parseInt(m.group(1));
         }
         if (eventId != -1) {
-//            eventManager.getEvent(eventId);
+            try {
+                String eventIdString = Integer.toString(eventId);
+                if (eventIdString == null) {
+                    throw(new NullPointerException("EVENT_ID resulta nulo."));
+                }
+                EventDetailsPresenter
+                        .loadEventDetails(context, eventIdString, null);
+            } catch (NullPointerException e){
+                UIUtils.handleErrorMessage(context, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
+                        context.getString(R.string.error_internal));
+                Log.d(TAG, e.getMessage());
+            }
+//            eventManager.getEventDetail(eventId);
 //            EventDetailsPresenter.loadEventDetails(context, eventId, null);
             return true;
         } else {

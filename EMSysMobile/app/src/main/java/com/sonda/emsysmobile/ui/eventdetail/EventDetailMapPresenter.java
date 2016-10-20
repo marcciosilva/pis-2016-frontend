@@ -10,6 +10,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
+import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -17,8 +18,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -30,7 +29,7 @@ public class EventDetailMapPresenter {
     private static final String TAG = EventDetailMapPresenter.class.getName();
     private static EventDto mEventDto = null;
 
-    public static void loadEvent(final Context context, final EventDetailMapView view) {
+    public static void loadEventDetails(final Context context, final EventDetailMapView view) {
         //TODO Cambiar esto para solo usar un unico objeto de marker en vez de una lista
         EventManager eventManager = EventManager.getInstance(context);
         eventManager.fetchEvents(new ApiCallback<List<EventDto>>() {
@@ -50,7 +49,7 @@ public class EventDetailMapPresenter {
                 handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        loadEvent(context, view);
+                        loadEventDetails(context, view);
                     }
                 });
             }

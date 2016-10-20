@@ -64,7 +64,7 @@ public class EventDetailMapView extends SupportMapFragment
     }
 
     private void loadEventData() {
-        EventDetailMapPresenter.loadEvent(mCallingActivity, this);
+        EventDetailMapPresenter.loadEventDetails(mCallingActivity, this);
     }
 
     /**

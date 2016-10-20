@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.events.managers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -101,7 +102,7 @@ public class EventManager {
         request.execute();
     }
 
-    public void getEvent(String eventId, final ApiCallback<EventDto> callback){
+    public void getEventDetail(String eventId, final ApiCallback<EventDto> callback){
         EventDetailsRequest<EventDetailsResponse> request = new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
         request.setAttributes(eventId);
         request.setListener(new Response.Listener<EventDetailsResponse>() {
@@ -109,6 +110,7 @@ public class EventManager {
             public void onResponse(EventDetailsResponse response) {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    Log.d(TAG, "Event detail response code is successful");
                     EventDto event = response.getEvent();
                     callback.onSuccess(event);
                 } else {
@@ -124,7 +126,6 @@ public class EventManager {
                 callback.onNetworkError(error);
             }
         });
-
         request.execute();
     }
 

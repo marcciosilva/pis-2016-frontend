@@ -2,12 +2,13 @@ package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
  * Created by ssainz on 9/30/16.
  */
-public enum CategoryPriority {
+public enum CategoryPriority implements Serializable {
     @SerializedName("alta")
     HIGH,
 

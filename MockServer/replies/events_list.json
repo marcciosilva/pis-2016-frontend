@@ -26,6 +26,7 @@
             "longitud": -56.198887,
             "extensiones": [
                 {
+                	"id": 1,
                     "zona": {
                         "id": 1,
                         "nombre": "zona1",
@@ -66,6 +67,7 @@
             "longitud": -56.198887,
             "extensiones": [
                 {
+                	"id": 2,
                     "zona": {
                         "id": 2,
                         "nombre": "zona2",

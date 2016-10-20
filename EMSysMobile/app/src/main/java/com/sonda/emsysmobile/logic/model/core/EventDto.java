@@ -2,13 +2,14 @@ package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ssainz on 9/25/16.
  */
-public class EventDto {
+public class EventDto implements Serializable {
 
     @SerializedName("id")
     private int identifier;

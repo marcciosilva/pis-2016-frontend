@@ -4,7 +4,6 @@ package com.sonda.emsysmobile.ui.eventdetail;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
@@ -16,6 +15,7 @@ import com.sonda.emsysmobile.utils.UIUtils;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +38,14 @@ public class EventDetailsPresenter {
      */
     public static void loadEventDetails(final Context context, final String eventId, final String eventExtensionId) {
         EventManager eventManager = EventManager.getInstance(context);
-        eventManager.getEvent(eventId, new ApiCallback<EventDto>() {
+        eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
-                List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
-                event.setExtensions(orderedExtensions);
+                if (eventExtensionId != null) {
+                    // Se accede desde vista de mapa, sin seleccionar extension.
+                    List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
+                    event.setExtensions(orderedExtensions);
+                }
                 initEventDetailsView(context, event);
             }
 
@@ -61,11 +64,6 @@ public class EventDetailsPresenter {
                 });
             }
         });
-
-//        Bundle args = new Bundle();
-//        args.putString(EventDetailsView.EVENT_ID, eventId);
-//        args.putString(EventDetailsView.EVENT_EXTENSION_ID, extensionZoneName);
-//        initEventDetailsView(context, args);
     }
 
     /**
@@ -77,6 +75,7 @@ public class EventDetailsPresenter {
     private static void initEventDetailsView(Context context, EventDto event) {
         Intent intent = new Intent(context, EventDetailsView.class);
         EventDetailMapPresenter.setEventDto(event);
+        intent.putExtra("EventDto", event);
         boolean hasGeolocation = true;
         if ((event.getLatitude() == 0) && (event.getLongitude() == 0)) {
             // No hay coordenadas del evento.
@@ -108,9 +107,7 @@ public class EventDetailsPresenter {
         if(currentExtension != null) {
             result.add(0, currentExtension);
         }
-
         return result;
-
     }
 
 

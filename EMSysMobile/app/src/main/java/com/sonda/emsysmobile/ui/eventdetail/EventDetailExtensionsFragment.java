@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +16,8 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.views.adapters.EventDetailExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -30,23 +32,23 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ExtensionsFragment extends Fragment {
+public class EventDetailExtensionsFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
-    private static final String TAG = ExtensionsFragment.class.getName();
+    private static final String TAG = EventDetailExtensionsFragment.class.getName();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ExtensionsFragment() {
+    public EventDetailExtensionsFragment() {
     }
 
-    public static ExtensionsFragment newInstance() {
-        return new ExtensionsFragment();
+    public static EventDetailExtensionsFragment newInstance() {
+        return new EventDetailExtensionsFragment();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ExtensionsFragment extends Fragment {
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_extensions, container, false);
+        View view = inflater.inflate(R.layout.event_detail_fragment_extensions, container, false);
 
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
@@ -80,7 +82,8 @@ public class ExtensionsFragment extends Fragment {
             public void onSuccess(List<ExtensionDto> extensions) {
                 mProgressBar.setVisibility(View.GONE);
                 mExtensions = extensions;
-                mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(ExtensionsFragment.this.getActivity(), mExtensions, mListener));
+                mRecyclerView.setAdapter(new EventDetailExtensionRecyclerViewAdapter(
+                        EventDetailExtensionsFragment.this.getActivity(), mExtensions, mListener));
             }
 
             @Override

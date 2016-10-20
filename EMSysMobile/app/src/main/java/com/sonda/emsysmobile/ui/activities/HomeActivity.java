@@ -25,8 +25,8 @@ import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
+import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -34,7 +34,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends AppCompatActivity
-        implements ExtensionsFragment.OnListFragmentInteractionListener {
+        implements OnListFragmentInteractionListener {
 
     private static final String TAG = HomeActivity.class.getName();
     private EventsMapView mMapFragment = null;
@@ -46,7 +46,7 @@ public class HomeActivity extends AppCompatActivity
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
-        if (findViewById(R.id.fragment_container) != null) {
+        if (findViewById(R.id.extensions_fragment_container) != null) {
 
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
+                    .add(R.id.extensions_fragment_container, extensionsFragment).commit();
             // Inicializacion de fragment de mapa.
             mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
@@ -88,8 +88,8 @@ public class HomeActivity extends AppCompatActivity
 //        Intent intent = new Intent(this, EventDetailsView.class);
 //        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
 //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Log.d(TAG, "EVENT_ID: " + Integer.toString(extension.getEvent().getIdentifier()));
-        Log.d(TAG, "EVENT_EXTENSION_ID: " + Integer.toString(extension.getIdentifier()));
+//        Log.d(TAG, "EVENT_ID: " + Integer.toString(extension.getEvent().getIdentifier()));
+//        Log.d(TAG, "EVENT_EXTENSION_ID: " + Integer.toString(extension.getIdentifier()));
 //        intent.putExtra(EventDetailsView.EVENT_ID,
 //                Integer.toString(extension.getEvent().getIdentifier()));
 //        intent.putExtra(EventDetailsView.EVENT_EXTENSION_ID,
@@ -102,6 +102,8 @@ public class HomeActivity extends AppCompatActivity
             if (eventIdString == null) {
                 throw(new NullPointerException("EVENT_ID resulta nulo."));
             }
+//            Log.d(TAG, Integer.toString(extension.getIdentifier()));
+//            Log.d(TAG, String.valueOf(extension.getIdentifier()));
             String eventExtensionZone = Integer.toString(extension.getIdentifier());
             if (eventExtensionZone == null) {
                 throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
@@ -173,7 +175,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
+                .replace(R.id.extensions_fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {
