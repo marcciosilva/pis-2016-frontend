@@ -1,8 +1,8 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +18,14 @@ import java.util.List;
 
 public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView.Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ExtensionDto> mValues;
+    private final List<ExtensionDto> mExtensions;
     private final OnListFragmentInteractionListener mListener;
     private Context mContext;
+    private static final String TAG = EventDetailExtensionRecyclerViewAdapter.class.getName();
 
-    public EventDetailExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions, OnListFragmentInteractionListener listener) {
-        mValues = extensions;
+    public EventDetailExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions,
+                                                   OnListFragmentInteractionListener listener) {
+        mExtensions = extensions;
         mListener = listener;
         mContext = context;
     }
@@ -37,11 +39,12 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView.Adapte
 
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
-        ExtensionDto extension = mValues.get(position);
-        String idAndZoneString = "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
-        CategoryPriority priority = extension.getPriority();
+        ExtensionDto extension = mExtensions.get(position);
+        String ZoneString = extension.getZone().getName();
+        Log.d(TAG, "ZONE NAME: " + ZoneString);
+//        CategoryPriority priority = extension.getPriority();
         holder.setItem(extension);
-        holder.getIdAndZoneTextView().setText(idAndZoneString);
+        holder.getIdAndZoneTextView().setText(ZoneString);
         holder.getDescriptionTextView().setText(extension.getDescription());
         holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
 //        if (priority == CategoryPriority.HIGH) {
@@ -65,7 +68,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView.Adapte
 
     @Override
     public final int getItemCount() {
-        return mValues.size();
+        return mExtensions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -90,7 +93,6 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView.Adapte
         public final TextView getDateTextView() {
             return dateTextView;
         }
-
 
         public final ExtensionDto getItem() {
             return item;

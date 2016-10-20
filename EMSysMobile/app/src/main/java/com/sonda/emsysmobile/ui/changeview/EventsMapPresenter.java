@@ -154,8 +154,6 @@ public class EventsMapPresenter {
                         context.getString(R.string.error_internal));
                 Log.d(TAG, e.getMessage());
             }
-//            eventManager.getEventDetail(eventId);
-//            EventDetailsPresenter.loadEventDetails(context, eventId, null);
             return true;
         } else {
             return false;

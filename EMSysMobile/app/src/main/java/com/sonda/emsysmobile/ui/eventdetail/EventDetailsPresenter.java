@@ -42,7 +42,6 @@ public class EventDetailsPresenter {
             @Override
             public void onSuccess(EventDto event) {
                 if (eventExtensionId != null) {
-                    // Se accede desde vista de mapa, sin seleccionar extension.
                     List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
                     event.setExtensions(orderedExtensions);
                 }

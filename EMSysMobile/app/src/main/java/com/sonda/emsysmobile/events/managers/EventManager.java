@@ -112,6 +112,11 @@ public class EventManager {
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     Log.d(TAG, "Event detail response code is successful");
                     EventDto event = response.getEvent();
+                    if (event != null) {
+                        for (ExtensionDto extension : event.getExtensions()) {
+                            extension.setEvent(event);
+                        }
+                    }
                     callback.onSuccess(event);
                 } else {
                     //TODO soportar mensaje de error en EventsResponse

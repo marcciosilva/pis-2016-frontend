@@ -108,7 +108,7 @@ public class ExtensionDto implements Serializable {
         }
         CategoryDto eventCategory = event.getCategory();
         if (eventCategory != null) {
-            //Should alway have an event priority, just in case.
+            //Should always have an event priority, just in case.
             return eventCategory.getPriority();
         }
         //Default priority is LOW.

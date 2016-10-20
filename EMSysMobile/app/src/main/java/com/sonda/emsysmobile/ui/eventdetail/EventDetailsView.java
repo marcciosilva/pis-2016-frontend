@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
+import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.DateUtils;
@@ -44,22 +44,6 @@ public class EventDetailsView extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        if (findViewById(R.id.extensions_fragment_container) != null) {
-
-            // However, if we're being restored from a previous state,
-            // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments.
-            if (savedInstanceState != null) {
-                return;
-            }
-            // Create a new Fragment to be placed in the activity layout
-            EventDetailExtensionsFragment extensionsFragment = new EventDetailExtensionsFragment();
-            // Add the fragment to the 'fragment_container' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.extensions_fragment_container, extensionsFragment).commit();
-        }
-
-
         //si es llamada desde el mapa de eventos
 //        if (bundle.containsKey(EVENT_ID)) {
 //            // Cargar modelo según el identificador.
@@ -85,6 +69,24 @@ public class EventDetailsView extends AppCompatActivity implements
         mOrigin = (TextView) findViewById(R.id.origin);
 
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
+
+
+        if (findViewById(R.id.extensions_fragment_container) != null) {
+
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
+            }
+            // Create a new Fragment to be placed in the activity layout
+            EventDetailExtensionsFragment extensionsFragment =
+                    EventDetailExtensionsFragment.newInstance(mEvent);
+            // Add the fragment to the 'fragment_container' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.extensions_fragment_container, extensionsFragment).commit();
+        }
+
         // Inicializacion de fragment de mapa.
         if (getIntent().getBooleanExtra(EVENT_HAS_GEOLOCATION, false)) {
             mMapFragment = EventDetailMapView.getInstance();

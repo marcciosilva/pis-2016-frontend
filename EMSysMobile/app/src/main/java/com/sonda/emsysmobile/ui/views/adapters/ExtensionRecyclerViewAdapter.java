@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
