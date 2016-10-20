@@ -48,6 +48,14 @@
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:name=".ui.activities.ExternalServiceResultActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".ui.activities.ExternalServiceDetailActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar"/>
+        <activity
             android:name=".ui.activities.SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>

@@ -84,4 +84,20 @@
         <item name="android:textSize">@dimen/font_large</item>
     </style>
 
+
+    <style name="BigBlueText" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/colorPrimary_700</item>
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="MediumBlackText" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+    <style name="SmallGrayText" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
 </resources>
