@@ -58,15 +58,15 @@
             "idExtension": 2,
             "usuario": null,
             "fecha_envio": "2016-10-15T19:49:18.26",
-            "longitud": 64.6,
-            "latitud": 55.5
+            "latitud": -31.908599,
+            "longitud": -55.301376
           },
           {
             "idExtension": 2,
             "usuario": null,
             "fecha_envio": "2016-10-15T19:49:18.26",
-            "longitud": 85.8,
-            "latitud": 77.7
+            "latitud": -33.908599,
+            "longitud": -56.201376
           }
         ]
       },
@@ -103,15 +103,15 @@
             "idExtension": 3,
             "usuario": null,
             "fecha_envio": "2016-10-15T19:49:18.26",
-            "longitud": 67.6,
-            "latitud": 55.5
+            "latitud": -36.908599,
+            "longitud": -53.201376
           },
           {
             "idExtension": 3,
             "usuario": null,
             "fecha_envio": "2016-10-15T19:49:18.26",
-            "longitud": 84.8,
-            "latitud": 77.7
+            "latitud": -31.908599,
+            "longitud": -55.201376
           }
         ]
       }

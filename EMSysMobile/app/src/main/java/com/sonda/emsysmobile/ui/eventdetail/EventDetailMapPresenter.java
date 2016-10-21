@@ -11,9 +11,11 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
 import com.sonda.emsysmobile.utils.UIUtils;
 
+import java.security.cert.Extension;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +32,14 @@ public class EventDetailMapPresenter {
     private static EventDto mEventDto = null;
 
     public static void loadEventDetails(final Context context, final EventDetailMapView view) {
-//        if (mEventDto != null) {
-//            List<CustomMarkerData> data = getCustomMarkerData(mEventDto, context);
-//            view.updateEventData(data);
-//        }
-        //TODO Cambiar esto para solo usar un unico objeto de marker en vez de una lista
         if (mEventDto != null) {
-//            List<CustomMarkerData> data = getCustomMarkerData(mEventDto, context);
-//            view.updateEventData(data);
             EventManager eventManager = EventManager.getInstance(context);
             Log.d(TAG, "EVENT ID: " + Integer.toString(mEventDto.getIdentifier()));
             eventManager.getEventDetail(Integer.toString(mEventDto.getIdentifier()),
                     new ApiCallback<EventDto>() {
                         @Override
                         public void onSuccess(EventDto event) {
-                            List<CustomMarkerData> data = getCustomMarkerData(event, context);
+                            List<List<CustomMarkerData>> data = getCustomMarkerData(event, context);
                             view.updateEventData(data);
                         }
                         @Override
@@ -66,52 +61,69 @@ public class EventDetailMapPresenter {
 
     }
 
-    private static List<CustomMarkerData> getCustomMarkerData(EventDto event,
+    private static List<List<CustomMarkerData>> getCustomMarkerData(EventDto event,
                                                               final Context context) {
-        List<CustomMarkerData> data = new ArrayList<>();
-//        for (EventDto event : event) {
-        // Se chequea si el evento tiene coordenadas.
-        if ((event.getLatitude() != 0.0) && (event.getLongitude() != 0.0)) {
-            LatLng coordinates = getUniqueCoordinates(event, data);
-            DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        List<List<CustomMarkerData>> data = new ArrayList<>();
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
+        if ((event.getLatitude() != 0.0) || (event.getLongitude() != 0.0)) {
+            List<CustomMarkerData> eventMarkers = new ArrayList<>();
+            LatLng coordinates = getUniqueCoordinates(new LatLng(event.getLatitude(),
+                    event.getLongitude()), data);
             CustomMarkerData dataElement = new CustomMarkerData(
                     "Evento " + Integer.toString(event.getIdentifier()) + " - " +
                             df.format(event.getCreatedDate()),
                     context.getString(R.string.map_event_view_detail).toUpperCase(),
                     coordinates);
-            data.add(dataElement);
+            eventMarkers.add(dataElement);
+            data.add(eventMarkers);
         }
-//        }
-        Log.d(TAG, "Coordinates = " + (new LatLng(event.getLatitude(), event.getLongitude())).toString());
-        Log.d(TAG, "Custom marker data size = " + Integer.toString(data.size()));
+        List<ExtensionDto> extensions = event.getExtensions();
+        for (ExtensionDto extension : extensions) {
+            List<GeolocationDto> geolocations = extension.getGeolocations();
+            if ((geolocations != null) && (geolocations.size() > 0)) {
+                List<CustomMarkerData> tmpList = new ArrayList<>();
+                for (GeolocationDto geolocation : geolocations) {
+                    LatLng coordinates = getUniqueCoordinates(new LatLng(geolocation.getLatitude(),
+                            geolocation.getLongitude()), data);
+                    CustomMarkerData dataElement = new CustomMarkerData(
+                            "Extensión " + Integer.toString(extension.getIdentifier()) + " - " +
+                                    df.format(event.getCreatedDate()),
+                            null,
+                            coordinates);
+                    tmpList.add(dataElement);
+                }
+                data.add(tmpList);
+            }
+        }
+//        Log.d(TAG, "Coordinates = " + (new LatLng(event.getLatitude(), event.getLongitude())).toString());
+//        Log.d(TAG, "Custom marker data size = " + Integer.toString(data.size()));
         return data;
     }
 
     /**
-     * Obtiene coordenadas unicas para el evento. Esto es necesario en caso de existir
-     * eventos con coordenadas en común.
-     *
-     * @param event
+     * Obtiene coordenadas unicas para el evento/extension. Esto es necesario en caso de existir
+     * eventos/extensiones con coordenadas en común.
+     * @param originalCoordinates
+     * @param data
      * @return
      */
-    private static LatLng getUniqueCoordinates(EventDto event, List<CustomMarkerData> data) {
-        LatLng ll = new LatLng(event.getLatitude(),
-                event.getLongitude());
-        while (duplicateCoordinates(ll, data)) {
+    private static LatLng getUniqueCoordinates(LatLng originalCoordinates, List<List<CustomMarkerData>> data) {
+        LatLng ll = new LatLng(originalCoordinates.latitude, originalCoordinates.longitude);
+        while (duplicateCoordinates(originalCoordinates, data)) {
             Log.d(TAG, "Colision entre coordenadas de eventos.");
             // Offset para longitud.
             double dx = Math.random();
             // Offset para latitud.
             double dy = Math.random();
-            double latitude = event.getLatitude() + (180 / Math.PI) * (dy / 6378137);
-            double longitude = event.getLongitude() + (180 / Math.PI) * (dx / 6378137)
-                    / Math.cos(Math.PI / 180.0 * event.getLatitude());
+            double latitude = originalCoordinates.latitude + (180 / Math.PI) * (dy / 6378137);
+            double longitude = originalCoordinates.longitude + (180 / Math.PI) * (dx / 6378137)
+                    / Math.cos(Math.PI / 180.0 * originalCoordinates.latitude);
             ll = new LatLng(latitude, longitude);
         }
         // Se informa si hubo un cambio de coordenadas debido a colisiones.
-        if ((ll.latitude != event.getLatitude()) || (ll.longitude != event.getLongitude())) {
-            Log.d(TAG, "Colision resuelta, se pasa de " + (new LatLng(event.getLatitude(),
-                    event.getLongitude()).toString() + " a " + ll.toString()));
+        if ((ll.latitude != originalCoordinates.latitude) || (ll.longitude != originalCoordinates.longitude)) {
+            Log.d(TAG, "Colision resuelta, se pasa de " + (new LatLng(originalCoordinates.latitude,
+                    originalCoordinates.longitude).toString() + " a " + ll.toString()));
         }
         return ll;
     }
@@ -121,14 +133,16 @@ public class EventDetailMapPresenter {
      * Chequea si las coordenadas dadas por coordinates ya se encuentran en customMarkerDataList.
      *
      * @param coordinates
-     * @param customMarkerDataList
+     * @param listOfMarkerLists
      * @return
      */
     private static boolean duplicateCoordinates(LatLng coordinates,
-                                                List<CustomMarkerData> customMarkerDataList) {
-        for (CustomMarkerData marker : customMarkerDataList) {
-            if (marker.getCoordinates().equals(coordinates)) {
-                return true;
+                                                List<List<CustomMarkerData>> listOfMarkerLists) {
+        for (List<CustomMarkerData> list : listOfMarkerLists) {
+            for (CustomMarkerData marker : list) {
+                if (marker.getCoordinates().equals(coordinates)) {
+                    return true;
+                }
             }
         }
         return false;

@@ -39,7 +39,7 @@ public class EventDetailMapView extends SupportMapFragment
     private FragmentActivity mCallingActivity;
     private GoogleMap mMap;
     private static final String TAG = EventDetailMapView.class.getName();
-    private List<CustomMarkerData> mMarkerDataList;
+    private List<List<CustomMarkerData>> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
     private CustomScrollView mMainScrollView;
     private boolean mShouldBeVisible = false;
@@ -75,7 +75,7 @@ public class EventDetailMapView extends SupportMapFragment
      *
      * @param markerDataList
      */
-    public void updateEventData(List<CustomMarkerData> markerDataList) {
+    public void updateEventData(List<List<CustomMarkerData>> markerDataList) {
         mMarkerDataList = markerDataList;
         if (mShouldBeVisible) {
             updateView();
@@ -149,14 +149,16 @@ public class EventDetailMapView extends SupportMapFragment
                 public void onGlobalLayout() {
                     if (!mMarkerDataList.isEmpty()) {
                         LatLngBounds.Builder bld = new LatLngBounds.Builder();
-                        for (CustomMarkerData event : mMarkerDataList) {
-                            bld.include(event.getCoordinates());
+                        for (List<CustomMarkerData> list : mMarkerDataList) {
+                            for (CustomMarkerData markers : list) {
+                                bld.include(markers.getCoordinates());
+                            }
                         }
                         LatLngBounds bounds = bld.build();
                         if (areBoundsTooSmall(bounds, 600)) {
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 17));
                         } else {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
                         }
                         mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
@@ -168,20 +170,44 @@ public class EventDetailMapView extends SupportMapFragment
     private void addMarkersToMap() {
         mMap.clear();
         mMarkers.clear();
-        for (CustomMarkerData markerData : mMarkerDataList) {
-            // Se reajustan coordenadas si hay colisiones, ya que la API
-            // de Google Maps no soporta marcadores que colisionen.
-            BitmapDescriptor bitmapMarker;
-            bitmapMarker = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-            Log.i(TAG, "Default marker (red)");
-            MarkerOptions markerOptions = new MarkerOptions().position(
-                    markerData.getCoordinates()).title(markerData.getTitle())
-                    .icon(bitmapMarker);
-            Marker marker = mMap.addMarker(markerOptions);
-            mMarkers.add(marker);
-            Log.i(TAG, "Se agregó un marcador");
-            Log.d(TAG, "Tamaño de mMarkers = " + mMarkers.size());
+        List<Float> availableColors = getAvailableColors();
+        for (List<CustomMarkerData> list : mMarkerDataList) {
+            float currentColor = availableColors.get(0);
+            for (CustomMarkerData markerData : list) {
+                // Se reajustan coordenadas si hay colisiones, ya que la API
+                // de Google Maps no soporta marcadores que colisionen.
+                BitmapDescriptor bitmapMarker;
+                bitmapMarker = BitmapDescriptorFactory.defaultMarker(currentColor);
+                Log.i(TAG, "Default marker (red)");
+                MarkerOptions markerOptions = new MarkerOptions().position(
+                        markerData.getCoordinates()).title(markerData.getTitle())
+                        .icon(bitmapMarker);
+                Marker marker = mMap.addMarker(markerOptions);
+                mMarkers.add(marker);
+                Log.i(TAG, "Se agregó un marcador");
+                Log.d(TAG, "Tamaño de mMarkers = " + mMarkers.size());
+            }
+            availableColors.remove(currentColor);
+            if (availableColors.size() == 0) {
+                // Se reinician los colores. Se pueden repetir si hay muchas extensiones.
+                availableColors = getAvailableColors();
+            }
         }
+    }
+
+    private List<Float> getAvailableColors() {
+        List<Float> availableColors = new ArrayList<>();
+        availableColors.add(BitmapDescriptorFactory.HUE_RED);
+        availableColors.add(BitmapDescriptorFactory.HUE_AZURE);
+        availableColors.add(BitmapDescriptorFactory.HUE_BLUE);
+        availableColors.add(BitmapDescriptorFactory.HUE_CYAN);
+        availableColors.add(BitmapDescriptorFactory.HUE_ORANGE);
+        availableColors.add(BitmapDescriptorFactory.HUE_GREEN);
+        availableColors.add(BitmapDescriptorFactory.HUE_ROSE);
+        availableColors.add(BitmapDescriptorFactory.HUE_VIOLET);
+        availableColors.add(BitmapDescriptorFactory.HUE_MAGENTA);
+        availableColors.add(BitmapDescriptorFactory.HUE_YELLOW);
+        return availableColors;
     }
 
     @Override

@@ -56,15 +56,15 @@
             "idExtension": 1,
             "usuario": null,
             "fecha_envio": "2016-10-15T19:49:18.26",
-            "longitud": 66.6,
-            "latitud": 55.5
+            "latitud": -33.908599,
+            "longitud": -56.201376
           },
           {
             "idExtension": 1,
             "usuario": null,
             "fecha_envio": "2016-10-15T19:49:18.26",
-            "longitud": 88.8,
-            "latitud": 77.7
+            "latitud": -33.908599,
+            "longitud": -57.201376
           }
         ]
       }

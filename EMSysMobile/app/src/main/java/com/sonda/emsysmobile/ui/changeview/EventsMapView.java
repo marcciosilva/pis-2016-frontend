@@ -156,7 +156,7 @@ public class EventsMapView extends SupportMapFragment
                         if (areBoundsTooSmall(bounds, 600)) {
                             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 17));
                         } else {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 20));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
                         }
                         mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
