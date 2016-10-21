@@ -141,13 +141,13 @@ switch (wsChoice) {
 // keepAlive
 var KeepAliveChoice={};
 KeepAliveChoice.Enum('Success', 'Fail');
-KeepAliveChoice = KeepAliveChoice.Success;
-switch (KeepAliveChoice) {
+keepAliveChoice = KeepAliveChoice.Success;
+switch (keepAliveChoice) {
 	case KeepAliveChoice.Success:
-		app.post('/users/expiration_time', users.getUserKeepAliveSuccess);
+		app.post('/users/expiration_time', users.postUserKeepAliveSuccess);
 		break;
 	case KeepAliveChoice.Fail:
-		app.post('/users/expiration_time', users.getUserKeepAliveFail);
+		app.post('/users/expiration_time', users.postUserKeepAliveFail);
 		break;
 	default:
 		break;

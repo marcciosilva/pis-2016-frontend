@@ -26,7 +26,7 @@ public class KeepAliveService extends Service {
 
     private boolean logged;
     // A definir waiting_time.
-    private static int waiting_time = 5000;
+    private static int waiting_time = 60000;
 
     @Override
     public void onCreate() {
@@ -41,11 +41,13 @@ public class KeepAliveService extends Service {
                 {
                     try {
                         Thread.sleep(waiting_time);
-                        keep_alive(new VolleyCallbackKeepAlive(){
-                            @Override
-                            public void onSuccess(KeepAliveDto keepAlive) {
-                            }
-                        });
+                        if(logged){
+                            keep_alive(new VolleyCallbackKeepAlive(){
+                                @Override
+                                public void onSuccess(KeepAliveDto keepAlive) {
+                                }
+                            });
+                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -85,7 +87,7 @@ public class KeepAliveService extends Service {
 
 
         request.execute();
-        Log.d("STATE", "keep alive!!" );
+        //Log.d("STATE", "keep alive!!" );
     }
     public interface VolleyCallbackKeepAlive {
         void onSuccess(KeepAliveDto result);
