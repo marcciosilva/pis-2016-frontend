@@ -44,6 +44,10 @@
             android:name=".ui.activities.HomeActivity"
             android:configChanges="orientation|screenSize" />
         <activity
+            android:name=".ui.eventdetail.EventDetailsView"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
             android:name=".ui.activities.ExternalServiceResultActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/NoActionBar"/>

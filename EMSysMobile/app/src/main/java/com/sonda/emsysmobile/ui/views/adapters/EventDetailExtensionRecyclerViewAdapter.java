@@ -1,29 +1,31 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;
 
-public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<ExtensionRecyclerViewAdapter.ViewHolder> {
+public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
+        .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ExtensionDto> mValues;
+    private final List<ExtensionDto> mExtensions;
     private final OnListFragmentInteractionListener mListener;
     private Context mContext;
+    private static final String TAG = EventDetailExtensionRecyclerViewAdapter.class.getName();
 
-    public ExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions, OnListFragmentInteractionListener listener) {
-        mValues = extensions;
+    public EventDetailExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions,
+                                                   OnListFragmentInteractionListener listener) {
+        mExtensions = extensions;
         mListener = listener;
         mContext = context;
     }
@@ -31,26 +33,19 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
     @Override
     public final ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_extension, parent, false);
+                .inflate(R.layout.row_event_detail_extension, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
-        ExtensionDto extension = mValues.get(position);
-        String idAndZoneString = "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
-        CategoryPriority priority = extension.getPriority();
+        ExtensionDto extension = mExtensions.get(position);
+        String zoneString = extension.getZone().getName();
+        Log.d(TAG, "ZONE NAME: " + zoneString);
         holder.setItem(extension);
-        holder.getIdAndZoneTextView().setText(idAndZoneString);
+        holder.getIdAndZoneTextView().setText(zoneString);
         holder.getDescriptionTextView().setText(extension.getDescription());
         holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
-        if (priority == CategoryPriority.HIGH) {
-            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_high));
-        } else if (priority == CategoryPriority.MEDIUM) {
-            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_medium));
-        } else if (priority == CategoryPriority.LOW) {
-            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_low));
-        }
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +60,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
 
     @Override
     public final int getItemCount() {
-        return mValues.size();
+        return mExtensions.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -73,7 +68,6 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
         private final TextView idAndZoneTextView;
         private final TextView descriptionTextView;
         private final TextView dateTextView;
-        private final View priorityView;
         private ExtensionDto item;
 
         public final View getView() {
@@ -92,10 +86,6 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
             return dateTextView;
         }
 
-        public final View getPriorityView() {
-            return priorityView;
-        }
-
         public final ExtensionDto getItem() {
             return item;
         }
@@ -109,7 +99,6 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView.Adapter<Extension
             this.view = view;
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            priorityView = view.findViewById(R.id.view_priority_mark);
             dateTextView = (TextView) view.findViewById(R.id.label_date);
         }
 

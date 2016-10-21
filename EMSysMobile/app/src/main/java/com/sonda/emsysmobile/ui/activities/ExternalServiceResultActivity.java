@@ -19,7 +19,6 @@ import com.sonda.emsysmobile.backendcommunication.services.request.ExternalServi
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExternalServiceRecyclerViewAdapter;
-import com.sonda.emsysmobile.ui.views.dialogs.SimpleDialog;
 import com.sonda.emsysmobile.utils.Constants;
 
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
     private static final String TAG = ExternalServiceResultActivity.class.getName();
 
     private RecyclerView mRecyclerView;
-    private List<ExternalServiceItemDto> mExternalServiceItems;
     private ProgressBar mProgressBar;
     private Context context;
     private ExternalServiceQueryDto query;
@@ -51,7 +49,7 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
 
         Bundle intentExtras = getIntent().getExtras();
 
-        if(!intentExtras.isEmpty()){
+        if (!intentExtras.isEmpty()) {
 
             String param1 = intentExtras.getString(Constants.ExternalService.QUERY_KEY_PARAM_1, "");
             String param2 = intentExtras.getString(Constants.ExternalService.QUERY_KEY_PARAM_2, "");
@@ -62,28 +60,33 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
             executeExternalServiceQuery(query);
         }
 
-        mExternalServiceItems = new ArrayList<>();
+        List<ExternalServiceItemDto> mExternalServiceItems = new ArrayList<>();
     }
 
     private void executeExternalServiceQuery(ExternalServiceQueryDto query) {
         // TODO
         // Esto debería ir a un presenter
-        ExternalServiceRequest<ExternalServiceResponse> request = new ExternalServiceRequest<>(context, ExternalServiceResponse.class, query);
+        ExternalServiceRequest<ExternalServiceResponse> request =
+                new ExternalServiceRequest<>(context, ExternalServiceResponse.class, query);
         request.setListener(new Response.Listener<ExternalServiceResponse>() {
             @Override
             public void onResponse(ExternalServiceResponse response) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                switch (response.getCode()){
+                final int i = 8;
+                switch (response.getCode()) {
                     case 0:
-                        mRecyclerView.setAdapter(new ExternalServiceRecyclerViewAdapter(context, response.getItems()));
+                        mRecyclerView
+                                .setAdapter(new ExternalServiceRecyclerViewAdapter(context, response
+                                        .getItems()));
                         mRecyclerView.setVisibility(View.VISIBLE);
                         mProgressBar.setVisibility(View.GONE);
                         Log.d(TAG, response.toString());
                         break;
-                    case 8:
+                    case i:
                         // Error WS Unavailable
                         builder.setCancelable(true);
-                        builder.setNegativeButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.ok_button), new
+                                DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
@@ -103,7 +106,8 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
                     default:
                         // Error Unknown
                         builder.setCancelable(true);
-                        builder.setNegativeButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.ok_button), new
+                                DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
@@ -131,7 +135,8 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 // Error Unknown
                 builder.setCancelable(true);
-                builder.setNegativeButton(getString(R.string.ok_button), new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.ok_button), new DialogInterface
+                        .OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();

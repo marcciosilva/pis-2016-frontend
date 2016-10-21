@@ -49,6 +49,7 @@
     <string name="error_connection_retry">Reintentar</string>
     <string name="error_server_communication_message">Error en la comunicación con el servidor.</string>
     <string name="error_http_unauthorized">Pedido no autorizado</string>
+    <string name="error_internal">Ocurrió un error interno en la aplicación.</string>
 
     <!--Preferences-->
     <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>
@@ -56,6 +57,10 @@
 
     <!--Events Map-->
     <string name="map_event_view_detail">Ver detalle</string>
+    <string name="error_event_details_from_map">Hubo un error al obtener el detalle del evento seleccionado.</string>
+
+    <!-- Events details-->
+    <string name="event_details_missing_value">No tiene</string>
 
     <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>

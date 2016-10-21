@@ -20,7 +20,7 @@ public class SettingsActivity extends PreferenceActivity {
     private static final String TAG = SettingsActivity.class.getName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected final void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         checkValues();
@@ -38,13 +38,13 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     @Override
-    public void onBuildHeaders(List<Header> target)
+    public final void onBuildHeaders(List<Header> target)
     {
         loadHeadersFromResource(R.xml.headers_preference, target);
     }
 
     @Override
-    protected boolean isValidFragment(String fragmentName)
+    protected final boolean isValidFragment(String fragmentName)
     {
         return SettingsFragment.class.getName().equals(fragmentName);
     }

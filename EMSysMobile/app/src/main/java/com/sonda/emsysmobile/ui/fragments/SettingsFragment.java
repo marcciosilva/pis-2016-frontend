@@ -11,7 +11,7 @@ import com.sonda.emsysmobile.R;
 
 public class SettingsFragment extends PreferenceFragment {
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Se cargan las preferencias del recurso en XML.
         addPreferencesFromResource(R.xml.preferences);

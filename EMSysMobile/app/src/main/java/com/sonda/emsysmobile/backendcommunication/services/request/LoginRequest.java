@@ -1,13 +1,11 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
 
 import java.lang.reflect.Type;
