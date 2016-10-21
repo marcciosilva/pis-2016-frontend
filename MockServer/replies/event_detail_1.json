@@ -2,8 +2,8 @@
   "cod": 0,
   "response": {
     "id": 1,
-    "informante": null,
-    "telefono": null,
+    "informante": "Roberto Carlos",
+    "telefono": "098123892",
     "categoria": {
       "id": 1,
       "codigo": "cod1",
@@ -15,9 +15,9 @@
     "time_stamp": "2016-10-15T19:49:18.26",
     "creador": "Usuario1",
     "fecha_creacion": "2016-10-15T19:49:18.26",
-    "calle": null,
+    "calle": "Avda. Brasil",
     "esquina": null,
-    "numero": null,
+    "numero": "2132",
     "departamento": "",
     "sector": "sector1",
     "descripcion": "Lorem Ipsum ... de Lorem Ipsum.",

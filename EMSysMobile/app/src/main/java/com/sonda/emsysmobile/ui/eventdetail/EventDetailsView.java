@@ -89,23 +89,44 @@ public class EventDetailsView extends AppCompatActivity implements
     public void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
-            mInformantName.setText(mEvent.getInformant());
-            mInformantPhone.setText(mEvent.getPhone());
+            if ((mEvent.getInformant() != null) && (!mEvent.getInformant().equals(""))) {
+                mInformantName.setText(mEvent.getInformant());
+            }
 
-            mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
-            mStatus.setText(mEvent.getStatus());
+            if ((mEvent.getPhone() != null) && (!mEvent.getPhone().equals(""))) {
+                mInformantPhone.setText(mEvent.getPhone());
+            }
 
-            mStreet.setText(mEvent.getStreet());
-            mNumber.setText(mEvent.getNumber());
-            mCorner.setText(mEvent.getCorner());
+            if ((mEvent.getCreatedDate() != null) && (mEvent.getCreatedDate() != null)) {
+                mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
+            }
 
-            if (mEvent.getCategory() != null) {
+            if ((mEvent.getStatus() != null) && (!mEvent.getStatus().equals(""))) {
+                mStatus.setText(mEvent.getStatus());
+            }
+
+            if ((mEvent.getStreet() != null) && (!mEvent.getStreet().equals(""))) {
+                mStreet.setText(mEvent.getStreet());
+            }
+            if ((mEvent.getNumber() != null) && (!mEvent.getNumber().equals(""))) {
+                mNumber.setText(mEvent.getNumber());
+            }
+            if (mEvent.getCorner() != null && !mEvent.getCorner().equals("")) {
+                mCorner.setText(mEvent.getCorner());
+            }
+
+            if ((mEvent.getCategory() != null) && (!mEvent.getCategory().getKey().equals(""))) {
                 mCategory.setText(mEvent.getCategory().getKey());
             }
-            mSector.setText(mEvent.getSectorCode());
+
+            if ((mEvent.getSectorCode() != null) && (!mEvent.getSectorCode().equals(""))) {
+                mSector.setText(mEvent.getSectorCode());
+            }
 
             mType.setText("Aplicación");
-            mOrigin.setText(mEvent.getOrigin());
+            if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))){
+                mOrigin.setText(mEvent.getOrigin());
+            }
         }
 
     }
