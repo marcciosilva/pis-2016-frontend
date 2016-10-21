@@ -7,6 +7,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
 import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -14,6 +16,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
+import com.sonda.emsysmobile.logic.model.core.GeoLocationDto;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 import java.security.cert.Extension;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Date;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -126,6 +130,26 @@ public class EventManager {
                 return ext1.getPriority().compareTo(ext2.getPriority());
             }
         });
+    }
+
+    public void updateGeoLocation(int extensionId, double latitude, double longitude){
+        String user = "";
+        Date date = new Date();
+        GeoLocationDto geoLocationDto = new GeoLocationDto(extensionId, user, date, latitude, longitude);
+        UpdateGeoLocationRequest<UpdateGeoLocationResponse> request = new UpdateGeoLocationRequest<>(
+            mContext, GeoLocationDto.class, geoLocationDto);
+        request.setListener(new Response.Listener<UpdateGeoLocationResponse>() {
+            @Override
+            public void onResponse(UpdateGeoLocationResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    //TODO no se que hacer cuando el llamado es exitoso
+                } else {
+                    //TODO no se que hacer cuando falla
+                }
+            }
+        });
+        request.execute();
     }
 
 }
