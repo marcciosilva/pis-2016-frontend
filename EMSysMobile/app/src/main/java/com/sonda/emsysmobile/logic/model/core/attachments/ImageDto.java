@@ -17,18 +17,22 @@ public class ImageDto implements Serializable {
         this.path = path;
     }
 
-    public String getPath() {
+    public final String getPath() {
         return path;
     }
 
-    public void setPath(String path) {
+    public final void setPath(String path) {
         this.path = path;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ImageDto imageDto = (ImageDto) o;
 

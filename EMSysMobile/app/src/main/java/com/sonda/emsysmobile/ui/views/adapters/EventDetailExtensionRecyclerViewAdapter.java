@@ -9,14 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;
 
-public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView.Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
+public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
+        .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
     private final List<ExtensionDto> mExtensions;
     private final OnListFragmentInteractionListener mListener;
@@ -40,20 +40,12 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView.Adapte
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
         ExtensionDto extension = mExtensions.get(position);
-        String ZoneString = extension.getZone().getName();
-        Log.d(TAG, "ZONE NAME: " + ZoneString);
-//        CategoryPriority priority = extension.getPriority();
+        String zoneString = extension.getZone().getName();
+        Log.d(TAG, "ZONE NAME: " + zoneString);
         holder.setItem(extension);
-        holder.getIdAndZoneTextView().setText(ZoneString);
+        holder.getIdAndZoneTextView().setText(zoneString);
         holder.getDescriptionTextView().setText(extension.getDescription());
         holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
-//        if (priority == CategoryPriority.HIGH) {
-//            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_high));
-//        } else if (priority == CategoryPriority.MEDIUM) {
-//            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_medium));
-//        } else if (priority == CategoryPriority.LOW) {
-//            holder.getPriorityView().setBackgroundColor(ContextCompat.getColor(mContext, R.color.priority_low));
-//        }
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

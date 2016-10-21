@@ -15,7 +15,6 @@ import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-import java.security.cert.Extension;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +30,13 @@ public class EventDetailMapPresenter {
     private static final String TAG = EventDetailMapPresenter.class.getName();
     private static EventDto mEventDto = null;
 
+    private EventDetailMapPresenter() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
+
     public static void loadEventDetails(final Context context, final EventDetailMapView view) {
         if (mEventDto != null) {
             EventManager eventManager = EventManager.getInstance(context);
-            Log.d(TAG, "EVENT ID: " + Integer.toString(mEventDto.getIdentifier()));
             eventManager.getEventDetail(Integer.toString(mEventDto.getIdentifier()),
                     new ApiCallback<EventDto>() {
                         @Override
@@ -42,13 +44,16 @@ public class EventDetailMapPresenter {
                             List<List<CustomMarkerData>> data = getCustomMarkerData(event, context);
                             view.updateEventData(data);
                         }
+
                         @Override
                         public void onLogicError(String errorMessage, int errorCode) {
                             UIUtils.handleErrorMessage(context, errorCode, errorMessage);
                         }
+
                         @Override
                         public void onNetworkError(VolleyError error) {
-                            handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
+                            handleVolleyErrorResponse(context, error, new DialogInterface
+                                    .OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     loadEventDetails(context, view);
@@ -62,7 +67,7 @@ public class EventDetailMapPresenter {
     }
 
     private static List<List<CustomMarkerData>> getCustomMarkerData(EventDto event,
-                                                              final Context context) {
+                                                                    final Context context) {
         List<List<CustomMarkerData>> data = new ArrayList<>();
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, Locale.UK);
         if ((event.getLatitude() != 0.0) || (event.getLongitude() != 0.0)) {
@@ -95,19 +100,19 @@ public class EventDetailMapPresenter {
                 data.add(tmpList);
             }
         }
-//        Log.d(TAG, "Coordinates = " + (new LatLng(event.getLatitude(), event.getLongitude())).toString());
-//        Log.d(TAG, "Custom marker data size = " + Integer.toString(data.size()));
         return data;
     }
 
     /**
      * Obtiene coordenadas unicas para el evento/extension. Esto es necesario en caso de existir
      * eventos/extensiones con coordenadas en común.
+     *
      * @param originalCoordinates
      * @param data
      * @return
      */
-    private static LatLng getUniqueCoordinates(LatLng originalCoordinates, List<List<CustomMarkerData>> data) {
+    private static LatLng getUniqueCoordinates(LatLng originalCoordinates,
+                                               List<List<CustomMarkerData>> data) {
         LatLng ll = new LatLng(originalCoordinates.latitude, originalCoordinates.longitude);
         while (duplicateCoordinates(originalCoordinates, data)) {
             Log.d(TAG, "Colision entre coordenadas de eventos.");
@@ -115,13 +120,16 @@ public class EventDetailMapPresenter {
             double dx = Math.random();
             // Offset para latitud.
             double dy = Math.random();
-            double latitude = originalCoordinates.latitude + (180 / Math.PI) * (dy / 6378137);
-            double longitude = originalCoordinates.longitude + (180 / Math.PI) * (dx / 6378137)
-                    / Math.cos(Math.PI / 180.0 * originalCoordinates.latitude);
+            final int i = 180;
+            final int i1 = 6378137;
+            double latitude = originalCoordinates.latitude + (i / Math.PI) * (dy / i1);
+            double longitude = originalCoordinates.longitude + (i / Math.PI) * (dx / i1)
+                    / Math.cos(Math.PI / i * originalCoordinates.latitude);
             ll = new LatLng(latitude, longitude);
         }
         // Se informa si hubo un cambio de coordenadas debido a colisiones.
-        if ((ll.latitude != originalCoordinates.latitude) || (ll.longitude != originalCoordinates.longitude)) {
+        if ((ll.latitude != originalCoordinates.latitude) ||
+                (ll.longitude != originalCoordinates.longitude)) {
             Log.d(TAG, "Colision resuelta, se pasa de " + (new LatLng(originalCoordinates.latitude,
                     originalCoordinates.longitude).toString() + " a " + ll.toString()));
         }

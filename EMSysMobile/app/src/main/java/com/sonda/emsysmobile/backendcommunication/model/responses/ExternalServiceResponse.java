@@ -1,7 +1,6 @@
 package com.sonda.emsysmobile.backendcommunication.model.responses;
 
 import com.google.gson.annotations.SerializedName;
-import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
 
 import java.util.List;

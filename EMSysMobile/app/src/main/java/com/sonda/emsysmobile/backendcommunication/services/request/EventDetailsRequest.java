@@ -1,11 +1,10 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
-        import android.content.Context;
-        import android.util.Log;
+import android.content.Context;
 
-        import com.google.gson.JsonObject;
+import com.google.gson.JsonObject;
 
-        import java.lang.reflect.Type;
+import java.lang.reflect.Type;
 
 /**
  * Created by mserralta on 17/10/16.
@@ -24,12 +23,12 @@ public class EventDetailsRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected String getPath() {
+    protected final String getPath() {
         return EVENT_DETAILS_PATH + "?idEvento=" + this.eventId;
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         return null;
     }
 

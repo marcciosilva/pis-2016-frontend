@@ -28,7 +28,6 @@ import java.util.List;
 public class EventDetailExtensionsFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
-    private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
     private EventDto mEventDto;
@@ -62,7 +61,7 @@ public class EventDetailExtensionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.event_detail_fragment_extensions, container, false);
         Context context = view.getContext();
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
+        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.setAdapter(new EventDetailExtensionRecyclerViewAdapter(
                 EventDetailExtensionsFragment.this.getActivity(), mExtensions, mListener));

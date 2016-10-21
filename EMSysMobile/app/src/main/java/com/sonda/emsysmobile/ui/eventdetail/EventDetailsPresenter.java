@@ -18,13 +18,10 @@ import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sonda.emsysmobile.ui.eventdetail.EventDetailsView.EVENT_HAS_GEOLOCATION;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 15-Oct-16.
@@ -34,6 +31,10 @@ public class EventDetailsPresenter {
 
     private static final String TAG = EventDetailsPresenter.class.getName();
 
+    private EventDetailsPresenter() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
+
     /**
      * Carga los detalles del evento (si es necesario), y se encarga de comenzar
      * la inicializacion de la vista del detalle del evento.
@@ -42,14 +43,17 @@ public class EventDetailsPresenter {
      * @param eventId
      * @param eventExtensionId
      */
-    public static void loadEventDetails(final Context context, final String eventId, final String eventExtensionId) {
+    public static void loadEventDetails(final Context context, final String eventId, final String
+            eventExtensionId) {
         EventManager eventManager = EventManager.getInstance(context);
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
                 if (eventExtensionId != null) {
                     //Fixme esta llegando un evento con id != eventId
-                    List<ExtensionDto> orderedExtensions = orderExtensions(event.getExtensions(), Integer.parseInt(eventExtensionId));
+                    List<ExtensionDto> orderedExtensions =
+                            orderExtensions(event.getExtensions(), Integer
+                                    .parseInt(eventExtensionId));
                     event.setExtensions(orderedExtensions);
                 }
                 initEventDetailsView(context, event);
@@ -86,7 +90,8 @@ public class EventDetailsPresenter {
         context.startActivity(intent);
     }
 
-    private static List<ExtensionDto> orderExtensions(List<ExtensionDto> extensions, int extensionId) {
+    private static List<ExtensionDto> orderExtensions(List<ExtensionDto> extensions, int
+            extensionId) {
         Log.d(TAG, "Extension id: " + Integer.toString(extensionId));
         List<ExtensionDto> result = new ArrayList<>();
         ExtensionDto currentExtension = null;
@@ -126,9 +131,9 @@ public class EventDetailsPresenter {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
             EventDetailMapView mapFragment = EventDetailMapView.getInstance();
-            CustomScrollView mainScrollView = (CustomScrollView) ((Activity)context).getWindow()
+            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
                     .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-            mapFragment.initializeView((FragmentActivity)context, mainScrollView);
+            mapFragment.initializeView((FragmentActivity) context, mainScrollView);
             mapFragment.showView();
         }
     }

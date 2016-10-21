@@ -17,7 +17,7 @@ import com.sonda.emsysmobile.R;
 public class SimpleDialog extends DialogFragment {
 
     @Override
-    public void onStart() {
+    public final void onStart() {
         super.onStart();
         Window window = getDialog().getWindow();
         WindowManager.LayoutParams windowParams = window.getAttributes();

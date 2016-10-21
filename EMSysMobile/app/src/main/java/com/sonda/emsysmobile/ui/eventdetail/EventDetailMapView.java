@@ -1,7 +1,6 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.annotation.SuppressLint;
-import android.location.Location;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -48,7 +47,8 @@ public class EventDetailMapView extends SupportMapFragment
         return new EventDetailMapView();
     }
 
-    public void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView) {
+    public final void initializeView(FragmentActivity callingActivity, CustomScrollView
+            mainScrollView) {
         mMainScrollView = mainScrollView;
         mCallingActivity = callingActivity;
         mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
@@ -75,14 +75,14 @@ public class EventDetailMapView extends SupportMapFragment
      *
      * @param markerDataList
      */
-    public void updateEventData(List<List<CustomMarkerData>> markerDataList) {
+    public final void updateEventData(List<List<CustomMarkerData>> markerDataList) {
         mMarkerDataList = markerDataList;
         if (mShouldBeVisible) {
             updateView();
         }
     }
 
-    public void hideView() {
+    public final void hideView() {
         try {
             mShouldBeVisible = false;
             View view = getView();
@@ -104,17 +104,17 @@ public class EventDetailMapView extends SupportMapFragment
             View view = getView();
             ViewGroup.LayoutParams mapParams = view.getLayoutParams();
             if (mapParams != null) {
+                final int value = 200;
                 mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                        200, getResources().getDisplayMetrics());
-                //mapParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                //800, getResources().getDisplayMetrics());
+                        value, getResources().getDisplayMetrics());
                 view.setLayoutParams(mapParams);
             }
             mMainScrollView.addInterceptScrollView(view);
             mCallingActivity.getSupportFragmentManager().beginTransaction().show(this).commitNow();
             // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
             // este cargado.
-            final ScrollView scrollview = (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
+            final ScrollView scrollview =
+                    (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
             if (scrollview != null) {
                 scrollview.fullScroll(ScrollView.FOCUS_UP);
             }
@@ -125,7 +125,7 @@ public class EventDetailMapView extends SupportMapFragment
         }
     }
 
-    public void showView() {
+    public final void showView() {
         mShouldBeVisible = true;
         loadEventData();
     }
@@ -143,27 +143,33 @@ public class EventDetailMapView extends SupportMapFragment
         // Se hace zoom para que todos los marcadores queden en vista.
         final View mapView = getView();
         if (mapView.getViewTreeObserver().isAlive()) {
-            mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @SuppressLint("NewApi")
-                @Override
-                public void onGlobalLayout() {
-                    if (!mMarkerDataList.isEmpty()) {
-                        LatLngBounds.Builder bld = new LatLngBounds.Builder();
-                        for (List<CustomMarkerData> list : mMarkerDataList) {
-                            for (CustomMarkerData markers : list) {
-                                bld.include(markers.getCoordinates());
+            mapView.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @SuppressLint("NewApi")
+                        @Override
+                        public void onGlobalLayout() {
+                            if (!mMarkerDataList.isEmpty()) {
+                                LatLngBounds.Builder bld = new LatLngBounds.Builder();
+                                for (List<CustomMarkerData> list : mMarkerDataList) {
+                                    for (CustomMarkerData markers : list) {
+                                        bld.include(markers.getCoordinates());
+                                    }
+                                }
+                                LatLngBounds bounds = bld.build();
+                                final int minDistanceInMeter = 600;
+                                if (areBoundsTooSmall(bounds, minDistanceInMeter)) {
+                                    final int v = 17;
+                                    mMap.animateCamera(CameraUpdateFactory
+                                            .newLatLngZoom(bounds.getCenter(), v));
+                                } else {
+                                    final int i = 70;
+                                    mMap.animateCamera(CameraUpdateFactory
+                                            .newLatLngBounds(bounds, i));
+                                }
+                                mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                             }
                         }
-                        LatLngBounds bounds = bld.build();
-                        if (areBoundsTooSmall(bounds, 600)) {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(bounds.getCenter(), 17));
-                        } else {
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
-                        }
-                        mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    }
-                }
-            });
+                    });
         }
     }
 
@@ -215,7 +221,7 @@ public class EventDetailMapView extends SupportMapFragment
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public final boolean onMarkerClick(Marker marker) {
         return false;
     }
 

@@ -78,33 +78,19 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
+    public final void onBackPressed() {
         DialogFragment dialog =
                 UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
         dialog.show(getSupportFragmentManager(), TAG);
     }
 
     @Override
-    public void onListFragmentInteraction(ExtensionDto extension) {
-//        Intent intent = new Intent(this, EventDetailsView.class);
-//        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Log.d(TAG, "EVENT_ID: " + Integer.toString(extension.getEvent().getIdentifier()));
-//        Log.d(TAG, "EVENT_EXTENSION_ID: " + Integer.toString(extension.getIdentifier()));
-//        intent.putExtra(EventDetailsView.EVENT_ID,
-//                Integer.toString(extension.getEvent().getIdentifier()));
-//        intent.putExtra(EventDetailsView.EVENT_EXTENSION_ID,
-//                Integer.toString(extension.getIdentifier()));
-//        startActivity(intent);
-
-
+    public final void onListFragmentInteraction(ExtensionDto extension) {
         try {
             String eventIdString = Integer.toString(extension.getEvent().getIdentifier());
             if (eventIdString == null) {
                 throw(new NullPointerException("EVENT_ID resulta nulo."));
             }
-//            Log.d(TAG, Integer.toString(extension.getIdentifier()));
-//            Log.d(TAG, String.valueOf(extension.getIdentifier()));
             String eventExtensionZone = Integer.toString(extension.getIdentifier());
             if (eventExtensionZone == null) {
                 throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
@@ -116,14 +102,6 @@ public class HomeActivity extends AppCompatActivity
                     getString(R.string.error_internal));
             Log.d(TAG, e.getMessage());
         }
-
-
-//        EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent().getIdentifier(), extension.getIdentifier());
-//
-//        EventDetailsPresenter
-//                .loadEventDetails(EventDetailsView.this, bundle.getString(EVENT_ID), bundle.getString(EVENT_EXTENSION_ID), this);
-
-
     }
 
     @Override

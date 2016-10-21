@@ -205,19 +205,19 @@ public class EventDto implements Serializable {
         this.category = category;
     }
 
-    public double getLatitude() {
+    public final double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public final void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public final double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public final void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

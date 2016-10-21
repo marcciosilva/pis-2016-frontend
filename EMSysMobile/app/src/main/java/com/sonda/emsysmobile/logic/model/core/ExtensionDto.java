@@ -122,11 +122,11 @@ public class ExtensionDto implements Serializable {
         return CategoryPriority.LOW;
     }
 
-    public List<GeolocationDto> getGeolocations() {
+    public final List<GeolocationDto> getGeolocations() {
         return geolocations;
     }
 
-    public void setGeolocations(List<GeolocationDto> geolocations) {
+    public final void setGeolocations(List<GeolocationDto> geolocations) {
         this.geolocations = geolocations;
     }
 

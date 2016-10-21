@@ -1,18 +1,17 @@
 package com.sonda.emsysmobile.events.managers;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
+import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
-import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +39,7 @@ public class EventManager {
 
     /**
      * Singleton para manejar objetos de eventos y extensiones.
+     *
      * @param context Debe ser el contexto de la aplicacion para realizar requests con el contexto
      *                correcto.
      * @return Una instancia de EventManager.
@@ -102,8 +102,9 @@ public class EventManager {
         request.execute();
     }
 
-    public void getEventDetail(String eventId, final ApiCallback<EventDto> callback){
-        EventDetailsRequest<EventDetailsResponse> request = new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
+    public final void getEventDetail(String eventId, final ApiCallback<EventDto> callback) {
+        EventDetailsRequest<EventDetailsResponse> request =
+                new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
         request.setAttributes(eventId);
         request.setListener(new Response.Listener<EventDetailsResponse>() {
             @Override
@@ -136,7 +137,7 @@ public class EventManager {
     private void setEvents(List<EventDto> events) {
         mEvents = events;
         mExtensions.clear();
-        for (EventDto event: mEvents) {
+        for (EventDto event : mEvents) {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
                 extension.setEvent(event);

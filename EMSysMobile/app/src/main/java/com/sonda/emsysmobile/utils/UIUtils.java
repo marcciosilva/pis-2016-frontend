@@ -92,16 +92,7 @@ public final class UIUtils {
         builder.setTitle(R.string.error_server_communication_message);
         // Se ofrece reiniciar la aplicacion o quedarse en el mismo lugar, para no perder
         // datos.
-        builder.setPositiveButton(R.string.error_connection_retry,
-//                new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Intent intent = new Intent(context, SplashActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                context.startActivity(intent);
-//            }
-//        });
-                retryListener);
+        builder.setPositiveButton(R.string.error_connection_retry, retryListener);
         builder.setNegativeButton(R.string.error_connection_cancel, null);
         builder.show();
     }

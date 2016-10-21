@@ -2,15 +2,12 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.DateUtils;
 
 /**
@@ -40,16 +37,9 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mType;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-
-        //si es llamada desde el mapa de eventos
-//        if (bundle.containsKey(EVENT_ID)) {
-//            // Cargar modelo según el identificador.
-//            EventManager eventManager = EventManager.getInstance(EventDetailsView.this);
-//            mEvent = eventManager.getEventDetail(bundle.getInt(EVENT_ID));
-//        }
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -86,7 +76,7 @@ public class EventDetailsView extends AppCompatActivity implements
 
     }
 
-    public void updateViewData(EventDto event) {
+    public final void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
             if ((mEvent.getInformant() != null) && (!mEvent.getInformant().equals(""))) {
@@ -124,7 +114,7 @@ public class EventDetailsView extends AppCompatActivity implements
             }
 
             mType.setText("Aplicación");
-            if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))){
+            if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))) {
                 mOrigin.setText(mEvent.getOrigin());
             }
         }
