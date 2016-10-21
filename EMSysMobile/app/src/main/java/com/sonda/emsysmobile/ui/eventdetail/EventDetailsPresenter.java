@@ -14,6 +14,7 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -114,6 +115,10 @@ public class EventDetailsPresenter {
         } else {
             // No hay coordenadas del evento.
             for (ExtensionDto extensionDto : event.getExtensions()) {
+                List<GeolocationDto> geolocations = extensionDto.getGeolocations();
+                if (geolocations.size() > 0) {
+                    hasGeolocation = true;
+                }
                 //TODO implementar logica que soporte Dto de geoubicacion en extensiones
             }
         }

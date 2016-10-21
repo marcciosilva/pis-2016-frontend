@@ -132,7 +132,7 @@ public class EventsMapView extends SupportMapFragment
 
     private void setUpMap() {
         Log.d(TAG, "Map obtained");
-        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         addMarkersToMap();
         // Info window adapter por si se quiere customizar la info window.
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
