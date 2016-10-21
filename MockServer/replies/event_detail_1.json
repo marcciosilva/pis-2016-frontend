@@ -32,7 +32,7 @@
         },
         "despachador": null,
         "descripcion_despachadores": [],
-        "descripcion_supervisor": null,
+        "descripcion_supervisor": "Descripcion 1",
         "asignaciones_recursos": [
           {
             "id": 1,

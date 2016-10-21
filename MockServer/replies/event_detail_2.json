@@ -34,7 +34,7 @@
         },
         "despachador": null,
         "descripcion_despachadores": [],
-        "descripcion_supervisor": null,
+        "descripcion_supervisor": "Descripcion 2",
         "asignaciones_recursos": [
           {
             "id": 1,
@@ -79,7 +79,7 @@
         },
         "despachador": null,
         "descripcion_despachadores": [],
-        "descripcion_supervisor": null,
+        "descripcion_supervisor": "Descripcion 3",
         "asignaciones_recursos": [
           {
             "id": 1,

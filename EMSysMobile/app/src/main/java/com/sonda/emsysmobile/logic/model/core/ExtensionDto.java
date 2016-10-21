@@ -15,7 +15,7 @@ public class ExtensionDto implements Serializable {
     @SerializedName("id")
     private int identifier;
 
-    @SerializedName("descripcion")
+    @SerializedName("descripcion_supervisor")
     private String description;
 
     @SerializedName("estado")

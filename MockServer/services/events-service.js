@@ -3,7 +3,21 @@ var events_list = require('../replies/events_list.json');
 var event_detail = require('../replies/event_detail.json');
 var event_detail_error = require('../replies/event_detail_error.json');
 
+function delay(ms) {
+    console.log("Esperando " + ms + " ms...");
+    var cur_d = new Date();
+    var cur_ticks = cur_d.getTime();
+    var ms_passed = 0;
+    while(ms_passed < ms) {
+        var d = new Date();  // Possible memory leak?
+        var ticks = d.getTime();
+        ms_passed = ticks - cur_ticks;
+        // d = null;  // Prevent memory leak?
+    }
+}
+
 var getEvents = function (request, response, next) {
+    // delay(2000);
 	console.log('GET');
     response.send(JSON.stringify(events_list), 200);
 };
@@ -26,6 +40,7 @@ var getSpecialCase = function (request, response, next) {
 };
 
 var getEventDetail = function (request, response, next) {
+    // delay(2000);
     console.log('GET a getEventDetail');
     var idEvento = request.query.idEvento;
     if (idEvento == "" || idEvento == null){
