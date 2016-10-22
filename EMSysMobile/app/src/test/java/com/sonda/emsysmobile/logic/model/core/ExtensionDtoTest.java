@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.logic.model.core;
 
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -115,8 +117,8 @@ public class ExtensionDtoTest {
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
-                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
-                mExtensionEvent);
+                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, new
+                ArrayList<GeolocationDto>(), mExtensionEvent);
         mExtensions.add(mExtensionDto);
         // Test.
         // Category.
@@ -142,8 +144,7 @@ public class ExtensionDtoTest {
         testExtensionEvent = null;
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTimestamp, testExtensionCategory,
-                testExtensionZone,
-                testExtensionEvent);
+                testExtensionZone, new ArrayList<GeolocationDto>(), testExtensionEvent);
 
     }
 
@@ -320,8 +321,7 @@ public class ExtensionDtoTest {
                         testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTimeStamp, testExtensionCategory,
-                testExtensionZone,
-                testExtensionEvent);
+                testExtensionZone, new ArrayList<GeolocationDto>(), testExtensionEvent);
         testExtensions.add(testExtension);
         mExtensionDto.setEvent(testExtensionEvent);
         assertTrue(mExtensionDto.getEvent().equals(testExtensionEvent));

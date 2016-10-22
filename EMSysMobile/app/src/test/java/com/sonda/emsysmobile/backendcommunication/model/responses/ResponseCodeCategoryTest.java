@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 public class ResponseCodeCategoryTest {
     @Test
     public void getNumVal() throws Exception {
-        ResponseCodeCategory code = ResponseCodeCategory.INVALID_CREDENTIALS;
-        assertTrue(code.getNumVal() == ResponseCodeCategory.INVALID_CREDENTIALS.getNumVal());
+        ErrorCodeCategory code = ErrorCodeCategory.INVALID_CREDENTIALS;
+        assertTrue(code.getNumVal() == ErrorCodeCategory.INVALID_CREDENTIALS.getNumVal());
     }
 
 }

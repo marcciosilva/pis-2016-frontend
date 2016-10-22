@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.logic.model.core;
 
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -94,8 +96,8 @@ public class EventDtoTest {
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtension = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
-                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
-                mExtensionEvent);
+                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, new
+                ArrayList<GeolocationDto>(), mExtensionEvent);
         mExtensions.add(mExtension);
     }
 
@@ -261,7 +263,8 @@ public class EventDtoTest {
 
     @Test
     public void setCategory_DifferentCategory_ReturnsTrue() throws Exception {
-        CategoryDto testCategory = new CategoryDto(1, "alt_code", "alt_key", CategoryPriority.HIGH, false);
+        CategoryDto testCategory =
+                new CategoryDto(1, "alt_code", "alt_key", CategoryPriority.HIGH, false);
         mExtensionEvent.setCategory(testCategory);
         assertTrue(mExtensionEvent.getCategory().equals(testCategory));
     }
@@ -374,12 +377,14 @@ public class EventDtoTest {
         testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitName);
         // EventDto.
-        testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp, testCreatedDate,
-                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
+        testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp,
+                testCreatedDate,
+                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber,
+                testDepartment,
                 testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
-                testExtensionEvent);
+                testExtensionState, testExtensionTimeStamp, testExtensionCategory,
+                testExtensionZone, new ArrayList<GeolocationDto>(), testExtensionEvent);
         testExtensions.add(testExtension);
         assertTrue(mExtensionEvent.equals(testExtensionEvent));
     }
@@ -457,12 +462,14 @@ public class EventDtoTest {
         testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitName);
         // EventDto.
-        testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp, testCreatedDate,
-                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
+        testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp,
+                testCreatedDate,
+                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber,
+                testDepartment,
                 testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
-                testExtensionEvent);
+                testExtensionState, testExtensionTimeStamp, testExtensionCategory,
+                testExtensionZone, new ArrayList<GeolocationDto>(), testExtensionEvent);
         testExtensions.add(testExtension);
         assertFalse(mExtensionEvent.equals(testExtensionEvent));
     }
