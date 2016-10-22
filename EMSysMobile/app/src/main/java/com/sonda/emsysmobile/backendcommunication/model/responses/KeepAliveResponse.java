@@ -1,23 +1,24 @@
 package com.sonda.emsysmobile.backendcommunication.model.responses;
 
 import com.google.gson.annotations.SerializedName;
+import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
 
 /**
  * Created by nachoprbd on 16/10/2016.
  */
 public class KeepAliveResponse extends EmsysResponse {
 
-    @SerializedName("expires_in")
-    private int expirationTime;
+    @SerializedName("response")
+    private KeepAliveDto keepAlive;
 
-    public final int getExpirationTime() {
-        return expirationTime;
+    public final KeepAliveDto getKeepAlive() {
+        return keepAlive;
     }
 
-    public final void setExpirationTime(int expirationTime) {
-        this.expirationTime = expirationTime;
+    public final void setExpirationTime(KeepAliveDto keep_alive) {
+        this.keepAlive = keep_alive;
     }
-
+/*
     @Override
     public final boolean equals(Object obj) {
         if (obj == null) {
@@ -28,5 +29,5 @@ public class KeepAliveResponse extends EmsysResponse {
         }
         final KeepAliveResponse other = (KeepAliveResponse) obj;
         return (super.equals(other) && expirationTime == other.expirationTime);
-    }
+    }*/
 }
