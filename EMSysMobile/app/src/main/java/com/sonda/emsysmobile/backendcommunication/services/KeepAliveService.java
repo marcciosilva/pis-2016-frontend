@@ -1,23 +1,14 @@
 package com.sonda.emsysmobile.backendcommunication.services;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.android.volley.Response;
-import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequest;
 import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
-import com.sonda.emsysmobile.logic.model.core.ResourceDto;
-import com.sonda.emsysmobile.logic.model.core.RoleDto;
-import com.sonda.emsysmobile.logic.model.core.ZoneDto;
-import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
-
-import java.util.List;
-
-import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 
 /**
  * Created by nachoprbd on 21/10/2016.
@@ -73,7 +64,7 @@ public class KeepAliveService extends Service {
             @Override
             public void onResponse(KeepAliveResponse response) {
                 final int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     KeepAliveDto keepAlive = response.getKeepAlive();
                     callback.onSuccess(keepAlive);
                 } else {
