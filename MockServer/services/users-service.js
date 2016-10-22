@@ -96,14 +96,12 @@ var postUserLogoutCod5 = function(request, response, next) {
 	response.send(JSON.stringify(logout_cod5));
 };
 
-// GET
-
-var getUserKeepAliveSuccess = function(request, response, next) {
+var postUserKeepAliveSuccess = function(request, response, next) {
 	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(keepalive_success));
 };
 
-var getUserKeepAliveFail = function(request, response, next) {
+var postUserKeepAliveFail = function(request, response, next) {
 	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(keepalive_fail));
 };
@@ -126,5 +124,5 @@ exports.postUserLogoutSuccess = postUserLogoutSuccess;
 exports.postUserLogoutCod2 = postUserLogoutCod2;
 exports.postUserLogoutCod5 = postUserLogoutCod5;
 //keepAlive
-exports.getUserKeepAliveFail = getUserKeepAliveFail;
-exports.getUserKeepAliveFail = getUserKeepAliveFail;
+exports.postUserKeepAliveSuccess = postUserKeepAliveSuccess;
+exports.postUserKeepAliveFail = postUserKeepAliveFail;
