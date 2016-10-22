@@ -18,7 +18,6 @@ public class ExternalServiceDetailActivity extends AppCompatActivity {
     private static final String TAG = ExternalServiceDetailActivity.class.getName();
 
     private Context context;
-    private ExternalServiceItemDto dto;
     private EditText mFirstET;
     private EditText mSecondET;
     private EditText mThirdET;
@@ -47,9 +46,10 @@ public class ExternalServiceDetailActivity extends AppCompatActivity {
         mNinthET = (EditText) findViewById(R.id.ninth_field_et);
         mTenthET = (EditText) findViewById(R.id.tenth_field_et);
 
-        dto = (ExternalServiceItemDto) getIntent().getSerializableExtra(Constants.ExternalService.DETAIL_KEY_PARAM);
+        ExternalServiceItemDto dto = (ExternalServiceItemDto) getIntent()
+                .getSerializableExtra(Constants.ExternalService.DETAIL_KEY_PARAM);
 
-        if(dto == null){
+        if (dto == null) {
             // si no llegó correctamente el item volvemos
             finish();
         }

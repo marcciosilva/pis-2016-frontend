@@ -6,6 +6,9 @@ package com.sonda.emsysmobile.utils;
 
 public class Constants {
 
+    private Constants() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
 
     public class ExternalService {
         public static final String QUERY_KEY_PARAM_1 = "query_key_1";

@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.changeview;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -18,27 +18,27 @@ public class CustomMarkerData {
         this.coordinates = coordinates;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public final void setTitle(String title) {
         this.title = title;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public final void setDescription(String description) {
         this.description = description;
     }
 
-    public LatLng getCoordinates() {
+    public final LatLng getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(LatLng coordinates) {
+    public final void setCoordinates(LatLng coordinates) {
         this.coordinates = coordinates;
     }
 }

@@ -1,12 +1,14 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.changeview;
 
 import android.annotation.SuppressLint;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,9 +21,12 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.MapUtils.areBoundsTooSmall;
 
 /**
  * Created by marccio on 11-Oct-16.
@@ -43,7 +48,7 @@ public class EventsMapView extends SupportMapFragment
         return new EventsMapView();
     }
 
-    public void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView) {
+    public final void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView) {
         mMainScrollView = mainScrollView;
         mCallingActivity = callingActivity;
         mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
@@ -70,14 +75,14 @@ public class EventsMapView extends SupportMapFragment
      *
      * @param markerDataList
      */
-    public void updateEventsData(List<CustomMarkerData> markerDataList) {
+    public final void updateEventsData(List<CustomMarkerData> markerDataList) {
         mMarkerDataList = markerDataList;
         if (mShouldBeVisible) {
             updateView();
         }
     }
 
-    public void hideView() {
+    public final void hideView() {
         try {
             mShouldBeVisible = false;
             View view = getView();
@@ -98,11 +103,20 @@ public class EventsMapView extends SupportMapFragment
             View view = getView();
             ViewGroup.LayoutParams mapParams = view.getLayoutParams();
             if (mapParams != null) {
-                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+                final int value = 200;
+                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                        value, getResources().getDisplayMetrics());
                 view.setLayoutParams(mapParams);
             }
             mMainScrollView.addInterceptScrollView(view);
             mCallingActivity.getSupportFragmentManager().beginTransaction().show(this).commitNow();
+            // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
+            // este cargado.
+            final ScrollView scrollview =
+                    (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
+            if (scrollview != null) {
+                scrollview.fullScroll(ScrollView.FOCUS_UP);
+            }
             // Se configura el mapa para tener marcadores.
             setUpMap();
         } catch (NullPointerException e) {
@@ -110,14 +124,14 @@ public class EventsMapView extends SupportMapFragment
         }
     }
 
-    public void showView() {
+    public final void showView() {
         mShouldBeVisible = true;
         loadEventsData();
     }
 
     private void setUpMap() {
         Log.d(TAG, "Map obtained");
-        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
         addMarkersToMap();
         // Info window adapter por si se quiere customizar la info window.
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
@@ -128,21 +142,31 @@ public class EventsMapView extends SupportMapFragment
         // Se hace zoom para que todos los marcadores queden en vista.
         final View mapView = getView();
         if (mapView.getViewTreeObserver().isAlive()) {
-            mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @SuppressLint("NewApi")
-                @Override
-                public void onGlobalLayout() {
-                    if (!mMarkerDataList.isEmpty()) {
-                        LatLngBounds.Builder bld = new LatLngBounds.Builder();
-                        for (CustomMarkerData event : mMarkerDataList) {
-                            bld.include(event.getCoordinates());
+            mapView.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @SuppressLint("NewApi")
+                        @Override
+                        public void onGlobalLayout() {
+                            if (!mMarkerDataList.isEmpty()) {
+                                LatLngBounds.Builder bld = new LatLngBounds.Builder();
+                                for (CustomMarkerData event : mMarkerDataList) {
+                                    bld.include(event.getCoordinates());
+                                }
+                                LatLngBounds bounds = bld.build();
+                                final int minDistanceInMeter = 600;
+                                if (areBoundsTooSmall(bounds, minDistanceInMeter)) {
+                                    final int v = 17;
+                                    mMap.animateCamera(CameraUpdateFactory
+                                            .newLatLngZoom(bounds.getCenter(), v));
+                                } else {
+                                    final int i = 70;
+                                    mMap.animateCamera(CameraUpdateFactory
+                                            .newLatLngBounds(bounds, i));
+                                }
+                                mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            }
                         }
-                        LatLngBounds bounds = bld.build();
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70));
-                        mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    }
-                }
-            });
+                    });
         }
     }
 
@@ -167,15 +191,24 @@ public class EventsMapView extends SupportMapFragment
     }
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
+    public final void onInfoWindowClick(Marker marker) {
+        // Se pasa al presenter la informacion del marcador, en el tipo de datos
+        // custom utilizado para ellos (CustomMarkerData).
+        boolean successfulOperation = EventsMapPresenter
+                .showEventDetail(mCallingActivity, new CustomMarkerData(marker.getTitle(),
+                        marker.getSnippet(), marker.getPosition()));
+        // Si no se pudo completar la operacion de mostrar el detalle del evento,
+        // se presenta un dialog informando al usuario acerca de ello.
+        if (!successfulOperation) {
+            DialogFragment dialog =
+                    UIUtils.getSimpleDialog(getString(R.string.error_event_details_from_map));
+            dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
+        }
     }
 
     @Override
-    public boolean onMarkerClick(Marker marker) {
+    public final boolean onMarkerClick(Marker marker) {
         return false;
-        //DialogFragment dialog = UIUtils.getExtensionMapMarkerDialog("Faggot");
-        //dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
-        //return true;
     }
 
     @Override

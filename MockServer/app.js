@@ -35,6 +35,7 @@ app.configure(function(){
 
 app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
+app.get('/eventos/obtener', events.getEventDetail);
 
 
 //just a special get to test more easily

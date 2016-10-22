@@ -186,7 +186,7 @@ public abstract class BaseMockTest {
 //    @Test
 //    public void loadEvents() throws Exception {
 //        EventsMapPresenter.loadEvents(mMockContext, mMapView);
-//        Mockito.doNothing().when(mMapView).updateEventsData(anyList());
+//        Mockito.doNothing().when(mMapView).updateEventData(anyList());
 //    }
 //
 //}

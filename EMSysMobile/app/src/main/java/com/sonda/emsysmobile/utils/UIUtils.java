@@ -13,7 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.ui.activities.SplashActivity;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
 import com.sonda.emsysmobile.ui.views.dialogs.SimpleDialog;
@@ -59,11 +59,11 @@ public final class UIUtils {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (responseCode == ResponseCodeCategory.NO_AUTH.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.NO_AUTH.getNumVal()) {
                     Intent intent = new Intent(context, SplashActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
-                } else if (responseCode == ResponseCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
+                } else if (responseCode == ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
                     Intent intent = new Intent(context, RoleChooserActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
@@ -92,16 +92,7 @@ public final class UIUtils {
         builder.setTitle(R.string.error_server_communication_message);
         // Se ofrece reiniciar la aplicacion o quedarse en el mismo lugar, para no perder
         // datos.
-        builder.setPositiveButton(R.string.error_connection_retry,
-//                new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Intent intent = new Intent(context, SplashActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                context.startActivity(intent);
-//            }
-//        });
-                retryListener);
+        builder.setPositiveButton(R.string.error_connection_retry, retryListener);
         builder.setNegativeButton(R.string.error_connection_cancel, null);
         builder.show();
     }
