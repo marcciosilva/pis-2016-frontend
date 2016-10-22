@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
+import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
@@ -93,6 +95,8 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         String user = mUserEditText.getText().toString();
         String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
+
+        EventManager.getInstance(this).updateGeoLocation(1,1.2,1.2);
 
         AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(), AuthResponse.class);
         authRequest.setAttributes(user, pass);
