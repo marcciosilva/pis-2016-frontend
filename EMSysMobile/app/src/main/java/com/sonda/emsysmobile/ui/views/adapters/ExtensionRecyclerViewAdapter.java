@@ -55,8 +55,8 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
         ExtensionDto extension = mExtensions.get(position);
-        String idAndZoneString =
-                "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
+
+        String idAndZoneString = extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
         CategoryPriority priority = extension.getPriority();
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(idAndZoneString);
