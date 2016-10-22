@@ -1,5 +1,8 @@
 package com.sonda.emsysmobile.utils;
 
+import com.sonda.emsysmobile.backendcommunication.RequestFactory;
+import com.sonda.emsysmobile.utils.constants.ExternalService;
+
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
@@ -15,13 +18,32 @@ import static org.junit.Assert.assertTrue;
 public class PrivateConstructorsTest {
 
     @Test
-    public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
+    public void testConstructorUIUtilsIsPrivate() throws NoSuchMethodException, IllegalAccessException,
             InstantiationException, InvocationTargetException {
         Constructor<UIUtils> constructor = UIUtils.class.getDeclaredConstructor();
         assertTrue(Modifier.isPrivate(constructor.getModifiers()));
         constructor.setAccessible(true);
         constructor.newInstance();
+    }
 
+    @Test
+    public void testConstructorRequestFactoryIsPrivate() throws NoSuchMethodException,
+            IllegalAccessException,
+            InstantiationException, InvocationTargetException {
+        Constructor<RequestFactory> constructor = RequestFactory.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
+
+    @Test
+    public void testConstructorExternalServiceIsPrivate() throws NoSuchMethodException,
+            IllegalAccessException,
+            InstantiationException, InvocationTargetException {
+        Constructor<ExternalService> constructor = ExternalService.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
     }
 
 }

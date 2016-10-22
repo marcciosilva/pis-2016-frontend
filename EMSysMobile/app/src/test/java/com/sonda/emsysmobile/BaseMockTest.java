@@ -8,6 +8,8 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.toolbox.Volley;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -40,6 +42,7 @@ public abstract class BaseMockTest {
         mockStatic(Handler.class);
         mockStatic(TextUtils.class);
         mockStatic(PreferenceManager.class);
+        mockStatic(android.net.Uri.class);
 
         when(PreferenceManager.getDefaultSharedPreferences(any(Context.class))).thenReturn(sharedPreferences);
         when(Looper.getMainLooper()).thenReturn(null);

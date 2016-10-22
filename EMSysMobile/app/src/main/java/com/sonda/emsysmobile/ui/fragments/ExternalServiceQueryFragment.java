@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.ui.activities.ExternalServiceResultActivity;
-import com.sonda.emsysmobile.utils.Constants;
+import com.sonda.emsysmobile.utils.constants.ExternalService;
 
 /**
  * Created by jmsmuy on 17/10/16.
@@ -66,9 +66,9 @@ public class ExternalServiceQueryFragment extends Fragment {
         // Se llama a la activity correspondiente con los datos necesarios.
 
         Intent intent = new Intent(getActivity(), ExternalServiceResultActivity.class);
-        intent.putExtra(Constants.ExternalService.QUERY_KEY_PARAM_1, param1);
-        intent.putExtra(Constants.ExternalService.QUERY_KEY_PARAM_2, param2);
-        intent.putExtra(Constants.ExternalService.QUERY_KEY_PARAM_3, param3);
+        intent.putExtra(ExternalService.QUERY_KEY_PARAM_1, param1);
+        intent.putExtra(ExternalService.QUERY_KEY_PARAM_2, param2);
+        intent.putExtra(ExternalService.QUERY_KEY_PARAM_3, param3);
         startActivity(intent);
     }
 

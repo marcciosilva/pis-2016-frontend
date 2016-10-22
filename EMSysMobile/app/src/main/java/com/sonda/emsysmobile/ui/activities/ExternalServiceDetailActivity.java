@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
-import com.sonda.emsysmobile.utils.Constants;
+import com.sonda.emsysmobile.utils.constants.ExternalService;
 
 /**
  * Created by jmsmuy on 17/10/16.
@@ -47,7 +47,7 @@ public class ExternalServiceDetailActivity extends AppCompatActivity {
         mTenthET = (EditText) findViewById(R.id.tenth_field_et);
 
         ExternalServiceItemDto dto = (ExternalServiceItemDto) getIntent()
-                .getSerializableExtra(Constants.ExternalService.DETAIL_KEY_PARAM);
+                .getSerializableExtra(ExternalService.DETAIL_KEY_PARAM);
 
         if (dto == null) {
             // si no llegó correctamente el item volvemos

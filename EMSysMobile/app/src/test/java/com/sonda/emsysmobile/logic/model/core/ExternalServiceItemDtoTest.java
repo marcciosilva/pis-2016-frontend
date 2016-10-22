@@ -1,7 +1,5 @@
 package com.sonda.emsysmobile.logic.model.core;
 
-import com.sonda.emsysmobile.utils.Constants;
-
 import org.junit.Before;
 import org.junit.Test;
 

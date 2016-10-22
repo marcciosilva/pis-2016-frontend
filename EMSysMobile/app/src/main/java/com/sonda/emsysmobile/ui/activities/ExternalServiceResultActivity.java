@@ -19,7 +19,7 @@ import com.sonda.emsysmobile.backendcommunication.services.request.ExternalServi
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExternalServiceRecyclerViewAdapter;
-import com.sonda.emsysmobile.utils.Constants;
+import com.sonda.emsysmobile.utils.constants.ExternalService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +51,9 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
 
         if (!intentExtras.isEmpty()) {
 
-            String param1 = intentExtras.getString(Constants.ExternalService.QUERY_KEY_PARAM_1, "");
-            String param2 = intentExtras.getString(Constants.ExternalService.QUERY_KEY_PARAM_2, "");
-            String param3 = intentExtras.getString(Constants.ExternalService.QUERY_KEY_PARAM_3, "");
+            String param1 = intentExtras.getString(ExternalService.QUERY_KEY_PARAM_1, "");
+            String param2 = intentExtras.getString(ExternalService.QUERY_KEY_PARAM_2, "");
+            String param3 = intentExtras.getString(ExternalService.QUERY_KEY_PARAM_3, "");
 
             query = new ExternalServiceQueryDto(param1, param2, param3);
 

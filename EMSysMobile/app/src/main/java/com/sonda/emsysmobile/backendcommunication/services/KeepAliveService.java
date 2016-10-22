@@ -26,14 +26,13 @@ public class KeepAliveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        new Thread(new Runnable(){
+        new Thread(new Runnable() {
             public void run() {
-                while(logged)
-                {
+                while (logged) {
                     try {
                         Thread.sleep(waiting_time);
-                        if(logged){
-                            keep_alive(new VolleyCallbackKeepAlive(){
+                        if (logged) {
+                            keep_alive(new VolleyCallbackKeepAlive() {
                                 @Override
                                 public void onSuccess(KeepAliveDto keepAlive) {
                                 }
@@ -46,7 +45,7 @@ public class KeepAliveService extends Service {
             }
         }).start();
 
-        return super.onStartCommand(intent,flags,startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -58,8 +57,10 @@ public class KeepAliveService extends Service {
     public void onDestroy() {
         logged = false;
     }
+
     private void keep_alive(final VolleyCallbackKeepAlive callback) {
-        KeepAliveRequest<KeepAliveResponse> request = new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
+        KeepAliveRequest<KeepAliveResponse> request =
+                new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
         request.setListener(new Response.Listener<KeepAliveResponse>() {
             @Override
             public void onResponse(KeepAliveResponse response) {
@@ -80,6 +81,7 @@ public class KeepAliveService extends Service {
         request.execute();
         //Log.d("STATE", "keep alive!!" );
     }
+
     public interface VolleyCallbackKeepAlive {
         void onSuccess(KeepAliveDto result);
     }

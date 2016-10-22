@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
 import com.sonda.emsysmobile.ui.activities.ExternalServiceDetailActivity;
-import com.sonda.emsysmobile.utils.Constants;
+import com.sonda.emsysmobile.utils.constants.ExternalService;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<Ext
             public void onClick(View v) {
                 // TODO esto podría llegar a ir en un presenter (?) ... si bien nunca lo hice así je
                 Intent i = new Intent(mContext, ExternalServiceDetailActivity.class);
-                i.putExtra(Constants.ExternalService.DETAIL_KEY_PARAM, externalServiceItemDto);
+                i.putExtra(ExternalService.DETAIL_KEY_PARAM, externalServiceItemDto);
                 mContext.startActivity(i);
             }
         });
