@@ -31,7 +31,7 @@ public class EndpointService<T> {
         this.context = context;
     }
 
-    public final void execute(AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
+    public void execute(AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
         // Se construye la URL de la request.
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         String url;

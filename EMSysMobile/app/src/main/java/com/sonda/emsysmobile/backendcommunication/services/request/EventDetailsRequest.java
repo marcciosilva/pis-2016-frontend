@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 public class EventDetailsRequest<T> extends AbstractRequest<T> {
 
     private static final String TAG = EventDetailsRequest.class.getName();
-    public static final String EVENT_DETAILS_PATH = "/eventos/obtener";
+    public static final String EVENT_DETAILS_PATH = "/eventos/obtener?idEvento=";
 
     private int eventId;
 
@@ -24,7 +24,7 @@ public class EventDetailsRequest<T> extends AbstractRequest<T> {
 
     @Override
     protected final String getPath() {
-        return EVENT_DETAILS_PATH + "?idEvento=" + Integer.toString(eventId);
+        return EVENT_DETAILS_PATH + Integer.toString(eventId);
     }
 
     @Override

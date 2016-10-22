@@ -14,8 +14,6 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
 
     public static final String LOGOUT_PATH = "/users/logout";
 
-    private enum LogoutCase {Success, Cod2, Cod5}
-
     public LogoutRequest(Context context, Type type) {
         super(context, type, RequestType.POST);
     }

@@ -57,16 +57,12 @@ public abstract class AbstractRequest<T> {
         this.responseType = responseType;
     }
 
-    public final void setListener(Response.Listener<T> listener) {
-        this.listener = listener;
-    }
-
     protected final Response.Listener<T> getListener() {
         return this.listener;
     }
 
-    public final void setErrorListener(Response.ErrorListener errorListener) {
-        this.errorListener = errorListener;
+    public final void setListener(Response.Listener<T> listener) {
+        this.listener = listener;
     }
 
     protected final Response.ErrorListener getErrorListener() {
@@ -79,6 +75,10 @@ public abstract class AbstractRequest<T> {
             };
         }
         return errorListener;
+    }
+
+    public final void setErrorListener(Response.ErrorListener errorListener) {
+        this.errorListener = errorListener;
     }
 
     protected abstract String getPath();
