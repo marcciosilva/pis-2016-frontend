@@ -54,16 +54,6 @@ public class UIUtilsTest extends BaseMockTest {
     }
 
     @Test
-    public void testConstructorIsPrivate() throws NoSuchMethodException, IllegalAccessException,
-            InstantiationException, InvocationTargetException {
-        Constructor<UIUtils> constructor = UIUtils.class.getDeclaredConstructor();
-        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
-        constructor.setAccessible(true);
-        constructor.newInstance();
-
-    }
-
-    @Test
     public void hideSoftKeyboard() throws Exception {
         Activity activity = mock(Activity.class);
         View view = mock(View.class);

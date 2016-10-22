@@ -52,6 +52,19 @@ public class KeepAliveResponseTest {
     }
 
     @Test
+    public void equals_DifferentCode_ReturnsFalse() {
+        KeepAliveResponse testResponse = new KeepAliveResponse(new KeepAliveDto(1));
+        testResponse.setCode(1);
+        mKeepAliveResponse.setCode(2);
+        assertFalse(mKeepAliveResponse.equals(testResponse));
+    }
+
+    @Test
+    public void equals_CompareWithSameObject_ReturnsTrue() {
+        assertTrue(mKeepAliveResponse.equals(mKeepAliveResponse));
+    }
+
+    @Test
     public void equals_CompareWithSameFields_ReturnsTrue() {
         assertTrue(mKeepAliveResponse.equals(new KeepAliveResponse(new KeepAliveDto(1))));
     }
