@@ -43,19 +43,15 @@ public class EventDetailsPresenter {
      * @param eventId
      * @param eventExtensionId
      */
-    public static void loadEventDetails(final Context context, final String eventId, final String
+    public static void loadEventDetails(final Context context, final int eventId, final int
             eventExtensionId) {
         EventManager eventManager = EventManager.getInstance(context);
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
-                if (eventExtensionId != null) {
-                    //Fixme esta llegando un evento con id != eventId
-                    List<ExtensionDto> orderedExtensions =
-                            orderExtensions(event.getExtensions(), Integer
-                                    .parseInt(eventExtensionId));
-                    event.setExtensions(orderedExtensions);
-                }
+                List<ExtensionDto> orderedExtensions =
+                        orderExtensions(event.getExtensions(), eventExtensionId);
+                event.setExtensions(orderedExtensions);
                 initEventDetailsView(context, event);
             }
 

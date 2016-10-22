@@ -149,12 +149,9 @@ public class EventsMapPresenter {
         }
         if (eventId != -1) {
             try {
-                String eventIdString = Integer.toString(eventId);
-                if (eventIdString == null) {
-                    throw (new NullPointerException("EVENT_ID resulta nulo."));
-                }
+                final int eventExtensionId = -1;
                 EventDetailsPresenter
-                        .loadEventDetails(context, eventIdString, null);
+                        .loadEventDetails(context, eventId, eventExtensionId);
             } catch (NullPointerException e) {
                 UIUtils.handleErrorMessage(context, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
                         context.getString(R.string.error_internal));

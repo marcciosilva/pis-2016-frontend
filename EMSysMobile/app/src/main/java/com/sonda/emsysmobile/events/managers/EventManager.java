@@ -102,7 +102,7 @@ public class EventManager {
         request.execute();
     }
 
-    public final void getEventDetail(String eventId, final ApiCallback<EventDto> callback) {
+    public final void getEventDetail(int eventId, final ApiCallback<EventDto> callback) {
         EventDetailsRequest<EventDetailsResponse> request =
                 new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
         request.setAttributes(eventId);

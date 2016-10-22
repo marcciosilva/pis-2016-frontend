@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
-        if (findViewById(R.id.extensions_fragment_container) != null) {
+        if (findViewById(R.id.fragment_container) != null) {
 
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
@@ -65,7 +65,7 @@ public class HomeActivity extends AppCompatActivity
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.extensions_fragment_container, extensionsFragment).commit();
+                    .add(R.id.fragment_container, extensionsFragment).commit();
             // Inicializacion de fragment de mapa.
             mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
@@ -99,8 +99,10 @@ public class HomeActivity extends AppCompatActivity
             if (eventExtensionZone == null) {
                 throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
             }
-            EventDetailsPresenter
-                    .loadEventDetails(HomeActivity.this, eventIdString, eventExtensionZone);
+//            EventDetailsPresenter
+//                    .loadEventDetails(HomeActivity.this, eventIdString, eventExtensionZone);
+            EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent()
+                    .getIdentifier(), extension.getIdentifier());
         } catch (NullPointerException e){
             UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
                     getString(R.string.error_internal));
@@ -157,7 +159,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.extensions_fragment_container, fragment, fragmentTAG).commit();
+                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {
