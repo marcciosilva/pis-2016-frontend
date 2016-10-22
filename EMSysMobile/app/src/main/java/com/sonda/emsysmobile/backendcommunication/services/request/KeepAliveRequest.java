@@ -14,7 +14,7 @@ public class KeepAliveRequest<T> extends AbstractRequest<T> {
     public static final String KEEP_ALIVE_PATH = "/users/expiration_time";
 
     public KeepAliveRequest(Context context, Type type) {
-        super(context, type, RequestType.GET);
+        super(context, type, RequestType.POST);
     }
 
     @Override
@@ -23,7 +23,5 @@ public class KeepAliveRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected final JsonObject getBody() {
-        return null;
-    }
+    protected final JsonObject getBody() { return null; }
 }

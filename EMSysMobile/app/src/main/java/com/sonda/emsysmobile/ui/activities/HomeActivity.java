@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
+import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
@@ -44,6 +45,9 @@ public class HomeActivity extends AppCompatActivity
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        // Start KeepAlive service.
+        Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
+        startService(intent);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -164,6 +168,9 @@ public class HomeActivity extends AppCompatActivity
             public void onResponse(LoginLogoutResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == 0) {
+                    // Stop KeepAlive service.
+                    Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
+                    stopService(intent);
                     // Se reinicia el token de autenticacion.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
