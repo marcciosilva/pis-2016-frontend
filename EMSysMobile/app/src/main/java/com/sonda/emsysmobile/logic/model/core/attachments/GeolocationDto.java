@@ -75,32 +75,4 @@ public class GeolocationDto implements Serializable {
         this.longitude = longitude;
     }
 
-    @Override
-    public final boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        GeolocationDto that = (GeolocationDto) o;
-
-        if (extensionIdentifier != that.extensionIdentifier) {
-            return false;
-        }
-        if (Double.compare(that.latitude, latitude) != 0) {
-            return false;
-        }
-        if (Double.compare(that.longitude, longitude) != 0) {
-            return false;
-        }
-        if (user != null ? !user.equals(that.user) : that.user != null) {
-            return false;
-        }
-        return createdDate != null ? createdDate.equals(that.createdDate) :
-                that.createdDate == null;
-
-    }
-
 }

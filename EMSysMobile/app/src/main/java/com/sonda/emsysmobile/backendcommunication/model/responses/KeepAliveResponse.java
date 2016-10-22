@@ -11,23 +11,34 @@ public class KeepAliveResponse extends EmsysResponse {
     @SerializedName("response")
     private KeepAliveDto keepAlive;
 
+    public KeepAliveResponse(KeepAliveDto keepAlive) {
+        this.keepAlive = keepAlive;
+    }
+
     public final KeepAliveDto getKeepAlive() {
         return keepAlive;
     }
 
-    public final void setExpirationTime(KeepAliveDto keep_alive) {
+    public final void setKeepAlive(KeepAliveDto keep_alive) {
         this.keepAlive = keep_alive;
     }
-/*
+
     @Override
-    public final boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        if (!KeepAliveResponse.class.isAssignableFrom(obj.getClass())) {
+        if (!super.equals(o)) {
             return false;
         }
-        final KeepAliveResponse other = (KeepAliveResponse) obj;
-        return (super.equals(other) && expirationTime == other.expirationTime);
-    }*/
+
+        final KeepAliveResponse that = (KeepAliveResponse) o;
+
+        return keepAlive != null ? keepAlive.equals(that.keepAlive) : that.keepAlive == null;
+
+    }
+
 }
