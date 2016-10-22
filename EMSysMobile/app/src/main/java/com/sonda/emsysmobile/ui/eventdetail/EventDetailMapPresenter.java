@@ -37,7 +37,7 @@ public class EventDetailMapPresenter {
     public static void loadEventDetails(final Context context, final EventDetailMapView view) {
         if (mEventDto != null) {
             EventManager eventManager = EventManager.getInstance(context);
-            eventManager.getEventDetail(Integer.toString(mEventDto.getIdentifier()),
+            eventManager.getEventDetail(mEventDto.getIdentifier(),
                     new ApiCallback<EventDto>() {
                         @Override
                         public void onSuccess(EventDto event) {

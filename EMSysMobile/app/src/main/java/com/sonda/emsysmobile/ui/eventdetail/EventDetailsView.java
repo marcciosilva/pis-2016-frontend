@@ -61,14 +61,14 @@ public class EventDetailsView extends AppCompatActivity implements
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
         // Inicializacion de fragment de extensiones.
-        if (findViewById(R.id.extensions_fragment_container) != null) {
+        if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState != null) {
                 return;
             }
             EventDetailExtensionsFragment extensionsFragment =
                     EventDetailExtensionsFragment.newInstance(mEvent);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.extensions_fragment_container, extensionsFragment).commit();
+                    .add(R.id.fragment_container, extensionsFragment).commit();
         }
 
         // Inicializacion de fragment de mapa.

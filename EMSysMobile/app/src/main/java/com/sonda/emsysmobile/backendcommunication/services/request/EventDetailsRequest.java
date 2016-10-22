@@ -15,7 +15,7 @@ public class EventDetailsRequest<T> extends AbstractRequest<T> {
     private static final String TAG = EventDetailsRequest.class.getName();
     public static final String EVENT_DETAILS_PATH = "/eventos/obtener";
 
-    private String eventId;
+    private int eventId;
 
 
     public EventDetailsRequest(Context context, Type responseType) {
@@ -24,7 +24,7 @@ public class EventDetailsRequest<T> extends AbstractRequest<T> {
 
     @Override
     protected final String getPath() {
-        return EVENT_DETAILS_PATH + "?idEvento=" + this.eventId;
+        return EVENT_DETAILS_PATH + "?idEvento=" + Integer.toString(eventId);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class EventDetailsRequest<T> extends AbstractRequest<T> {
         return null;
     }
 
-    public final void setAttributes(String eventId) {
+    public final void setAttributes(int eventId) {
         this.eventId = eventId;
     }
 }
