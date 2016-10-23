@@ -1,7 +1,6 @@
 package com.sonda.emsysmobile.backendcommunication.model.responses;
 
 import com.google.gson.annotations.SerializedName;
-import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
 
 /**
  * Created by nachoprbd on 16/10/2016.
@@ -9,25 +8,28 @@ import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
 public class KeepAliveResponse extends EmsysResponse {
 
     @SerializedName("response")
-    private KeepAliveDto keepAlive;
+    private ErrorResponse innerResponse;
 
-    public final KeepAliveDto getKeepAlive() {
-        return keepAlive;
+    public final ErrorResponse getInnerResponse() {
+        return innerResponse;
     }
 
-    public final void setExpirationTime(KeepAliveDto keep_alive) {
-        this.keepAlive = keep_alive;
+    public final void setInnerResponse(ErrorResponse innerResponse) {
+        this.innerResponse = innerResponse;
     }
-/*
+
     @Override
     public final boolean equals(Object obj) {
+
         if (obj == null) {
             return false;
         }
-        if (!KeepAliveResponse.class.isAssignableFrom(obj.getClass())) {
+        if (!LoginLogoutResponse.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
-        final KeepAliveResponse other = (KeepAliveResponse) obj;
-        return (super.equals(other) && expirationTime == other.expirationTime);
-    }*/
+        final LoginLogoutResponse other = (LoginLogoutResponse) obj;
+        return ((super.equals(obj)) && (innerResponse.equals(other.innerResponse)));
+    }
+
 }
+

@@ -8,7 +8,6 @@ import com.android.volley.Response;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequest;
-import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
 
 /**
  * Created by nachoprbd on 21/10/2016.
@@ -33,11 +32,7 @@ public class KeepAliveService extends Service {
                     try {
                         Thread.sleep(waiting_time);
                         if(logged){
-                            keep_alive(new VolleyCallbackKeepAlive(){
-                                @Override
-                                public void onSuccess(KeepAliveDto keepAlive) {
-                                }
-                            });
+                            keep_alive();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -58,29 +53,26 @@ public class KeepAliveService extends Service {
     public void onDestroy() {
         logged = false;
     }
-    private void keep_alive(final VolleyCallbackKeepAlive callback) {
+
+    private void keep_alive() {
         KeepAliveRequest<KeepAliveResponse> request = new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
         request.setListener(new Response.Listener<KeepAliveResponse>() {
             @Override
             public void onResponse(KeepAliveResponse response) {
                 final int responseCode = response.getCode();
-                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    KeepAliveDto keepAlive = response.getKeepAlive();
-                    callback.onSuccess(keepAlive);
-                } else {
-                    /*
-                    String errorMsg = response.getExpirationTime().getMsg();
+                if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()) {
                     handleErrorMessage(KeepAliveService.this, responseCode, errorMsg);
-                    */
                 }
             }
         });
-
-
+        response.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(KeepAliveService.this, error);
+            }
+        });
         request.execute();
         //Log.d("STATE", "keep alive!!" );
-    }
-    public interface VolleyCallbackKeepAlive {
-        void onSuccess(KeepAliveDto result);
     }
 }
