@@ -58,6 +58,7 @@ public class GsonGetRequest<T> extends Request<T>
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
             Log.d(TAG, "Error en la sintaxis del mensaje recibido. Chequear JSON.");
+            e.printStackTrace();
             return Response.error(new ParseError(e));
         }
     }
