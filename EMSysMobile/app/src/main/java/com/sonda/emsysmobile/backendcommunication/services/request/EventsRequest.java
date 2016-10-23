@@ -7,7 +7,6 @@ import java.lang.reflect.Type;
 /**
  * Created by marccio on 10/3/16.
  */
-
 public class EventsRequest<T> extends AbstractRequest<T> {
 
     public static final String EVENTS_PATH = "/eventos/listar";
@@ -24,10 +23,5 @@ public class EventsRequest<T> extends AbstractRequest<T> {
     @Override
     protected final JsonObject getBody() {
         return null;
-    }
-
-    @Override
-    public String getBaseURL() {
-        return "http://192.168.1.3:8081";
     }
 }

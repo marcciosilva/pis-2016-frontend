@@ -74,28 +74,32 @@ public class EventManager {
     }
 
     public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
-        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
-        request.setListener(new Response.Listener<EventsResponse>() {
-            @Override
-            public void onResponse(EventsResponse response) {
-                int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
-                    setEvents(response.getEvents());
-                    callback.onSuccess(getExtensionsList());
-                } else {
-                    //TODO soportar mensaje de error en EventsResponse
-                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
-                    callback.onLogicError("Unsupported", 1);
+        if (mExtensions.size() == 0) {
+            EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+            request.setListener(new Response.Listener<EventsResponse>() {
+                @Override
+                public void onResponse(EventsResponse response) {
+                    int responseCode = response.getCode();
+                    if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                        setEvents(response.getEvents());
+                        callback.onSuccess(getExtensionsList());
+                    } else {
+                        //TODO soportar mensaje de error en EventsResponse
+                        //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                        callback.onLogicError("Unsupported", 1);
+                    }
                 }
-            }
-        });
-        request.setErrorListener(new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                callback.onNetworkError(error);
-            }
-        });
-        request.execute();
+            });
+            request.setErrorListener(new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onNetworkError(error);
+                }
+            });
+            request.execute();
+        } else {
+            callback.onSuccess(getExtensionsList());
+        }
     }
 
     public final void fetchEvents(final ApiCallback<List<EventDto>> callback) {
@@ -189,13 +193,15 @@ public class EventManager {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
                     Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
-                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
+//                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
                         updateEvents(null, null);
-                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
-                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
-                        //TODO: Update just one event with an API Call
-                        extensionDto.setModified(true);
-                    }
+//                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
+//                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
+//                        //TODO: Update just one event with an API Call
+//                        extensionDto.setModified(true);
+//                        Intent eventsIntent = new Intent(EVENTS_UPDATED);
+//                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+//                    }
                 }
             }
         }

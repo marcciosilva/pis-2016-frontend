@@ -11,7 +11,7 @@
 
         <View
             android:id="@+id/view_priority_mark"
-            android:layout_width="6dp"
+            android:layout_width="8dp"
             android:layout_height="@dimen/row_height_normal"
             android:background="@android:color/holo_red_light"/>
 
@@ -21,7 +21,7 @@
             android:layout_height="20dp"
             android:layout_marginLeft="@dimen/spacing_small"
             android:layout_gravity="center_vertical"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:background="@drawable/blue_circle">
 
         </View>
@@ -29,7 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/spacing_small"
+            android:layout_marginRight="@dimen/spacing_normal"
             android:orientation="vertical">
 
             <LinearLayout

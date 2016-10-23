@@ -52,17 +52,6 @@ public abstract class AbstractRequest<T> {
         this.context = context;
     }
 
-    /**
-     * If some request needs a different URL can Override this method.
-     * Can be used to set different environment just for one Request.
-     *
-     * @return A string with the BaseURL for the request.
-     */
-    public String getBaseURL() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
-    }
-
     public final Type getResponseType() {
         return responseType;
     }
@@ -98,4 +87,15 @@ public abstract class AbstractRequest<T> {
     protected abstract String getPath();
 
     protected abstract JsonObject getBody();
+
+    /**
+     * If some request needs a different URL can Override this method.
+     * Can be used to set different environment just for one Request.
+     *
+     * @return A string with the BaseURL for the request.
+     */
+    protected String getBaseURL() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
+    }
 }

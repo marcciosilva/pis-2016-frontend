@@ -31,14 +31,14 @@ public class EndpointService<T> {
         this.context = context;
     }
 
-    public final void execute(String baseUrl, AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
-        Log.d(TAG, "Base URL: " + baseUrl);
-        baseUrl += path;
+    public final void execute(String url, AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
+        Log.d(TAG, "Base URL: " + url);
+        url += path;
         if (jsonObject != null) {
             // Se imprime body en json a enviar y la IP a la que va dirigida la request.
             Log.d(TAG, jsonObject.toString());
         }
-        Log.d("IP_REQUEST", baseUrl);
+        Log.d("IP_REQUEST", url);
         // Se obtiene el token de autenticacion.
         String accessToken = getAccesToken();
         Request<T> request = null;
@@ -53,14 +53,14 @@ public class EndpointService<T> {
         }
         // Genero una GET o POST request dependiendo del requestType.
         if (requestType == AbstractRequest.RequestType.GET) {
-            request = new GsonGetRequest(baseUrl, type, listener, errorListener) {
+            request = new GsonGetRequest(url, type, listener, errorListener) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     return mHeaders;
                 }
             };
         } else if (requestType == AbstractRequest.RequestType.POST) {
-            request = new GsonPostRequest(baseUrl, jsonObjectString, type, listener, errorListener) {
+            request = new GsonPostRequest(url, jsonObjectString, type, listener, errorListener) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     return mHeaders;

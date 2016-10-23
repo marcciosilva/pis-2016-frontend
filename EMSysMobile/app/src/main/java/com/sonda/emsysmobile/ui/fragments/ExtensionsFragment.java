@@ -75,6 +75,7 @@ public class ExtensionsFragment extends Fragment {
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
+        showSpinner(true);
         getEvents();
 
         return view;
@@ -99,12 +100,11 @@ public class ExtensionsFragment extends Fragment {
     }
 
     private void getEvents() {
-        mProgressBar.setVisibility(View.VISIBLE);
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
         eventManager.fetchExtensions(new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
-                mProgressBar.setVisibility(View.GONE);
+                showSpinner(false);
                 mExtensions = extensions;
                 ExtensionRecyclerViewAdapter adapter = (ExtensionRecyclerViewAdapter) mRecyclerView.getAdapter();
                 if (adapter == null) {
@@ -116,21 +116,30 @@ public class ExtensionsFragment extends Fragment {
 
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
-                mProgressBar.setVisibility(View.GONE);
+                showSpinner(false);
                 UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
             }
 
             @Override
             public void onNetworkError(VolleyError error) {
-                mProgressBar.setVisibility(View.GONE);
+                showSpinner(false);
                 handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        showSpinner(true);
                         getEvents();
                     }
                 });
             }
         });
+    }
+
+    private void showSpinner(boolean visible) {
+        if (visible) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
