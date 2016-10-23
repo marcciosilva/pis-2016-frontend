@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
    "cod": 0,
    "response": [{
       "id": 1,
@@ -262,4 +263,104 @@
       "audios": []
    }
 ]
+=======
+    "cod": 0,
+    "response": [
+        {
+            "id": 1,
+            "informante": null,
+            "telefono": null,
+            "categoria": {
+                "id": 1,
+                "codigo": "cod1",
+                "clave": "Categoria de prueba 1",
+                "prioridad": "baja",
+                "activo": true
+            },
+            "estado": "enviado",
+            "time_stamp": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "departamento": null,
+            "calle": null,
+            "esquina": null,
+            "numero": null,
+            "sector": "sector1",
+            "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
+            "en_proceso": true,
+            "extensiones": [
+                {
+                	"id": 1,
+                    "zona": {
+                        "id": 1,
+                        "nombre": "zona1",
+                        "nombre_ue": "ue1"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "informante": null,
+            "telefono": null,
+            "categoria": {
+                "id": 1,
+                "codigo": "cod1",
+                "clave": "Categoria de prueba 1",
+                "prioridad": "baja",
+                "activo": true
+            },
+            "estado": "enviado",
+            "time_stamp": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "departamento": null,
+            "calle": null,
+            "esquina": null,
+            "numero": null,
+            "sector": "sector1",
+            "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
+            "en_proceso": true,
+		    "latitud": -34.908599,
+		    "longitud": -56.201376,            
+            "extensiones": [
+                {
+                	"id": 2,
+                    "zona": {
+                        "id": 2,
+                        "nombre": "zona2",
+                        "nombre_ue": "ue2"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                },
+                {
+                	"id": 3,
+                    "zona": {
+                        "id": 3,
+                        "nombre": "zona3",
+                        "nombre_ue": "ue3"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                }                
+            ]
+        }        
+    ]
+>>>>>>> dev
 }

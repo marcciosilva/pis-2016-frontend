@@ -2,13 +2,14 @@ package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ssainz on 9/25/16.
  */
-public class EventDto {
+public class EventDto implements Serializable {
 
     @SerializedName("id")
     private int identifier;
@@ -22,8 +23,11 @@ public class EventDto {
     @SerializedName("time_stamp")
     private Date timeStamp;
 
-    @SerializedName("fecha")
+    @SerializedName("fecha_creacion")
     private Date createdDate;
+
+    @SerializedName("estado")
+    private String status;
 
     @SerializedName("en_proceso")
     private boolean inProcess;
@@ -121,6 +125,14 @@ public class EventDto {
         this.createdDate = createdDate;
     }
 
+    public final String getStatus() {
+        return status;
+    }
+
+    public final void setStatus(String status) {
+        this.status = status;
+    }
+
     public final boolean isInProcess() {
         return inProcess;
     }
@@ -193,19 +205,19 @@ public class EventDto {
         this.category = category;
     }
 
-    public double getLatitude() {
+    public final double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public final void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public double getLongitude() {
+    public final double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
+    public final void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

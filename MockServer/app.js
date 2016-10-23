@@ -17,6 +17,8 @@ Object.defineProperty(Object.prototype,'Enum', {
 
 var events = require('./services/events-service.js');
 var users = require('./services/users-service.js');
+var consumeWS = require('./services/consumeWS-service.js');
+
 
 var express = require('express')
   , app = express();
@@ -33,6 +35,7 @@ app.configure(function(){
 
 app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
+app.get('/eventos/obtener', events.getEventDetail);
 
 
 //just a special get to test more easily
@@ -115,6 +118,37 @@ switch (loginChoice) {
 		break;
 	case LoginChoice.Fail:
 		app.post('/users/login', users.postUserLoginFail);
+		break;
+	default:
+		break;
+}
+
+//consumeWS
+var WSChoice={};
+WSChoice.Enum('Success', 'Fail');
+wsChoice = LoginChoice.Success;
+switch (wsChoice) {
+	case WSChoice.Success:
+		app.post('/consumeWS', consumeWS.postConsumeWSSuccess);
+		break;
+	case WSChoice.Fail:
+		app.post('/consumeWS', consumeWS.postConsumeWSError);
+		break;
+	default:
+		break;
+}
+
+
+// keepAlive
+var KeepAliveChoice={};
+KeepAliveChoice.Enum('Success', 'Fail');
+keepAliveChoice = KeepAliveChoice.Success;
+switch (keepAliveChoice) {
+	case KeepAliveChoice.Success:
+		app.post('/users/expiration_time', users.postUserKeepAliveSuccess);
+		break;
+	case KeepAliveChoice.Fail:
+		app.post('/users/expiration_time', users.postUserKeepAliveFail);
 		break;
 	default:
 		break;

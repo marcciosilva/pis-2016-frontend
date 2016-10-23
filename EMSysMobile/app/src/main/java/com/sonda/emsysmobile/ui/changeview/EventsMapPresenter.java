@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.changeview;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,17 +8,18 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
+import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -28,6 +29,10 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 public class EventsMapPresenter {
 
     private static final String TAG = EventsMapPresenter.class.getName();
+
+    private EventsMapPresenter() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
 
     public static void loadEvents(final Context context, final EventsMapView view) {
         EventManager eventManager = EventManager.getInstance(context);
@@ -90,9 +95,11 @@ public class EventsMapPresenter {
             double dx = Math.random();
             // Offset para latitud.
             double dy = Math.random();
-            double latitude = event.getLatitude() + (180 / Math.PI) * (dy / 6378137);
-            double longitude = event.getLongitude() + (180 / Math.PI) * (dx / 6378137)
-                    / Math.cos(Math.PI / 180.0 * event.getLatitude());
+            final int i = 180;
+            final int i1 = 6378137;
+            double latitude = event.getLatitude() + (i / Math.PI) * (dy / i1);
+            double longitude = event.getLongitude() + (i / Math.PI) * (dx / i1)
+                    / Math.cos(Math.PI / i * event.getLatitude());
             ll = new LatLng(latitude, longitude);
         }
         // Se informa si hubo un cambio de coordenadas debido a colisiones.
@@ -121,4 +128,38 @@ public class EventsMapPresenter {
         return false;
     }
 
+    /**
+     * Se encarga de hacer lo necesario para que el presenter del detalle del evento
+     * pueda encargarse de mostrar la vista correspondiente.
+     * Si el evento no se encuentra, se devuelve false, y si la operacion es exitosa
+     * se devuelve true.
+     *
+     * @param context
+     * @param customMarkerData
+     * @return
+     */
+    public static boolean showEventDetail(final Context context, CustomMarkerData
+            customMarkerData) {
+        int eventId = -1;
+        // Obtengo id del evento a partir del titulo del marker.
+        Pattern p = Pattern.compile(".* (\\d)+ -");
+        Matcher m = p.matcher(customMarkerData.getTitle());
+        if (m.find()) {
+            eventId = Integer.parseInt(m.group(1));
+        }
+        if (eventId != -1) {
+            try {
+                final int eventExtensionId = -1;
+                EventDetailsPresenter
+                        .loadEventDetails(context, eventId, eventExtensionId);
+            } catch (NullPointerException e) {
+                UIUtils.handleErrorMessage(context, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
+                        context.getString(R.string.error_internal));
+                Log.d(TAG, e.getMessage());
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

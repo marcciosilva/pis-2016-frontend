@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
+
+    <EditText
+        android:id="@+id/first_param_et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/first_param_tv"
+        android:layout_alignStart="@+id/second_param_et"
+        android:layout_alignLeft="@+id/second_param_et"
+        android:layout_toEndOf="@+id/first_param_tv"
+        android:text="@string/dummy_first_field_external_service_row" />
+
+    <EditText
+        android:id="@+id/second_param_et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/second_param_tv"
+        android:layout_toEndOf="@+id/second_param_tv"
+        android:layout_below="@+id/first_param_et"
+        android:text="@string/dummy_second_field_external_service_row"/>
+
+    <EditText
+        android:id="@+id/third_param_et"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/first_param_et"
+        android:layout_alignStart="@+id/first_param_et"
+        android:layout_below="@+id/second_param_et"
+        android:text="@string/dummy_third_field_external_service_row" />
+
+    <TextView
+        android:id="@+id/first_param_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/first_param_et"
+        android:layout_alignBaseline="@+id/first_param_et"
+        android:layout_alignTop="@+id/first_param_et"
+        android:text="@string/first_param" />
+
+    <TextView
+        android:id="@+id/second_param_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/first_param_tv"
+        android:layout_alignStart="@+id/first_param_tv"
+        android:layout_alignBottom="@+id/second_param_et"
+        android:layout_alignBaseline="@+id/second_param_et"
+        android:layout_alignTop="@+id/second_param_et"
+        android:text="@string/second_param"/>
+
+    <TextView
+        android:id="@+id/third_param_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/third_param"
+        android:layout_alignBaseline="@+id/third_param_et"
+        android:layout_alignBottom="@+id/third_param_et"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/third_param_et"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:id="@+id/query_btn"
+        android:text="@string/query"/>
+
+</RelativeLayout>

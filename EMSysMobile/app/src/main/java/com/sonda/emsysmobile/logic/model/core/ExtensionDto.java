@@ -1,13 +1,16 @@
 package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by ssainz on 9/30/16.
  */
-public class ExtensionDto {
+public class ExtensionDto implements Serializable {
 
     @SerializedName("id")
     private int identifier;
@@ -33,16 +36,21 @@ public class ExtensionDto {
      */
     private boolean isModified;
 
+    @SerializedName("geo_ubicaciones")
+    private List<GeolocationDto> geolocations;
+
     private transient EventDto event;
 
     public ExtensionDto(int identifier, String description, ExtensionState extensionState,
-                        Date timeStamp, CategoryDto category, ZoneDto zone, EventDto event) {
+                        Date timeStamp, CategoryDto category, ZoneDto zone,
+                        List<GeolocationDto> geolocations, EventDto event) {
         this.identifier = identifier;
         this.description = description;
         this.extensionState = extensionState;
         this.timeStamp = timeStamp;
         this.category = category;
         this.zone = zone;
+        this.geolocations = geolocations;
         this.event = event;
     }
 
@@ -121,11 +129,19 @@ public class ExtensionDto {
         }
         CategoryDto eventCategory = event.getCategory();
         if (eventCategory != null) {
-            //Should alway have an event priority, just in case.
+            //Should always have an event priority, just in case.
             return eventCategory.getPriority();
         }
         //Default priority is LOW.
         return CategoryPriority.LOW;
+    }
+
+    public final List<GeolocationDto> getGeolocations() {
+        return geolocations;
+    }
+
+    public final void setGeolocations(List<GeolocationDto> geolocations) {
+        this.geolocations = geolocations;
     }
 
     @Override
@@ -156,6 +172,11 @@ public class ExtensionDto {
         if (category != null ? !category.equals(that.category) : that.category != null) {
             return false;
         }
+        if (geolocations != null ? !geolocations.equals(that.geolocations) :
+                that.geolocations != null) {
+            return false;
+        }
+
         return zone != null ? zone.equals(that.zone) : that.zone == null;
 
     }

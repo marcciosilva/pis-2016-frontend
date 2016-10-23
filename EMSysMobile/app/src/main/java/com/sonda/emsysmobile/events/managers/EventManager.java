@@ -10,13 +10,14 @@ import android.util.SparseArray;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.ApiCallback;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
-import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
@@ -24,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by ssainz on 10/1/16.
@@ -62,6 +61,7 @@ public class EventManager {
 
     /**
      * Singleton para manejar objetos de eventos y extensiones.
+     *
      * @param context Debe ser el contexto de la aplicacion para realizar requests con el contexto
      *                correcto.
      * @return Una instancia de EventManager.
@@ -80,7 +80,7 @@ public class EventManager {
                 @Override
                 public void onResponse(EventsResponse response) {
                     int responseCode = response.getCode();
-                    if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                         setEvents(response.getEvents());
                         callback.onSuccess(getExtensionsList());
                     } else {
@@ -108,7 +108,7 @@ public class EventManager {
                 @Override
                 public void onResponse(EventsResponse response) {
                     int responseCode = response.getCode();
-                    if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                    if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                         setEvents(response.getEvents());
                         callback.onSuccess(mEvents);
                     } else {
@@ -153,10 +153,42 @@ public class EventManager {
         request.execute();
     }
 
+    public final void getEventDetail(int eventId, final ApiCallback<EventDto> callback) {
+        EventDetailsRequest<EventDetailsResponse> request =
+                new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
+        request.setAttributes(eventId);
+        request.setListener(new Response.Listener<EventDetailsResponse>() {
+            @Override
+            public void onResponse(EventDetailsResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    EventDto event = response.getEvent();
+                    if (event != null) {
+                        for (ExtensionDto extension : event.getExtensions()) {
+                            extension.setEvent(event);
+                        }
+                    }
+                    callback.onSuccess(event);
+                } else {
+                    //TODO soportar mensaje de error en EventsResponse
+                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                    callback.onLogicError("Unsupported", 1);
+                }
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.onNetworkError(error);
+            }
+        });
+        request.execute();
+    }
+
     private void setEvents(List<EventDto> events) {
         mEvents = events;
         mExtensions.clear();
-        for (EventDto event: mEvents) {
+        for (EventDto event : mEvents) {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
                 extension.setEvent(event);
@@ -193,15 +225,15 @@ public class EventManager {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
                     Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
-//                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
+                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
                         updateEvents(null, null);
-//                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
-//                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
-//                        //TODO: Update just one event with an API Call
-//                        extensionDto.setModified(true);
-//                        Intent eventsIntent = new Intent(EVENTS_UPDATED);
-//                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
-//                    }
+                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
+                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
+                        //TODO: Update just one event with an API Call
+                        extensionDto.setModified(true);
+                        Intent eventsIntent = new Intent(EVENTS_UPDATED);
+                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+                    }
                 }
             }
         }

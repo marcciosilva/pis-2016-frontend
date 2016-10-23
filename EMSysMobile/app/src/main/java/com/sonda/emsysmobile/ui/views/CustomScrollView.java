@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CustomScrollView extends ScrollView {
 
-    List<View> mInterceptScrollViews = new ArrayList<>();
+    private List<View> mInterceptScrollViews = new ArrayList<>();
 
     public CustomScrollView(Context context) {
         super(context);
@@ -30,17 +30,24 @@ public class CustomScrollView extends ScrollView {
         super(context, attrs, defStyle);
     }
 
+    public List<View> getmInterceptScrollViews() {
+        return mInterceptScrollViews;
+    }
 
-    public void addInterceptScrollView(View view) {
+    public void setmInterceptScrollViews(List<View> mInterceptScrollViews) {
+        this.mInterceptScrollViews = mInterceptScrollViews;
+    }
+
+    public final void addInterceptScrollView(View view) {
         mInterceptScrollViews.add(view);
     }
 
-    public void removeInterceptScrollView(View view) {
+    public final void removeInterceptScrollView(View view) {
         mInterceptScrollViews.remove(view);
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
+    public final boolean onInterceptTouchEvent(MotionEvent event) {
 
         // check if we have any views that should use their own scrolling
         if (mInterceptScrollViews.size() > 0) {

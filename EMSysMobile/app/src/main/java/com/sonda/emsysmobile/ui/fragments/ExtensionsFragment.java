@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -70,7 +68,7 @@ public class ExtensionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_extensions, container, false);
 
         Context context = view.getContext();
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.list_extensions);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
@@ -157,20 +155,6 @@ public class ExtensionsFragment extends Fragment {
     public final void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(ExtensionDto item);
     }
 
     /**

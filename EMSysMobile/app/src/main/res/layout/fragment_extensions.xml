@@ -17,7 +17,7 @@
         style="?android:attr/progressBarStyle" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_extensions"
+        android:id="@+id/event_detail_list_extensions"
         android:name="com.sonda.emsysmobile.ExtensionsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

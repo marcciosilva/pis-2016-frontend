@@ -17,7 +17,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.GetRolesRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
@@ -89,7 +89,7 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onResponse(GetRolesResponse response) {
                 final int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     RoleDto roles = response.getRoles();
                     callback.onSuccess(roles);
                 } else {

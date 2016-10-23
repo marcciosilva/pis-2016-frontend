@@ -40,6 +40,8 @@ public class SplashActivity extends AppCompatActivity {
         //sharedPrefs.edit().clear().commit();
         final String backendUrl = "backendUrl";
         String currentBackendUrl = sharedPrefs.getString(backendUrl, null);
+        String token = sharedPrefs.getString("access_token", "No hay un token guardado");
+        Log.d(TAG, "TOKEN: " + token);
         // Si la url del backend no esta definida en preferencias, se setea en base a BuildConfig.
         if (currentBackendUrl == null) {
             Log.d(TAG, "Setting up preferences...");

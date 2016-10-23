@@ -23,7 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ResponseCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.LoginRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
@@ -172,7 +172,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             public void onResponse(LoginLogoutResponse response) {
                 // Parseo el codigo de respuesta y determino el exito de la operacion.
                 final int responseCode = response.getCode();
-                if (responseCode == ResponseCodeCategory.SUCCESS.getNumVal()) {
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     callback.onSuccess();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
