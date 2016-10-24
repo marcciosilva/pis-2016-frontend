@@ -16,7 +16,8 @@ public final class MapUtils {
 
     public static boolean areBoundsTooSmall(LatLngBounds bounds, int minDistanceInMeter) {
         float[] result = new float[1];
-        Location.distanceBetween(bounds.southwest.latitude, bounds.southwest.longitude, bounds.northeast.latitude, bounds.northeast.longitude, result);
+        Location.distanceBetween(bounds.southwest.latitude, bounds.southwest.longitude, bounds
+                .northeast.latitude, bounds.northeast.longitude, result);
         return result[0] < minDistanceInMeter;
     }
 

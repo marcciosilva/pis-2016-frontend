@@ -46,4 +46,14 @@ public class PrivateConstructorsTest {
         constructor.newInstance();
     }
 
+    @Test
+    public void testConstructorMapUtilsIsPrivate() throws NoSuchMethodException,
+            IllegalAccessException,
+            InstantiationException, InvocationTargetException {
+        Constructor<MapUtils> constructor = MapUtils.class.getDeclaredConstructor();
+        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        constructor.setAccessible(true);
+        constructor.newInstance();
+    }
+
 }
