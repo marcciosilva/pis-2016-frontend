@@ -24,4 +24,9 @@ public class EventsRequest<T> extends AbstractRequest<T> {
     protected final JsonObject getBody() {
         return null;
     }
+
+    @Override
+    protected String getBaseURL() {
+        return "http://192.168.1.6:8081";
+    }
 }

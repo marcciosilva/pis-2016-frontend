@@ -47,6 +47,7 @@ dependencies {
     compile 'com.androidmapsextensions:android-maps-extensions:2.2.0'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.github.clans:fab:1.6.2'
 }
 
 repositories {

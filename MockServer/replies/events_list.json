@@ -92,7 +92,7 @@
       "geo_ubicaciones": [{
         "idExtension": 0,
         "usuario": null,
-        "fecha_envio": "0001-01-01T00:00:00",
+        "fecha_envio": "2016-10-23T18:59:08.303",
         "longitud": -34.917127,
         "latitud": -56.167158
       }]
@@ -117,7 +117,7 @@
       "geo_ubicaciones": [{
         "idExtension": 0,
         "usuario": null,
-        "fecha_envio": "0001-01-01T00:00:00",
+        "fecha_envio": "2016-10-23T18:59:08.303",
         "longitud": -34.905672,
         "latitud": -56.15563
       }]
