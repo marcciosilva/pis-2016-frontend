@@ -32,13 +32,10 @@ import java.util.List;
 public class EventManager {
 
     private static final String NOTIFICATION_KEY = "notification";
-    private static final String EVENTS_KEY = "events";
     private static final String EVENTS_UPDATED = "events_updated";
-    private static final String ONE_EVENT_UPDATED = "one_event_updated";
 
     private static EventManager mInstance;
     private Context mContext;
-
     private List<EventDto> mEvents;
 
     /**
@@ -229,7 +226,6 @@ public class EventManager {
                         updateEvents(null, null);
                     } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
                         ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
-                        //TODO: Update just one event with an API Call
                         extensionDto.setModified(true);
                         Intent eventsIntent = new Intent(EVENTS_UPDATED);
                         LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
