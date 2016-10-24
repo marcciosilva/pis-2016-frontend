@@ -24,7 +24,7 @@ public class ExtensionDto implements Serializable {
     @SerializedName("time_stamp")
     private Date timeStamp;
 
-    @SerializedName("categoria")
+    @SerializedName("segunda_categoria")
     private CategoryDto category;
 
     @SerializedName("zona")
