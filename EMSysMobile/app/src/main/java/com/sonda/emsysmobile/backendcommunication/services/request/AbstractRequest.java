@@ -38,6 +38,7 @@ public abstract class AbstractRequest<T> {
 
         EndpointService endpointService = new EndpointService(context);
         endpointService.execute(requestType, path, jsonObject, responseType, listener, errorListener);
+
     }
 
     public final Context getContext() {

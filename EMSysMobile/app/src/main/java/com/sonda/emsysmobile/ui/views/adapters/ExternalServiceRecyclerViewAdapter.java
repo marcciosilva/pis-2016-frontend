@@ -74,15 +74,15 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<Ext
             this.item = item;
         }
 
-        public TextView getFirstField() {
+        public final TextView getFirstField() {
             return firstField;
         }
 
-        public TextView getSecondField() {
+        public final TextView getSecondField() {
             return secondField;
         }
 
-        public TextView getThirdField() {
+        public final TextView getThirdField() {
             return thirdField;
         }
 

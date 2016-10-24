@@ -8,11 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;

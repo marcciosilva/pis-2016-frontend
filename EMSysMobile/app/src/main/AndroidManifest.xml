@@ -44,13 +44,18 @@
             android:name=".ui.activities.HomeActivity"
             android:configChanges="orientation|screenSize" />
         <activity
+            android:name=".ui.eventdetail.EventDetailsView"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
             android:name=".ui.activities.ExternalServiceResultActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.ExternalServiceDetailActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar"/>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:theme="@style/NoActionBar">
@@ -60,6 +65,7 @@
             </intent-filter>
         </activity>
         <!-- SERVICES -->
+        <service android:name=".backendcommunication.services.KeepAliveService" />
         <service android:name=".notifications.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -76,8 +82,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM"
-            />
+            android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM" />
     </application>
 
 </manifest>

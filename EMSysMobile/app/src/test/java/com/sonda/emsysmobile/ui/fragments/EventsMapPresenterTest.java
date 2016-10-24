@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.fragments;
 
 import com.sonda.emsysmobile.BaseMockTest;
+import com.sonda.emsysmobile.ui.changeview.EventsMapPresenter;
+import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -35,6 +35,7 @@ app.configure(function(){
 
 app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
+app.get('/eventos/obtener', events.getEventDetail);
 app.post('/adjuntos/postgeoubicacion', adjuntos.postGeoLocation);
 
 
@@ -142,13 +143,13 @@ switch (wsChoice) {
 // keepAlive
 var KeepAliveChoice={};
 KeepAliveChoice.Enum('Success', 'Fail');
-KeepAliveChoice = LoginChoice.Success;
-switch (KeepAliveChoice) {
+keepAliveChoice = KeepAliveChoice.Success;
+switch (keepAliveChoice) {
 	case KeepAliveChoice.Success:
-		app.get('/users/expiration_time', users.getUserKeepAliveSuccess);
+		app.post('/users/expiration_time', users.postUserKeepAliveSuccess);
 		break;
 	case KeepAliveChoice.Fail:
-		app.get('/users/expiration_time', users.getUserKeepAliveFail);
+		app.post('/users/expiration_time', users.postUserKeepAliveFail);
 		break;
 	default:
 		break;

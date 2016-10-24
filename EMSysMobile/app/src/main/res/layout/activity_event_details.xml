@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_event_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.eventdetail.EventDetailsView">
+
+    <com.sonda.emsysmobile.ui.views.CustomScrollView
+        android:id="@+id/main_scrollview_map_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_normal"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Fecha de creación"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/event_date_created" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Estado"
+                        style="@style/EventDetails.FieldLabel" />
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/event_status" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Nombre informante"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_name" />
+
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Telefono informante"
+                        style="@style/EventDetails.FieldLabel" />
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_phone" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Calle"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_street" />
+                    <TextView
+                        android:text="Número"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_number" />
+
+                    <TextView
+                        android:text="Esquina"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_corner" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Departamento"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_department" />
+
+                    <TextView
+                        android:text="Sector"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/informant_sector" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/map_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Motivo"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/category" />
+
+                    <TextView
+                        android:text="Origen"
+                        style="@style/EventDetails.FieldLabel"/>
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/origin" />
+                </LinearLayout>
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+                    <TextView
+                        android:text="Tipo de alarma"
+                        style="@style/EventDetails.FieldLabel"/>
+
+                    <TextView
+                        android:text="@string/event_details_missing_value"
+                        style="@style/EventDetails.FieldValue"
+                        android:id="@+id/type" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/EventDetails.HalfLinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </com.sonda.emsysmobile.ui.views.CustomScrollView>
+</RelativeLayout>

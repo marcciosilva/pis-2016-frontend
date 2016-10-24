@@ -23,7 +23,6 @@ public class ExternalServiceQueryFragment extends Fragment {
     private EditText mFirstParamET;
     private EditText mSecondParamET;
     private EditText mThirdParamET;
-    private Button mQueryBtn;
 
     public static ExtensionsFragment newInstance() {
         return new ExtensionsFragment();
@@ -47,7 +46,7 @@ public class ExternalServiceQueryFragment extends Fragment {
 
         // Obtengo el botón y le incluyo el action del mismo
 
-        mQueryBtn = (Button) view.findViewById(R.id.query_btn);
+        Button mQueryBtn = (Button) view.findViewById(R.id.query_btn);
         mQueryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

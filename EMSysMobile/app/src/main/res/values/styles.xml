@@ -54,6 +54,37 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <style name="EventDetails">
+    </style>
+
+    <style name="EventDetails.HalfLinear">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">50</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/spacing_small</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
+        <item name="android:paddingLeft">@dimen/spacing_normal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="EventDetails.FieldLabel">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_tiny</item>
+        <item name="android:textSize">@dimen/font_normal</item>
+    </style>
+
+    <style name="EventDetails.FieldValue">
+        <item name="android:textColor">@color/gray_dark</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_small</item>
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+
     <style name="BigBlueText" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@color/colorPrimary_700</item>
         <item name="android:textSize">@dimen/font_large</item>

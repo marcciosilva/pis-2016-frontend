@@ -19,13 +19,16 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
+import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
-import com.sonda.emsysmobile.ui.fragments.EventsMapView;
+import com.sonda.emsysmobile.ui.changeview.EventsMapView;
+import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
+import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -33,7 +36,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends AppCompatActivity
-        implements ExtensionsFragment.OnListFragmentInteractionListener {
+        implements OnListFragmentInteractionListener {
 
     private static final String TAG = HomeActivity.class.getName();
     private EventsMapView mMapFragment = null;
@@ -42,6 +45,9 @@ public class HomeActivity extends AppCompatActivity
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        // Start KeepAlive service.
+        Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
+        startService(intent);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -76,13 +82,32 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
+    public final void onBackPressed() {
+        DialogFragment dialog =
+                UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
         dialog.show(getSupportFragmentManager(), TAG);
     }
 
     @Override
-    public void onListFragmentInteraction(ExtensionDto item) {
+    public final void onListFragmentInteraction(ExtensionDto extension) {
+        try {
+            String eventIdString = Integer.toString(extension.getEvent().getIdentifier());
+            if (eventIdString == null) {
+                throw(new NullPointerException("EVENT_ID resulta nulo."));
+            }
+            String eventExtensionZone = Integer.toString(extension.getIdentifier());
+            if (eventExtensionZone == null) {
+                throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
+            }
+//            EventDetailsPresenter
+//                    .loadEventDetails(HomeActivity.this, eventIdString, eventExtensionZone);
+            EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent()
+                    .getIdentifier(), extension.getIdentifier());
+        } catch (NullPointerException e){
+            UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
+                    getString(R.string.error_internal));
+            Log.d(TAG, e.getMessage());
+        }
     }
 
     @Override
@@ -100,7 +125,9 @@ public class HomeActivity extends AppCompatActivity
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                ExtensionsFragment extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                ExtensionsFragment extensionsFragment =
+                        (ExtensionsFragment) getSupportFragmentManager()
+                                .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
                     extensionsFragment = new ExtensionsFragment();
                     replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
@@ -131,18 +158,24 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment, fragmentTAG).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
     }
 
     private void logout() {
-        LogoutRequest<LoginLogoutResponse> request = new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
+        LogoutRequest<LoginLogoutResponse> request =
+                new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
         request.setListener(new Response.Listener<LoginLogoutResponse>() {
             @Override
             public void onResponse(LoginLogoutResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == 0) {
+                    // Stop KeepAlive service.
+                    Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
+                    stopService(intent);
                     // Se reinicia el token de autenticacion.
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", "").commit();
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
+                            .putString("access_token", "").commit();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
@@ -154,7 +187,8 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface.OnClickListener() {
+                handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface
+                        .OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         logout();
