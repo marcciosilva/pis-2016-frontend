@@ -137,6 +137,13 @@ public class EventDetailsView extends AppCompatActivity implements
 
     public void goToGeoLocActivity(){
         Intent intent = new Intent(this, AttachGeoLocActivity.class);
+        Bundle b = new Bundle();
+        // OJO! Aca hay que pasar los datos de la extension a la que se le quiere adjuntar la GeoLoc
+        // Esta asi para probar
+        b.putInt("ExtId", mEvent.getIdentifier());
+        b.putDouble("ExtLat", mEvent.getLatitude());
+        b.putDouble("ExtLong", mEvent.getLongitude());
+        intent.putExtras(b);
         startActivity(intent);
     }
 

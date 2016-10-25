@@ -22,6 +22,7 @@ public class AttachGeoLocActivity extends AppCompatActivity {
         // Inicializacion de fragment de mapa.
         mGeoLocFragment = AttachGeoLocView.getInstance();
         CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
-        mGeoLocFragment.initializeView(this, mainScrollView);
+        Bundle b = getIntent().getExtras();
+        mGeoLocFragment.initializeView(this, mainScrollView, b.getInt("ExtId"), b.getDouble("ExtLat"), b.getDouble("ExtLong"));
     }
 }

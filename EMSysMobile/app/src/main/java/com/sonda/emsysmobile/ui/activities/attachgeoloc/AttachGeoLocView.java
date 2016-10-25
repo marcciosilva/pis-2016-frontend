@@ -5,32 +5,51 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
+
+import java.util.Date;
 
 /**
  * Created by Pape on 10/24/2016.
  */
 
 public class AttachGeoLocView extends SupportMapFragment
-        implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener,
-        GoogleMap.OnMarkerDragListener {
+        implements GoogleMap.OnMapClickListener {
 
     private CustomScrollView mMainScrollView;
-    private GoogleMap mMap;
     private FragmentActivity mCallingActivity;
+    private GoogleMap mMap;
+    private int mExtensionId;
+    private Marker mPrevMarker;
+    private Marker mNewMarker;
+    private double mPrevLatitude;
+    private double mPrevLongitude;
+
 
     public static AttachGeoLocView getInstance() {
         return new AttachGeoLocView();
     }
 
-    public final void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView) {
+    public final void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView,
+                                     int extensionId, double prevLatitude, double prevLongitude) {
+        mExtensionId = extensionId;
+        mPrevLatitude = prevLatitude;
+        mPrevLongitude = prevLongitude;
         mMainScrollView = mainScrollView;
         mCallingActivity = callingActivity;
         mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
@@ -43,43 +62,54 @@ public class AttachGeoLocView extends SupportMapFragment
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
+                    setUpMap();
                 }
             });
         }
-        
+
+    }
+
+    private void setUpMap(){
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setOnMapClickListener(this);
+        MarkerOptions prevMarker = new MarkerOptions();
+        LatLng prevPosition = new LatLng(mPrevLatitude, mPrevLongitude);
+        prevMarker.position(prevPosition);
+        mPrevMarker = mMap.addMarker(prevMarker);
     }
 
     @Override
-    public final boolean onMarkerClick(Marker marker) {
-        return false;
+    public void onMapClick(LatLng latLng) {
+        MarkerOptions newMarkerOpt = new MarkerOptions();
+        newMarkerOpt.position(latLng);
+        mNewMarker = mMap.addMarker(newMarkerOpt);
+        mPrevMarker.remove();
+        updateGeoLocation(latLng.latitude, latLng.longitude);
+        return;
     }
 
-    @Override
-    public void onMarkerDragStart(Marker marker) {
+    private void updateGeoLocation(double latitude, double longitude){
+        String user = "";
+        Date date = new Date();
+        GeolocationDto geoLocationDto = new GeolocationDto(mExtensionId, user, date, latitude, longitude);
+        UpdateGeoLocationRequest<UpdateGeoLocationResponse> request = new UpdateGeoLocationRequest<>(
+                this.getContext(), GeolocationDto.class, geoLocationDto);
+        request.setListener(new Response.Listener<UpdateGeoLocationResponse>() {
+            @Override
+            public void onResponse(UpdateGeoLocationResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    //TODO no se que hacer cuando el llamado es exitoso
+                    successAttach();
+                } else {
+                    //TODO no se que hacer cuando falla
+                }
+            }
+        });
+        request.execute();
     }
 
-    @Override
-    public void onMarkerDrag(Marker marker) {
+    private void successAttach(){
+        Toast.makeText(this.getContext(), "Succes!!", Toast.LENGTH_SHORT).show();
     }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-    }
-
-    @Override
-    public final void onInfoWindowClick(Marker marker) {
-        // Se pasa al presenter la informacion del marcador, en el tipo de datos
-        // custom utilizado para ellos (CustomMarkerData).
-//        boolean successfulOperation = EventsMapPresenter
-//                .showEventDetail(mCallingActivity, new CustomMarkerData(marker.getTitle(),
-//                        marker.getSnippet(), marker.getPosition()));
-        // Si no se pudo completar la operacion de mostrar el detalle del evento,
-        // se presenta un dialog informando al usuario acerca de ello.
-//        if (!successfulOperation) {
-//            DialogFragment dialog =
-//                    UIUtils.getSimpleDialog(getString(R.string.error_event_details_from_map));
-//            dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
-//        }
-    }
-
 }

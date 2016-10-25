@@ -159,24 +159,4 @@ public class EventManager {
         });
     }
 
-    public void updateGeoLocation(int extensionId, double latitude, double longitude){
-        String user = "";
-        Date date = new Date();
-        GeolocationDto geoLocationDto = new GeolocationDto(extensionId, user, date, latitude, longitude);
-        UpdateGeoLocationRequest<UpdateGeoLocationResponse> request = new UpdateGeoLocationRequest<>(
-            mContext, GeolocationDto.class, geoLocationDto);
-        request.setListener(new Response.Listener<UpdateGeoLocationResponse>() {
-            @Override
-            public void onResponse(UpdateGeoLocationResponse response) {
-                int responseCode = response.getCode();
-                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    //TODO no se que hacer cuando el llamado es exitoso
-                } else {
-                    //TODO no se que hacer cuando falla
-                }
-            }
-        });
-        request.execute();
-    }
-
 }
