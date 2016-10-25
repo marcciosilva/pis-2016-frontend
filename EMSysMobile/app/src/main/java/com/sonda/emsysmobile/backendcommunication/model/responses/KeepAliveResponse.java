@@ -20,15 +20,14 @@ public class KeepAliveResponse extends EmsysResponse {
 
     @Override
     public final boolean equals(Object obj) {
-
         if (obj == null) {
             return false;
         }
-        if (!LoginLogoutResponse.class.isAssignableFrom(obj.getClass())) {
+        if (!KeepAliveResponse.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
-        final LoginLogoutResponse other = (LoginLogoutResponse) obj;
-        return ((super.equals(obj)) && (innerResponse.equals(other.innerResponse)));
+        final KeepAliveResponse other = (KeepAliveResponse) obj;
+        return (super.equals(other) && innerResponse == other.innerResponse);
     }
 
 }
