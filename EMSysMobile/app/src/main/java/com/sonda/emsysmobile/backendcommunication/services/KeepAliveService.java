@@ -20,8 +20,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  */
 public class KeepAliveService extends Service {
 
-    public static final String TAG = "KeepAliveService";
-
+    public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
     // A definir waiting_time.
     private static int waiting_time = 60000;
@@ -33,6 +32,7 @@ public class KeepAliveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        // Creo un thread que se encarga de ejecutar el keep alive.
         new Thread(new Runnable(){
             public void run() {
                 while(logged)
@@ -90,6 +90,5 @@ public class KeepAliveService extends Service {
             }
         });
         request.execute();
-        //Log.d("STATE", "keep alive!!" );
     }
 }
