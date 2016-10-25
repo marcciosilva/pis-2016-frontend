@@ -1,13 +1,11 @@
-package com.sonda.emsysmobile.ui.activities.attachgeoloc;
+package com.sonda.emsysmobile.ui.attachgeoloc;
 
 import android.support.v4.app.FragmentActivity;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -19,7 +17,6 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 
 import java.util.Date;

@@ -180,18 +180,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <Button
-                android:text="Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:id="@+id/button_geoloc"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="31dp"
-                android:layout_marginStart="31dp" />
-
         </LinearLayout>
     </com.sonda.emsysmobile.ui.views.CustomScrollView>
 

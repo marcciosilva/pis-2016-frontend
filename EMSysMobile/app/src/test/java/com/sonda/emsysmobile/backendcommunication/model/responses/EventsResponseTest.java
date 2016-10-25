@@ -100,7 +100,7 @@ public class EventsResponseTest {
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
-                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
+                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
                 mExtensionEvent);
         mExtensions.add(mExtensionDto);
         mEvents = new ArrayList<>();

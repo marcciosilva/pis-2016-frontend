@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.content.Intent;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.activities.attachgeoloc.AttachGeoLocActivity;
+import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocActivity;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
@@ -22,9 +21,6 @@ import com.sonda.emsysmobile.utils.DateUtils;
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener {
 
-    public static final String EVENT_ID = "event.identifier";
-    public static final String EVENT_EXTENSION_ID = "extension.zone";
-    public static final String EVENT_HAS_GEOLOCATION = "hasGeolocation";
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
 
@@ -40,8 +36,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
     private TextView mOrigin;
     private TextView mType;
-
-    private Button mGeoLocButton;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -80,13 +74,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
-
-        final Button button = (Button) findViewById(R.id.button_geoloc);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                goToGeoLocActivity();
-            }
-        });
 
     }
 
@@ -133,18 +120,6 @@ public class EventDetailsView extends AppCompatActivity implements
             }
         }
 
-    }
-
-    public void goToGeoLocActivity(){
-        Intent intent = new Intent(this, AttachGeoLocActivity.class);
-        Bundle b = new Bundle();
-        // OJO! Aca hay que pasar los datos de la extension a la que se le quiere adjuntar la GeoLoc
-        // Esta asi para probar
-        b.putInt("ExtId", mEvent.getIdentifier());
-        b.putDouble("ExtLat", mEvent.getLatitude());
-        b.putDouble("ExtLong", mEvent.getLongitude());
-        intent.putExtras(b);
-        startActivity(intent);
     }
 
     @Override
