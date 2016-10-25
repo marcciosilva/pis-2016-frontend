@@ -36,7 +36,6 @@ public class UpdateGeoLocationRequest<T> extends AbstractRequest {
     protected final JsonObject getBody() {
         String json = new Gson().toJson(geoLocation);
         JsonObject jsonObject = (JsonObject) new JsonParser().parse(json);
-
         Log.d(TAG, "Request body:");
         Log.d(TAG, jsonObject.toString());
         return jsonObject;

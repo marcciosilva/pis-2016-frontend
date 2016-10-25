@@ -1,114 +1,115 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
-import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-import com.android.volley.Response;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
-import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
-import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
-
-import java.util.Date;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
  * Created by Pape on 10/24/2016.
  */
 
-public class AttachGeoLocView extends SupportMapFragment
-        implements GoogleMap.OnMapClickListener {
+public class AttachGeoLocView extends AppCompatActivity implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener {
 
-    private CustomScrollView mMainScrollView;
-    private FragmentActivity mCallingActivity;
-    private GoogleMap mMap;
-    private int mExtensionId;
-    private Marker mPrevMarker;
-    private Marker mNewMarker;
-    private double mPrevLatitude;
-    private double mPrevLongitude;
+    private AttachGeoLocMapView mGeoLocFragment = null;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    private Button mConfirmationButton;
+    private static final String TAG = AttachGeoLocView.class.getName();
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_attach_geoloc);
 
-    public static AttachGeoLocView getInstance() {
-        return new AttachGeoLocView();
-    }
-
-    public final void initializeView(FragmentActivity callingActivity,
-                                     CustomScrollView mainScrollView,
-                                     int extensionId, double prevLatitude, double prevLongitude) {
-        mExtensionId = extensionId;
-        mPrevLatitude = prevLatitude;
-        mPrevLongitude = prevLongitude;
-        mMainScrollView = mainScrollView;
-        mCallingActivity = callingActivity;
-        mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
-                this, AttachGeoLocView.class.getSimpleName()).commit();
-
-        // Chequeo si el mapa esta instanciado o no.
-        if (mMap == null) {
-            // Se obtiene el mapa a partir del SupportMapFragment.
-            getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    mMap = googleMap;
-                    setUpMap();
-                }
-            });
+        // Inicializo servicio de Google para obtener ubicacion actual.
+        // Create an instance of GoogleAPIClient.
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
         }
-
-    }
-
-    private void setUpMap() {
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.setOnMapClickListener(this);
-        MarkerOptions prevMarker = new MarkerOptions();
-        LatLng prevPosition = new LatLng(mPrevLatitude, mPrevLongitude);
-        prevMarker.position(prevPosition);
-        mPrevMarker = mMap.addMarker(prevMarker);
+        // Inicializacion de fragment de mapa.
+        mGeoLocFragment = AttachGeoLocMapView.getInstance();
+        mConfirmationButton = (Button) findViewById(R.id.button_send_geolocation);
+        mConfirmationButton.setOnClickListener(this);
     }
 
     @Override
-    public void onMapClick(LatLng latLng) {
-        MarkerOptions newMarkerOpt = new MarkerOptions();
-        newMarkerOpt.position(latLng);
-        mPrevMarker.remove();
-        mPrevMarker = mMap.addMarker(newMarkerOpt);
-        return;
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        super.onStart();
     }
 
-    private void updateGeoLocation(double latitude, double longitude) {
-        String user = "";
-        Date date = new Date();
-        GeolocationDto geoLocationDto =
-                new GeolocationDto(mExtensionId, user, date, latitude, longitude);
-        UpdateGeoLocationRequest<UpdateGeoLocationResponse> request =
-                new UpdateGeoLocationRequest<>(
-                        this.getContext(), GeolocationDto.class, geoLocationDto);
-        request.setListener(new Response.Listener<UpdateGeoLocationResponse>() {
-            @Override
-            public void onResponse(UpdateGeoLocationResponse response) {
-                int responseCode = response.getCode();
-                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    //TODO no se que hacer cuando el llamado es exitoso
-                    successAttach();
-                } else {
-                    //TODO no se que hacer cuando falla
-                }
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat
+                .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        int extensionId = getIntent().getIntExtra("ExtensionId", -1);
+        if (mLastLocation != null) {
+            mGeoLocFragment
+                    .initializeView(this, extensionId, mLastLocation.getLatitude(),
+                            mLastLocation.getLongitude());
+        } else {
+            // Ubicacion por defecto en Montevideo, Uruguay.
+            LatLng defaultLocation = new LatLng(-34.9, -56.1);
+            mGeoLocFragment
+                    .initializeView(this, extensionId, defaultLocation.latitude,
+                            defaultLocation.longitude);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.d(TAG, getString(R.string.error_http));
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_send_geolocation) {
+            if (!AttachGeoLocPresenter.sendGeoLocation(AttachGeoLocView.this)) {
+                DialogFragment dialog = UIUtils.getSimpleDialog(getString(R.string
+                        .attach_geolocation_null_selection_string));
+                dialog.show(getSupportFragmentManager(), TAG);
             }
-        });
-        request.execute();
+        }
     }
 
-    private void successAttach() {
-        Toast.makeText(this.getContext(), "Succes!!", Toast.LENGTH_SHORT).show();
-    }
 }

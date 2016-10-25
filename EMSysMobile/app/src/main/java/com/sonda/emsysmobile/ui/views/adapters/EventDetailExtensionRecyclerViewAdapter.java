@@ -12,20 +12,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocActivity;
+import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;
-
-import static android.view.Menu.NONE;
 
 public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> implements
@@ -82,7 +78,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 attachAudioOptionItem.setIntent(null);
                 // Genero intent para adjuntar geoubicacion.
                 Intent attachGeolocationIntent =
-                        new Intent(view.getContext(), AttachGeoLocActivity.class);
+                        new Intent(view.getContext(), AttachGeoLocView.class);
                 Bundle extras = new Bundle();
                 extras.putInt("ExtensionId", holder.getItem().getIdentifier());
                 attachGeolocationIntent.putExtras(extras);
@@ -131,7 +127,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
 
     public void goToGeoLocActivity(Context context, int eventId, double latitude,
                                    double longitude) {
-        Intent intent = new Intent(context, AttachGeoLocActivity.class);
+        Intent intent = new Intent(context, AttachGeoLocView.class);
         Bundle b = new Bundle();
         // OJO! Aca hay que pasar los datos de la extension a la que se le quiere adjuntar la GeoLoc
         // Esta asi para probar
