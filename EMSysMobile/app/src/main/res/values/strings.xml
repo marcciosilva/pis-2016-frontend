@@ -87,6 +87,7 @@
     <string name="error_ws_unavailable">El Servicio externo no está disponible</string>
     <string name="error_title">Error</string>
     <string name="ok_button">Ok</string>
+    <string name="action_update_desc">Actualizar descripción</string>
 
 
 </resources>

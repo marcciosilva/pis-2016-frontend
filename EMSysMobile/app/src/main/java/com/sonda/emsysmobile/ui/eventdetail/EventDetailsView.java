@@ -2,8 +2,10 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -17,9 +19,7 @@ import com.sonda.emsysmobile.utils.DateUtils;
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener {
 
-    public static final String EVENT_ID = "event.identifier";
-    public static final String EVENT_EXTENSION_ID = "extension.zone";
-    public static final String EVENT_HAS_GEOLOCATION = "hasGeolocation";
+
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
 
@@ -32,9 +32,10 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mCorner;
     private TextView mCategory;
     private TextView mSector;
-
     private TextView mOrigin;
     private TextView mType;
+
+    private FloatingActionButton mUpdateDescriptionBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,6 @@ public class EventDetailsView extends AppCompatActivity implements
         mCreatedDate = (TextView) findViewById(R.id.event_date_created);
         mStatus = (TextView) findViewById(R.id.event_status);
 
-
         mStreet = (TextView) findViewById(R.id.informant_street);
         mCorner = (TextView) findViewById(R.id.informant_corner);
         mNumber = (TextView) findViewById(R.id.informant_number);
@@ -57,6 +57,14 @@ public class EventDetailsView extends AppCompatActivity implements
 
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
+
+        mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
+        mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUpdateDescriptionDialog();
+            }
+        });
 
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
@@ -73,7 +81,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
-
     }
 
     public final void updateViewData(EventDto event) {
@@ -118,6 +125,9 @@ public class EventDetailsView extends AppCompatActivity implements
                 mOrigin.setText(mEvent.getOrigin());
             }
         }
+    }
+
+    private void showUpdateDescriptionDialog() {
 
     }
 
