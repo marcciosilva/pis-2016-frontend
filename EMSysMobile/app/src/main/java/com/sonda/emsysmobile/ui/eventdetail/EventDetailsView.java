@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
@@ -55,6 +56,7 @@ public class EventDetailsView extends AppCompatActivity implements
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
 
+
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
         // Inicializacion de fragment de extensiones.
@@ -71,6 +73,11 @@ public class EventDetailsView extends AppCompatActivity implements
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public final void updateViewData(EventDto event) {

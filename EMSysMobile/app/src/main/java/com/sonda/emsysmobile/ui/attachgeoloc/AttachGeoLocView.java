@@ -1,6 +1,9 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -19,6 +22,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.ui.activities.SplashActivity;
+import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
@@ -107,12 +113,11 @@ public class AttachGeoLocView extends AppCompatActivity implements
     public void onClick(View view) {
         if (view.getId() == R.id.button_send_geolocation) {
             mProgressBar.setVisibility(View.VISIBLE);
-            if (!AttachGeoLocPresenter.sendGeoLocation(AttachGeoLocView.this)) {
+            if (!AttachGeoLocPresenter.sendGeoLocation(this)) {
                 DialogFragment dialog = UIUtils.getSimpleDialog(getString(R.string
                         .attach_geolocation_null_selection_string));
                 dialog.show(getSupportFragmentManager(), TAG);
             }
-            mProgressBar.setVisibility(View.GONE);
         }
     }
 
