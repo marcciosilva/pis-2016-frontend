@@ -42,7 +42,8 @@ public class AttachGeoLocView extends SupportMapFragment
         return new AttachGeoLocView();
     }
 
-    public final void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView,
+    public final void initializeView(FragmentActivity callingActivity,
+                                     CustomScrollView mainScrollView,
                                      int extensionId, double prevLatitude, double prevLongitude) {
         mExtensionId = extensionId;
         mPrevLatitude = prevLatitude;
@@ -66,7 +67,7 @@ public class AttachGeoLocView extends SupportMapFragment
 
     }
 
-    private void setUpMap(){
+    private void setUpMap() {
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(this);
         MarkerOptions prevMarker = new MarkerOptions();
@@ -79,18 +80,19 @@ public class AttachGeoLocView extends SupportMapFragment
     public void onMapClick(LatLng latLng) {
         MarkerOptions newMarkerOpt = new MarkerOptions();
         newMarkerOpt.position(latLng);
-        mNewMarker = mMap.addMarker(newMarkerOpt);
         mPrevMarker.remove();
-        updateGeoLocation(latLng.latitude, latLng.longitude);
+        mPrevMarker = mMap.addMarker(newMarkerOpt);
         return;
     }
 
-    private void updateGeoLocation(double latitude, double longitude){
+    private void updateGeoLocation(double latitude, double longitude) {
         String user = "";
         Date date = new Date();
-        GeolocationDto geoLocationDto = new GeolocationDto(mExtensionId, user, date, latitude, longitude);
-        UpdateGeoLocationRequest<UpdateGeoLocationResponse> request = new UpdateGeoLocationRequest<>(
-                this.getContext(), GeolocationDto.class, geoLocationDto);
+        GeolocationDto geoLocationDto =
+                new GeolocationDto(mExtensionId, user, date, latitude, longitude);
+        UpdateGeoLocationRequest<UpdateGeoLocationResponse> request =
+                new UpdateGeoLocationRequest<>(
+                        this.getContext(), GeolocationDto.class, geoLocationDto);
         request.setListener(new Response.Listener<UpdateGeoLocationResponse>() {
             @Override
             public void onResponse(UpdateGeoLocationResponse response) {
@@ -106,7 +108,7 @@ public class AttachGeoLocView extends SupportMapFragment
         request.execute();
     }
 
-    private void successAttach(){
+    private void successAttach() {
         Toast.makeText(this.getContext(), "Succes!!", Toast.LENGTH_SHORT).show();
     }
 }

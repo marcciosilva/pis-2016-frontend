@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -17,18 +20,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
  * Created by Pape on 10/24/2016.
  */
 
 public class AttachGeoLocActivity extends AppCompatActivity implements
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener {
 
     private AttachGeoLocView mGeoLocFragment = null;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     CustomScrollView mMainScrollView;
+    private Button mConfirmationButton;
     private static final String TAG = AttachGeoLocActivity.class.getName();
 
     @Override
@@ -48,6 +54,8 @@ public class AttachGeoLocActivity extends AppCompatActivity implements
         // Inicializacion de fragment de mapa.
         mGeoLocFragment = AttachGeoLocView.getInstance();
         mMainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
+        mConfirmationButton = (Button) findViewById(R.id.button_send_geolocation);
+        mConfirmationButton.setOnClickListener(this);
     }
 
     @Override
@@ -96,4 +104,16 @@ public class AttachGeoLocActivity extends AppCompatActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, getString(R.string.error_http));
     }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_send_geolocation) {
+            if (!AttachGeoLocPresenter.sendGeoLocation()) {
+                DialogFragment dialog = UIUtils.getSimpleDialog(getString(R.string
+                        .attach_geolocation_null_selection_string));
+                dialog.show(getSupportFragmentManager(), TAG);
+            }
+        }
+    }
+
 }

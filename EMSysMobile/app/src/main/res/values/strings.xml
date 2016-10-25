@@ -94,4 +94,9 @@
     <string name="error_title">Error</string>
     <string name="ok_button">Ok</string>
 
+    <!--Adjuntar geoubicacion-->
+    <string name="attach_geolocation_confirmation_button_text">Enviar ubicación seleccionada</string>
+    <string name="attach_geolocation_message">A continuación utilice el mapa para seleccionar una ubicación geográfica para agregar a la extensión seleccionada. Cuando esté satisfecho con la ubicación seleccionada, presione el botón de confirmación.</string>
+    <string name="attach_geolocation_null_selection_string">Debe seleccionar una ubicación primero.</string>
+
 </resources>
