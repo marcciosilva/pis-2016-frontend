@@ -140,7 +140,7 @@ public class HomeActivity extends AppCompatActivity
                     replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
                 }
                 return true;
-            case R.id.menu_view_map_button:
+                case R.id.menu_view_map_button:
                 mMapFragment.showView();
                 extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {

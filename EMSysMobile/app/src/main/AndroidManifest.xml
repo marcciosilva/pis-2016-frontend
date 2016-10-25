@@ -49,6 +49,10 @@
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
+            android:name=".ui.activities.attachgeoloc.AttachGeoLocActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar" />
+        <activity
             android:name=".ui.activities.ExternalServiceResultActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/NoActionBar" />

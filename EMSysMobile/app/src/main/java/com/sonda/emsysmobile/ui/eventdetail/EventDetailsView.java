@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Intent;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.activities.attachgeoloc.AttachGeoLocActivity;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
@@ -18,7 +20,7 @@ import com.sonda.emsysmobile.utils.DateUtils;
  */
 
 public class EventDetailsView extends AppCompatActivity implements
-        OnListFragmentInteractionListener, View.OnClickListener {
+        OnListFragmentInteractionListener {
 
     public static final String EVENT_ID = "event.identifier";
     public static final String EVENT_EXTENSION_ID = "extension.zone";
@@ -79,6 +81,13 @@ public class EventDetailsView extends AppCompatActivity implements
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
 
+        final Button button = (Button) findViewById(R.id.button_geoloc);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                goToGeoLocActivity();
+            }
+        });
+
     }
 
     public final void updateViewData(EventDto event) {
@@ -126,15 +135,9 @@ public class EventDetailsView extends AppCompatActivity implements
 
     }
 
-    @Override
-    public final void onClick(View view) {
-        if (view.getId() == R.id.button_geoloc && mGeoLocButton.isEnabled()) {
-            goToGeoLocActivity();
-        }
-    }
-
-    private void goToGeoLocActivity(){
-
+    public void goToGeoLocActivity(){
+        Intent intent = new Intent(this, AttachGeoLocActivity.class);
+        startActivity(intent);
     }
 
     @Override

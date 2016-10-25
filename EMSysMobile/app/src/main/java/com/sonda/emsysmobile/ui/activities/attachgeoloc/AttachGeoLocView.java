@@ -1,6 +1,10 @@
 package com.sonda.emsysmobile.ui.activities.attachgeoloc;
 
 import android.support.v4.app.FragmentActivity;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,6 +35,7 @@ public class AttachGeoLocView extends SupportMapFragment
         mCallingActivity = callingActivity;
         mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
                 this, AttachGeoLocView.class.getSimpleName()).commit();
+
         // Chequeo si el mapa esta instanciado o no.
         if (mMap == null) {
             // Se obtiene el mapa a partir del SupportMapFragment.
@@ -41,6 +46,7 @@ public class AttachGeoLocView extends SupportMapFragment
                 }
             });
         }
+        
     }
 
     @Override
@@ -64,16 +70,16 @@ public class AttachGeoLocView extends SupportMapFragment
     public final void onInfoWindowClick(Marker marker) {
         // Se pasa al presenter la informacion del marcador, en el tipo de datos
         // custom utilizado para ellos (CustomMarkerData).
-        boolean successfulOperation = EventsMapPresenter
-                .showEventDetail(mCallingActivity, new CustomMarkerData(marker.getTitle(),
-                        marker.getSnippet(), marker.getPosition()));
+//        boolean successfulOperation = EventsMapPresenter
+//                .showEventDetail(mCallingActivity, new CustomMarkerData(marker.getTitle(),
+//                        marker.getSnippet(), marker.getPosition()));
         // Si no se pudo completar la operacion de mostrar el detalle del evento,
         // se presenta un dialog informando al usuario acerca de ello.
-        if (!successfulOperation) {
-            DialogFragment dialog =
-                    UIUtils.getSimpleDialog(getString(R.string.error_event_details_from_map));
-            dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
-        }
+//        if (!successfulOperation) {
+//            DialogFragment dialog =
+//                    UIUtils.getSimpleDialog(getString(R.string.error_event_details_from_map));
+//            dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
+//        }
     }
 
 }
