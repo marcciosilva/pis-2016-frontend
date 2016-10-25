@@ -1,7 +1,10 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
@@ -15,7 +18,7 @@ import com.sonda.emsysmobile.utils.DateUtils;
  */
 
 public class EventDetailsView extends AppCompatActivity implements
-        OnListFragmentInteractionListener {
+        OnListFragmentInteractionListener, View.OnClickListener {
 
     public static final String EVENT_ID = "event.identifier";
     public static final String EVENT_EXTENSION_ID = "extension.zone";
@@ -35,6 +38,8 @@ public class EventDetailsView extends AppCompatActivity implements
 
     private TextView mOrigin;
     private TextView mType;
+
+    private Button mGeoLocButton;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -118,6 +123,17 @@ public class EventDetailsView extends AppCompatActivity implements
                 mOrigin.setText(mEvent.getOrigin());
             }
         }
+
+    }
+
+    @Override
+    public final void onClick(View view) {
+        if (view.getId() == R.id.button_geoloc && mGeoLocButton.isEnabled()) {
+            goToGeoLocActivity();
+        }
+    }
+
+    private void goToGeoLocActivity(){
 
     }
 
