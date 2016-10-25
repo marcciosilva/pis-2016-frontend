@@ -23,7 +23,7 @@ public class KeepAliveService extends Service {
     public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
     // A definir waiting_time.
-    private static int waiting_time = 60000;
+    private static int waiting_time = 10000;
 
     @Override
     public void onCreate() {
@@ -32,7 +32,7 @@ public class KeepAliveService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Creo un thread que se encarga de ejecutar el keep alive.
+        // Se crea un thread que se encarga de ejecutar el keep alive cada cierto tiempo.
         new Thread(new Runnable(){
             public void run() {
                 while(logged)
@@ -69,8 +69,7 @@ public class KeepAliveService extends Service {
             public void onResponse(KeepAliveResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    String successMsg = response.getInnerResponse().getMsg();
-                    Log.d(TAG, successMsg);
+                    Log.d(TAG, "Exito.");
                 } else{
                     String errorMsg = response.getInnerResponse().getMsg();
                     handleErrorMessage(KeepAliveService.this, responseCode, errorMsg);
