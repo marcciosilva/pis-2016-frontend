@@ -69,7 +69,8 @@
         android:layout_marginTop="@dimen/spacing_large"
         android:indeterminate="true"
         android:indeterminateDrawable="@drawable/blue_progress_bar"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <ImageButton
         android:id="@+id/button_config"

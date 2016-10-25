@@ -1,23 +1,22 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
-import com.android.volley.Response;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
-import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
-import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
 
-import java.util.Date;
+import static com.sonda.emsysmobile.utils.MapUtils.areBoundsTooSmall;
 
 /**
  * Created by Pape on 10/24/2016.
@@ -29,7 +28,7 @@ public class AttachGeoLocMapView extends SupportMapFragment
     private FragmentActivity mCallingActivity;
     private GoogleMap mMap;
     private int mExtensionId;
-    private Marker mPrevMarker;
+    private Marker mCurrentMarker;
     private double mPrevLatitude;
     private double mPrevLongitude;
 
@@ -68,17 +67,46 @@ public class AttachGeoLocMapView extends SupportMapFragment
         MarkerOptions prevMarker = new MarkerOptions();
         LatLng prevPosition = new LatLng(mPrevLatitude, mPrevLongitude);
         prevMarker.position(prevPosition);
-        mPrevMarker = mMap.addMarker(prevMarker);
+        mCurrentMarker = mMap.addMarker(prevMarker);
+        updateZoomLevel();
+    }
+
+    private void updateZoomLevel() {
+        // Se hace zoom para que todos los marcadores queden en vista.
+        final View mapView = getView();
+        if (mapView.getViewTreeObserver().isAlive()) {
+            mapView.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @SuppressLint("NewApi")
+                        @Override
+                        public void onGlobalLayout() {
+                            LatLngBounds.Builder bld = new LatLngBounds.Builder();
+                            bld.include(mCurrentMarker.getPosition());
+                            LatLngBounds bounds = bld.build();
+                            final int minDistanceInMeter = 600;
+                            if (areBoundsTooSmall(bounds, minDistanceInMeter)) {
+                                final int v = 17;
+                                mMap.animateCamera(CameraUpdateFactory
+                                        .newLatLngZoom(bounds.getCenter(), v));
+                            } else {
+                                final int i = 70;
+                                mMap.animateCamera(CameraUpdateFactory
+                                        .newLatLngBounds(bounds, i));
+                            }
+                            mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+                    });
+        }
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
         MarkerOptions newMarkerOpt = new MarkerOptions();
         newMarkerOpt.position(latLng);
-        mPrevMarker.remove();
-        mPrevMarker = mMap.addMarker(newMarkerOpt);
-        AttachGeoLocPresenter.setGeoLocation(mExtensionId, mPrevMarker.getPosition().latitude,
-                mPrevMarker.getPosition().longitude);
+        mCurrentMarker.remove();
+        mCurrentMarker = mMap.addMarker(newMarkerOpt);
+        AttachGeoLocPresenter.setGeoLocation(mExtensionId, mCurrentMarker.getPosition().latitude,
+                mCurrentMarker.getPosition().longitude);
         return;
     }
 

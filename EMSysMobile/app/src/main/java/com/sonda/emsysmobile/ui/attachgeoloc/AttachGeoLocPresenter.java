@@ -1,15 +1,19 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 10/25/16.
@@ -41,6 +45,18 @@ public class AttachGeoLocPresenter {
                         UIUtils.handleErrorMessage(context, response.getCode(), response
                                 .getInnerResponse().getMsg());
                     }
+                }
+            });
+            request.setErrorListener(new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    handleVolleyErrorResponse(context, error, new DialogInterface
+                            .OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            sendGeoLocation(context);
+                        }
+                    });
                 }
             });
             request.execute();

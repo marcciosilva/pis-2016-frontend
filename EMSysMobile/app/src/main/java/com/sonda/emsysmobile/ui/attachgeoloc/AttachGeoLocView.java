@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -32,13 +33,13 @@ public class AttachGeoLocView extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Button mConfirmationButton;
+    private ProgressBar mProgressBar;
     private static final String TAG = AttachGeoLocView.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attach_geoloc);
-
         // Inicializo servicio de Google para obtener ubicacion actual.
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -52,6 +53,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
         mGeoLocFragment = AttachGeoLocMapView.getInstance();
         mConfirmationButton = (Button) findViewById(R.id.button_send_geolocation);
         mConfirmationButton.setOnClickListener(this);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     @Override
@@ -104,11 +106,13 @@ public class AttachGeoLocView extends AppCompatActivity implements
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_send_geolocation) {
+            mProgressBar.setVisibility(View.VISIBLE);
             if (!AttachGeoLocPresenter.sendGeoLocation(AttachGeoLocView.this)) {
                 DialogFragment dialog = UIUtils.getSimpleDialog(getString(R.string
                         .attach_geolocation_null_selection_string));
                 dialog.show(getSupportFragmentManager(), TAG);
             }
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 
