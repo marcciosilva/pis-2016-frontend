@@ -51,9 +51,11 @@ public class EventManager {
         mEvents = new ArrayList<>();
         mExtensions = new SparseArray<>();
         LocalBroadcastManager.getInstance(mContext)
-                .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_EVENTS_LIST.toString()));
+                .registerReceiver(broadcastReceiverEvents,
+                        new IntentFilter(NotificationsEvents.UPDATE_EVENTS_LIST.toString()));
         LocalBroadcastManager.getInstance(mContext)
-                .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_ONE_EVENT.toString()));
+                .registerReceiver(broadcastReceiverEvents,
+                        new IntentFilter(NotificationsEvents.UPDATE_ONE_EVENT.toString()));
     }
 
     public final void onLogout() {
@@ -77,7 +79,8 @@ public class EventManager {
 
     public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
         if (mExtensions.size() == 0) {
-            EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+            EventsRequest<EventsResponse> request =
+                    new EventsRequest<>(mContext, EventsResponse.class);
             request.setListener(new Response.Listener<EventsResponse>() {
                 @Override
                 public void onResponse(EventsResponse response) {
@@ -200,7 +203,9 @@ public class EventManager {
     }
 
     private ArrayList<ExtensionDto> getExtensionsList() {
-        if (mExtensions == null) return null;
+        if (mExtensions == null) {
+            return null;
+        }
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
         for (int i = 0; i < mExtensions.size(); i++) {
             arrayList.add(mExtensions.valueAt(i));
@@ -227,9 +232,11 @@ public class EventManager {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
                     Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
-                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
+                    if (intent.getAction()
+                            .equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
                         updateEvents(null, null);
-                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
+                    } else if (intent.getAction()
+                            .equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
                         ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
                         extensionDto.setModified(true);
                         Intent eventsIntent = new Intent(EVENTS_UPDATED);

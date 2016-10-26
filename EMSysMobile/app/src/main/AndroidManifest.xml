@@ -3,6 +3,7 @@
     package="com.sonda.emsysmobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -49,6 +50,10 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ui.attachgeoloc.AttachGeoLocView"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.ExternalServiceResultActivity"
             android:configChanges="orientation|screenSize"

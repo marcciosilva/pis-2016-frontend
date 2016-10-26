@@ -18,7 +18,7 @@ Object.defineProperty(Object.prototype,'Enum', {
 var events = require('./services/events-service.js');
 var users = require('./services/users-service.js');
 var consumeWS = require('./services/consumeWS-service.js');
-
+var adjuntos = require('./services/adjuntos-service.js');
 
 var express = require('express')
   , app = express();
@@ -36,6 +36,7 @@ app.configure(function(){
 app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
 app.get('/eventos/obtener', events.getEventDetail);
+app.post('/adjuntos/postgeoubicacion', adjuntos.postGeoLocation);
 
 
 //just a special get to test more easily

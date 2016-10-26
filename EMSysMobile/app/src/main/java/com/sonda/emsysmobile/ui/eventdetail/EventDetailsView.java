@@ -1,7 +1,9 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
@@ -17,9 +19,7 @@ import com.sonda.emsysmobile.utils.DateUtils;
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener {
 
-    public static final String EVENT_ID = "event.identifier";
-    public static final String EVENT_EXTENSION_ID = "extension.zone";
-    public static final String EVENT_HAS_GEOLOCATION = "hasGeolocation";
+    public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
 
@@ -58,6 +58,7 @@ public class EventDetailsView extends AppCompatActivity implements
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
 
+
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
         // Inicializacion de fragment de extensiones.
@@ -74,6 +75,11 @@ public class EventDetailsView extends AppCompatActivity implements
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     public final void updateViewData(EventDto event) {
@@ -119,6 +125,17 @@ public class EventDetailsView extends AppCompatActivity implements
             }
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == SHOULD_UPDATE_MAP) {
+                Log.d(TAG, "Updating map...");
+                EventDetailsPresenter.updateMapFragment();
+            }
+        }
     }
 
     @Override
