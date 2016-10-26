@@ -33,7 +33,29 @@
           "nombre_ue": "ue2"
         },
         "despachador": null,
-        "descripcion_despachadores": [],
+        "descripcion_despachadores": [
+          {
+            "usuario": "UsuarioDespachador",
+            "texto": "descripcion de evento",
+            "fecha": "2016-07-23T21:30:00.123",
+            "descripcion": null,
+            "origen": 1
+          },
+          {
+            "usuario": "UsuarioDespachador2",
+            "texto": "otra descripcion de evento",
+            "fecha": "2016-07-23T21:37:00.123",
+            "descripcion": null,
+            "origen": 1
+          },
+          {
+            "usuario": "UsuarioDespachador2",
+            "texto": "otra mas",
+            "fecha": "2016-07-24T10:37:00.123",
+            "descripcion": null,
+            "origen": 1
+          }
+        ],
         "descripcion_supervisor": "Descripcion 2",
         "asignaciones_recursos": [
           {
@@ -78,7 +100,29 @@
           "nombre_ue": "ue3"
         },
         "despachador": null,
-        "descripcion_despachadores": [],
+        "descripcion_despachadores": [
+          {
+            "usuario": "UsuarioDespachador",
+            "texto": "descripcion de evento",
+            "fecha": "2016-07-23T21:30:00.123",
+            "descripcion": null,
+            "origen": 1
+          },
+          {
+            "usuario": "UsuarioDespachador2",
+            "texto": "otra descripcion de evento",
+            "fecha": "2016-07-23T21:37:00.123",
+            "descripcion": null,
+            "origen": 1
+          },
+          {
+            "usuario": "UsuarioDespachador2",
+            "texto": "otra mas",
+            "fecha": "2016-07-24T10:37:00",
+            "descripcion": null,
+            "origen": 1
+          }
+        ],
         "descripcion_supervisor": "Descripcion 3",
         "asignaciones_recursos": [
           {

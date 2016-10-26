@@ -17,14 +17,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            buildConfigField "String", "BASE_URL", "\"http://pis-liberacion2-api.azurewebsites.net\""
+            buildConfigField "String", "BASE_URL", "\" http://pis-liberacion203-api.azurewebsites.net\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
         }
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://samuels-mbp:8081\""
+            buildConfigField "String", "BASE_URL", "\"http://pis205.azurewebsites.net\""
             buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.31:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
-
             testCoverageEnabled true
         }
     }
@@ -45,6 +44,7 @@ dependencies {
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.google.android.gms:play-services-appindexing:9.4.0'
     compile 'com.google.android.gms:play-services-maps:9.4.0'
+    compile 'com.google.android.gms:play-services-location:9.4.0'
     compile 'com.androidmapsextensions:android-maps-extensions:2.2.0'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'

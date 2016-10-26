@@ -3,6 +3,7 @@
     package="com.sonda.emsysmobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -26,7 +27,6 @@
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
-            android:noHistory="true"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".ui.activities.SettingsActivity"
@@ -36,12 +36,10 @@
         <activity
             android:name=".ui.activities.login.RoleChooserActivity"
             android:configChanges="orientation|screenSize"
-            android:noHistory="true"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.login.ZonasRecursosChooserActivity"
             android:configChanges="orientation|screenSize"
-            android:noHistory="true"
             android:theme="@style/NoActionBar" />
         <activity android:name=".ui.activities.ConsumeWSActivity" />
         <activity
@@ -52,6 +50,10 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".ui.attachgeoloc.AttachGeoLocView"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.ExternalServiceResultActivity"
             android:configChanges="orientation|screenSize"

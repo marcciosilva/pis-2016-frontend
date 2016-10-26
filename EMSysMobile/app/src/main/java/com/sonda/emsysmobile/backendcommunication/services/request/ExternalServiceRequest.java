@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 
 public class ExternalServiceRequest<T> extends AbstractRequest<T> {
 
-    public static final String CONSUME_WS_PATH = "/consumeWS";
+    public static final String CONSUME_WS_PATH = "/servicioexterno";
     private static final String TAG = ExternalServiceRequest.class.getName();
 
     private ExternalServiceQueryDto externalServiceQueryDto;

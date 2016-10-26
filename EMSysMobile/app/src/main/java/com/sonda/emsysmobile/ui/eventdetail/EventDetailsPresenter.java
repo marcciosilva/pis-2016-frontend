@@ -33,6 +33,8 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 public class EventDetailsPresenter {
 
     private static final String TAG = EventDetailsPresenter.class.getName();
+    private static EventDetailsView mEventDetailsView;
+    private static EventDetailMapView mMapFragment;
 
     private EventDetailsPresenter() {
         // Debe ser privado porque no debe ser utilizado.
@@ -110,6 +112,7 @@ public class EventDetailsPresenter {
     }
 
     public static void initMapFragment(Context context, EventDto event) {
+        mEventDetailsView = (EventDetailsView) context;
         boolean hasGeolocation = false;
         Log.d(TAG, "Event ID = " + Integer.toString(event.getIdentifier()));
         Log.d(TAG, "LATITUD: " + Double.toString(event.getLatitude()));
@@ -129,17 +132,25 @@ public class EventDetailsPresenter {
         if (hasGeolocation) {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
-            EventDetailMapView mapFragment = EventDetailMapView.getInstance();
+            mMapFragment = EventDetailMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
                     .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-            mapFragment.initializeView((FragmentActivity) context, mainScrollView);
-            mapFragment.showView();
+            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
+            mMapFragment.showView();
+        }
+    }
+
+    public static void updateMapFragment() {
+        if (mMapFragment != null) {
+            mMapFragment.showView();
         }
     }
 
 
-    public static void attachDescriptionForExtension(Context context, String description, int extensionId) {
-        UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest = new UpdateDescriptionRequest<>(context, EmsysResponse.class);
+    public static void attachDescriptionForExtension(Context context, String description, int
+            extensionId) {
+        UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest =
+                new UpdateDescriptionRequest<>(context, EmsysResponse.class);
         updateDescriptionRequest.setAttributes(description, extensionId);
         updateDescriptionRequest.setListener(new Response.Listener<EmsysResponse>() {
             @Override
@@ -154,5 +165,11 @@ public class EventDetailsPresenter {
             }
         });
         updateDescriptionRequest.execute();
+    }
+
+    public static void showGeolocationAttachView(Intent intent) {
+        if (mEventDetailsView != null) {
+            mEventDetailsView.startActivityForResult(intent, 0);
+        }
     }
 }

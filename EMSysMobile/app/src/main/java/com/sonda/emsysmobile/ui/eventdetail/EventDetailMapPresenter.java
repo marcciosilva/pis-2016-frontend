@@ -114,7 +114,7 @@ public class EventDetailMapPresenter {
     private static LatLng getUniqueCoordinates(LatLng originalCoordinates,
                                                List<List<CustomMarkerData>> data) {
         LatLng ll = new LatLng(originalCoordinates.latitude, originalCoordinates.longitude);
-        while (duplicateCoordinates(originalCoordinates, data)) {
+        while (duplicateCoordinates(ll, data)) {
             Log.d(TAG, "Colision entre coordenadas de eventos.");
             // Offset para longitud.
             double dx = Math.random();

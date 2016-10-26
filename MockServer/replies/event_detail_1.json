@@ -14,6 +14,8 @@
     "estado": "enviado",
     "time_stamp": "2016-10-15T19:49:18.26",
     "creador": "Usuario1",
+
+    
     "fecha_creacion": "2016-10-15T19:49:18.26",
     "calle": "Avda. Brasil",
     "esquina": null,
@@ -31,7 +33,29 @@
           "nombre_ue": "ue1"
         },
         "despachador": null,
-        "descripcion_despachadores": [],
+        "descripcion_despachadores": [
+          {
+            "usuario": "UsuarioDespachador",
+            "texto": "descripcion de evento",
+            "fecha": "2016-07-23T21:30:00.123",
+            "descripcion": null,
+            "origen": 1
+          },
+          {
+            "usuario": "UsuarioDespachador2",
+            "texto": "otra descripcion de evento",
+            "fecha": "2016-07-23T21:37:00.123",
+            "descripcion": null,
+            "origen": 1
+          },
+          {
+            "usuario": "UsuarioDespachador2",
+            "texto": "otra mas",
+            "fecha": "2016-07-24T10:37:00.123",
+            "descripcion": null,
+            "origen": 1
+          }
+        ],
         "descripcion_supervisor": "Descripcion 1",
         "asignaciones_recursos": [
           {

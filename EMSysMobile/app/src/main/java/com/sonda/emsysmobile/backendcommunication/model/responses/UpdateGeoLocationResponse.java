@@ -3,9 +3,10 @@ package com.sonda.emsysmobile.backendcommunication.model.responses;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by nachoprbd on 16/10/2016.
+ * Created by Pape on 20/10/2016.
  */
-public class KeepAliveResponse extends EmsysResponse {
+
+public class UpdateGeoLocationResponse extends EmsysResponse{
 
     @SerializedName("response")
     private ErrorResponse innerResponse;
@@ -20,15 +21,15 @@ public class KeepAliveResponse extends EmsysResponse {
 
     @Override
     public final boolean equals(Object obj) {
+
         if (obj == null) {
             return false;
         }
-        if (!KeepAliveResponse.class.isAssignableFrom(obj.getClass())) {
+        if (!UpdateGeoLocationResponse.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
-        final KeepAliveResponse other = (KeepAliveResponse) obj;
-        return (super.equals(other) && innerResponse == other.innerResponse);
+        final UpdateGeoLocationResponse other = (UpdateGeoLocationResponse) obj;
+        return ((super.equals(obj)) && (innerResponse.equals(other.innerResponse)));
+
     }
-
 }
-

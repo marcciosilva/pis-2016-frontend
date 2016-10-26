@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
  */
 public class KeepAliveRequest<T> extends AbstractRequest<T> {
 
-    public static final String KEEP_ALIVE_PATH = "/users/expiration_time";
+    public static final String KEEP_ALIVE_PATH = "/users/keepmealive";
 
     public KeepAliveRequest(Context context, Type type) {
         super(context, type, RequestType.POST);

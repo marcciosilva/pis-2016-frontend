@@ -1,356 +1,206 @@
 {
-  "cod": 0,
-  "response": [{
-    "id": 1,
-    "informante": "Homer Simpson",
-    "telefono": "0900-fake",
-    "categoria": {
-      "id": 1,
-      "codigo": "cod1",
-      "clave": "Categoria de prueba 1",
-      "prioridad": "baja",
-      "activo": true
-    },
-    "estado": "enviado",
-    "time_stamp": "2016-10-02T22:36:27.567",
-    "creador": "Usuario1",
-    "fecha_creacion": "2016-10-02T22:36:27.567",
-    "calle": "Av. Siempre Viva",
-    "esquina": "Av. Springfield",
-    "numero": "742",
-    "departamento": "",
-    "sector": "Sector11",
-    "geo_ubicacion": null,
-    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula finibus diam ut molestie. Donec eros elit, vestibulum sit amet odio sed, sagittis dignissim lorem. Aenean blandit ligula turpis, eget fermentum neque sodales et. Maecenas hendrerit, diam eleifend mollis lobortis, metus dui porta tellus, vitae finibus orci lectus quis ipsum. Duis ligula nunc, sagittis nec mauris non, posuere sodales lorem. Nullam libero orci, tempor eget dapibus id, maximus nec risus. Aenean tristique neque lorem, in egestas felis ornare in. Etiam dui nisi, porta ut placerat ut, malesuada in tortor. Quisque dignissim, dolor eget facilisis sagittis, elit mauris auctor orci, eu.",
-    "en_proceso": true,
-    "extensiones": [{
-      "id": 1,
-      "zona": {
-        "id": 1,
-        "nombre": "Zona1",
-        "nombre_ue": "ue1"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [{
-        "usuario": null,
-        "texto": "Descripcion 1: blah blah..",
-        "fecha": "1901-10-02T22:36:27.567",
-        "descripcion": "Descripcion 1: blah blah..",
-        "origen": 1
-      }, {
-        "usuario": null,
-        "texto": "Descripcion 2: blah blah..",
-        "fecha": "1902-10-02T22:36:27.567",
-        "descripcion": "Descripcion 2: blah blah..",
-        "origen": 1
-      }, {
-        "usuario": null,
-        "texto": "Descripcion 3: blah blah..",
-        "fecha": "1903-10-02T22:36:27.567",
-        "descripcion": "Descripcion 3: blah blah..",
-        "origen": 1
-      }],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [{
-        "id": 1,
-        "recurso": "recurso1",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }, {
-        "id": 2,
-        "recurso": "recurso2",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }, {
-        "id": 3,
-        "recurso": "recurso3",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }, {
-        "id": 4,
-        "recurso": "Recurso4",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }, {
-        "id": 5,
-        "recurso": "Recurso5",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-23T18:59:08.303",
-      "segunda_categoria": null,
-      "recursos": ["recurso1"],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": [{
-        "idExtension": 0,
-        "usuario": null,
-        "fecha_envio": "2016-10-23T18:59:08.303",
-        "longitud": -34.917127,
-        "latitud": -56.167158
-      }]
-    }, {
-      "id": 16,
-      "zona": {
-        "id": 3,
-        "nombre": "Zona3",
-        "nombre_ue": "ue2"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-02T22:36:27.59",
-      "segunda_categoria": null,
-      "recursos": ["Recurso11"],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": [{
-        "idExtension": 0,
-        "usuario": null,
-        "fecha_envio": "2016-10-23T18:59:08.303",
-        "longitud": -34.905672,
-        "latitud": -56.15563
-      }]
-    }],
-    "imagenes": [],
-    "videos": [],
-    "audios": []
-  }, {
-    "id": 2,
-    "informante": "Homer Simpson",
-    "telefono": "0900-fake",
-    "categoria": {
-      "id": 2,
-      "codigo": "cod2",
-      "clave": "Categoria de prueba 2",
-      "prioridad": "media",
-      "activo": true
-    },
-    "estado": "enviado",
-    "time_stamp": "2016-10-02T22:36:27.567",
-    "creador": "Usuario1",
-    "fecha_creacion": "2016-10-02T22:36:27.567",
-    "calle": "Av. Siempre Viva",
-    "esquina": "Av. Springfield",
-    "numero": "742",
-    "departamento": "",
-    "sector": "Sector21",
-    "geo_ubicacion": null,
-    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula finibus diam ut molestie. Donec eros elit, vestibulum sit amet odio sed, sagittis dignissim lorem. Aenean blandit ligula turpis, eget fermentum neque sodales et. Maecenas hendrerit, diam eleifend mollis lobortis, metus dui porta tellus, vitae finibus orci lectus quis ipsum. Duis ligula nunc, sagittis nec mauris non, posuere sodales lorem. Nullam libero orci, tempor eget dapibus id, maximus nec risus. Aenean tristique neque lorem, in egestas felis ornare in. Etiam dui nisi, porta ut placerat ut, malesuada in tortor. Quisque dignissim, dolor eget facilisis sagittis, elit mauris auctor orci, eu.",
-    "en_proceso": true,
-    "extensiones": [{
-      "id": 2,
-      "zona": {
-        "id": 1,
-        "nombre": "Zona1",
-        "nombre_ue": "ue1"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [{
-        "id": 6,
-        "recurso": "recurso3",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }, {
-        "id": 7,
-        "recurso": "Recurso6",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-23T18:59:08.303",
-      "segunda_categoria": null,
-      "recursos": ["recurso1"],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": []
-    }, {
-      "id": 17,
-      "zona": {
-        "id": 4,
-        "nombre": "Zona4",
-        "nombre_ue": "ue2"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-02T22:36:27.59",
-      "segunda_categoria": null,
-      "recursos": [],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": []
-    }],
-    "imagenes": [],
-    "videos": [],
-    "audios": []
-  }, {
-    "id": 7,
-    "informante": "Homer Simpson",
-    "telefono": "0900-fake",
-    "categoria": {
-      "id": 2,
-      "codigo": "cod2",
-      "clave": "Categoria de prueba 2",
-      "prioridad": "media",
-      "activo": true
-    },
-    "estado": "enviado",
-    "time_stamp": "2016-10-02T22:36:27.567",
-    "creador": "Usuario1",
-    "fecha_creacion": "2016-10-02T22:36:27.567",
-    "calle": "Av. Siempre Viva",
-    "esquina": "Av. Springfield",
-    "numero": "742",
-    "departamento": "",
-    "sector": "Sector21",
-    "geo_ubicacion": null,
-    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula finibus diam ut molestie. Donec eros elit, vestibulum sit amet odio sed, sagittis dignissim lorem. Aenean blandit ligula turpis, eget fermentum neque sodales et. Maecenas hendrerit, diam eleifend mollis lobortis, metus dui porta tellus, vitae finibus orci lectus quis ipsum. Duis ligula nunc, sagittis nec mauris non, posuere sodales lorem. Nullam libero orci, tempor eget dapibus id, maximus nec risus. Aenean tristique neque lorem, in egestas felis ornare in. Etiam dui nisi, porta ut placerat ut, malesuada in tortor. Quisque dignissim, dolor eget facilisis sagittis, elit mauris auctor orci, eu.",
-    "en_proceso": true,
-    "extensiones": [{
-      "id": 7,
-      "zona": {
-        "id": 1,
-        "nombre": "Zona1",
-        "nombre_ue": "ue1"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [{
-        "id": 12,
-        "recurso": "Recurso11",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-02T22:36:27.59",
-      "segunda_categoria": null,
-      "recursos": ["recurso3"],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": []
-    }],
-    "imagenes": [],
-    "videos": [],
-    "audios": []
-  }, {
-    "id": 11,
-    "informante": "Homer Simpson",
-    "telefono": "0900-fake",
-    "categoria": {
-      "id": 1,
-      "codigo": "cod1",
-      "clave": "Categoria de prueba 1",
-      "prioridad": "baja",
-      "activo": true
-    },
-    "estado": "enviado",
-    "time_stamp": "2016-10-02T22:36:27.567",
-    "creador": "Usuario1",
-    "fecha_creacion": "2016-10-02T22:36:27.567",
-    "calle": "Av. Siempre Viva",
-    "esquina": "Av. Springfield",
-    "numero": "742",
-    "departamento": "",
-    "sector": "Sector11",
-    "geo_ubicacion": null,
-    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula finibus diam ut molestie. Donec eros elit, vestibulum sit amet odio sed, sagittis dignissim lorem. Aenean blandit ligula turpis, eget fermentum neque sodales et. Maecenas hendrerit, diam eleifend mollis lobortis, metus dui porta tellus, vitae finibus orci lectus quis ipsum. Duis ligula nunc, sagittis nec mauris non, posuere sodales lorem. Nullam libero orci, tempor eget dapibus id, maximus nec risus. Aenean tristique neque lorem, in egestas felis ornare in. Etiam dui nisi, porta ut placerat ut, malesuada in tortor. Quisque dignissim, dolor eget facilisis sagittis, elit mauris auctor orci, eu.",
-    "en_proceso": true,
-    "extensiones": [{
-      "id": 11,
-      "zona": {
-        "id": 1,
-        "nombre": "Zona1",
-        "nombre_ue": "ue1"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [{
-        "id": 16,
-        "recurso": "Recursoconnombremuylargo",
-        "descripcion": null,
-        "fecha_arribo": "1900-10-02T22:36:27.567",
-        "actualmente_asignado": true
-      }],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-02T22:36:27.59",
-      "segunda_categoria": null,
-      "recursos": ["Recurso7"],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": []
-    }],
-    "imagenes": [],
-    "videos": [],
-    "audios": []
-  }, {
-    "id": 12,
-    "informante": "Homer Simpson",
-    "telefono": "0900-fake",
-    "categoria": {
-      "id": 2,
-      "codigo": "cod2",
-      "clave": "Categoria de prueba 2",
-      "prioridad": "media",
-      "activo": true
-    },
-    "estado": "enviado",
-    "time_stamp": "2016-10-02T22:36:27.567",
-    "creador": "Usuario1",
-    "fecha_creacion": "2016-10-02T22:36:27.567",
-    "calle": "Av. Siempre Viva",
-    "esquina": "Av. Springfield",
-    "numero": "742",
-    "departamento": "",
-    "sector": "Sector21",
-    "geo_ubicacion": null,
-    "descripcion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula finibus diam ut molestie. Donec eros elit, vestibulum sit amet odio sed, sagittis dignissim lorem. Aenean blandit ligula turpis, eget fermentum neque sodales et. Maecenas hendrerit, diam eleifend mollis lobortis, metus dui porta tellus, vitae finibus orci lectus quis ipsum. Duis ligula nunc, sagittis nec mauris non, posuere sodales lorem. Nullam libero orci, tempor eget dapibus id, maximus nec risus. Aenean tristique neque lorem, in egestas felis ornare in. Etiam dui nisi, porta ut placerat ut, malesuada in tortor. Quisque dignissim, dolor eget facilisis sagittis, elit mauris auctor orci, eu.",
-    "en_proceso": true,
-    "extensiones": [{
-      "id": 12,
-      "zona": {
-        "id": 1,
-        "nombre": "Zona1",
-        "nombre_ue": "ue1"
-      },
-      "despachador": null,
-      "descripcion_despachadores": [],
-      "descripcion_supervisor": null,
-      "asignaciones_recursos": [],
-      "estado": "faltadespachar",
-      "time_stamp": "2016-10-02T22:36:27.59",
-      "segunda_categoria": null,
-      "recursos": ["Recurso8", "Recurso9"],
-      "imagenes": [],
-      "videos": [],
-      "audios": [],
-      "geo_ubicaciones": []
-    }],
-    "imagenes": [],
-    "videos": [],
-    "audios": []
-  }]
+    "cod": 0,
+    "response": [
+        {
+            "id": 1,
+            "informante": null,
+            "telefono": null,
+            "categoria": {
+                "id": 1,
+                "codigo": "cod1",
+                "clave": "Categoria de prueba 1",
+                "prioridad": "baja",
+                "activo": true
+            },
+            "estado": "enviado",
+            "time_stamp": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "calle": null,
+            "esquina": null,
+            "numero": null,
+            "departamento": null,
+            "sector": "sector1",
+            "longitud": 0,
+            "latitud": 0,
+            "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
+            "en_proceso": true,
+            "extensiones": [
+                {
+                    "id": 1,
+                    "zona": {
+                        "id": 1,
+                        "nombre": "zona1",
+                        "nombre_ue": "ue1"
+                    },
+                    "despachador": null,
+                    "descripcion_despachadores": [
+                        {
+                            "usuario": "UsuarioDespachador",
+                            "texto": "descripcion de evento",
+                            "fecha": "2016-07-23T21:30:00.123",
+                            "descripcion": null,
+                            "origen": 1
+                        },
+                        {
+                            "usuario": "UsuarioDespachador2",
+                            "texto": "otra descripcion de evento",
+                            "fecha": "2016-07-23T21:37:00.123",
+                            "descripcion": null,
+                            "origen": 1
+                        },
+                        {
+                            "usuario": "UsuarioDespachador2",
+                            "texto": "otra mas",
+                            "fecha": "2016-07-24T10:37:00.123",
+                            "descripcion": null,
+                            "origen": 1
+                        }
+                    ],
+                    "descripcion_supervisor": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "asignaciones_recursos": [
+                        {
+                            "id": 1,
+                            "recurso": "recurso1",
+                            "descripcion": null,
+                            "fecha_arribo": "2016-10-23T17:56:17.573",
+                            "actualmente_asignado": true
+                        }
+                    ],
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "segunda_categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ],
+                    "imagenes": [],
+                    "videos": [],
+                    "audios": [],
+                    "geo_ubicaciones": [
+                        {
+                            "idExtension": 0,
+                            "usuario": null,
+                            "fecha_envio": "0001-01-01T00:00:00.123",
+                            "longitud": 66.6,
+                            "latitud": 55.5
+                        },
+                        {
+                            "idExtension": 0,
+                            "usuario": null,
+                            "fecha_envio": "0001-01-01T00:00:00.123",
+                            "longitud": 88.8,
+                            "latitud": 77.7
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "informante": null,
+            "telefono": null,
+            "categoria": {
+                "id": 1,
+                "codigo": "cod1",
+                "clave": "Categoria de prueba 1",
+                "prioridad": "baja",
+                "activo": true
+            },
+            "estado": "enviado",
+            "time_stamp": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "departamento": null,
+            "calle": null,
+            "esquina": null,
+            "numero": null,
+            "sector": "sector1",
+            "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
+            "en_proceso": true,
+            "latitud": -36.908599,
+            "longitud": -56.201376,
+            "extensiones": [
+                {
+                    "id": 2,
+                    "zona": {
+                        "id": 2,
+                        "nombre": "zona2",
+                        "nombre_ue": "ue2"
+                    },
+                    "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ]
+                },
+                {
+                    "id": 3,
+                    "zona": {
+                        "id": 3,
+                        "nombre": "zona3",
+                        "nombre_ue": "ue3"
+                    },
+                    "despachador": null,
+                    "descripcion_despachadores": [
+                        {
+                            "usuario": "UsuarioDespachador",
+                            "texto": "descripcion de evento",
+                            "fecha": "2016-07-23T21:30:00.123",
+                            "descripcion": null,
+                            "origen": 1
+                        },
+                        {
+                            "usuario": "UsuarioDespachador2",
+                            "texto": "otra descripcion de evento",
+                            "fecha": "2016-07-23T21:37:00.123",
+                            "descripcion": null,
+                            "origen": 1
+                        },
+                        {
+                            "usuario": "UsuarioDespachador2",
+                            "texto": "otra mas",
+                            "fecha": "2016-07-24T10:37:00.123",
+                            "descripcion": null,
+                            "origen": 1
+                        }
+                    ],
+                    "descripcion_supervisor": "Lorem Ipsum... versiones de Lorem Ipsum.",
+                    "asignaciones_recursos": [
+                        {
+                            "id": 1,
+                            "recurso": "recurso1",
+                            "descripcion": null,
+                            "fecha_arribo": "2016-10-23T17:56:17.573",
+                            "actualmente_asignado": true
+                        }
+                    ],
+                    "estado": "faltadespachar",
+                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "segunda_categoria": null,
+                    "recursos": [
+                        "recurso1"
+                    ],
+                    "imagenes": [],
+                    "videos": [],
+                    "audios": [],
+                    "geo_ubicaciones": [
+                        {
+                            "idExtension": 0,
+                            "usuario": null,
+                            "fecha_envio": "0001-01-01T00:00:00.123",
+                            "longitud": 66.6,
+                            "latitud": 55.5
+                        },
+                        {
+                            "idExtension": 0,
+                            "usuario": null,
+                            "fecha_envio": "0001-01-01T00:00:00.123",
+                            "longitud": 88.8,
+                            "latitud": 77.7
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
 }

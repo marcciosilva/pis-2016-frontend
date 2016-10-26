@@ -59,8 +59,14 @@
     <string name="map_event_view_detail">Ver detalle</string>
     <string name="error_event_details_from_map">Hubo un error al obtener el detalle del evento seleccionado.</string>
 
-    <!-- Events details-->
+    <!--Events details-->
     <string name="event_details_missing_value">No tiene</string>
+
+    <!--Events details - Extension Menu-->
+    <string name="attach_geolocation_option_title">Adjuntar geoubicación</string>
+    <string name="attach_image_option_title">Adjuntar imágen</string>
+    <string name="attach_audio_option_title">Adjuntar audio</string>
+    <string name="attach_video_option_title">Adjuntar video</string>
 
     <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>
@@ -97,5 +103,10 @@
     <string name="button_cancel">Cancelar</string>
     <string name="button_update">Actualizar</string>
 
+    <!--Adjuntar geoubicacion-->
+    <string name="attach_geolocation_confirmation_button_text">Enviar ubicación seleccionada</string>
+    <string name="attach_geolocation_message">A continuación utilice el mapa para seleccionar una ubicación geográfica para agregar a la extensión seleccionada. Cuando esté satisfecho con la ubicación seleccionada, presione el botón de confirmación.</string>
+    <string name="attach_geolocation_null_selection_string">Debe seleccionar una ubicación primero.</string>
+    <string name="attach_geolocation_success_message">La geoubicación fue registrada.</string>
 
 </resources>

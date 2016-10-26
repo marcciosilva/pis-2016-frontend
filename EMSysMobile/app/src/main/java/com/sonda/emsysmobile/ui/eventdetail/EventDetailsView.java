@@ -1,15 +1,15 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
-import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
@@ -25,6 +25,7 @@ public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
         AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
 
+    public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
 
@@ -88,6 +89,11 @@ public class EventDetailsView extends AppCompatActivity implements
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     public final void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
@@ -136,6 +142,17 @@ public class EventDetailsView extends AppCompatActivity implements
         FragmentManager fm = getSupportFragmentManager();
         AttachDescriptionDialogFragment attachDescriptionDialogFragment = AttachDescriptionDialogFragment.newInstance();
         attachDescriptionDialogFragment.show(fm, "fragment_edit_name");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == SHOULD_UPDATE_MAP) {
+                Log.d(TAG, "Updating map...");
+                EventDetailsPresenter.updateMapFragment();
+            }
+        }
     }
 
     @Override

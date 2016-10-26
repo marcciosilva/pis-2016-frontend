@@ -32,18 +32,17 @@ import java.util.List;
 public class EventManager {
 
     private static final String NOTIFICATION_KEY = "notification";
-    private static final String EVENTS_KEY = "events";
     private static final String EVENTS_UPDATED = "events_updated";
-    private static final String ONE_EVENT_UPDATED = "one_event_updated";
 
     private static EventManager mInstance;
     private Context mContext;
-
     private List<EventDto> mEvents;
 
     /**
-     * Using SparseArray because it is intended to be more memory efficient than using a HashMap to map Integers to Objects.
-     * Visit this link to know more about use of SparseArray in Android: https://developer.android.com/reference/android/util/SparseArray.html
+     * Using SparseArray because it is intended to be more memory efficient than using a HashMap
+     * to map Integers to Objects.
+     * Visit this link to know more about use of SparseArray in Android: https://developer
+     * .android.com/reference/android/util/SparseArray.html
      */
     private SparseArray<ExtensionDto> mExtensions;
 
@@ -54,9 +53,16 @@ public class EventManager {
         mEvents = new ArrayList<>();
         mExtensions = new SparseArray<>();
         LocalBroadcastManager.getInstance(mContext)
-                .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_EVENTS_LIST.toString()));
+                .registerReceiver(broadcastReceiverEvents,
+                        new IntentFilter(NotificationsEvents.UPDATE_EVENTS_LIST.toString()));
         LocalBroadcastManager.getInstance(mContext)
-                .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_ONE_EVENT.toString()));
+                .registerReceiver(broadcastReceiverEvents,
+                        new IntentFilter(NotificationsEvents.UPDATE_ONE_EVENT.toString()));
+    }
+
+    public final void onLogout() {
+        mEvents.clear();
+        mExtensions.clear();
     }
 
     /**
@@ -75,7 +81,8 @@ public class EventManager {
 
     public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
         if (mExtensions.size() == 0) {
-            EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+            EventsRequest<EventsResponse> request =
+                    new EventsRequest<>(mContext, EventsResponse.class);
             request.setListener(new Response.Listener<EventsResponse>() {
                 @Override
                 public void onResponse(EventsResponse response) {
@@ -198,7 +205,9 @@ public class EventManager {
     }
 
     private ArrayList<ExtensionDto> getExtensionsList() {
-        if (mExtensions == null) return null;
+        if (mExtensions == null) {
+            return null;
+        }
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
         for (int i = 0; i < mExtensions.size(); i++) {
             arrayList.add(mExtensions.valueAt(i));
@@ -225,9 +234,11 @@ public class EventManager {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
                     Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
-                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
+                    if (intent.getAction()
+                            .equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
                         updateEvents(null, null);
-                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
+                    } else if (intent.getAction()
+                            .equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
                         ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
                         //TODO: Update just one event with an API Call
                         if (extensionDto != null) {
