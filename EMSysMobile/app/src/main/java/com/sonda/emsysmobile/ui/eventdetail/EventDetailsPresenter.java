@@ -2,28 +2,36 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
+import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.ErrorManager;
 
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
@@ -147,7 +155,7 @@ public class EventDetailsPresenter {
     }
 
 
-    public static void attachDescriptionForExtension(Context context, String description, int
+    public static void attachDescriptionForExtension(final Context context, final String description, final int
             extensionId) {
         UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest =
                 new UpdateDescriptionRequest<>(context, EmsysResponse.class);
@@ -155,13 +163,32 @@ public class EventDetailsPresenter {
         updateDescriptionRequest.setListener(new Response.Listener<EmsysResponse>() {
             @Override
             public void onResponse(EmsysResponse response) {
-
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.app_name));
+                    builder.setMessage(
+                            context.getString(R.string.update_desc_success_string));
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    UIUtils.handleErrorMessage(context, response.getCode(), context
+                            .getString(R.string.error_generic));
+                }
             }
         });
         updateDescriptionRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.d(TAG, context.getString(R.string.error_http));
+                handleVolleyErrorResponse(context, error, new DialogInterface
+                        .OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        attachDescriptionForExtension(context, description, extensionId);
+                    }
+                });
             }
         });
         updateDescriptionRequest.execute();
