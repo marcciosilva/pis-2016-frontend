@@ -23,6 +23,7 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
@@ -70,7 +71,6 @@ public class HomeActivity extends AppCompatActivity
             mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
             mMapFragment.initializeView(this, mainScrollView);
-
         }
     }
 
@@ -81,10 +81,8 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
     public final void onBackPressed() {
-        DialogFragment dialog =
-                UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
+        DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
         dialog.show(getSupportFragmentManager(), TAG);
     }
 
@@ -99,8 +97,6 @@ public class HomeActivity extends AppCompatActivity
             if (eventExtensionZone == null) {
                 throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
             }
-//            EventDetailsPresenter
-//                    .loadEventDetails(HomeActivity.this, eventIdString, eventExtensionZone);
             EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent()
                     .getIdentifier(), extension.getIdentifier());
         } catch (NullPointerException e){
@@ -176,6 +172,7 @@ public class HomeActivity extends AppCompatActivity
                     // Se reinicia el token de autenticacion.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
+                    EventManager.getInstance(HomeActivity.this).onLogout();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
@@ -203,6 +200,7 @@ public class HomeActivity extends AppCompatActivity
         Intent intent = new Intent(this, SplashActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     /**

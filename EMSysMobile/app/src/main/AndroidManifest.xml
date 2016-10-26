@@ -22,6 +22,7 @@
             android:name="AA_MODELS"
             android:value="com.sonda.emsysmobile.persistence.model.SampleTable,
             com.sonda.emsysmobile.persistence.model.SampleReferencedTable" />
+
         <!-- ACTIVITIES -->
         <activity
             android:name=".ui.activities.login.AuthActivity"
@@ -69,6 +70,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <!-- SERVICES -->
         <service android:name=".backendcommunication.services.KeepAliveService" />
         <service android:name=".notifications.MyFirebaseMessagingService">

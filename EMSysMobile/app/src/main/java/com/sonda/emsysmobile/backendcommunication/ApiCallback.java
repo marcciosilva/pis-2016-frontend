@@ -27,5 +27,4 @@ public interface ApiCallback<T> {
      */
     @SuppressWarnings("unused")
     void onNetworkError(VolleyError error);
-
 }

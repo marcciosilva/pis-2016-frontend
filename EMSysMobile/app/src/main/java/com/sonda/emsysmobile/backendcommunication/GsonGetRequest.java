@@ -52,11 +52,13 @@ public class GsonGetRequest<T> extends Request<T>
     {
         try {
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            Log.d(TAG, "\n ------------------------------ \n RESPONSE from :" + getUrl() +"\n" + json + "\n------------------------------\n");
             return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
             Log.d(TAG, "Error en la sintaxis del mensaje recibido. Chequear JSON.");
+            e.printStackTrace();
             return Response.error(new ParseError(e));
         }
     }

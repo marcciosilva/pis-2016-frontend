@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -20,7 +21,7 @@ import com.sonda.emsysmobile.ui.activities.MainActivity;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
-
+    private static final String NOTIFICATION_KEY = "notification";
     /**
      * Called when message is received.
      *
@@ -39,28 +40,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // messages. For more see: https://firebase.google.com/docs/cloud-messaging/concept-options
         // [END_EXCLUDE]
 
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("text"));
-            return;
+            String notificationCode = remoteMessage.getData().get("code");
+            int objectIdentifier = Integer.parseInt(remoteMessage.getData().get("primarykey"));
+            Notification notification = new Notification(notificationCode, objectIdentifier);
+            Log.d(TAG, notification.toString());
+            postApplicationEvent(notification);
+//            return;
         }
 
-        // Check if message contains a notification payload.
-        if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
-            return;
-        }
-
-        sendNotification("EMSYS Mobile", "Tienes una nueva notificación");
-
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
+        showNotificationOnStatusBar("EMSYS Mobile", "Tienes una nueva notificación");
     }
     // [END receive_message]
 
@@ -69,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param messageBody FCM message body received.
      */
-    private void sendNotification(String messageTitle, String messageBody) {
+    private void showNotificationOnStatusBar(String messageTitle, String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
@@ -88,5 +78,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    /**
+     * Events are generated to notify changes to others app's modules.
+     * These events are posted through a Broadcast Receiver.
+     *
+     * @param notification Contains info about the notification that arrives.
+     */
+    private void postApplicationEvent(Notification notification) {
+        NotificationsEvents event = notification.getEventFromCode();
+        if (event != NotificationsEvents.NONE) {
+            Log.d(TAG, "Posting app event: " + event.toString());
+            Intent intent = new Intent(event.toString());
+            intent.putExtra(NOTIFICATION_KEY, notification);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+        }
     }
 }

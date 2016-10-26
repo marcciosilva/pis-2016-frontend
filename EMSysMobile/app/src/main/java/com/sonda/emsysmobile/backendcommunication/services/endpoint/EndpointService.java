@@ -7,6 +7,7 @@ import android.support.v4.util.ArrayMap;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.JsonObject;
@@ -27,15 +28,14 @@ public class EndpointService<T> {
     private Context context;
     private static final String TAG = EndpointService.class.getName();
 
+    //setting timeout to 60 sec beacuse azure delay is too long.
+    private int MY_SOCKET_TIMEOUT_MS = 60000;
+
     public EndpointService(Context context) {
         this.context = context;
     }
 
-    public final void execute(AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
-        // Se construye la URL de la request.
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        String url;
-        url = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
+    public final void execute(String url, AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
         Log.d(TAG, "Base URL: " + url);
         url += path;
         if (jsonObject != null) {
@@ -83,6 +83,10 @@ public class EndpointService<T> {
             }
         }
         if (request != null) {
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             AppRequestQueue.getInstance(context).addToRequestQueue(request);
         }
     }

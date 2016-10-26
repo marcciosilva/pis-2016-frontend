@@ -1,11 +1,14 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.backendcommunication.services.endpoint.EndpointService;
 
 import java.lang.reflect.Type;
@@ -31,14 +34,14 @@ public abstract class AbstractRequest<T> {
     }
 
     public final void execute() {
+        String baseURL = getBaseURL();
         String path = getPath();
         JsonObject jsonObject = getBody();
         Response.Listener listener = getListener();
         Response.ErrorListener errorListener = getErrorListener();
 
         EndpointService endpointService = new EndpointService(context);
-        endpointService.execute(requestType, path, jsonObject, responseType, listener, errorListener);
-
+        endpointService.execute(baseURL, requestType, path, jsonObject, responseType, listener, errorListener);
     }
 
     public final Context getContext() {
@@ -84,4 +87,15 @@ public abstract class AbstractRequest<T> {
     protected abstract String getPath();
 
     protected abstract JsonObject getBody();
+
+    /**
+     * If some request needs a different URL can Override this method.
+     * Can be used to set different environment just for one Request.
+     *
+     * @return A string with the BaseURL for the request.
+     */
+    protected String getBaseURL() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
+    }
 }
