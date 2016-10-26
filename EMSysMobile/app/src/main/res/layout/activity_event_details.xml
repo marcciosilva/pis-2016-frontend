@@ -233,6 +233,14 @@
             fab:fab_label="@string/action_update_desc"
             fab:fab_size="normal" />
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/button_attach_geolocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_edit_location_white_24dp"
+            fab:fab_label="@string/action_attach_geolocation"
+            fab:fab_size="normal" />
+
     </com.github.clans.fab.FloatingActionMenu>
 
 </RelativeLayout>

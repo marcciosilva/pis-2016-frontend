@@ -12,6 +12,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
@@ -42,6 +43,7 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mType;
 
     private FloatingActionButton mUpdateDescriptionBtn;
+    private FloatingActionButton mAttachGeolocationBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,14 @@ public class EventDetailsView extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 showUpdateDescriptionDialog();
+            }
+        });
+
+        mAttachGeolocationBtn = (FloatingActionButton) findViewById(R.id.button_attach_geolocation);
+        mAttachGeolocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAttachGeolocationView();
             }
         });
 
@@ -140,8 +150,20 @@ public class EventDetailsView extends AppCompatActivity implements
 
     private void showUpdateDescriptionDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        AttachDescriptionDialogFragment attachDescriptionDialogFragment = AttachDescriptionDialogFragment.newInstance();
+        AttachDescriptionDialogFragment attachDescriptionDialogFragment =
+                AttachDescriptionDialogFragment.newInstance();
         attachDescriptionDialogFragment.show(fm, "fragment_edit_name");
+    }
+
+    private void goToAttachGeolocationView() {
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            Intent intent =
+                    new Intent(EventDetailsView.this, AttachGeoLocView.class);
+            Bundle extras = new Bundle();
+            extras.putInt("ExtensionId", extensionID);
+            EventDetailsPresenter.showGeolocationAttachView(intent);
+        }
     }
 
     @Override
@@ -168,4 +190,5 @@ public class EventDetailsView extends AppCompatActivity implements
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
         }
     }
+
 }
