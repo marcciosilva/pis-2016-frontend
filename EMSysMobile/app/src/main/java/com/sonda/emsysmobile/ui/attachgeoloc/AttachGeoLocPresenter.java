@@ -16,6 +16,7 @@ import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLoca
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.activities.SplashActivity;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
+import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -52,6 +53,7 @@ public class AttachGeoLocPresenter {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Se termina la activity.
+                                view.setResult(EventDetailsView.SHOULD_UPDATE_MAP);
                                 view.finish();
                             }
                         });
@@ -59,7 +61,6 @@ public class AttachGeoLocPresenter {
                     } else {
                         UIUtils.handleErrorMessage(view, response.getCode(), response
                                 .getInnerResponse().getMsg());
-
                     }
                 }
             });

@@ -61,7 +61,7 @@
             "sector": "sector1",
             "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
             "en_proceso": true,
-		    "latitud": -34.908599,
+		    "latitud": -36.908599,
 		    "longitud": -56.201376,            
             "extensiones": [
                 {

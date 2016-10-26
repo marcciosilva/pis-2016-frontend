@@ -42,6 +42,7 @@ public class EventDetailMapView extends SupportMapFragment
     private List<Marker> mMarkers = new ArrayList<>();
     private CustomScrollView mMainScrollView;
     private boolean mShouldBeVisible = false;
+    private boolean mFirstPass;
 
     public static EventDetailMapView getInstance() {
         return new EventDetailMapView();
@@ -49,6 +50,7 @@ public class EventDetailMapView extends SupportMapFragment
 
     public final void initializeView(FragmentActivity callingActivity, CustomScrollView
             mainScrollView) {
+        mFirstPass = true;
         mMainScrollView = mainScrollView;
         mCallingActivity = callingActivity;
         mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
@@ -101,22 +103,26 @@ public class EventDetailMapView extends SupportMapFragment
     private void updateView() {
         Log.d(TAG, "updateView llamado");
         try {
-            View view = getView();
-            ViewGroup.LayoutParams mapParams = view.getLayoutParams();
-            if (mapParams != null) {
-                final int value = 200;
-                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                        value, getResources().getDisplayMetrics());
-                view.setLayoutParams(mapParams);
-            }
-            mMainScrollView.addInterceptScrollView(view);
-            mCallingActivity.getSupportFragmentManager().beginTransaction().show(this).commitNow();
-            // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
-            // este cargado.
-            final ScrollView scrollview =
-                    (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
-            if (scrollview != null) {
-                scrollview.fullScroll(ScrollView.FOCUS_UP);
+            if (mFirstPass) {
+                View view = getView();
+                ViewGroup.LayoutParams mapParams = view.getLayoutParams();
+                if (mapParams != null) {
+                    final int value = 200;
+                    mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                            value, getResources().getDisplayMetrics());
+                    view.setLayoutParams(mapParams);
+                }
+                mMainScrollView.addInterceptScrollView(view);
+                mCallingActivity.getSupportFragmentManager().beginTransaction().show(this)
+                        .commitNow();
+                // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
+                // este cargado.
+                final ScrollView scrollview =
+                        (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
+                if (scrollview != null) {
+                    scrollview.fullScroll(ScrollView.FOCUS_UP);
+                }
+                mFirstPass = false;
             }
             // Se configura el mapa para tener marcadores.
             setUpMap();

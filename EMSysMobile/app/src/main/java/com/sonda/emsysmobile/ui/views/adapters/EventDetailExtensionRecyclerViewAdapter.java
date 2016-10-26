@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
+import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
@@ -106,7 +107,8 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 if (item.getIntent() != null) {
                     Log.d(TAG, "ExtensionId = " + Integer
                             .toString(item.getIntent().getIntExtra("ExtensionId", -1)));
-                    mContext.startActivity(item.getIntent());
+//                    mContext.startActivity(item.getIntent());
+                    EventDetailsPresenter.showGeolocationAttachView(item.getIntent());
                 }
                 break;
             case R.id.attach_audio_option:
@@ -122,20 +124,6 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 return false;
         }
         return true;
-    }
-
-
-    public void goToGeoLocActivity(Context context, int eventId, double latitude,
-                                   double longitude) {
-        Intent intent = new Intent(context, AttachGeoLocView.class);
-        Bundle b = new Bundle();
-        // OJO! Aca hay que pasar los datos de la extension a la que se le quiere adjuntar la GeoLoc
-        // Esta asi para probar
-        b.putInt("ExtId", eventId);
-        b.putDouble("ExtLat", latitude);
-        b.putDouble("ExtLong", longitude);
-        intent.putExtras(b);
-        context.startActivity(intent);
     }
 
     @Override

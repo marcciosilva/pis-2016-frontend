@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.sonda.emsysmobile.utils.DateUtils;
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener {
 
+    public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
 
@@ -123,6 +125,17 @@ public class EventDetailsView extends AppCompatActivity implements
             }
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == SHOULD_UPDATE_MAP) {
+                Log.d(TAG, "Updating map...");
+                EventDetailsPresenter.updateMapFragment();
+            }
+        }
     }
 
     @Override
