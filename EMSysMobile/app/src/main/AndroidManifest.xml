@@ -26,7 +26,6 @@
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
-            android:noHistory="true"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".ui.activities.SettingsActivity"
@@ -36,12 +35,10 @@
         <activity
             android:name=".ui.activities.login.RoleChooserActivity"
             android:configChanges="orientation|screenSize"
-            android:noHistory="true"
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".ui.activities.login.ZonasRecursosChooserActivity"
             android:configChanges="orientation|screenSize"
-            android:noHistory="true"
             android:theme="@style/NoActionBar" />
         <activity android:name=".ui.activities.ConsumeWSActivity" />
         <activity
