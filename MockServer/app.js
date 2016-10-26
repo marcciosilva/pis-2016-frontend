@@ -145,10 +145,10 @@ KeepAliveChoice.Enum('Success', 'Fail');
 keepAliveChoice = KeepAliveChoice.Success;
 switch (keepAliveChoice) {
 	case KeepAliveChoice.Success:
-		app.post('/users/expiration_time', users.postUserKeepAliveSuccess);
+		app.post('/users/keepmealive', users.postUserKeepAliveSuccess);
 		break;
 	case KeepAliveChoice.Fail:
-		app.post('/users/expiration_time', users.postUserKeepAliveFail);
+		app.post('/users/keepmealive', users.postUserKeepAliveFail);
 		break;
 	default:
 		break;
