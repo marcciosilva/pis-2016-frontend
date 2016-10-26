@@ -230,9 +230,11 @@ public class EventManager {
                     } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
                         ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
                         //TODO: Update just one event with an API Call
-                        extensionDto.setModified(true);
-                        Intent eventsIntent = new Intent(EVENTS_UPDATED);
-                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+                        if (extensionDto != null) {
+                            extensionDto.setModified(true);
+                            Intent eventsIntent = new Intent(EVENTS_UPDATED);
+                            LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+                        }
                     }
                 }
             }

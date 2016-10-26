@@ -1,24 +1,29 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
  * Created by mserralta on 13/10/16.
  */
 
 public class EventDetailsView extends AppCompatActivity implements
-        OnListFragmentInteractionListener {
-
+        OnListFragmentInteractionListener,
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
 
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
@@ -128,11 +133,22 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     private void showUpdateDescriptionDialog() {
-
+        FragmentManager fm = getSupportFragmentManager();
+        AttachDescriptionDialogFragment attachDescriptionDialogFragment = AttachDescriptionDialogFragment.newInstance();
+        attachDescriptionDialogFragment.show(fm, "fragment_edit_name");
     }
 
     @Override
     public void onListFragmentInteraction(ExtensionDto event) {
 
+    }
+
+    @Override
+    public void onAttachDescription(String descriptionText) {
+        UIUtils.hideSoftKeyboard(this);
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
+        }
     }
 }

@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -135,4 +138,21 @@ public class EventDetailsPresenter {
     }
 
 
+    public static void attachDescriptionForExtension(Context context, String description, int extensionId) {
+        UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest = new UpdateDescriptionRequest<>(context, EmsysResponse.class);
+        updateDescriptionRequest.setAttributes(description, extensionId);
+        updateDescriptionRequest.setListener(new Response.Listener<EmsysResponse>() {
+            @Override
+            public void onResponse(EmsysResponse response) {
+
+            }
+        });
+        updateDescriptionRequest.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        updateDescriptionRequest.execute();
+    }
 }
