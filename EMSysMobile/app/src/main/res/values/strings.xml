@@ -68,6 +68,9 @@
     <string name="attach_audio_option_title">Adjuntar audio</string>
     <string name="attach_video_option_title">Adjuntar video</string>
 
+    <string name="event_details_description">Descripción</string>
+    <string name="event_details_dispatcher">Despachador</string>
+d
     <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>
     <string name="dummy_second_field_external_service_row">Dummy Second text!</string>
