@@ -2,22 +2,32 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
  * Created by mserralta on 13/10/16.
  */
 
 public class EventDetailsView extends AppCompatActivity implements
-        OnListFragmentInteractionListener {
+        OnListFragmentInteractionListener,
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
 
     public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
@@ -32,9 +42,11 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mCorner;
     private TextView mCategory;
     private TextView mSector;
-
     private TextView mOrigin;
     private TextView mType;
+
+    private FloatingActionButton mUpdateDescriptionBtn;
+    private FloatingActionButton mAttachGeolocationBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -47,7 +59,6 @@ public class EventDetailsView extends AppCompatActivity implements
         mCreatedDate = (TextView) findViewById(R.id.event_date_created);
         mStatus = (TextView) findViewById(R.id.event_status);
 
-
         mStreet = (TextView) findViewById(R.id.informant_street);
         mCorner = (TextView) findViewById(R.id.informant_corner);
         mNumber = (TextView) findViewById(R.id.informant_number);
@@ -58,6 +69,21 @@ public class EventDetailsView extends AppCompatActivity implements
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
 
+        mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
+        mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showUpdateDescriptionDialog();
+            }
+        });
+
+        mAttachGeolocationBtn = (FloatingActionButton) findViewById(R.id.button_attach_geolocation);
+        mAttachGeolocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAttachGeolocationView();
+            }
+        });
 
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
@@ -74,7 +100,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
-
     }
 
     @Override
@@ -124,7 +149,24 @@ public class EventDetailsView extends AppCompatActivity implements
                 mOrigin.setText(mEvent.getOrigin());
             }
         }
+    }
 
+    private void showUpdateDescriptionDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        AttachDescriptionDialogFragment attachDescriptionDialogFragment =
+                AttachDescriptionDialogFragment.newInstance();
+        attachDescriptionDialogFragment.show(fm, "fragment_edit_name");
+    }
+
+    private void goToAttachGeolocationView() {
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            Intent intent =
+                    new Intent(EventDetailsView.this, AttachGeoLocView.class);
+            Bundle extras = new Bundle();
+            extras.putInt("ExtensionId", extensionID);
+            EventDetailsPresenter.showGeolocationAttachView(intent);
+        }
     }
 
     @Override
@@ -142,4 +184,33 @@ public class EventDetailsView extends AppCompatActivity implements
     public void onListFragmentInteraction(ExtensionDto event) {
 
     }
+
+    @Override
+    public void onAttachDescription(String descriptionText) {
+        UIUtils.hideSoftKeyboard(this);
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() ==R.id.menu_back) {
+            onBackPressed();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public final boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_menu_only_back, menu);
+        return true;
+    }
+
+
+
+
 }

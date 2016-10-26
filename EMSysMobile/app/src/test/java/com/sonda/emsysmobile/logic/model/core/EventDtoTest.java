@@ -94,7 +94,7 @@ public class EventDtoTest {
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtension = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
-                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
+                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
                 mExtensionEvent);
         mExtensions.add(mExtension);
     }
@@ -378,7 +378,7 @@ public class EventDtoTest {
                 testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
                 testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
+                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent);
         testExtensions.add(testExtension);
         assertTrue(mExtensionEvent.equals(testExtensionEvent));
@@ -461,7 +461,7 @@ public class EventDtoTest {
                 testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
                 testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
+                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent);
         testExtensions.add(testExtension);
         assertFalse(mExtensionEvent.equals(testExtensionEvent));

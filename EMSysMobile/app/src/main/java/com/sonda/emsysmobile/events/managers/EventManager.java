@@ -39,8 +39,10 @@ public class EventManager {
     private List<EventDto> mEvents;
 
     /**
-     * Using SparseArray because it is intended to be more memory efficient than using a HashMap to map Integers to Objects.
-     * Visit this link to know more about use of SparseArray in Android: https://developer.android.com/reference/android/util/SparseArray.html
+     * Using SparseArray because it is intended to be more memory efficient than using a HashMap
+     * to map Integers to Objects.
+     * Visit this link to know more about use of SparseArray in Android: https://developer
+     * .android.com/reference/android/util/SparseArray.html
      */
     private SparseArray<ExtensionDto> mExtensions;
 
@@ -238,9 +240,12 @@ public class EventManager {
                     } else if (intent.getAction()
                             .equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
                         ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
-                        extensionDto.setModified(true);
-                        Intent eventsIntent = new Intent(EVENTS_UPDATED);
-                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+                        //TODO: Update just one event with an API Call
+                        if (extensionDto != null) {
+                            extensionDto.setModified(true);
+                            Intent eventsIntent = new Intent(EVENTS_UPDATED);
+                            LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+                        }
                     }
                 }
             }
