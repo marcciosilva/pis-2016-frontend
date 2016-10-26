@@ -62,6 +62,9 @@
     <!-- Events details-->
     <string name="event_details_missing_value">No tiene</string>
 
+    <string name="event_details_description">Descripción</string>
+    <string name="event_details_dispatcher">Despachador</string>
+
     <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>
     <string name="dummy_second_field_external_service_row">Dummy Second text!</string>

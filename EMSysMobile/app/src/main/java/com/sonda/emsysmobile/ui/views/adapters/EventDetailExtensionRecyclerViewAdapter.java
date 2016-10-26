@@ -44,8 +44,9 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         Log.d(TAG, "ZONE NAME: " + zoneString);
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(zoneString);
-        holder.getDescriptionTextView().setText(extension.getDescription());
-        holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
+        if(extension.getDescription() != null && extension.getDescription() != "") {
+            holder.getDescriptionTextView().setText(extension.getDescription());
+        }
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +68,9 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         private final View view;
         private final TextView idAndZoneTextView;
         private final TextView descriptionTextView;
-        private final TextView dateTextView;
+        private final TextView dispatcherTextView;
         private ExtensionDto item;
+
 
         public final View getView() {
             return view;
@@ -82,8 +84,8 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             return descriptionTextView;
         }
 
-        public final TextView getDateTextView() {
-            return dateTextView;
+        public final TextView getDispatcherTextView() {
+            return descriptionTextView;
         }
 
         public final ExtensionDto getItem() {
@@ -99,7 +101,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             this.view = view;
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            dateTextView = (TextView) view.findViewById(R.id.label_date);
+            dispatcherTextView =  (TextView) view.findViewById(R.id.label_dispatcher);
         }
 
         @Override

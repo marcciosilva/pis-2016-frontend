@@ -7,52 +7,65 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/label_id_and_zone"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:textStyle="bold"
+                android:textSize="@dimen/font_large"
+                android:textColor="@color/black"
+                tools:text="Zona 1"/>
+
+            <TextView
+                android:id="@+id/actually_dispached"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spacing_small"
+                android:textSize="@dimen/font_normal"
+                android:textColor="@color/gray_dark"
+                android:visibility="invisible"
+                tools:text="Actualmente despachada"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/label_id_and_zone"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_small"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/font_large"
-                    android:textColor="@color/black"
-                    tools:text="#001 - Zona 1"/>
-
-                <TextView
-                    android:id="@+id/label_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/spacing_small"
-                    android:textSize="@dimen/font_large"
-                    tools:text="02/10/2016"/>
-
-            </LinearLayout>
-
+            android:orientation="horizontal">
             <TextView
-                android:id="@+id/label_description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/spacing_small"
-                android:layout_marginRight="@dimen/spacing_small"
-                android:textSize="@dimen/font_large"
-                android:maxLines="2"
-                android:ellipsize="end"
-                tools:text="Descripción de la extensión media larga para probar como se comporta el label y sigo probando para ver como se comporta con más de dos lineas" />
+                android:text="@string/event_details_description"
+                style="@style/EventDetails.FieldLabel"
+                android:layout_width="200dp"/>
+            <TextView
+                android:text="@string/event_details_missing_value"
+                style="@style/EventDetails.FieldValue"
+                android:id="@+id/label_description" />
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/event_details_dispatcher"
+                style="@style/EventDetails.FieldLabel"
+                android:layout_width="200dp"/>
+            <TextView
+                android:text="@string/event_details_missing_value"
+                style="@style/EventDetails.FieldValue"
+                android:id="@+id/label_dispatcher" />
         </LinearLayout>
 
     </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
