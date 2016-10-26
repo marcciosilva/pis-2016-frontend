@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.backendcommunication;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -21,6 +22,7 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     private final Response.Listener<T> listener;
 
     public static final String DATE_FORMAT = "dd-MM-yyyy'T'hh:mm:ss.SSS";
+    public static final String TAG = "getrequest";
 
     public GsonPostRequest
     (
@@ -51,6 +53,7 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     protected final Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            Log.d(TAG, "\n ------------------------------ \n RESPONSE from :" + getUrl() +"\n" + json + "\n------------------------------\n");
             return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));

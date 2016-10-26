@@ -1,9 +1,13 @@
 package com.sonda.emsysmobile.ui.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +40,9 @@ public class ExtensionsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
+
     private static final String TAG = ExtensionsFragment.class.getName();
+    private static final String EVENTS_UPDATED = "events_updated";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -67,39 +73,71 @@ public class ExtensionsFragment extends Fragment {
 
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
+        showSpinner(true);
         getEvents();
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //We wants than Broadcast Receiver be registered when the fragment is active
+        LocalBroadcastManager.getInstance(this.getActivity())
+                .registerReceiver(broadcastReceiverEvents, new IntentFilter(EVENTS_UPDATED));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        //We should unregister Broadcast Reciever when te fragment is paused
+        LocalBroadcastManager.getInstance(this.getActivity())
+                .unregisterReceiver(broadcastReceiverEvents);
+    }
+
     private void getEvents() {
-        mProgressBar.setVisibility(View.VISIBLE);
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
         eventManager.fetchExtensions(new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
-                mProgressBar.setVisibility(View.GONE);
+                showSpinner(false);
                 mExtensions = extensions;
-                mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(ExtensionsFragment.this.getActivity(), mExtensions, mListener));
+                ExtensionRecyclerViewAdapter adapter = (ExtensionRecyclerViewAdapter) mRecyclerView.getAdapter();
+                if (adapter == null) {
+                    mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(ExtensionsFragment.this.getActivity(), mExtensions, mListener));
+                } else {
+                    adapter.setExtensions(mExtensions);
+                }
             }
 
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
-                mProgressBar.setVisibility(View.GONE);
+                showSpinner(false);
                 UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
             }
 
             @Override
             public void onNetworkError(VolleyError error) {
-                mProgressBar.setVisibility(View.GONE);
+                showSpinner(false);
                 handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        showSpinner(true);
                         getEvents();
                     }
                 });
             }
         });
+    }
+
+    private void showSpinner(boolean visible) {
+        if (visible) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -119,4 +157,13 @@ public class ExtensionsFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     * Receives a notification when event list is updated
+     */
+    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getEvents();
+        }
+    };
 }

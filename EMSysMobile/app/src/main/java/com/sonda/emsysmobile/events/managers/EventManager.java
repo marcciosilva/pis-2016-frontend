@@ -1,6 +1,12 @@
 package com.sonda.emsysmobile.events.managers;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
+import android.util.SparseArray;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -12,6 +18,8 @@ import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsR
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.notifications.Notification;
+import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,18 +31,34 @@ import java.util.List;
  */
 public class EventManager {
 
+    private static final String NOTIFICATION_KEY = "notification";
+    private static final String EVENTS_UPDATED = "events_updated";
+
     private static EventManager mInstance;
     private Context mContext;
-
     private List<EventDto> mEvents;
-    private List<ExtensionDto> mExtensions;
+
+    /**
+     * Using SparseArray because it is intended to be more memory efficient than using a HashMap to map Integers to Objects.
+     * Visit this link to know more about use of SparseArray in Android: https://developer.android.com/reference/android/util/SparseArray.html
+     */
+    private SparseArray<ExtensionDto> mExtensions;
 
     private static final String TAG = EventManager.class.getName();
 
-    EventManager(Context context) {
+    private EventManager(Context context) {
         mContext = context;
         mEvents = new ArrayList<>();
-        mExtensions = new ArrayList<>();
+        mExtensions = new SparseArray<>();
+        LocalBroadcastManager.getInstance(mContext)
+                .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_EVENTS_LIST.toString()));
+        LocalBroadcastManager.getInstance(mContext)
+                .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_ONE_EVENT.toString()));
+    }
+
+    public final void onLogout() {
+        mEvents.clear();
+        mExtensions.clear();
     }
 
     /**
@@ -52,53 +76,82 @@ public class EventManager {
     }
 
     public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
-        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
-        request.setListener(new Response.Listener<EventsResponse>() {
-            @Override
-            public void onResponse(EventsResponse response) {
-                int responseCode = response.getCode();
-                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    setEvents(response.getEvents());
-                    callback.onSuccess(mExtensions);
-                } else {
-                    //TODO soportar mensaje de error en EventsResponse
-                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
-                    callback.onLogicError("Unsupported", 1);
+        if (mExtensions.size() == 0) {
+            EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+            request.setListener(new Response.Listener<EventsResponse>() {
+                @Override
+                public void onResponse(EventsResponse response) {
+                    int responseCode = response.getCode();
+                    if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                        setEvents(response.getEvents());
+                        callback.onSuccess(getExtensionsList());
+                    } else {
+                        //TODO soportar mensaje de error en EventsResponse
+                        //callback.onError(response.getInnerResponse().getMsg(), responseCode);
+                        callback.onLogicError("Unsupported", 1);
+                    }
                 }
-            }
-        });
-        request.setErrorListener(new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                callback.onNetworkError(error);
-            }
-        });
-        request.execute();
+            });
+            request.setErrorListener(new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onNetworkError(error);
+                }
+            });
+            request.execute();
+        } else {
+            callback.onSuccess(getExtensionsList());
+        }
     }
 
-
     public final void fetchEvents(final ApiCallback<List<EventDto>> callback) {
-        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
-        request.setListener(new Response.Listener<EventsResponse>() {
-            @Override
-            public void onResponse(EventsResponse response) {
-                int responseCode = response.getCode();
-                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    setEvents(response.getEvents());
-                    callback.onSuccess(mEvents);
-                } else {
-                    //TODO soportar mensaje de error en EventsResponse
-                    //callback.onError(response.getInnerResponse().getMsg(), responseCode);
-                    callback.onLogicError("Unsupported", 1);
+        if (mEvents.size() == 0) {
+            updateEvents(new Response.Listener<EventsResponse>() {
+                @Override
+                public void onResponse(EventsResponse response) {
+                    int responseCode = response.getCode();
+                    if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                        setEvents(response.getEvents());
+                        callback.onSuccess(mEvents);
+                    } else {
+                        //TODO soportar mensaje de error en EventsResponse
+                        callback.onLogicError("Unsupported", 1);
+                    }
                 }
-            }
-        });
-        request.setErrorListener(new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                callback.onNetworkError(error);
-            }
-        });
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    callback.onNetworkError(error);
+                }
+            });
+        } else {
+            callback.onSuccess(mEvents);
+        }
+    }
+
+    private void updateEvents(Response.Listener<EventsResponse> responseListener,
+                              Response.ErrorListener errorListener) {
+        EventsRequest<EventsResponse> request = new EventsRequest<>(mContext, EventsResponse.class);
+        if (responseListener == null) {
+            responseListener = new Response.Listener<EventsResponse>() {
+                @Override
+                public void onResponse(EventsResponse response) {
+                    setEvents(response.getEvents());
+                    Intent intent = new Intent(EVENTS_UPDATED);
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+                }
+            };
+        }
+        if (errorListener == null) {
+            errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //TODO: Manage error when updating events
+                }
+            };
+        }
+        request.setListener(responseListener);
+        request.setErrorListener(errorListener);
         request.execute();
     }
 
@@ -141,18 +194,49 @@ public class EventManager {
             List<ExtensionDto> eventExtensions = event.getExtensions();
             for (ExtensionDto extension : eventExtensions) {
                 extension.setEvent(event);
+                mExtensions.append(extension.getIdentifier(), extension);
             }
-            mExtensions.addAll(eventExtensions);
         }
-        sortExtensionsByPriority();
     }
 
-    private void sortExtensionsByPriority() {
-        Collections.sort(mExtensions, new Comparator<ExtensionDto>() {
+    private ArrayList<ExtensionDto> getExtensionsList() {
+        if (mExtensions == null) return null;
+        ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
+        for (int i = 0; i < mExtensions.size(); i++) {
+            arrayList.add(mExtensions.valueAt(i));
+        }
+        sortExtensionsByPriority(arrayList);
+        return arrayList;
+    }
+
+    private void sortExtensionsByPriority(ArrayList<ExtensionDto> extensions) {
+        Collections.sort(extensions, new Comparator<ExtensionDto>() {
             public int compare(ExtensionDto ext1, ExtensionDto ext2) {
                 return ext1.getPriority().compareTo(ext2.getPriority());
             }
         });
     }
 
+    /**
+     * Catches notification events posted by MyFirebaseMessagingService
+     */
+    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getExtras() != null) {
+                Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
+                if (notification != null) {
+                    Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
+                    if (intent.getAction().equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
+                        updateEvents(null, null);
+                    } else if (intent.getAction().equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
+                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
+                        extensionDto.setModified(true);
+                        Intent eventsIntent = new Intent(EVENTS_UPDATED);
+                        LocalBroadcastManager.getInstance(mContext).sendBroadcast(eventsIntent);
+                    }
+                }
+            }
+        }
+    };
 }

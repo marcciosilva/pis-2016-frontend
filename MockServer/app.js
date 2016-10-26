@@ -44,7 +44,7 @@ app.get('/events/:event_id/detail/special_case', events.getSpecialCase);
 
 //Manejo usuarios
 
-//auth
+//aut
 //http://localhost:8081/users/authenticate
 var AuthChoice={};
 AuthChoice.Enum('Success', 'InvalidCredentials', 'AlreadyLogged');

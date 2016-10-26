@@ -30,6 +30,12 @@ public class ExtensionDto implements Serializable {
     @SerializedName("zona")
     private ZoneDto zone;
 
+    /**
+     * When this boolean is true, an indicator is shown
+     * for this extension in the extensions list.
+     */
+    private boolean isModified;
+
     @SerializedName("geo_ubicaciones")
     private List<GeolocationDto> geolocations;
 
@@ -102,6 +108,14 @@ public class ExtensionDto implements Serializable {
 
     public final void setEvent(EventDto event) {
         this.event = event;
+    }
+
+    public boolean isModified() {
+        return isModified;
+    }
+
+    public void setModified(boolean modified) {
+        isModified = modified;
     }
 
     /**
