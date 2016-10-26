@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -190,5 +193,24 @@ public class EventDetailsView extends AppCompatActivity implements
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() ==R.id.menu_back) {
+            onBackPressed();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public final boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_menu_only_back, menu);
+        return true;
+    }
+
+
+
 
 }

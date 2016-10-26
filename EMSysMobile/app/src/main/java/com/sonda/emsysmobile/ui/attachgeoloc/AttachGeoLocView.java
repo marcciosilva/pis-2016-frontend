@@ -11,8 +11,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -23,6 +27,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.activities.SplashActivity;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -119,6 +124,22 @@ public class AttachGeoLocView extends AppCompatActivity implements
                 dialog.show(getSupportFragmentManager(), TAG);
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() ==R.id.menu_back) {
+            onBackPressed();
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public final boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_menu_only_back, menu);
+        return true;
     }
 
 }

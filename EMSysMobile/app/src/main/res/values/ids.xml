@@ -2,4 +2,6 @@
 <resources>
     <item name="attachment_menu" type="id"/>
     <item name="menu_extensions" type="id"/>
+    <item name="menu_back" type="id"/>
+    <item name="menu_title" type="id"/>
 </resources>

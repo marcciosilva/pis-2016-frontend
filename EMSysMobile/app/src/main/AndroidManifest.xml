@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sonda.emsysmobile">
+          package="com.sonda.emsysmobile">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
@@ -14,82 +14,80 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="AA_DB_NAME"
-            android:value="database.db" />
+            android:value="database.db"/>
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="1" />
+            android:value="1"/>
         <meta-data
             android:name="AA_MODELS"
             android:value="com.sonda.emsysmobile.persistence.model.SampleTable,
-            com.sonda.emsysmobile.persistence.model.SampleReferencedTable" />
+            com.sonda.emsysmobile.persistence.model.SampleReferencedTable"/>
 
         <!-- ACTIVITIES -->
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="Preferences"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.activities.login.RoleChooserActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".ui.activities.login.ZonasRecursosChooserActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar" />
-        <activity android:name=".ui.activities.ConsumeWSActivity" />
+            android:theme="@style/NoActionBar"/>
+        <activity android:name=".ui.activities.ConsumeWSActivity"/>
         <activity
             android:name=".ui.activities.HomeActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".ui.eventdetail.EventDetailsView"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.attachgeoloc.AttachGeoLocView"
-            android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar" />
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".ui.activities.ExternalServiceResultActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".ui.activities.ExternalServiceDetailActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".ui.activities.SplashActivity"
             android:theme="@style/NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <!-- SERVICES -->
-        <service android:name=".backendcommunication.services.KeepAliveService" />
+        <service android:name=".backendcommunication.services.KeepAliveService"/>
         <service android:name=".notifications.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
         <service android:name=".notifications.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
 
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM" />
+            android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM"/>
     </application>
 
 </manifest>
