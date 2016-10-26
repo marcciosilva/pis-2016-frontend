@@ -110,4 +110,7 @@
     <string name="attach_geolocation_null_selection_string">Debe seleccionar una ubicación primero.</string>
     <string name="attach_geolocation_success_message">La geoubicación fue registrada.</string>
 
+    <string name="dummy_description">Description</string>
+    <string name="dummy_text">Dummy text</string>
+
 </resources>

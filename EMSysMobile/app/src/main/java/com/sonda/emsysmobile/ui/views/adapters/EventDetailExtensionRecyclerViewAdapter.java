@@ -25,8 +25,7 @@ import com.sonda.emsysmobile.utils.DateUtils;
 import java.util.List;
 
 public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
-        .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> implements
-        PopupMenu.OnMenuItemClickListener {
+        .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
     private final List<ExtensionDto> mExtensions;
     private final OnListFragmentInteractionListener mListener;
@@ -66,64 +65,6 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 }
             }
         });
-        holder.getAttachmentsOptionMenu().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Genero menu para la extension.
-                PopupMenu popup = new PopupMenu(view.getContext(), view);
-                MenuInflater inflater = popup.getMenuInflater();
-                Menu menu = popup.getMenu();
-                inflater.inflate(R.menu.actions, menu);
-                // Agrego menu para adjuntar audio.
-                MenuItem attachAudioOptionItem = menu.findItem(R.id.attach_audio_option);
-                attachAudioOptionItem.setIntent(null);
-                // Genero intent para adjuntar geoubicacion.
-                Intent attachGeolocationIntent =
-                        new Intent(view.getContext(), AttachGeoLocView.class);
-                Bundle extras = new Bundle();
-                extras.putInt("ExtensionId", holder.getItem().getIdentifier());
-                attachGeolocationIntent.putExtras(extras);
-                // Agrego menu para adjuntar geoubicacion.
-                MenuItem attachGeolocationOptionItem = menu.findItem(R.id
-                        .attach_geolocation_option);
-                attachGeolocationOptionItem.setIntent(attachGeolocationIntent);
-                // Agrego menu para adjuntar imagen.
-                MenuItem attachImageOptionItem = menu.findItem(R.id.attach_image_option);
-                attachImageOptionItem.setIntent(null);
-                // Agrego menu para adjuntar video.
-                MenuItem attachVideoOptionItem = menu.findItem(R.id.attach_video_option);
-                attachVideoOptionItem.setIntent(null);
-                popup.show();
-                popup.setOnMenuItemClickListener(EventDetailExtensionRecyclerViewAdapter.this);
-            }
-        });
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.attach_geolocation_option:
-                Log.d(TAG, "id de extension es " + Integer.toString(item.getItemId()));
-                if (item.getIntent() != null) {
-                    Log.d(TAG, "ExtensionId = " + Integer
-                            .toString(item.getIntent().getIntExtra("ExtensionId", -1)));
-//                    mContext.startActivity(item.getIntent());
-                    EventDetailsPresenter.showGeolocationAttachView(item.getIntent());
-                }
-                break;
-            case R.id.attach_audio_option:
-                // TODO implementar.
-                break;
-            case R.id.attach_image_option:
-                // TODO implementar.
-                break;
-            case R.id.attach_video_option:
-                // TODO implementar.
-                break;
-            default:
-                return false;
-        }
-        return true;
     }
 
     @Override
@@ -137,7 +78,6 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         private final TextView descriptionTextView;
         private final TextView dateTextView;
         private ExtensionDto item;
-        private ImageButton attachmentsOptionMenu;
 
         public final View getView() {
             return view;
@@ -163,17 +103,12 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             this.item = item;
         }
 
-        public ImageButton getAttachmentsOptionMenu() {
-            return attachmentsOptionMenu;
-        }
-
         public ViewHolder(View view) {
             super(view);
             this.view = view;
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
             dateTextView = (TextView) view.findViewById(R.id.label_date);
-            attachmentsOptionMenu = (ImageButton) view.findViewById(R.id.attachment_menu);
         }
 
         @Override

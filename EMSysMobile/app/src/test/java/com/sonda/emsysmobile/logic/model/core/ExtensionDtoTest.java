@@ -93,7 +93,7 @@ public class ExtensionDtoTest {
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
-                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
+                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
                 mExtensionEvent);
         mExtensions.add(mExtensionDto);
     }
@@ -266,7 +266,7 @@ public class ExtensionDtoTest {
                 testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
                 testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone,
+                testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent);
         testExtensions.add(testExtension);
         mExtensionDto.setEvent(testExtensionEvent);
@@ -327,7 +327,7 @@ public class ExtensionDtoTest {
         // EventDto.
         testExtensionEvent = null;
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone,
+                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent);
         assertTrue(mExtensionDto.equals(testExtensionDto));
     }
@@ -375,7 +375,7 @@ public class ExtensionDtoTest {
         // EventDto.
         testExtensionEvent = null;
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone,
+                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent);
         assertFalse(mExtensionDto.equals(testExtensionDto));
     }
