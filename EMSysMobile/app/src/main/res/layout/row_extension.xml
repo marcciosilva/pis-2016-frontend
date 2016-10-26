@@ -11,7 +11,7 @@
 
         <View
             android:id="@+id/view_priority_mark"
-            android:layout_width="5dp"
+            android:layout_width="10dp"
             android:layout_height="@dimen/row_height_normal"
             android:background="@android:color/holo_red_light"/>
 
@@ -33,7 +33,7 @@
                     android:textStyle="bold"
                     android:textSize="@dimen/font_large"
                     android:textColor="@color/black"
-                    tools:text="#001 - Zona 1"/>
+                    tools:text="001 - Zona 1"/>
 
                 <TextView
                     android:id="@+id/label_date"
@@ -52,7 +52,7 @@
                 android:layout_marginLeft="@dimen/spacing_small"
                 android:layout_marginRight="@dimen/spacing_small"
                 android:textSize="@dimen/font_large"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:ellipsize="end"
                 tools:text="Descripción de la extensión media larga para probar como se comporta el label y sigo probando para ver como se comporta con más de dos lineas" />
 
