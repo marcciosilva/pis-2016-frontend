@@ -56,6 +56,11 @@ public class EventManager {
                 .registerReceiver(broadcastReceiverEvents, new IntentFilter(NotificationsEvents.UPDATE_ONE_EVENT.toString()));
     }
 
+    public final void onLogout() {
+        mEvents.clear();
+        mExtensions.clear();
+    }
+
     /**
      * Singleton para manejar objetos de eventos y extensiones.
      *
