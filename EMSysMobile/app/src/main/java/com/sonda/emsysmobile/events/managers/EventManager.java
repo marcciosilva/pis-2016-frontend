@@ -204,6 +204,18 @@ public final class EventManager {
         }
     }
 
+    public void setEventAsRead(EventDto event) {
+        List<ExtensionDto> eventExtensions = event.getExtensions();
+        for (ExtensionDto extension : eventExtensions) {
+            int extensionID = extension.getIdentifier();
+            if (mExtensions.get(extensionID) != null) {
+                mExtensions.get(extensionID).setModified(false);
+            }
+        }
+        Intent intent = new Intent(EVENTS_UPDATED);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+    }
+
     private List<ExtensionDto> getExtensionsList() {
         if (mExtensions == null) {
             return null;

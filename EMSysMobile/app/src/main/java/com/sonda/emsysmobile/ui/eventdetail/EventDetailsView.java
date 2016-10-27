@@ -160,6 +160,7 @@ public class EventDetailsView extends AppCompatActivity implements
                     new Intent(EventDetailsView.this, AttachGeoLocView.class);
             Bundle extras = new Bundle();
             extras.putInt("ExtensionId", extensionID);
+            intent.putExtras(extras);
             EventDetailsPresenter.showGeolocationAttachView(intent);
         }
     }
