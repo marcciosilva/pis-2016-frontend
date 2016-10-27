@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 
@@ -58,12 +59,13 @@ public class EventDetailsPresenter {
      */
     public static void loadEventDetails(final Context context, final int eventId, final int
             eventExtensionId) {
-        EventManager eventManager = EventManager.getInstance(context);
+        final EventManager eventManager = EventManager.getInstance(context);
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
                 List<ExtensionDto> orderedExtensions =
                         orderExtensions(event.getExtensions(), eventExtensionId);
+                eventManager.setEventAsRead(event);
                 event.setExtensions(orderedExtensions);
                 initEventDetailsView(context, event);
             }
