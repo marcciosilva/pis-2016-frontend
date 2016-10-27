@@ -3,6 +3,7 @@ package com.sonda.emsysmobile.logic.model.core.attachments;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Created by marccio on 10/20/16.
@@ -10,23 +11,34 @@ import java.io.Serializable;
 
 public class ImageDto implements Serializable {
 
-    @SerializedName("path")
-    private String path;
+    @SerializedName("nombre")
+    private String nombre;
 
-    public ImageDto(String path) {
-        this.path = path;
+    @SerializedName("file_data")
+    private byte[] data;
+
+    public ImageDto(String nombre) {
+        this.nombre = nombre;
     }
 
-    public final String getPath() {
-        return path;
+    public final String getNombre() {
+        return nombre;
     }
 
-    public final void setPath(String path) {
-        this.path = path;
+    public final void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -36,7 +48,10 @@ public class ImageDto implements Serializable {
 
         ImageDto imageDto = (ImageDto) o;
 
-        return path != null ? path.equals(imageDto.path) : imageDto.path == null;
+        if (nombre != null ? !nombre.equals(imageDto.nombre) : imageDto.nombre != null) {
+            return false;
+        }
+        return Arrays.equals(data, imageDto.data);
 
     }
 
