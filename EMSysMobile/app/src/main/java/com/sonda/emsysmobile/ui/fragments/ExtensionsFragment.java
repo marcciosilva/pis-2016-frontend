@@ -80,7 +80,7 @@ public class ExtensionsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public final void onResume() {
         super.onResume();
 
         //We wants than Broadcast Receiver be registered when the fragment is active
@@ -89,7 +89,7 @@ public class ExtensionsFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
+    public final void onPause() {
         super.onPause();
 
         //We should unregister Broadcast Reciever when te fragment is paused

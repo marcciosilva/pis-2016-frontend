@@ -1,26 +1,16 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
-import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;
 
@@ -53,8 +43,12 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         Log.d(TAG, "ZONE NAME: " + zoneString);
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(zoneString);
-        holder.getDescriptionTextView().setText(extension.getDescription());
-        holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
+        if (position == 0) {
+            holder.getCurrentExtensionTextView().setVisibility(View.VISIBLE);
+        }
+        if ((extension.getDescription() != null) && (!extension.getDescription().equals(""))) {
+            holder.getDescriptionTextView().setText(extension.getDescription());
+        }
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,9 +69,11 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final View view;
         private final TextView idAndZoneTextView;
+        private final TextView currentExtension;
         private final TextView descriptionTextView;
-        private final TextView dateTextView;
+        private final TextView dispatcherTextView;
         private ExtensionDto item;
+
 
         public final View getView() {
             return view;
@@ -87,12 +83,17 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             return idAndZoneTextView;
         }
 
+        public final TextView getCurrentExtensionTextView() {
+            return currentExtension;
+        }
+
+
         public final TextView getDescriptionTextView() {
             return descriptionTextView;
         }
 
-        public final TextView getDateTextView() {
-            return dateTextView;
+        public final TextView getDispatcherTextView() {
+            return descriptionTextView;
         }
 
         public final ExtensionDto getItem() {
@@ -107,8 +108,9 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             super(view);
             this.view = view;
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
+            currentExtension = (TextView) view.findViewById(R.id.current_extension);
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            dateTextView = (TextView) view.findViewById(R.id.label_date);
+            dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
         }
 
         @Override

@@ -12,6 +12,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequest;
+
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -22,25 +23,24 @@ public class KeepAliveService extends Service {
 
     public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
-    // A definir waiting_time.
-    private static int waiting_time = 10000;
+    // A definir waitingTime.
+    private static int waitingTime = 10000;
 
     @Override
-    public void onCreate() {
+    public final void onCreate() {
         logged = true;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public final int onStartCommand(Intent intent, int flags, int startId) {
         // Se crea un thread que se encarga de ejecutar el keep alive cada cierto tiempo.
-        new Thread(new Runnable(){
+        new Thread(new Runnable() {
             public void run() {
-                while(logged)
-                {
+                while (logged) {
                     try {
-                        Thread.sleep(waiting_time);
-                        if(logged){
-                            keep_alive();
+                        Thread.sleep(waitingTime);
+                        if (logged) {
+                            keepAlive();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -49,28 +49,29 @@ public class KeepAliveService extends Service {
             }
         }).start();
 
-        return super.onStartCommand(intent,flags,startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public final IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
-    public void onDestroy() {
+    public final void onDestroy() {
         logged = false;
     }
 
-    private void keep_alive() {
-        KeepAliveRequest<KeepAliveResponse> request = new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
+    private void keepAlive() {
+        KeepAliveRequest<KeepAliveResponse> request =
+                new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
         request.setListener(new Response.Listener<KeepAliveResponse>() {
             @Override
             public void onResponse(KeepAliveResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     Log.d(TAG, "Exito.");
-                } else{
+                } else {
                     String errorMsg = response.getInnerResponse().getMsg();
                     handleErrorMessage(KeepAliveService.this, responseCode, errorMsg);
                 }
@@ -80,10 +81,11 @@ public class KeepAliveService extends Service {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(KeepAliveService.this, error, new DialogInterface.OnClickListener() {
+                handleVolleyErrorResponse(KeepAliveService.this, error, new DialogInterface
+                        .OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        keep_alive();
+                        keepAlive();
                     }
                 });
             }

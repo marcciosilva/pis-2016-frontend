@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by ssainz on 10/1/16.
  */
-public class EventManager {
+public final class EventManager {
 
     private static final String NOTIFICATION_KEY = "notification";
     private static final String EVENTS_UPDATED = "events_updated";
@@ -216,7 +216,7 @@ public class EventManager {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
-    private ArrayList<ExtensionDto> getExtensionsList() {
+    private List<ExtensionDto> getExtensionsList() {
         if (mExtensions == null) {
             return null;
         }
@@ -228,7 +228,7 @@ public class EventManager {
         return arrayList;
     }
 
-    private void sortExtensionsByPriority(ArrayList<ExtensionDto> extensions) {
+    private void sortExtensionsByPriority(List<ExtensionDto> extensions) {
         Collections.sort(extensions, new Comparator<ExtensionDto>() {
             public int compare(ExtensionDto ext1, ExtensionDto ext2) {
                 return ext1.getPriority().compareTo(ext2.getPriority());

@@ -1,11 +1,7 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v4.app.DialogFragment;
-import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -14,8 +10,6 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateGeoLocationRequest;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.activities.SplashActivity;
-import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -25,7 +19,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Created by marccio on 10/25/16.
  */
 
-public class AttachGeoLocPresenter {
+public final class AttachGeoLocPresenter {
 
     private static GeolocationDto mGeolocationDto = null;
     private static final String TAG = AttachGeoLocPresenter.class.getName();

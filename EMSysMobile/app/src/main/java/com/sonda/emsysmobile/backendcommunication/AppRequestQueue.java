@@ -73,7 +73,8 @@ public final class AppRequestQueue {
                 HurlStack hurlStack = new HurlStack() {
                     @Override
                     protected HttpURLConnection createConnection(URL url) throws IOException {
-                        HttpsURLConnection httpsURLConnection = (HttpsURLConnection) super.createConnection(url);
+                        HttpsURLConnection httpsURLConnection =
+                                (HttpsURLConnection) super.createConnection(url);
                         try {
                             TrustManager[] trustAllCerts = new TrustManager[]{
                                     new X509TrustManager() {
@@ -82,11 +83,13 @@ public final class AppRequestQueue {
                                         }
 
                                         @Override
-                                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                                        public void checkClientTrusted(X509Certificate[] certs,
+                                                                       String authType) {
                                         }
 
                                         @Override
-                                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                                        public void checkServerTrusted(X509Certificate[] certs,
+                                                                       String authType) {
                                         }
                                     }
                             };

@@ -4,9 +4,6 @@ import android.content.Context;
 
 import com.google.gson.JsonObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 
 /**
@@ -22,12 +19,12 @@ public class UpdateDescriptionRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected String getPath() {
+    protected final String getPath() {
         return "/eventos/actualizardescripcionrecurso";
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("descripcion", this.description);
         jsonObject.addProperty("idExtension", this.extensionID);

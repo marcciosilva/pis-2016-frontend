@@ -1,8 +1,6 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
@@ -39,7 +36,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
         mContext = context;
     }
 
-    public void setExtensions(List<ExtensionDto> mValues) {
+    public final void setExtensions(List<ExtensionDto> mValues) {
         mExtensions.clear();
         mExtensions.addAll(mValues);
         notifyDataSetChanged();
@@ -55,8 +52,9 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
     @Override
     public final void onBindViewHolder(final ViewHolder holder, int position) {
         ExtensionDto extension = mExtensions.get(position);
+
         String idAndZoneString =
-                "#" + extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
+                extension.getEvent().getIdentifier() + " - " + extension.getZone().getName();
         CategoryPriority priority = extension.getPriority();
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(idAndZoneString);
@@ -110,7 +108,7 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public final boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_dummy_option:
                 break;
@@ -158,11 +156,11 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
             this.item = item;
         }
 
-        public ImageButton getMenu() {
+        public final ImageButton getMenu() {
             return menu;
         }
 
-        public void setMenu(ImageButton menu) {
+        public final void setMenu(ImageButton menu) {
             this.menu = menu;
         }
 

@@ -30,11 +30,11 @@ public class CustomScrollView extends ScrollView {
         super(context, attrs, defStyle);
     }
 
-    public List<View> getmInterceptScrollViews() {
+    public final List<View> getmInterceptScrollViews() {
         return mInterceptScrollViews;
     }
 
-    public void setmInterceptScrollViews(List<View> mInterceptScrollViews) {
+    public final void setmInterceptScrollViews(List<View> mInterceptScrollViews) {
         this.mInterceptScrollViews = mInterceptScrollViews;
     }
 

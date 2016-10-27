@@ -34,8 +34,10 @@ public final class UIUtils {
      */
     public static void hideSoftKeyboard(Activity activity) {
         if (activity.getCurrentFocus() != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager
+                    .hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
     }
 
@@ -47,7 +49,8 @@ public final class UIUtils {
         return dialog;
     }
 
-    public static void handleErrorMessage(final Context context, final int responseCode, final String errorMsg) {
+    public static void handleErrorMessage(final Context context, final int responseCode, final
+    String errorMsg) {
         // Obtengo mensaje de error correspondiente al codigo.
         Log.d(TAG, "errorMsg : " + errorMsg);
         Log.d(TAG, "errorCode : " + Integer.toString(responseCode));
@@ -73,7 +76,8 @@ public final class UIUtils {
         builder.show();
     }
 
-    public static void handleVolleyErrorResponse(final Context context, VolleyError error, DialogInterface.OnClickListener retryListener) {
+    public static void handleVolleyErrorResponse(final Context context, VolleyError error,
+                                                 DialogInterface.OnClickListener retryListener) {
         // Determino status code de la response (en caso de que el error sea de HTTP).
         NetworkResponse networkResponse = error.networkResponse;
         int statusCode = -1;

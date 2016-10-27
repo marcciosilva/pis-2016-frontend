@@ -26,7 +26,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 /**
  * Created by marccio on 11-Oct-16.
  */
-public class EventsMapPresenter {
+public final class EventsMapPresenter {
 
     private static final String TAG = EventsMapPresenter.class.getName();
 

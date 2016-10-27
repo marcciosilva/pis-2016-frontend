@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,7 +24,6 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
-import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;

@@ -110,11 +110,11 @@ public class ExtensionDto implements Serializable {
         this.event = event;
     }
 
-    public boolean isModified() {
+    public final boolean isModified() {
         return isModified;
     }
 
-    public void setModified(boolean modified) {
+    public final void setModified(boolean modified) {
         isModified = modified;
     }
 
