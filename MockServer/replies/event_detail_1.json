@@ -14,8 +14,6 @@
     "estado": "enviado",
     "time_stamp": "2016-10-15T19:49:18.26",
     "creador": "Usuario1",
-
-    
     "fecha_creacion": "2016-10-15T19:49:18.26",
     "calle": "Avda. Brasil",
     "esquina": null,
@@ -26,7 +24,7 @@
     "en_proceso": true,
     "extensiones": [
       {
-        "id": 1,
+        "id": 100,
         "zona": {
           "id": 1,
           "nombre": "zona1",
@@ -93,7 +91,15 @@
         ]
       }
     ],
-    "imagenes": [],
+    "imagenes": [
+      {
+        "id": 1,
+        "id_imagen": 1,
+        "usuario": "Usuario1",
+        "fecha_envio": "2016-10-27T13:16:31.34",
+        "idExtension": 0
+      }
+    ],
     "videos": [],
     "audios": []
   }

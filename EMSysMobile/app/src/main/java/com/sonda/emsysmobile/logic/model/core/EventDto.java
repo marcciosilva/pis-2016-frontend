@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -61,6 +62,9 @@ public class EventDto implements Serializable {
 
     @SerializedName("longitud")
     private double longitude;
+
+    @SerializedName("imagenes")
+    private List<ImageDescriptionDto> imageDescriptions;
 
     public EventDto(int identifier, String informant, String phone, Date timeStamp,
                     Date createdDate, boolean inProcess, String origin, String sectorCode,
@@ -219,6 +223,10 @@ public class EventDto implements Serializable {
 
     public final void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public List<ImageDescriptionDto> getImageDescriptions() {
+        return imageDescriptions;
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
@@ -76,7 +77,7 @@ public class EventDetailsView extends AppCompatActivity implements
         mImagesButton = (ImageButton) findViewById(R.id.button_images);
         mImagesButton.setOnClickListener(this);
         mVideosButton = (ImageButton) findViewById(R.id.button_video);
-        mVideosButton .setOnClickListener(this);
+        mVideosButton.setOnClickListener(this);
         mAudioButton = (ImageButton) findViewById(R.id.button_audio);
         mAudioButton.setOnClickListener(this);
 
@@ -219,7 +220,9 @@ public class EventDetailsView extends AppCompatActivity implements
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
-//            ImageGalleryView.loadImages(mEvent)
+            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
+                    Integer.toString(mEvent.getImageDescriptions().size()));
+            ImageGalleryPresenter.loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {
             Log.d(TAG, "Botón de video pulsado");
         } else if (view.getId() == R.id.button_audio) {
