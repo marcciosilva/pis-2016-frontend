@@ -14,14 +14,14 @@ public class LoginService {
 
     private Context context;
 
-    public LoginService(Context context){
+    public LoginService(Context context) {
         this.context = context;
     }
 
-    public final Response<AuthResponse> login(String user, String password){
-        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(context,AuthResponse.class);
+    public final Response<AuthResponse> login(String user, String password) {
+        AuthRequest<AuthResponse> authRequest = new AuthRequest<>(context, AuthResponse.class);
         authRequest.setAttributes(user, password);
-        authRequest.setListener(new Response.Listener<AuthResponse>(){
+        authRequest.setListener(new Response.Listener<AuthResponse>() {
             @Override
             public void onResponse(AuthResponse response) {
 

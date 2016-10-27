@@ -15,8 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
-public class GsonPostRequest<T> extends JsonRequest<T>
-{
+public class GsonPostRequest<T> extends JsonRequest<T> {
     private final Gson gson;
     private final Type type;
     private final Response.Listener<T> listener;
@@ -25,14 +24,13 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     public static final String TAG = "getrequest";
 
     public GsonPostRequest
-    (
-            @NonNull final String url,
-            @NonNull final String body,
-            @NonNull final Type type,
-            @NonNull final Response.Listener<T> listener,
-            @NonNull final Response.ErrorListener errorListener
-    )
-    {
+            (
+                    @NonNull final String url,
+                    @NonNull final String body,
+                    @NonNull final Type type,
+                    @NonNull final Response.Listener<T> listener,
+                    @NonNull final Response.ErrorListener errorListener
+            ) {
         super(Method.POST, url, body, listener, errorListener);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -44,17 +42,19 @@ public class GsonPostRequest<T> extends JsonRequest<T>
     }
 
     @Override
-    protected final void deliverResponse(T response)
-    {
+    protected final void deliverResponse(T response) {
         listener.onResponse(response);
     }
 
     @Override
     protected final Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            Log.d(TAG, "\n ------------------------------ \n RESPONSE from :" + getUrl() +"\n" + json + "\n------------------------------\n");
-            return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));
+            String json =
+                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            Log.d(TAG, "\n ------------------------------ \n RESPONSE from :" + getUrl() + "\n" +
+                    json + "\n------------------------------\n");
+            return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser
+                    .parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {

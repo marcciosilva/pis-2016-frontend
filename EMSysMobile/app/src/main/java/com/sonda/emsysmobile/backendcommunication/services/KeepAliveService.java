@@ -12,6 +12,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequest;
+
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
@@ -33,13 +34,12 @@ public class KeepAliveService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // Se crea un thread que se encarga de ejecutar el keep alive cada cierto tiempo.
-        new Thread(new Runnable(){
+        new Thread(new Runnable() {
             public void run() {
-                while(logged)
-                {
+                while (logged) {
                     try {
                         Thread.sleep(waiting_time);
-                        if(logged){
+                        if (logged) {
                             keep_alive();
                         }
                     } catch (InterruptedException e) {
@@ -49,7 +49,7 @@ public class KeepAliveService extends Service {
             }
         }).start();
 
-        return super.onStartCommand(intent,flags,startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
@@ -63,14 +63,15 @@ public class KeepAliveService extends Service {
     }
 
     private void keep_alive() {
-        KeepAliveRequest<KeepAliveResponse> request = new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
+        KeepAliveRequest<KeepAliveResponse> request =
+                new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
         request.setListener(new Response.Listener<KeepAliveResponse>() {
             @Override
             public void onResponse(KeepAliveResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     Log.d(TAG, "Exito.");
-                } else{
+                } else {
                     String errorMsg = response.getInnerResponse().getMsg();
                     handleErrorMessage(KeepAliveService.this, responseCode, errorMsg);
                 }
@@ -80,7 +81,8 @@ public class KeepAliveService extends Service {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(KeepAliveService.this, error, new DialogInterface.OnClickListener() {
+                handleVolleyErrorResponse(KeepAliveService.this, error, new DialogInterface
+                        .OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         keep_alive();

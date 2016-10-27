@@ -69,14 +69,16 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_attach_description_dialog, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
+        View rootView =
+                inflater.inflate(R.layout.fragment_attach_description_dialog, container, false);
         getDialog().setTitle(R.string.action_update_desc);
         return rootView;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable  Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mDescriptionEditText = (EditText) view.findViewById(R.id.input_description);

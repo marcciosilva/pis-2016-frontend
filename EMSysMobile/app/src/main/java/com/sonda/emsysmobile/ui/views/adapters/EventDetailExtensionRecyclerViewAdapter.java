@@ -53,9 +53,10 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         Log.d(TAG, "ZONE NAME: " + zoneString);
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(zoneString);
-        if(position == 0)
+        if (position == 0) {
             holder.getCurrentExtensionTextView().setVisibility(View.VISIBLE);
-        if(extension.getDescription() != null && extension.getDescription() != "") {
+        }
+        if (extension.getDescription() != null && extension.getDescription() != "") {
             holder.getDescriptionTextView().setText(extension.getDescription());
         }
         holder.getView().setOnClickListener(new View.OnClickListener() {
@@ -119,7 +120,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
             currentExtension = (TextView) view.findViewById(R.id.current_extension);
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            dispatcherTextView =  (TextView) view.findViewById(R.id.label_dispatcher);
+            dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
         }
 
         @Override
