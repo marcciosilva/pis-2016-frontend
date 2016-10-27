@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -27,7 +28,7 @@ import com.sonda.emsysmobile.utils.UIUtils;
 
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
-        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, View.OnClickListener {
 
     public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
@@ -44,6 +45,9 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mSector;
     private TextView mOrigin;
     private TextView mType;
+    private ImageButton mImagesButton;
+    private ImageButton mVideosButton;
+    private ImageButton mAudioButton;
 
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
@@ -68,6 +72,13 @@ public class EventDetailsView extends AppCompatActivity implements
 
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
+
+        mImagesButton = (ImageButton) findViewById(R.id.button_images);
+        mImagesButton.setOnClickListener(this);
+        mVideosButton = (ImageButton) findViewById(R.id.button_video);
+        mVideosButton .setOnClickListener(this);
+        mAudioButton = (ImageButton) findViewById(R.id.button_audio);
+        mAudioButton.setOnClickListener(this);
 
         mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
@@ -204,5 +215,14 @@ public class EventDetailsView extends AppCompatActivity implements
         return true;
     }
 
-
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_images) {
+            Log.d(TAG, "Botón de imágenes pulsado");
+        } else if (view.getId() == R.id.button_video) {
+            Log.d(TAG, "Botón de video pulsado");
+        } else if (view.getId() == R.id.button_audio) {
+            Log.d(TAG, "Botón de audio pulsado");
+        }
+    }
 }

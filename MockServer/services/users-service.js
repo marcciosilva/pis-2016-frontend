@@ -20,6 +20,9 @@ var logout_cod2 = require('../replies/logout_cod2.json');
 // keepAlive
 var keepalive_success = require('../replies/keepalive_success.json');
 var keepalive_fail = require('../replies/keepalive_fail.json');
+// getImageData
+var getimagedata_success_1 = require('../replies/getimagedata_success_1.json');
+var getimagedata_error = require('../replies/getimagedata_error.json');
 
 var getUsers = function (request, response, next) {
 	response.setHeader("content-type","application/json");
@@ -106,6 +109,23 @@ var postUserKeepAliveFail = function(request, response, next) {
 	response.send(JSON.stringify(keepalive_fail));
 };
 
+var getImageData = function (request, response, next) {
+    // delay(2000);
+    console.log('GET a getEventDetail');
+    var idImagen = request.query.idImagen;
+    if (idImagen == "" || idImagen == null){
+        response.send("No se seleccionó ninguna imágen. Mensaje únicamente de Mockserver.", 200);
+    }else{
+        try {
+            var fbresponse = require('../replies/getimagedata_success_'+idImagen+'.json')
+            response.send(JSON.stringify(fbresponse), 200);
+        }
+        catch(err) {
+            response.send(JSON.stringify(getimagedata_error), 200);
+        }        
+    }
+};
+
 exports.getUsers = getUsers;
 exports.postUserSuccess = postUserSuccess;
 exports.postUserInvalidCredentials = postUserInvalidCredentials;
@@ -126,3 +146,4 @@ exports.postUserLogoutCod5 = postUserLogoutCod5;
 //keepAlive
 exports.postUserKeepAliveSuccess = postUserKeepAliveSuccess;
 exports.postUserKeepAliveFail = postUserKeepAliveFail;
+exports.getImageData = getImageData;
