@@ -47,7 +47,7 @@
                     android:text="@string/event_details_status"
                     style="@style/EventDetails.FieldLabel"/>
                 <TextView
-                    android:text="@string/event_details_missing_value"
+                    android:text="@string/event_details_status_without_dispatcher"
                     style="@style/EventDetails.FieldValue"
                     android:id="@+id/label_status" />
             </LinearLayout>
