@@ -30,35 +30,35 @@ public class Notification implements Parcelable {
         this.objectId = objectId;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public final void setTitle(String title) {
         this.title = title;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public final void setDescription(String description) {
         this.description = description;
     }
 
-    public String getCode() {
+    public final String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public final void setCode(String code) {
         this.code = code;
     }
 
-    public int getObjectId() {
+    public final int getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(int objectId) {
+    public final void setObjectId(int objectId) {
         this.objectId = objectId;
     }
 
@@ -82,24 +82,24 @@ public class Notification implements Parcelable {
     };
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Notification received. \n Notification Code: " + this.code + "\n Primary key: " + this.objectId;
     }
 
     @Override
-    public int describeContents() {
+    public final int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public final void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeString(code);
         parcel.writeInt(objectId);
     }
 
-    public NotificationsEvents getEventFromCode() {
+    public final NotificationsEvents getEventFromCode() {
         if (code.equals("AE")) {
             return NotificationsEvents.UPDATE_EVENTS_LIST;
         } if (code.equals("ME")) {

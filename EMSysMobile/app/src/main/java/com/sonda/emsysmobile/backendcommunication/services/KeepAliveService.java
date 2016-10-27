@@ -23,24 +23,24 @@ public class KeepAliveService extends Service {
 
     public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
-    // A definir waiting_time.
-    private static int waiting_time = 10000;
+    // A definir waitingTime.
+    private static int waitingTime = 10000;
 
     @Override
-    public void onCreate() {
+    public final void onCreate() {
         logged = true;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public final int onStartCommand(Intent intent, int flags, int startId) {
         // Se crea un thread que se encarga de ejecutar el keep alive cada cierto tiempo.
         new Thread(new Runnable() {
             public void run() {
                 while (logged) {
                     try {
-                        Thread.sleep(waiting_time);
+                        Thread.sleep(waitingTime);
                         if (logged) {
-                            keep_alive();
+                            keepAlive();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -53,16 +53,16 @@ public class KeepAliveService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public final IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
-    public void onDestroy() {
+    public final void onDestroy() {
         logged = false;
     }
 
-    private void keep_alive() {
+    private void keepAlive() {
         KeepAliveRequest<KeepAliveResponse> request =
                 new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
         request.setListener(new Response.Listener<KeepAliveResponse>() {
@@ -85,7 +85,7 @@ public class KeepAliveService extends Service {
                         .OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        keep_alive();
+                        keepAlive();
                     }
                 });
             }

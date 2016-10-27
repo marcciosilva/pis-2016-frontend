@@ -1,26 +1,16 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
-import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.utils.DateUtils;
 
 import java.util.List;
 
@@ -56,7 +46,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         if (position == 0) {
             holder.getCurrentExtensionTextView().setVisibility(View.VISIBLE);
         }
-        if (extension.getDescription() != null && extension.getDescription() != "") {
+        if ((extension.getDescription() != null) && (!extension.getDescription().equals(""))) {
             holder.getDescriptionTextView().setText(extension.getDescription());
         }
         holder.getView().setOnClickListener(new View.OnClickListener() {

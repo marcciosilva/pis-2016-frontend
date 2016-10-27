@@ -100,7 +100,7 @@ public class AttachGeoLocMapView extends SupportMapFragment
     }
 
     @Override
-    public void onMapClick(LatLng latLng) {
+    public final void onMapClick(LatLng latLng) {
         MarkerOptions newMarkerOpt = new MarkerOptions();
         newMarkerOpt.position(latLng);
         mCurrentMarker.remove();

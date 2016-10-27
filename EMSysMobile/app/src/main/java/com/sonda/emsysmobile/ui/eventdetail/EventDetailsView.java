@@ -102,11 +102,6 @@ public class EventDetailsView extends AppCompatActivity implements
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     public final void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
@@ -170,13 +165,11 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public final void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0) {
-            if (resultCode == SHOULD_UPDATE_MAP) {
-                Log.d(TAG, "Updating map...");
-                EventDetailsPresenter.updateMapFragment();
-            }
+        if ((requestCode == 0) && (resultCode == SHOULD_UPDATE_MAP)) {
+            Log.d(TAG, "Updating map...");
+            EventDetailsPresenter.updateMapFragment();
         }
     }
 
@@ -186,7 +179,7 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
-    public void onAttachDescription(String descriptionText) {
+    public final void onAttachDescription(String descriptionText) {
         UIUtils.hideSoftKeyboard(this);
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
@@ -195,8 +188,8 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() ==R.id.menu_back) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_back) {
             onBackPressed();
             return true;
         }
@@ -209,8 +202,6 @@ public class EventDetailsView extends AppCompatActivity implements
         inflater.inflate(R.menu.top_menu_only_back, menu);
         return true;
     }
-
-
 
 
 }

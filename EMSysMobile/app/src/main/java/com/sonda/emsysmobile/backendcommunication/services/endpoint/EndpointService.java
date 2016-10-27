@@ -1,7 +1,6 @@
 package com.sonda.emsysmobile.backendcommunication.services.endpoint;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
 import android.util.Log;
@@ -11,7 +10,6 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.google.gson.JsonObject;
-import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.backendcommunication.AppRequestQueue;
 import com.sonda.emsysmobile.backendcommunication.GsonGetRequest;
 import com.sonda.emsysmobile.backendcommunication.GsonPostRequest;

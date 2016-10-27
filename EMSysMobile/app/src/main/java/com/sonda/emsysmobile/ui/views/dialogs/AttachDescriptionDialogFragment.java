@@ -49,7 +49,7 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
     }
 
     // Call this method to send the data back to the parent fragment
-    public void sendBackResult() {
+    public final void sendBackResult() {
         mListener.onAttachDescription(mDescriptionEditText.getText().toString());
         dismissDialog();
     }
@@ -63,13 +63,13 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Holo_Light_Dialog_MinWidth);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         View rootView =
                 inflater.inflate(R.layout.fragment_attach_description_dialog, container, false);
@@ -78,7 +78,7 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mDescriptionEditText = (EditText) view.findViewById(R.id.input_description);

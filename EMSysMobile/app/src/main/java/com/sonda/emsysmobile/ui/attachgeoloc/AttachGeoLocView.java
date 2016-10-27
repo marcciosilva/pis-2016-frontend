@@ -1,9 +1,6 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -11,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -26,10 +22,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.ui.activities.HomeActivity;
-import com.sonda.emsysmobile.ui.activities.SplashActivity;
-import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 /**
@@ -48,7 +40,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
     private static final String TAG = AttachGeoLocView.class.getName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attach_geoloc);
         // Inicializo servicio de Google para obtener ubicacion actual.
@@ -68,19 +60,19 @@ public class AttachGeoLocView extends AppCompatActivity implements
     }
 
     @Override
-    protected void onStart() {
+    protected final void onStart() {
         mGoogleApiClient.connect();
         super.onStart();
     }
 
     @Override
-    protected void onStop() {
+    protected final void onStop() {
         mGoogleApiClient.disconnect();
         super.onStop();
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
+    public final void onConnected(@Nullable Bundle bundle) {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat
                 .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
@@ -104,18 +96,18 @@ public class AttachGeoLocView extends AppCompatActivity implements
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public final void onConnectionSuspended(int i) {
         mGoogleApiClient.disconnect();
         super.onStop();
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    public final void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.d(TAG, getString(R.string.error_http));
     }
 
     @Override
-    public void onClick(View view) {
+    public final void onClick(View view) {
         if (view.getId() == R.id.button_send_geolocation) {
             mProgressBar.setVisibility(View.VISIBLE);
             if (!AttachGeoLocPresenter.sendGeoLocation(this)) {
@@ -127,7 +119,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() ==R.id.menu_back) {
             onBackPressed();
             return true;

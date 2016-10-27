@@ -6,16 +6,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
@@ -23,22 +20,19 @@ import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ErrorManager;
 
-import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 15-Oct-16.
  */
 
-public class EventDetailsPresenter {
+public final class EventDetailsPresenter {
 
     private static final String TAG = EventDetailsPresenter.class.getName();
     private static EventDetailsView mEventDetailsView;
