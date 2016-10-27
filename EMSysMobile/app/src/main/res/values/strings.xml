@@ -68,7 +68,10 @@
     <string name="attach_audio_option_title">Adjuntar audio</string>
     <string name="attach_video_option_title">Adjuntar video</string>
 
-    <string name="event_details_description">Descripción</string>
+    <string name="event_details_status">Estado</string>
+    <string name="event_details_status_without_dispatcher">Sin despachar</string>
+
+    <string name="event_details_dispatcher_description">Descripción del despachador</string>
     <string name="event_details_dispatcher">Despachador</string>
 
     <!-- External Service Related -->
