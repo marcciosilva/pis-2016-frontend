@@ -3,8 +3,13 @@ package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
@@ -21,6 +26,11 @@ import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
 import com.sonda.emsysmobile.utils.MultimediaUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +40,8 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Created by marccio on 27-Oct-16.
  */
 public class ImageGalleryPresenter {
+
+    private static final String TAG = ImageGalleryPresenter.class.getName();
 
     public static void loadImages(final Context context, final List<ImageDescriptionDto>
             imageDescriptions) {
@@ -67,11 +79,33 @@ public class ImageGalleryPresenter {
     }
 
     private static void initImageGalleryView(Context context, List<ImageDataDto> imageDataList) {
+        ArrayList<String> fileNames = new ArrayList<>();
         Intent intent = new Intent(context, ImageGalleryView.class);
         for (int i = 0; i < imageDataList.size(); i++) {
-            byte[] imageAsBytes = Base64.decode(imageDataList.get(i).getData(), 0);
-            intent.putExtra("image" + Integer.toString(i), imageAsBytes);
+            try {
+                byte[] imageAsBytes = Base64.decode(imageDataList.get(i).getData(), 0);
+                String path = Environment.getExternalStorageDirectory().toString();
+                // Archivo a guardar.
+                File file = new File(path, imageDataList.get(i).getName());
+                OutputStream fOut = new FileOutputStream(file);
+                Bitmap pictureBitmap =
+                        BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
+                // TODO manejar compresion de acuerdo a tipo de imagen.
+                pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+                fOut.flush();
+                fOut.close();
+                MediaStore.Images.Media
+                        .insertImage(context.getContentResolver(), file.getAbsolutePath(), file
+                                .getName(), file.getName());
+                // Agrego el nombre del archivo para pasar en el intent.
+                fileNames.add(imageDataList.get(i).getName());
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        intent.putExtra("fileNames", fileNames);
         context.startActivity(intent);
     }
 

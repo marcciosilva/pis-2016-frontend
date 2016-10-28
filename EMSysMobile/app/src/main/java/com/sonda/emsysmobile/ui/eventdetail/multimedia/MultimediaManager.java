@@ -68,7 +68,8 @@ public final class MultimediaManager {
 
     public final void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
         // Si me llegan las mismas descripciones no se altera nada.
-        if (!mImageDataList.equals(imageDescriptions)) {
+        if (!mImageDescriptions.equals(imageDescriptions)) {
+            Log.d(TAG, "Clearing image descriptions...");
             mImageDescriptions.clear();
             mImageDescriptions = imageDescriptions;
             mImageDataList.clear();
