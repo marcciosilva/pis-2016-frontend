@@ -2,10 +2,8 @@ package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -35,17 +33,11 @@ public class ImageGalleryView extends AppCompatActivity implements View.OnClickL
         ArrayList<String> fileNames = extras.getStringArrayList("fileNames");
         if (fileNames != null) {
             ImageView image = (ImageView) findViewById(R.id.imageView1);
-            String path = Environment.getExternalStorageDirectory() + "/" + fileNames.get(0);
+            String path = getCacheDir() + getString(R.string.path_separator) + fileNames.get(0);
+            Log.d(TAG, "PATH IS: " + path);
             Bitmap bmp = BitmapFactory.decodeFile(path);
             image.setImageBitmap(bmp);
         }
-//        while (extras.getByteArray("image" + Integer.toString(i)) != null) {
-//            byte[] byteArray = extras.getByteArray(("image" + Integer.toString(i)));
-//            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//            ImageView image = (ImageView) findViewById(R.id.imageView1);
-//            image.setImageBitmap(bmp);
-//            i++;
-//        }
     }
 
     @Override

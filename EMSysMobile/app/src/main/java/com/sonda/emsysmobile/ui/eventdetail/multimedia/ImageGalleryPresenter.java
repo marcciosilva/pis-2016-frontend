@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
+import com.etiennelawlor.imagegallery.library.activities.ImageGalleryActivity;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
@@ -32,6 +34,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -84,9 +87,10 @@ public class ImageGalleryPresenter {
         for (int i = 0; i < imageDataList.size(); i++) {
             try {
                 byte[] imageAsBytes = Base64.decode(imageDataList.get(i).getData(), 0);
-                String path = Environment.getExternalStorageDirectory().toString();
                 // Archivo a guardar.
-                File file = new File(path, imageDataList.get(i).getName());
+//                    File file = new File(path, imageDataList.get(i).getName());
+                File file = new File(context.getCacheDir(), imageDataList.get(i).getName());
+                Log.d(TAG, file.getAbsolutePath());
                 OutputStream fOut = new FileOutputStream(file);
                 Bitmap pictureBitmap =
                         BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);

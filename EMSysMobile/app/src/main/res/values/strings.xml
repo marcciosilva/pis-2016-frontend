@@ -121,4 +121,8 @@
     <string name="dummy_description">Description</string>
     <string name="dummy_text">Dummy text</string>
 
+    <!--Ver imagenes en Ver info de evento-->
+    <string name="image_file_path">emsysMobile</string>
+    <string name="path_separator">/</string>
+
 </resources>

@@ -27,6 +27,11 @@
 
         <!-- ACTIVITIES -->
         <activity
+            android:name="com.etiennelawlor.imagegallery.library.activities.ImageGalleryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label=""
+            android:theme="@style/ImageGalleryTheme" />
+        <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
