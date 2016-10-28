@@ -50,6 +50,10 @@
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
+            android:name=".ui.eventdetail.multimedia.ImageGalleryView"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
             android:name=".ui.attachgeoloc.AttachGeoLocView"
             android:configChanges="orientation|screenSize"/>
         <activity

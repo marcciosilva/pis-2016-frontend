@@ -1,45 +1,60 @@
 package com.sonda.emsysmobile.logic.model.core.attachments;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * Created by marccio on 27-Oct-16.
  */
 
-public class ImageDataDto {
+public class ImageDataDto implements Parcelable {
 
     @SerializedName("nombre")
     private String name;
 
     @SerializedName("file_data")
-    private byte[] data;
+    private String data;
 
     public String getName() {
         return name;
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
 
-        ImageDataDto that = (ImageDataDto) o;
-
-        if (name != null ? !name.equals(that.name) : that.name != null) {
-            return false;
-        }
-        return Arrays.equals(data, that.data);
-
+    protected ImageDataDto(Parcel in) {
+        name = in.readString();
+        data = in.readString();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(data);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<ImageDataDto> CREATOR = new Parcelable.Creator<ImageDataDto>() {
+        @Override
+        public ImageDataDto createFromParcel(Parcel in) {
+            return new ImageDataDto(in);
+        }
+
+        @Override
+        public ImageDataDto[] newArray(int size) {
+            return new ImageDataDto[size];
+        }
+    };
 }

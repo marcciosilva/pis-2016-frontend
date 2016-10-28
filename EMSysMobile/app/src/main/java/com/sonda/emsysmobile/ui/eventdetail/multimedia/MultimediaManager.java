@@ -10,14 +10,19 @@ import android.util.SparseArray;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.GetImageDataResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.GetImageDataRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
@@ -32,12 +37,16 @@ import java.util.List;
 public final class MultimediaManager {
 
     private static MultimediaManager mInstance;
+    private List<ImageDescriptionDto> mImageDescriptions;
+    private List<ImageDataDto> mImageDataList;
     private Context mContext;
 
     private static final String TAG = MultimediaManager.class.getName();
 
     private MultimediaManager(Context context) {
         mContext = context;
+        mImageDescriptions = new ArrayList<>();
+        mImageDataList = new ArrayList<>();
     }
 
     public final void onLogout() {
@@ -57,36 +66,48 @@ public final class MultimediaManager {
         return mInstance;
     }
 
-    public final void fetchImages(final ApiCallback<List<ExtensionDto>> callback) {
+    public final void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
+        // Si me llegan las mismas descripciones no se altera nada.
+        if (!mImageDataList.equals(imageDescriptions)) {
+            mImageDescriptions.clear();
+            mImageDescriptions = imageDescriptions;
+            mImageDataList.clear();
+        }
+    }
 
-
-
-        if (mExtensions.size() == 0) {
-            EventsRequest<EventsResponse> request =
-                    new EventsRequest<>(mContext, EventsResponse.class);
-            request.setListener(new Response.Listener<EventsResponse>() {
-                @Override
-                public void onResponse(EventsResponse response) {
-                    int responseCode = response.getCode();
-                    if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                        setEvents(response.getEvents());
-                        callback.onSuccess(getExtensionsList());
-                    } else {
-                        //TODO soportar mensaje de error en EventsResponse
-                        //callback.onError(response.getInnerResponse().getMsg(), responseCode);
-                        callback.onLogicError("Unsupported", 1);
+    public final void fetchImages(final ApiCallback<List<ImageDataDto>> callback) {
+        if (mImageDataList.isEmpty()) {
+            for (ImageDescriptionDto imageDescription : mImageDescriptions) {
+                GetImageDataRequest<GetImageDataResponse> request =
+                        new GetImageDataRequest<>(mContext, GetImageDataResponse.class);
+                request.setAttributes(imageDescription.getId());
+                request.setListener(new Response.Listener<GetImageDataResponse>() {
+                    @Override
+                    public void onResponse(GetImageDataResponse response) {
+                        int responseCode = response.getCode();
+                        if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                            mImageDataList.add(response.getImageData());
+                            // Si tienen el mismo size es porque me llegaron todas las imagenes.
+                            if (mImageDataList.size() == mImageDescriptions.size()) {
+                                callback.onSuccess(mImageDataList);
+                            }
+                        } else {
+                            // TODO asociar un mensaje de error para cada codigo posible.
+                            callback.onLogicError("Unsupported", responseCode);
+                        }
                     }
-                }
-            });
-            request.setErrorListener(new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    callback.onNetworkError(error);
-                }
-            });
-            request.execute();
+                });
+                request.setErrorListener(new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onNetworkError(error);
+                    }
+                });
+                request.execute();
+            }
         } else {
-            callback.onSuccess(getExtensionsList());
+            // Se asume que si no es vacio es porque esta cacheado de un pedido anterior.
+            callback.onSuccess(mImageDataList);
         }
     }
 
