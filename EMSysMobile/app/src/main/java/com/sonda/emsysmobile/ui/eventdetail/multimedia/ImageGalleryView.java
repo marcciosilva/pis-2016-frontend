@@ -1,9 +1,12 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
@@ -25,10 +28,14 @@ public class ImageGalleryView extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_gallery);
         Bundle extras = getIntent().getExtras();
-//        mImageDataList = (ArrayList<ImageDataDto>) extras.getSerializable("imageDataList");
-//        for (ImageDataDto imageData : mImageDataList) {
-//            Log.d(TAG, imageData.getData().toString());
-//        }
+        int i = 0;
+        while (extras.getByteArray("image" + Integer.toString(i)) != null) {
+            byte[] byteArray = extras.getByteArray(("image" + Integer.toString(i)));
+            Bitmap bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            ImageView image = (ImageView) findViewById(R.id.imageView1);
+            image.setImageBitmap(bmp);
+            i++;
+        }
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 public class GetImageDataRequest<T> extends AbstractRequest<T> {
 
     private static final String TAG = GetImageDataRequest.class.getName();
-    public static final String EVENT_DETAILS_PATH = "/users/getimagedata";
+    public static final String EVENT_DETAILS_PATH = "/eventos/getimagedata";
 
     private int mImageId;
 

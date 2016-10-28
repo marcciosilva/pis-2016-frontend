@@ -2,6 +2,9 @@
 var events_list = require('../replies/events_list.json');
 var event_detail = require('../replies/event_detail.json');
 var event_detail_error = require('../replies/event_detail_error.json');
+// getImageData
+var getimagedata_success_1 = require('../replies/getimagedata_success_1.json');
+var getimagedata_error = require('../replies/getimagedata_error.json');
 
 function delay(ms) {
     console.log("Esperando " + ms + " ms...");
@@ -56,7 +59,25 @@ var getEventDetail = function (request, response, next) {
     }
 };
 
+var getImageData = function (request, response, next) {
+    // delay(2000);
+    console.log('GET a getEventDetail');
+    var idImagen = request.query.idImagen;
+    if (idImagen == "" || idImagen == null){
+        response.send("No se seleccionó ninguna imágen. Mensaje únicamente de Mockserver.", 200);
+    }else{
+        try {
+            var fbresponse = require('../replies/getimagedata_success_'+idImagen+'.json')
+            response.send(JSON.stringify(fbresponse), 200);
+        }
+        catch(err) {
+            response.send(JSON.stringify(getimagedata_error), 200);
+        }        
+    }
+};
+
 exports.getEvents = getEvents;
 exports.getEventDetail = getEventDetail;
 exports.getSpecialCase = getSpecialCase;
 exports.postEvents = postEvents;
+exports.getImageData = getImageData;
