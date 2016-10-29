@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,17 +32,27 @@ import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
+import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
+import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends AppCompatActivity
-        implements OnListFragmentInteractionListener {
+        implements OnListFragmentInteractionListener,
+        EventFilterDialogFragment.OnEventFilterDialogListener {
 
     private static final String TAG = HomeActivity.class.getName();
     private EventsMapView mMapFragment = null;
+    private ExtensionsFragment mExtensionsFragment;
 
+    @Override
+    public final void onEventFilter(String selectedFilter) {
+        UIUtils.hideSoftKeyboard(this);
+        mExtensionsFragment.setFilter(selectedFilter);
+        mExtensionsFragment.getEvents();
+    }
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +73,11 @@ public class HomeActivity extends AppCompatActivity
             }
 
             // Create a new Fragment to be placed in the activity layout
-            ExtensionsFragment extensionsFragment = new ExtensionsFragment();
+            mExtensionsFragment = new ExtensionsFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
+                    .add(R.id.fragment_container, mExtensionsFragment).commit();
             // Inicializacion de fragment de mapa.
             mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
@@ -109,7 +120,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
         String textString = "text";
-        if (item.getItemId() != R.id.menu_view_map_button) {
+        if ((item.getItemId() != R.id.menu_view_map_button) && (item.getItemId() != R.id.menu_filter_button)) {
             mMapFragment.hideView();
         }
         switch (item.getItemId()) {
@@ -121,12 +132,11 @@ public class HomeActivity extends AppCompatActivity
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                ExtensionsFragment extensionsFragment =
-                        (ExtensionsFragment) getSupportFragmentManager()
+                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager()
                                 .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
-                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                if (mExtensionsFragment == null) {
+                    mExtensionsFragment = new ExtensionsFragment();
+                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_external_service_button:
@@ -138,14 +148,26 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.menu_view_map_button:
                 mMapFragment.showView();
-                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
-                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (mExtensionsFragment == null) {
+                    mExtensionsFragment = new ExtensionsFragment();
+                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_logout_button:
                 logout();
+                return true;
+            case R.id.menu_filter_button:
+                // Primero se redirige al listado.
+                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (mExtensionsFragment == null) {
+                    mExtensionsFragment = new ExtensionsFragment();
+                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
+                // Luego se abre el diálogo para elegir el filtro.
+                FragmentManager fm = getSupportFragmentManager();
+                EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
+                eventFilterDialogFragment.show(fm, "fragment_edit_name");
                 return true;
             default:
                 // Accion no reconocida, se lo delega a la superclase.
