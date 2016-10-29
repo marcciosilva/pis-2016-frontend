@@ -42,6 +42,7 @@ public class ExtensionsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
+    private String mFilter = "Prioridad";
 
     private static final String TAG = ExtensionsFragment.class.getName();
     private static final String EVENTS_UPDATED = "events_updated";
@@ -99,9 +100,13 @@ public class ExtensionsFragment extends Fragment {
                 .unregisterReceiver(broadcastReceiverEvents);
     }
 
-    private void getEvents() {
+    public void setFilter(String selectedFilter){
+        mFilter = selectedFilter;
+    }
+
+    public void getEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchExtensions(new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(mFilter, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);

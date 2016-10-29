@@ -46,10 +46,13 @@ public class HomeActivity extends AppCompatActivity
     private static final String TAG = HomeActivity.class.getName();
     private EventsMapView mMapFragment = null;
 
+    private ExtensionsFragment extensionsFragment;
+
     @Override
     public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-        Log.d("algo",selectedFilter);
+        extensionsFragment.setFilter(selectedFilter);
+        extensionsFragment.getEvents();
     }
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class HomeActivity extends AppCompatActivity
             }
 
             // Create a new Fragment to be placed in the activity layout
-            ExtensionsFragment extensionsFragment = new ExtensionsFragment();
+            extensionsFragment = new ExtensionsFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
@@ -130,7 +133,7 @@ public class HomeActivity extends AppCompatActivity
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                ExtensionsFragment extensionsFragment =
+                extensionsFragment =
                         (ExtensionsFragment) getSupportFragmentManager()
                                 .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
@@ -157,6 +160,13 @@ public class HomeActivity extends AppCompatActivity
                 logout();
                 return true;
             case R.id.menu_filter_button:
+                // Primero se redirige al listado.
+                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsFragment();
+                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                }
+                // Luego se abre el diálogo para elegir el filtro.
                 FragmentManager fm = getSupportFragmentManager();
                 EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
                 eventFilterDialogFragment.show(fm, "fragment_edit_name");

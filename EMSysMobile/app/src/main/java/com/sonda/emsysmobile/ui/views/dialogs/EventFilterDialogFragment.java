@@ -27,7 +27,7 @@ public class EventFilterDialogFragment extends DialogFragment {
     private OnEventFilterDialogListener mListener;
 
     private Spinner mList;
-    private String[] mValues = {"Nombre", "Fecha", "Prioridad", "Despachador", "Zona"};
+    private String[] mValues = {"Prioridad", "Fecha", "Zona"};
     private String mSelectedFilter;
     private Button mCancelBtn;
     private Button mFilterBtn;
