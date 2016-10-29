@@ -122,6 +122,8 @@
     <string name="dummy_text">Dummy text</string>
 
     <!--Filtrar eventos-->
-    <string name="input_title_filter">Ordenar Eventos</string>
+    <string name="filter_values">Ordenar por:</string>
+    <string name="button_filter">Aplicar</string>
+    <!--<string name="filter_values"></string>-->
 
 </resources>

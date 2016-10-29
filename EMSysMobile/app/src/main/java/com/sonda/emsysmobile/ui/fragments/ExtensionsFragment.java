@@ -19,11 +19,13 @@ import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;

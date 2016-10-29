@@ -10,8 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
@@ -22,9 +25,12 @@ import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 public class EventFilterDialogFragment extends DialogFragment {
 
     private OnEventFilterDialogListener mListener;
-    private EditText mDescriptionEditText;
+
+    private Spinner mList;
+    private String[] mValues = {"Nombre", "Fecha", "Prioridad", "Despachador", "Zona"};
+    private String mSelectedFilter;
     private Button mCancelBtn;
-    private Button mUpdateBtn;
+    private Button mFilterBtn;
 
     // Defines the listener interface
     public interface OnEventFilterDialogListener {
@@ -50,7 +56,7 @@ public class EventFilterDialogFragment extends DialogFragment {
 
     // Call this method to send the data back to the parent fragment
     public final void sendBackResult() {
-        mListener.onEventFilter(mDescriptionEditText.getText().toString());
+        mListener.onEventFilter(mSelectedFilter);
         dismissDialog();
     }
 
@@ -80,9 +86,21 @@ public class EventFilterDialogFragment extends DialogFragment {
     @Override
     public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-/*
-        mDescriptionEditText = (EditText) view.findViewById(R.id.input_description);
-        mDescriptionEditText.requestFocus();
+
+        mList = (Spinner) view.findViewById(R.id.filter_list);
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mValues);
+        mList.setAdapter(adapter);
+        mList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+                mSelectedFilter = mValues[i];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView){
+
+            }
+        });
 
         mCancelBtn = (Button) view.findViewById(R.id.button_cancel);
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -92,14 +110,14 @@ public class EventFilterDialogFragment extends DialogFragment {
             }
         });
 
-        mUpdateBtn = (Button) view.findViewById(R.id.button_update);
-        mUpdateBtn.setOnClickListener(new View.OnClickListener() {
+        mFilterBtn = (Button) view.findViewById(R.id.button_filter);
+        mFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendBackResult();
             }
         });
-*/
+
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }

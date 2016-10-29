@@ -47,12 +47,9 @@ public class HomeActivity extends AppCompatActivity
     private EventsMapView mMapFragment = null;
 
     @Override
-    public final void onEventFilter(String descriptionText) {
+    public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-       /* if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
-            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
-            EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
-        }*/
+        Log.d("algo",selectedFilter);
     }
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -162,10 +159,7 @@ public class HomeActivity extends AppCompatActivity
             case R.id.menu_filter_button:
                 FragmentManager fm = getSupportFragmentManager();
                 EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
-                //EventFilterDialogFragment eventFilterDialogFragment = (EventFilterDialogFragment) fm.findFragmentByTag(EventFilterDialogFragment.class.getSimpleName());
-                Log.d("hola", "antes");
                 eventFilterDialogFragment.show(fm, "fragment_edit_name");
-                Log.d("hola", "desp");
                 return true;
             default:
                 // Accion no reconocida, se lo delega a la superclase.
