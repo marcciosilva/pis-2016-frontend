@@ -120,7 +120,7 @@ public class HomeActivity extends AppCompatActivity
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
         String textString = "text";
-        if (item.getItemId() != R.id.menu_view_map_button) {
+        if ((item.getItemId() != R.id.menu_view_map_button) && (item.getItemId() != R.id.menu_filter_button)) {
             mMapFragment.hideView();
         }
         switch (item.getItemId()) {
