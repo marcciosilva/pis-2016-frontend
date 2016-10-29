@@ -89,7 +89,7 @@ public class EventFilterDialogFragment extends DialogFragment {
 
         mList = (Spinner) view.findViewById(R.id.filter_list);
         ArrayAdapter<String> adapter;
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mValues);
+        adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, mValues);
         mList.setAdapter(adapter);
         mList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
