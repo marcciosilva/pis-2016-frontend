@@ -7,25 +7,25 @@
                 android:orientation="vertical"
                 tools:context=".ui.eventdetail.multimedia.ImageGalleryView">
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
-
-    <!--<GridView-->
-        <!--android:id="@+id/gridView"-->
-        <!--android:layout_width="fill_parent"-->
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView1"-->
+        <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:columnWidth="100dp"-->
-        <!--android:drawSelectorOnTop="true"-->
-        <!--android:gravity="center"-->
-        <!--android:numColumns="auto_fit"-->
-        <!--android:stretchMode="columnWidth"-->
-        <!--android:verticalSpacing="5dp"-->
-        <!--android:focusable="true"-->
-        <!--android:clickable="true"/>-->
+        <!--android:layout_centerHorizontal="true"/>-->
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:columnWidth="100dp"
+        android:drawSelectorOnTop="true"
+        android:gravity="center"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp"
+        android:focusable="true"
+        android:clickable="true"/>
 
 
 </RelativeLayout>

@@ -59,7 +59,7 @@ public class ImageGalleryPresenter {
             multimediaManager.fetchImages(new ApiCallback<List<ImageDataDto>>() {
                 @Override
                 public void onSuccess(List<ImageDataDto> imageDataList) {
-                    initImageGalleryView(context, imageDataList);
+                    initImageGalleryView(context, imageDataList, imageDescriptions);
                 }
 
                 @Override
@@ -81,15 +81,22 @@ public class ImageGalleryPresenter {
         }
     }
 
-    private static void initImageGalleryView(Context context, List<ImageDataDto> imageDataList) {
-        ArrayList<String> fileNames = new ArrayList<>();
+    private static void initImageGalleryView(Context context, List<ImageDataDto> imageDataList,
+                                             List<ImageDescriptionDto> imageDescriptions) {
+        ArrayList<String> filesToShowInGallery = new ArrayList<>();
         Intent intent = new Intent(context, ImageGalleryView.class);
+        // Obtengo los nombres de los archivos almacenados en los archivos de la app.
+        File[] files = context.getFilesDir().listFiles();
+        List<String> fileNames = new ArrayList<>();
+        for (int i = 0; i < files.length; i++) {
+            fileNames.add(files[i].getName());
+        }
+        Log.d(TAG, "Files in path before = " + Integer.toString(fileNames.size()));
+        // Agrego los nombres de los archivos recibidos mediante requests.
         for (int i = 0; i < imageDataList.size(); i++) {
             try {
                 byte[] imageAsBytes = Base64.decode(imageDataList.get(i).getData(), 0);
-                // Archivo a guardar.
-//                    File file = new File(path, imageDataList.get(i).getName());
-                File file = new File(context.getCacheDir(), imageDataList.get(i).getName());
+                File file = new File(context.getFilesDir(), imageDataList.get(i).getName());
                 Log.d(TAG, file.getAbsolutePath());
                 OutputStream fOut = new FileOutputStream(file);
                 Bitmap pictureBitmap =
@@ -102,14 +109,25 @@ public class ImageGalleryPresenter {
                         .insertImage(context.getContentResolver(), file.getAbsolutePath(), file
                                 .getName(), file.getName());
                 // Agrego el nombre del archivo para pasar en el intent.
-                fileNames.add(imageDataList.get(i).getName());
+                filesToShowInGallery.add(imageDataList.get(i).getName());
+                fileNames.remove(file.getName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        intent.putExtra("fileNames", fileNames);
+        Log.d(TAG, "Files in path after = " + Integer.toString(fileNames.size()));
+        // Agrego los nombres de los archivos que debo mostrar, pero que no fueron recibidos
+        // en requests porque ya se tenian.
+        for (String fileName : fileNames) {
+            for (ImageDescriptionDto description : imageDescriptions) {
+                if (fileName.startsWith(description.getId() + ".")) {
+                    filesToShowInGallery.add(fileName);
+                }
+            }
+        }
+        intent.putExtra("fileNames", filesToShowInGallery);
         context.startActivity(intent);
     }
 

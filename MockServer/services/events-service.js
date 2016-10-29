@@ -3,7 +3,6 @@ var events_list = require('../replies/events_list.json');
 var event_detail = require('../replies/event_detail.json');
 var event_detail_error = require('../replies/event_detail_error.json');
 // getImageData
-var getimagedata_success_1 = require('../replies/getimagedata_success_1.json');
 var getimagedata_error = require('../replies/getimagedata_error.json');
 
 function delay(ms) {

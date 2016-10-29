@@ -98,7 +98,14 @@
         "usuario": "Usuario1",
         "fecha_envio": "2016-10-27T13:16:31.34",
         "idExtension": 0
-      }
+      },
+      {
+        "id": 2,
+        "id_imagen": 2,
+        "usuario": "Usuario1",
+        "fecha_envio": "2016-10-27T13:16:31.34",
+        "idExtension": 0
+      }      
     ],
     "videos": [],
     "audios": []

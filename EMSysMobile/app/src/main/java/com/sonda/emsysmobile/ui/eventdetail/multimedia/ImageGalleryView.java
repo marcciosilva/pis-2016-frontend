@@ -1,16 +1,17 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
+import com.sonda.emsysmobile.ui.views.adapters.GridViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,35 +20,43 @@ import java.util.List;
  * Created by mserralta on 13/10/16.
  */
 
-public class ImageGalleryView extends AppCompatActivity implements View.OnClickListener {
+public class ImageGalleryView extends AppCompatActivity {
 
     private static final String TAG = ImageGalleryView.class.getName();
     private List<ImageDataDto> mImageDataList;
+    private GridView gridView;
+    private GridViewAdapter gridAdapter;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_gallery);
-        Bundle extras = getIntent().getExtras();
-        int i = 0;
-        ArrayList<String> fileNames = extras.getStringArrayList("fileNames");
-        if (fileNames != null) {
-            ImageView image = (ImageView) findViewById(R.id.imageView1);
-            String path = getCacheDir() + getString(R.string.path_separator) + fileNames.get(0);
-            Log.d(TAG, "PATH IS: " + path);
-            Bitmap bmp = BitmapFactory.decodeFile(path);
-            image.setImageBitmap(bmp);
-        }
+
+        gridView = (GridView) findViewById(R.id.gridView);
+        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, getData());
+        gridView.setAdapter(gridAdapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                ImageItem item = (ImageItem) parent.getItemAtPosition(position);
+                Intent intent = new Intent(ImageGalleryView.this, ImageDetailsView.class);
+                intent.putExtra("fileName", item.getTitle());
+                // Se inicia la activity para ver la imagen en detalle.
+                startActivity(intent);
+            }
+        });
     }
 
-    @Override
-    public void onClick(View view) {
-//        if (view.getId() == R.id.button_images) {
-//            Log.d(TAG, "Botón de imágenes pulsado");
-//            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
-//                    Integer.toString(mEvent.getImageDescriptions().size()));
-//            ImageGalleryPresenter.loadImages(ImageGalleryView.this, mEvent.getImageDescriptions
-// ());
-//        }
+    private ArrayList<ImageItem> getData() {
+        Bundle extras = getIntent().getExtras();
+        ArrayList<String> fileNames = extras.getStringArrayList("fileNames");
+        final ArrayList<ImageItem> imageItems = new ArrayList<>();
+        for (int i = 0; i < fileNames.size(); i++) {
+            String path = getFilesDir() + getString(R.string.path_separator) + fileNames.get(0);
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            imageItems.add(new ImageItem(bitmap, fileNames.get(i)));
+        }
+        return imageItems;
     }
+
 }
