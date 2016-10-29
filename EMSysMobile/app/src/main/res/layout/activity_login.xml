@@ -13,6 +13,7 @@
         android:layout_width="@dimen/field_width_normal"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
@@ -52,7 +53,7 @@
         <Button
             android:id="@+id/button_login"
             style="@style/AppButtonDark"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="@dimen/button_height_normal"
             android:layout_marginTop="@dimen/spacing_normal"
             android:text="@string/action_login" />
