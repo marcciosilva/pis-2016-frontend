@@ -37,6 +37,7 @@
     <string name="menu_view_map_string">Ver mapa</string>
     <string name="menu_external_service_string">Servicio externo</string>
     <string name="menu_logout_string">Cerrar sesión</string>
+    <string name="menu_filter_string">Ordenar eventos</string>
 
     <!--Test fragment-->
     <string name="test_content_description">Test content description</string>
@@ -119,5 +120,8 @@
 
     <string name="dummy_description">Description</string>
     <string name="dummy_text">Dummy text</string>
+
+    <!--Filtrar eventos-->
+    <string name="input_title_filter">Ordenar Eventos</string>
 
 </resources>

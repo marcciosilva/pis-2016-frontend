@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,17 +32,28 @@ import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
+import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
+import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends AppCompatActivity
-        implements OnListFragmentInteractionListener {
+        implements OnListFragmentInteractionListener,
+        EventFilterDialogFragment.OnEventFilterDialogListener {
 
     private static final String TAG = HomeActivity.class.getName();
     private EventsMapView mMapFragment = null;
 
+    @Override
+    public final void onEventFilter(String descriptionText) {
+        UIUtils.hideSoftKeyboard(this);
+       /* if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
+        }*/
+    }
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,6 +158,14 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.menu_logout_button:
                 logout();
+                return true;
+            case R.id.menu_filter_button:
+                FragmentManager fm = getSupportFragmentManager();
+                EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
+                //EventFilterDialogFragment eventFilterDialogFragment = (EventFilterDialogFragment) fm.findFragmentByTag(EventFilterDialogFragment.class.getSimpleName());
+                Log.d("hola", "antes");
+                eventFilterDialogFragment.show(fm, "fragment_edit_name");
+                Log.d("hola", "desp");
                 return true;
             default:
                 // Accion no reconocida, se lo delega a la superclase.

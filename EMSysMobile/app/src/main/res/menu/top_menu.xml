@@ -31,4 +31,10 @@
         android:icon="@drawable/ic_power_settings_new_white_24dp"
         android:orderInCategory="100"
         app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@id/menu_filter_button"
+        android:title="@string/menu_filter_string"
+        android:icon="@drawable/ic_power_settings_new_white_24dp"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom|withText" />
 </menu>
