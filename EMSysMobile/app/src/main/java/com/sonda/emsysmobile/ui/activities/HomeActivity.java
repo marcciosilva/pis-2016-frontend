@@ -45,14 +45,13 @@ public class HomeActivity extends AppCompatActivity
 
     private static final String TAG = HomeActivity.class.getName();
     private EventsMapView mMapFragment = null;
-
-    private ExtensionsFragment extensionsFragment;
+    private ExtensionsFragment mExtensionsFragment;
 
     @Override
     public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-        extensionsFragment.setFilter(selectedFilter);
-        extensionsFragment.getEvents();
+        mExtensionsFragment.setFilter(selectedFilter);
+        mExtensionsFragment.getEvents();
     }
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -74,11 +73,11 @@ public class HomeActivity extends AppCompatActivity
             }
 
             // Create a new Fragment to be placed in the activity layout
-            extensionsFragment = new ExtensionsFragment();
+            mExtensionsFragment = new ExtensionsFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
+                    .add(R.id.fragment_container, mExtensionsFragment).commit();
             // Inicializacion de fragment de mapa.
             mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
@@ -133,12 +132,11 @@ public class HomeActivity extends AppCompatActivity
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                extensionsFragment =
-                        (ExtensionsFragment) getSupportFragmentManager()
+                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager()
                                 .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
-                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                if (mExtensionsFragment == null) {
+                    mExtensionsFragment = new ExtensionsFragment();
+                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_external_service_button:
@@ -150,10 +148,10 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.menu_view_map_button:
                 mMapFragment.showView();
-                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
-                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (mExtensionsFragment == null) {
+                    mExtensionsFragment = new ExtensionsFragment();
+                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_logout_button:
@@ -161,10 +159,10 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.menu_filter_button:
                 // Primero se redirige al listado.
-                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
-                    replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
+                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                if (mExtensionsFragment == null) {
+                    mExtensionsFragment = new ExtensionsFragment();
+                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 // Luego se abre el diálogo para elegir el filtro.
                 FragmentManager fm = getSupportFragmentManager();

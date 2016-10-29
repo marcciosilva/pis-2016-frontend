@@ -46,7 +46,6 @@ public final class EventManager {
      */
     private SparseArray<ExtensionDto> mExtensions;
 
-    //private String filter = "priority";
 
     private static final String TAG = EventManager.class.getName();
 
