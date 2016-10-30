@@ -1,36 +1,23 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.EventsResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.GetImageDataResponse;
-import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsRequest;
-import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.GetImageDataRequest;
-import com.sonda.emsysmobile.logic.model.core.EventDto;
-import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
-import com.sonda.emsysmobile.notifications.Notification;
-import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by marccio on 10/29/16.
@@ -41,6 +28,7 @@ public final class MultimediaManager {
     private List<ImageDescriptionDto> mImageDescriptions;
     private List<ImageDataDto> mImageDataList;
     private Context mContext;
+    private Map<ImageDescriptionDto, Boolean> mImagesAlreadyInPath;
 
     private static final String TAG = MultimediaManager.class.getName();
 
@@ -48,6 +36,7 @@ public final class MultimediaManager {
         mContext = context;
         mImageDescriptions = new ArrayList<>();
         mImageDataList = new ArrayList<>();
+        mImagesAlreadyInPath = new HashMap<>();
     }
 
     public final void onLogout() {
@@ -71,7 +60,6 @@ public final class MultimediaManager {
         // Si me llegan las mismas descripciones no se altera nada.
         if (!mImageDescriptions.equals(imageDescriptions)) {
             mImageDescriptions = imageDescriptions;
-            mImageDataList.clear();
         }
     }
 
@@ -87,35 +75,40 @@ public final class MultimediaManager {
     }
 
     public final void fetchImages(final ApiCallback<List<ImageDataDto>> callback) {
-        if (mImageDataList.isEmpty()) {
-            // Genero array de strings con los nombres de los archivos del directorio
-            // de almacenamiento.
-            File[] files = mContext.getFilesDir().listFiles();
-            List<String> fileNames = new ArrayList<>();
-            for (int i = 0; i < files.length; i++) {
-                fileNames.add(files[i].getName());
-            }
-            // Hago la request en caso de ser necesario.
-            int avoidedRequests = 0;
-            for (ImageDescriptionDto imageDescription : mImageDescriptions) {
-                Log.d(TAG, "avoidedRequests = " + Integer.toString(avoidedRequests) +
-                        ", mImageDataList.size() = " +
-                        Integer.toString(mImageDataList.size()));
-                boolean shouldRequest = true;
-                Log.d(TAG, "Chequeando " + Integer.toString(imageDescription.getId()) + ".");
-                for (String fileName : fileNames) {
-                    // Si algun archivo empieza con el nombre de la descripcion y punto,
-                    // no se lo pide nuevamente.
-                    if (fileName.startsWith(imageDescription.getId() + ".")) {
-                        shouldRequest = false;
-                        avoidedRequests++;
-                        Log.d(TAG, "No se hace request para archivo " + fileName);
-                        break;
-                    }
+        Log.d(TAG, "Llamado a fetchImages");
+        mImageDataList.clear();
+        mImagesAlreadyInPath.clear();
+        // Genero array de strings con los nombres de los archivos del directorio
+        // de almacenamiento.
+        File[] files = mContext.getFilesDir().listFiles();
+        List<String> fileNames = new ArrayList<>();
+        for (int i = 0; i < files.length; i++) {
+            fileNames.add(files[i].getName());
+        }
+        // Genero un map que para cada descripcion indica si tengo que hacer la request
+        // o no.
+        for (ImageDescriptionDto imageDescription : mImageDescriptions) {
+            boolean shouldRequest = true;
+            Log.d(TAG, "Chequeando " + Integer.toString(imageDescription.getId()) + ".");
+            for (String fileName : fileNames) {
+                // Si algun archivo empieza con el nombre de la descripcion y punto,
+                // no se lo pide nuevamente.
+                if (fileName.startsWith(imageDescription.getId() + ".")) {
+                    shouldRequest = false;
+                    Log.d(TAG, "No se hace request para archivo " + fileName);
+                    break;
                 }
+            }
+            mImagesAlreadyInPath.put(imageDescription, shouldRequest);
+        }
+        // Cantidad de requests a realizar, para saber cuando llamar al callback.
+        final int requestsToBeMade = Collections
+                .frequency(new ArrayList<Boolean>(mImagesAlreadyInPath.values()), true);
+        // Hago requests necesarias.
+        if (requestsToBeMade != 0) {
+            for (final ImageDescriptionDto imageDescription : mImageDescriptions) {
                 // Variable a ser utilizada dentro de listener (debe ser final).
-                if (shouldRequest) {
-                    final int auxAvoidedRequests = avoidedRequests;
+                if (mImagesAlreadyInPath.get(imageDescription)) {
                     GetImageDataRequest<GetImageDataResponse> request =
                             new GetImageDataRequest<>(mContext, GetImageDataResponse.class);
                     request.setAttributes(imageDescription.getId());
@@ -125,9 +118,9 @@ public final class MultimediaManager {
                             int responseCode = response.getCode();
                             if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                                 mImageDataList.add(response.getImageData());
-                                // Si tienen el mismo size es porque me llegaron todas las imagenes.
-                                if (mImageDataList.size() + auxAvoidedRequests ==
-                                        mImageDescriptions.size()) {
+                                // Si tienen el mismo size es porque me llegaron todas las
+                                // imagenes.
+                                if (mImageDataList.size() == requestsToBeMade) {
                                     callback.onSuccess(mImageDataList);
                                 }
                             } else {
@@ -143,16 +136,10 @@ public final class MultimediaManager {
                         }
                     });
                     request.execute();
-                } else {
-                    Log.d(TAG, "viejita");
-                    if (mImageDataList.size() + avoidedRequests ==
-                            mImageDescriptions.size()) {
-                        callback.onSuccess(mImageDataList);
-                    }
                 }
             }
         } else {
-            // Se asume que si no es vacio es porque esta cacheado de un pedido anterior.
+            // Si no hay ninguna request que hacer, se devuelve una estructura vacia.
             callback.onSuccess(mImageDataList);
         }
     }

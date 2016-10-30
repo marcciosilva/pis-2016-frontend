@@ -85,14 +85,14 @@ public class ImageGalleryPresenter {
                                              List<ImageDescriptionDto> imageDescriptions) {
         ArrayList<String> filesToShowInGallery = new ArrayList<>();
         Intent intent = new Intent(context, ImageGalleryView.class);
-        // Obtengo los nombres de los archivos almacenados en los archivos de la app.
+        // Obtengo los nombres de los archivos que la app mantiene en internal storage.
         File[] files = context.getFilesDir().listFiles();
         List<String> fileNames = new ArrayList<>();
         for (int i = 0; i < files.length; i++) {
             fileNames.add(files[i].getName());
         }
-        Log.d(TAG, "Files in path before = " + Integer.toString(fileNames.size()));
-        // Agrego los nombres de los archivos recibidos mediante requests.
+        // Genero archivos para las imagenes recibidas mediante requests, y agrego sus nombres
+        // a a lista que va a usar la view para cargar las imagenes en la galeria.
         for (int i = 0; i < imageDataList.size(); i++) {
             try {
                 String imageName = imageDataList.get(i).getName();
@@ -118,9 +118,8 @@ public class ImageGalleryPresenter {
                 e.printStackTrace();
             }
         }
-        Log.d(TAG, "Files in path after = " + Integer.toString(fileNames.size()));
         // Agrego los nombres de los archivos que debo mostrar, pero que no fueron recibidos
-        // en requests porque ya se tenian.
+        // en requests porque ya estaban presentes en el directorio.
         for (String fileName : fileNames) {
             for (ImageDescriptionDto description : imageDescriptions) {
                 if (fileName.startsWith(description.getId() + ".")) {
