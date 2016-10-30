@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -52,6 +53,12 @@ public class EventDetailsView extends AppCompatActivity implements
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -102,6 +109,16 @@ public class EventDetailsView extends AppCompatActivity implements
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public final void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
@@ -146,6 +163,13 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
+    public void showMap() {
+        findViewById(R.id.map_container).setVisibility(View.VISIBLE);
+        EventDetailMapView mapFragment = EventDetailMapView.getInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.map_container,
+                mapFragment, EventDetailMapView.class.getSimpleName()).commit();
+    }
+
     private void showUpdateDescriptionDialog() {
         FragmentManager fm = getSupportFragmentManager();
         AttachDescriptionDialogFragment attachDescriptionDialogFragment =
@@ -187,22 +211,4 @@ public class EventDetailsView extends AppCompatActivity implements
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
         }
     }
-
-    @Override
-    public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_back) {
-            onBackPressed();
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public final boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.top_menu_only_back, menu);
-        return true;
-    }
-
-
 }

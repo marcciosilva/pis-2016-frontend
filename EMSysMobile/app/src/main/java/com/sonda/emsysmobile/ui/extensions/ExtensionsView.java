@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.extensions;
 
+import com.android.volley.VolleyError;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 
@@ -15,5 +16,7 @@ public interface ExtensionsView extends MvpLceView<List<ExtensionDto>> {
      * @param errorMessage Message to be shown in errorView
      * @param pullToRefresh Boolean indicating if error was caused during pullToRefresh
      */
-    void showError(String errorMessage, boolean pullToRefresh);
+    public void showError(String errorMessage, int errorCode, boolean pullToRefresh);
+
+    public void showError(VolleyError error, boolean pullToRefresh);
 }

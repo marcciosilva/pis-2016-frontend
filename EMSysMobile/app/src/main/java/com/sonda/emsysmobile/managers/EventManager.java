@@ -79,8 +79,8 @@ public final class EventManager {
         return mInstance;
     }
 
-    public final void fetchExtensions(final ApiCallback<List<ExtensionDto>> callback) {
-        if (mExtensions.size() == 0) {
+    public final void fetchExtensions(boolean fromService, final ApiCallback<List<ExtensionDto>> callback) {
+        if (mExtensions.size() == 0 || fromService) {
             EventsRequest<EventsResponse> request =
                     new EventsRequest<>(mContext, EventsResponse.class);
             request.setListener(new Response.Listener<EventsResponse>() {

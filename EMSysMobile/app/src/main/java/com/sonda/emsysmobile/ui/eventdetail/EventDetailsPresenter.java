@@ -135,20 +135,20 @@ public final class EventDetailsPresenter {
         if (hasGeolocation) {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
-            mMapFragment = EventDetailMapView.getInstance();
-            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
-                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
-            mMapFragment.showView();
+            mEventDetailsView.showMap();
+//            mMapFragment = EventDetailMapView.getInstance();
+//            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
+//                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
+//            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
+//            mMapFragment.showView();
         }
     }
 
     public static void updateMapFragment() {
         if (mMapFragment != null) {
-            mMapFragment.showView();
+            mMapFragment.updateView();
         }
     }
-
 
     public static void attachDescriptionForExtension(final Context context, final String description, final int
             extensionId) {

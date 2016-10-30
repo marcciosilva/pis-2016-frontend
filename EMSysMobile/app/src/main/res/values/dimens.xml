@@ -30,4 +30,6 @@
     <dimen name="row_height_normal">90dp</dimen>
     <dimen name="row_height_tall">120dp</dimen>
 
+    <dimen name="map_height">350dp</dimen>
+
 </resources>

@@ -1,6 +1,11 @@
 package com.sonda.emsysmobile.ui.extensions;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
@@ -22,11 +27,14 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
         implements ExtensionsPresenter {
 
     private static final String TAG = "ExtensionsListPresenter";
+    private static final String EVENTS_UPDATED = "events_updated";
 
     private EventManager mEventManager;
+    private LocalBroadcastManager mLocalBroadcastManager;
 
-    ExtensionsListPresenter(EventManager eventManager){
+    ExtensionsListPresenter(EventManager eventManager, LocalBroadcastManager localBroadcastManager){
         mEventManager = eventManager;
+        mLocalBroadcastManager = localBroadcastManager;
     }
 
     @Override
@@ -36,7 +44,16 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
             getView().showLoading(pullToRefresh);
         }
 
-        mEventManager.fetchExtensions(new ApiCallback<List<ExtensionDto>>() {
+        updateExtensions(pullToRefresh);
+    }
+
+    private void updateExtensions(final boolean fromServer) {
+
+        if (getView() == null) {
+            return;
+        }
+
+        mEventManager.fetchExtensions(fromServer, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 if (isViewAttached()) {
@@ -48,14 +65,14 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
                 if (isViewAttached()) {
-                    getView().showError("", pullToRefresh);
+                    getView().showError(errorMessage, errorCode, fromServer);
                 }
             }
 
             @Override
             public void onNetworkError(VolleyError error) {
                 if (isViewAttached()) {
-                    getView().showError("", pullToRefresh);
+                    getView().showError(error, fromServer);
                 }
             }
         });
@@ -63,11 +80,26 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
 
     @Override public void detachView(boolean retainInstance) {
         super.detachView(retainInstance);
+        //We should unregister Broadcast Reciever when te fragment is paused
+        mLocalBroadcastManager.unregisterReceiver(broadcastReceiverEvents);
         Log.d(TAG, "---- detachView(" + retainInstance + ") ----");
     }
 
     @Override public void attachView(ExtensionsView view) {
         super.attachView(view);
+        //We wants than Broadcast Receiver be registered when the view is attached
+        mLocalBroadcastManager
+                .registerReceiver(broadcastReceiverEvents, new IntentFilter(EVENTS_UPDATED));
         Log.d(TAG, "attach view " + view.toString());
     }
+
+    /**
+     * Receives a notification when event list is updated
+     */
+    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            updateExtensions(false);
+        }
+    };
 }

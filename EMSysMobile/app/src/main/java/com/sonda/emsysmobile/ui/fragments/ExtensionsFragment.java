@@ -58,7 +58,6 @@ public class ExtensionsFragment extends Fragment {
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mExtensions = new ArrayList<>();
     }
 
@@ -99,7 +98,7 @@ public class ExtensionsFragment extends Fragment {
 
     private void getEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchExtensions(new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(false, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);

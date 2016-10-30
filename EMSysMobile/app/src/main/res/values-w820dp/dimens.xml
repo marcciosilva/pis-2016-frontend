@@ -24,6 +24,8 @@
     <dimen name="row_height_normal">120dp</dimen>
     <dimen name="row_height_tall">180dp</dimen>
 
+    <dimen name="map_height">350dp</dimen>
+
     <dimen name="field_width_normal">400dp</dimen>
     <!-- Example customization of dimensions originally defined in res/values/dimens.xml
          (such as screen margins) for screens with more than 820dp of available width. This

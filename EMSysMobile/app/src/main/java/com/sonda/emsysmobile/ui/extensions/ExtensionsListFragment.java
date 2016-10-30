@@ -1,9 +1,11 @@
 package com.sonda.emsysmobile.ui.extensions;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.android.volley.VolleyError;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.LceViewState;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.MvpLceViewStateFragment;
 import com.hannesdorfmann.mosby.mvp.viewstate.lce.data.RetainingLceViewState;
@@ -20,8 +23,11 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
+import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.List;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by ssainz on 10/29/16.
@@ -99,7 +105,8 @@ public class ExtensionsListFragment
     public @NonNull ExtensionsPresenter createPresenter() {
         EventManager eventManager =
                 EventManager.getInstance(this.getActivity().getApplicationContext());
-        return new ExtensionsListPresenter(eventManager);
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        return new ExtensionsListPresenter(eventManager, localBroadcastManager);
     }
 
     @Override
@@ -119,7 +126,37 @@ public class ExtensionsListFragment
     }
 
     @Override
-    public void showError(String errorMessage, boolean pullToRefresh) {
+    public void showContent() {
+        super.showContent();
+        contentView.setRefreshing(false);
+    }
 
+    @Override
+    public void showLoading(boolean pullToRefresh) {
+        super.showLoading(pullToRefresh);
+        if (pullToRefresh && !contentView.isRefreshing()) {
+            contentView.post(new Runnable() {
+                @Override public void run() {
+                    contentView.setRefreshing(true);
+                }
+            });
+        }
+    }
+
+    @Override
+    public void showError(String errorMessage, int errorCode, boolean pullToRefresh) {
+        contentView.setRefreshing(false);
+        UIUtils.handleErrorMessage(getActivity(), errorCode, errorMessage);
+    }
+
+    @Override
+    public void showError(VolleyError error, final boolean pullToRefresh) {
+        contentView.setRefreshing(false);
+        handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                presenter.loadExtensions(pullToRefresh);
+            }
+        });
     }
 }
