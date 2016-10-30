@@ -48,7 +48,8 @@
         <activity
             android:name=".ui.eventdetail.EventDetailsView"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".ui.attachgeoloc.AttachGeoLocView"
             android:configChanges="orientation|screenSize"/>

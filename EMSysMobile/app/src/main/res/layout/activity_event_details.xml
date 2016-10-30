@@ -7,12 +7,21 @@
                 android:layout_height="match_parent"
                 tools:context=".ui.eventdetail.EventDetailsView">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        tools:ignore="UnusedAttribute" />
+
     <com.sonda.emsysmobile.ui.views.CustomScrollView
         android:id="@+id/main_scrollview_map_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="@dimen/spacing_normal"
+        android:layout_marginTop="?attr/actionBarSize"
         android:weightSum="1">
 
         <LinearLayout
