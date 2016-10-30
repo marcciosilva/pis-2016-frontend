@@ -33,7 +33,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by ssainz on 10/1/16.
+ * Created by marccio on 10/29/16.
  */
 public final class MultimediaManager {
 
@@ -74,6 +74,18 @@ public final class MultimediaManager {
             mImageDescriptions.clear();
             mImageDescriptions = imageDescriptions;
             mImageDataList.clear();
+        }
+    }
+
+    public final void clearInternalStorage() {
+        File dir = mContext.getFilesDir();
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++)
+            {
+                Log.d(TAG, "Borrando archivo " + children[i]);
+                new File(dir, children[i]).delete();
+            }
         }
     }
 

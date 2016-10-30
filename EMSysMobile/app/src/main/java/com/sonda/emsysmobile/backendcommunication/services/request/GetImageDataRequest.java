@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import java.lang.reflect.Type;
 
 /**
- * Created by mserralta on 17/10/16.
+ * Created by marccio on 17/10/16.
  */
 
 public class GetImageDataRequest<T> extends AbstractRequest<T> {

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mserralta on 13/10/16.
+ * Created by marccio on 13/10/16.
  */
 
 public class ImageGalleryView extends AppCompatActivity {
@@ -52,7 +52,7 @@ public class ImageGalleryView extends AppCompatActivity {
         ArrayList<String> fileNames = extras.getStringArrayList("fileNames");
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
         for (int i = 0; i < fileNames.size(); i++) {
-            String path = getFilesDir() + getString(R.string.path_separator) + fileNames.get(0);
+            String path = getFilesDir() + getString(R.string.path_separator) + fileNames.get(i);
             Bitmap bitmap = BitmapFactory.decodeFile(path);
             imageItems.add(new ImageItem(bitmap, fileNames.get(i)));
         }
