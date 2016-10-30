@@ -83,14 +83,8 @@ public class ImageGalleryPresenter {
 
     private static void initImageGalleryView(Context context, List<ImageDataDto> imageDataList,
                                              List<ImageDescriptionDto> imageDescriptions) {
-        ArrayList<String> filesToShowInGallery = new ArrayList<>();
+//        ArrayList<String> filesToShowInGallery = new ArrayList<>();
         Intent intent = new Intent(context, ImageGalleryView.class);
-        // Obtengo los nombres de los archivos que la app mantiene en internal storage.
-        File[] files = context.getFilesDir().listFiles();
-        List<String> fileNames = new ArrayList<>();
-        for (int i = 0; i < files.length; i++) {
-            fileNames.add(files[i].getName());
-        }
         // Genero archivos para las imagenes recibidas mediante requests, y agrego sus nombres
         // a a lista que va a usar la view para cargar las imagenes en la galeria.
         for (int i = 0; i < imageDataList.size(); i++) {
@@ -106,28 +100,31 @@ public class ImageGalleryPresenter {
                 pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut);
                 fOut.flush();
                 fOut.close();
-                MediaStore.Images.Media
-                        .insertImage(context.getContentResolver(), file.getAbsolutePath(), file
-                                .getName(), file.getName());
                 // Agrego el nombre del archivo para pasar en el intent.
-                filesToShowInGallery.add(imageName);
-                fileNames.remove(file.getName());
+//                filesToShowInGallery.add(imageName);
+//                fileNames.add(file.getName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        // Obtengo los nombres de los archivos que la app mantiene en internal storage.
+        File[] files = context.getFilesDir().listFiles();
+        List<String> fileNames = new ArrayList<>();
+        for (int i = 0; i < files.length; i++) {
+            fileNames.add(files[i].getName());
+        }
         // Agrego los nombres de los archivos que debo mostrar, pero que no fueron recibidos
         // en requests porque ya estaban presentes en el directorio.
         for (String fileName : fileNames) {
             for (ImageDescriptionDto description : imageDescriptions) {
                 if (fileName.startsWith(description.getId() + ".")) {
-                    filesToShowInGallery.add(fileName);
+                    description.setFileName(fileName);
                 }
             }
         }
-        intent.putExtra("fileNames", filesToShowInGallery);
+        intent.putExtra("imageDescriptions", (ArrayList<ImageDescriptionDto>) imageDescriptions);
         context.startActivity(intent);
     }
 

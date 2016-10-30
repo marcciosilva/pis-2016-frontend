@@ -56,6 +56,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         holder.getImagesButton().setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mListener.showProgressBar();
                 ImageGalleryPresenter.loadImages(mContext, holder.getItem().getImageDescriptions());
             }
         });

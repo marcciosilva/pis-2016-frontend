@@ -9,11 +9,14 @@ import android.graphics.Bitmap;
 public class ImageItem {
     private Bitmap image;
     private String title;
+    private String creator;
+    private String creationDate;
 
-    public ImageItem(Bitmap image, String title) {
-        super();
+    public ImageItem(Bitmap image, String title, String creator, String creationDate) {
         this.image = image;
         this.title = title;
+        this.creator = creator;
+        this.creationDate = creationDate;
     }
 
     public final Bitmap getImage() {
@@ -30,5 +33,21 @@ public class ImageItem {
 
     public final void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 }

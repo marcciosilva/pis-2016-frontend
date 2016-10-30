@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -53,6 +54,7 @@ public class EventDetailsView extends AppCompatActivity implements
     private ImageButton mImagesButton;
     private ImageButton mVideosButton;
     private ImageButton mAudioButton;
+    private ProgressBar mProgressBar;
 
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
@@ -84,6 +86,8 @@ public class EventDetailsView extends AppCompatActivity implements
         mVideosButton.setOnClickListener(this);
         mAudioButton = (ImageButton) findViewById(R.id.button_audio);
         mAudioButton.setOnClickListener(this);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +196,11 @@ public class EventDetailsView extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(ExtensionDto event) {
+    }
 
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -214,6 +222,12 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public final boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.top_menu_only_back, menu);
@@ -226,6 +240,7 @@ public class EventDetailsView extends AppCompatActivity implements
             Log.d(TAG, "Botón de imágenes pulsado");
             Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
                     Integer.toString(mEvent.getImageDescriptions().size()));
+            mProgressBar.setVisibility(View.VISIBLE);
             ImageGalleryPresenter.loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {
             Log.d(TAG, "Botón de video pulsado");

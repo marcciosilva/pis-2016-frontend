@@ -6,17 +6,18 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.ui.views.adapters.GridViewAdapter;
 
-import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,17 +43,12 @@ public class ImageGalleryView extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ImageItem item = (ImageItem) parent.getItemAtPosition(position);
-                Intent intent = new Intent(ImageGalleryView.this, ImageDetailsView.class);
-                intent.putExtra("fileName", item.getTitle());
-                // Se inicia la activity para ver la imagen en detalle.
+                String filePath = item.getTitle();
+                Intent intent = new Intent();
+                intent.setAction(android.content.Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri
+                        .parse("content://com.sonda.emsysmobile/" + filePath), "image/*");
                 startActivity(intent);
-                // TODO usar galeria default del sistema operativo.
-//                String filePath = getFilesDir() + File.separator + item.getTitle();
-//                Intent intent = new Intent();
-//                intent.setAction(android.content.Intent.ACTION_VIEW);
-//                intent.setDataAndType(Uri
-//                        .parse("content://com.sonda.emsysmobile/" + filePath), "image/*");
-//                startActivity(intent);
 
             }
         });
@@ -60,12 +56,19 @@ public class ImageGalleryView extends AppCompatActivity {
 
     private ArrayList<ImageItem> getData() {
         Bundle extras = getIntent().getExtras();
-        ArrayList<String> fileNames = extras.getStringArrayList("fileNames");
+        ArrayList<ImageDescriptionDto> imageDescriptions =
+                (ArrayList<ImageDescriptionDto>) extras.getSerializable("imageDescriptions");
         final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        for (int i = 0; i < fileNames.size(); i++) {
-            String path = getFilesDir() + getString(R.string.path_separator) + fileNames.get(i);
+        for (int i = 0; i < imageDescriptions.size(); i++) {
+            ImageDescriptionDto description = imageDescriptions.get(i);
+            String path =
+                    getFilesDir() + getString(R.string.path_separator) +
+                            description.getFileName();
             Bitmap bitmap = BitmapFactory.decodeFile(path);
-            imageItems.add(new ImageItem(bitmap, fileNames.get(i)));
+            Date creationDate = description.getDeliveryDate();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            imageItems.add(new ImageItem(bitmap, description.getFileName(), description
+                    .getUser(), dateFormat.format(creationDate)));
         }
         return imageItems;
     }

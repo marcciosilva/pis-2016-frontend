@@ -5,6 +5,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.util.Log;
+
+import com.sonda.emsysmobile.ui.views.adapters.EventDetailExtensionRecyclerViewAdapter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,9 +18,12 @@ import java.io.FileNotFoundException;
 
 public class CustomContentProvider extends ContentProvider {
 
+    private static final String TAG = CustomContentProvider.class.getName();
+
     @Override
     public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
         File privateFile = new File(getContext().getFilesDir(), uri.getPath());
+        Log.d(TAG, privateFile.getAbsolutePath());
         return ParcelFileDescriptor.open(privateFile, ParcelFileDescriptor.MODE_READ_ONLY);
     }
 

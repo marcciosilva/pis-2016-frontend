@@ -14,17 +14,38 @@ public class ImageDescriptionDto implements Serializable {
     @SerializedName("id")
     private int id;
 
-    //    @SerializedName("usuario")
-//    private String user;
+    @SerializedName("usuario")
+    private String user;
 
-//    @SerializedName("fecha_envio")
-//    private Date deliveryDate;
+    @SerializedName("fecha_envio")
+    private Date deliveryDate;
 
-//    @SerializedName("idExtension")
-//    private int extensionId;
+    @SerializedName("idExtension")
+    private int extensionId;
+
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public int getId() {
         return id;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public Date getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public int getExtensionId() {
+        return extensionId;
+    }
 }
