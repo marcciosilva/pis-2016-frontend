@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.events.managers;
+package com.sonda.emsysmobile.managers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

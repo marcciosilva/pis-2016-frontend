@@ -23,15 +23,18 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
+import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import java.security.cert.Extension;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -62,11 +65,12 @@ public class HomeActivity extends AppCompatActivity
             }
 
             // Create a new Fragment to be placed in the activity layout
-            ExtensionsFragment extensionsFragment = new ExtensionsFragment();
+            ExtensionsListFragment extensionsListFragment = new ExtensionsListFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
+                    .add(R.id.fragment_container, extensionsListFragment).commit();
+
             // Inicializacion de fragment de mapa.
             mMapFragment = EventsMapView.getInstance();
             CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
@@ -121,11 +125,10 @@ public class HomeActivity extends AppCompatActivity
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                ExtensionsFragment extensionsFragment =
-                        (ExtensionsFragment) getSupportFragmentManager()
-                                .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                ExtensionsListFragment extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
+                    extensionsFragment = new ExtensionsListFragment();
                     replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 return true;
@@ -138,9 +141,10 @@ public class HomeActivity extends AppCompatActivity
                 return true;
             case R.id.menu_view_map_button:
                 mMapFragment.showView();
-                extensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
+                extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsFragment();
+                    extensionsFragment = new ExtensionsListFragment();
                     replaceFragment(extensionsFragment, ExtensionsFragment.class.getSimpleName());
                 }
                 return true;
