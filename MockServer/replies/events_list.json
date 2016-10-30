@@ -67,7 +67,7 @@
                         }
                     ],
                     "estado": "faltadespachar",
-                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "time_stamp": "2016-10-08T21:29:17.037",
                     "segunda_categoria": null,
                     "recursos": [
                         "recurso1"
@@ -126,7 +126,7 @@
             },
             "estado": "enviado",
             "time_stamp": "2016-10-08T21:27:17.023",
-            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:28:17.023",
             "departamento": null,
             "calle": null,
             "esquina": null,
@@ -141,7 +141,7 @@
                     "id": 2,
                     "zona": {
                         "id": 2,
-                        "nombre": "zona2",
+                        "nombre": "azona2",
                         "nombre_ue": "ue2"
                     },
                     "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
