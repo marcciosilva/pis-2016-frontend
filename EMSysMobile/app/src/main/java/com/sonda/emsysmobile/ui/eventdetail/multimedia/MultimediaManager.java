@@ -70,8 +70,6 @@ public final class MultimediaManager {
     public final void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
         // Si me llegan las mismas descripciones no se altera nada.
         if (!mImageDescriptions.equals(imageDescriptions)) {
-            Log.d(TAG, "Clearing image descriptions...");
-            mImageDescriptions.clear();
             mImageDescriptions = imageDescriptions;
             mImageDataList.clear();
         }
@@ -81,8 +79,7 @@ public final class MultimediaManager {
         File dir = mContext.getFilesDir();
         if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (int i = 0; i < children.length; i++)
-            {
+            for (int i = 0; i < children.length; i++) {
                 Log.d(TAG, "Borrando archivo " + children[i]);
                 new File(dir, children[i]).delete();
             }
@@ -101,6 +98,9 @@ public final class MultimediaManager {
             // Hago la request en caso de ser necesario.
             int avoidedRequests = 0;
             for (ImageDescriptionDto imageDescription : mImageDescriptions) {
+                Log.d(TAG, "avoidedRequests = " + Integer.toString(avoidedRequests) +
+                        ", mImageDataList.size() = " +
+                        Integer.toString(mImageDataList.size()));
                 boolean shouldRequest = true;
                 Log.d(TAG, "Chequeando " + Integer.toString(imageDescription.getId()) + ".");
                 for (String fileName : fileNames) {
@@ -114,8 +114,8 @@ public final class MultimediaManager {
                     }
                 }
                 // Variable a ser utilizada dentro de listener (debe ser final).
-                final int auxAvoidedRequests = avoidedRequests;
                 if (shouldRequest) {
+                    final int auxAvoidedRequests = avoidedRequests;
                     GetImageDataRequest<GetImageDataResponse> request =
                             new GetImageDataRequest<>(mContext, GetImageDataResponse.class);
                     request.setAttributes(imageDescription.getId());
@@ -144,6 +144,7 @@ public final class MultimediaManager {
                     });
                     request.execute();
                 } else {
+                    Log.d(TAG, "viejita");
                     if (mImageDataList.size() + avoidedRequests ==
                             mImageDescriptions.size()) {
                         callback.onSuccess(mImageDataList);

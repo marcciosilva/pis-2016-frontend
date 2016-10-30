@@ -16,12 +16,16 @@ import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mserralta on 13/10/16.

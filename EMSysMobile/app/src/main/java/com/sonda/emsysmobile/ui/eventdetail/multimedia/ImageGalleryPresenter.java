@@ -95,6 +95,7 @@ public class ImageGalleryPresenter {
         // Agrego los nombres de los archivos recibidos mediante requests.
         for (int i = 0; i < imageDataList.size(); i++) {
             try {
+                String imageName = imageDataList.get(i).getName();
                 byte[] imageAsBytes = Base64.decode(imageDataList.get(i).getData(), 0);
                 File file = new File(context.getFilesDir(), imageDataList.get(i).getName());
                 Log.d(TAG, file.getAbsolutePath());
@@ -102,14 +103,14 @@ public class ImageGalleryPresenter {
                 Bitmap pictureBitmap =
                         BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
                 // TODO manejar compresion de acuerdo a tipo de imagen.
-                pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 85, fOut);
+                pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut);
                 fOut.flush();
                 fOut.close();
                 MediaStore.Images.Media
                         .insertImage(context.getContentResolver(), file.getAbsolutePath(), file
                                 .getName(), file.getName());
                 // Agrego el nombre del archivo para pasar en el intent.
-                filesToShowInGallery.add(imageDataList.get(i).getName());
+                filesToShowInGallery.add(imageName);
                 fileNames.remove(file.getName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

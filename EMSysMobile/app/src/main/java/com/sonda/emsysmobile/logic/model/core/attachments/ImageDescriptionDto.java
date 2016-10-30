@@ -14,7 +14,7 @@ public class ImageDescriptionDto implements Serializable {
     @SerializedName("id")
     private int id;
 
-//    @SerializedName("usuario")
+    //    @SerializedName("usuario")
 //    private String user;
 
 //    @SerializedName("fecha_envio")
