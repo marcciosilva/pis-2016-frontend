@@ -27,7 +27,7 @@
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:windowSoftInputMode="adjustResize|stateVisible"/>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="Preferences"
