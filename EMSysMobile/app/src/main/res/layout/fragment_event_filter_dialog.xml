@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    android:orientation="vertical"
+    tools:context="com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment">
+
+    <TextView
+        android:id="@+id/filter_values"
+        android:text="@string/filter_values"
+        android:textSize="@dimen/font_normal"
+        android:textColor="@color/gray_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/filter_list"
+        android:padding="5dp"
+        android:layout_alignParentTop="@+id/filter_values"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="80sp"
+        android:layout_alignLeft="@+id/filter_values"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp">
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_normal"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:background="@color/gray_medium_light"
+            android:textColor="@color/colorPrimary_900"
+            style="@style/AppButton"
+            android:text="@string/button_cancel"/>
+
+        <Button
+            android:id="@+id/button_filter"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_normal"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/spacing_tiny"
+            style="@style/AppButton"
+            android:text="@string/button_filter"/>
+
+    </LinearLayout>
+
+</LinearLayout>
