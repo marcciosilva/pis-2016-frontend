@@ -24,7 +24,7 @@ public class KeepAliveService extends Service {
     public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
     // A definir waitingTime.
-    private static int waitingTime = 10000;
+    private static int waitingTime = 600000;
 
     @Override
     public final void onCreate() {

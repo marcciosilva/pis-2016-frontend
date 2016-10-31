@@ -46,6 +46,7 @@ public final class EventManager {
      */
     private SparseArray<ExtensionDto> mExtensions;
 
+
     private static final String TAG = EventManager.class.getName();
 
     private EventManager(Context context) {
@@ -79,7 +80,7 @@ public final class EventManager {
         return mInstance;
     }
 
-    public final void fetchExtensions(boolean fromService, final ApiCallback<List<ExtensionDto>> callback) {
+    public final void fetchExtensions(boolean fromService, final String filter, final ApiCallback<List<ExtensionDto>> callback) {
         if (mExtensions.size() == 0 || fromService) {
             EventsRequest<EventsResponse> request =
                     new EventsRequest<>(mContext, EventsResponse.class);
@@ -89,7 +90,7 @@ public final class EventManager {
                     int responseCode = response.getCode();
                     if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                         setEvents(response.getEvents());
-                        callback.onSuccess(getExtensionsList());
+                        callback.onSuccess(getExtensionsList(filter));
                     } else {
                         //TODO soportar mensaje de error en EventsResponse
                         //callback.onError(response.getInnerResponse().getMsg(), responseCode);
@@ -105,7 +106,7 @@ public final class EventManager {
             });
             request.execute();
         } else {
-            callback.onSuccess(getExtensionsList());
+            callback.onSuccess(getExtensionsList(filter));
         }
     }
 
@@ -216,7 +217,7 @@ public final class EventManager {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
-    private List<ExtensionDto> getExtensionsList() {
+    private List<ExtensionDto> getExtensionsList(String filter) {
         if (mExtensions == null) {
             return null;
         }
@@ -224,8 +225,34 @@ public final class EventManager {
         for (int i = 0; i < mExtensions.size(); i++) {
             arrayList.add(mExtensions.valueAt(i));
         }
-        sortExtensionsByPriority(arrayList);
+        switch(filter){
+            case "Prioridad":
+                sortExtensionsByPriority(arrayList);
+                break;
+            case "Fecha":
+                sortExtensionsByDate(arrayList);
+                break;
+            case "Zona":
+                sortExtensionsByZone(arrayList);
+                break;
+        }
         return arrayList;
+    }
+
+    private void sortExtensionsByDate(List<ExtensionDto> extensions) {
+        Collections.sort(extensions, new Comparator<ExtensionDto>() {
+            public int compare(ExtensionDto ext1, ExtensionDto ext2) {
+                return ext1.getTimeStamp().compareTo(ext2.getTimeStamp());
+            }
+        });
+    }
+
+    private void sortExtensionsByZone(List<ExtensionDto> extensions) {
+        Collections.sort(extensions, new Comparator<ExtensionDto>() {
+            public int compare(ExtensionDto ext1, ExtensionDto ext2) {
+                return ext1.getZone().getName().compareTo(ext2.getZone().getName());
+            }
+        });
     }
 
     private void sortExtensionsByPriority(List<ExtensionDto> extensions) {

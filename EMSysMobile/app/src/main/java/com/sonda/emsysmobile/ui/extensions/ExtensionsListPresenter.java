@@ -31,6 +31,7 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
 
     private EventManager mEventManager;
     private LocalBroadcastManager mLocalBroadcastManager;
+    private String mFilter = "Prioridad";
 
     ExtensionsListPresenter(EventManager eventManager, LocalBroadcastManager localBroadcastManager){
         mEventManager = eventManager;
@@ -47,13 +48,18 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
         updateExtensions(pullToRefresh);
     }
 
+    @Override
+    public void setSelectedFilter(String filter) {
+        mFilter = filter;
+    }
+
     private void updateExtensions(final boolean fromServer) {
 
         if (getView() == null) {
             return;
         }
 
-        mEventManager.fetchExtensions(fromServer, new ApiCallback<List<ExtensionDto>>() {
+        mEventManager.fetchExtensions(fromServer, mFilter, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 if (isViewAttached()) {
@@ -76,6 +82,10 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
                 }
             }
         });
+    }
+
+    public void setFilter(String selectedFilter){
+        mFilter = selectedFilter;
     }
 
     @Override public void detachView(boolean retainInstance) {

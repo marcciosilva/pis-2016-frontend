@@ -159,4 +159,8 @@ public class ExtensionsListFragment
             }
         });
     }
+
+    public void setFilter(String filter) {
+        presenter.setSelectedFilter(filter);
+    }
 }

@@ -19,11 +19,13 @@ import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -40,6 +42,7 @@ public class ExtensionsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
+    private String mFilter = "Prioridad";
 
     private static final String TAG = ExtensionsFragment.class.getName();
     private static final String EVENTS_UPDATED = "events_updated";
@@ -96,9 +99,13 @@ public class ExtensionsFragment extends Fragment {
                 .unregisterReceiver(broadcastReceiverEvents);
     }
 
-    private void getEvents() {
+    public void setFilter(String selectedFilter){
+        mFilter = selectedFilter;
+    }
+
+    public void getEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchExtensions(false, new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(false, mFilter, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);
