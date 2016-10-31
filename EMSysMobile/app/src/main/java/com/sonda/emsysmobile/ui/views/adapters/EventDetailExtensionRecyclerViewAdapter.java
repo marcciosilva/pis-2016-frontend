@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 
 import java.util.List;
 
@@ -22,14 +22,15 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
     private final List<ExtensionDto> mExtensions;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnListFragmentInteractionListener mListFragmentInteractionListener;
     private Context mContext;
     private static final String TAG = EventDetailExtensionRecyclerViewAdapter.class.getName();
 
     public EventDetailExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions,
-                                                   OnListFragmentInteractionListener listener) {
+                                                   OnListFragmentInteractionListener
+                                                           listFragmentInteractionListener) {
         mExtensions = extensions;
-        mListener = listener;
+        mListFragmentInteractionListener = listFragmentInteractionListener;
         mContext = context;
     }
 
@@ -56,17 +57,18 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         holder.getImagesButton().setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.showProgressBar();
-                ImageGalleryPresenter.loadImages(mContext, holder.getItem().getImageDescriptions());
+                ImageGalleryPresenter
+                        .loadImages(mContext, holder.getItem()
+                                .getImageDescriptions());
             }
         });
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
+                if (null != mListFragmentInteractionListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.getItem());
+                    mListFragmentInteractionListener.onListFragmentInteraction(holder.getItem());
                 }
             }
         });

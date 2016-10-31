@@ -5,27 +5,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
-import com.etiennelawlor.imagegallery.library.activities.ImageGalleryActivity;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.logic.model.core.EventDto;
-import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
-import com.sonda.emsysmobile.ui.activities.SplashActivity;
-import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
-import com.sonda.emsysmobile.ui.eventdetail.EventDetailMapPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.EventDetailsView;
-import com.sonda.emsysmobile.utils.MultimediaUtils;
+import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.io.File;
@@ -34,7 +24,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -48,8 +37,11 @@ public class ImageGalleryPresenter {
 
     public static void loadImages(final Context context, final List<ImageDescriptionDto>
             imageDescriptions) {
+        final ProgressBarListener progressBarListener = (ProgressBarListener) context;
+        progressBarListener.showProgressBar();
         if (imageDescriptions.isEmpty()) {
             // No hay imagenes asociadas al evento.
+            progressBarListener.hideProgressBar();
             UIUtils.handleErrorMessage(context, ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA
                     .getNumVal(), context
                     .getString(R.string.error_no_available_multimedia));
@@ -59,16 +51,19 @@ public class ImageGalleryPresenter {
             multimediaManager.fetchImages(new ApiCallback<List<ImageDataDto>>() {
                 @Override
                 public void onSuccess(List<ImageDataDto> imageDataList) {
+                    progressBarListener.hideProgressBar();
                     initImageGalleryView(context, imageDataList, imageDescriptions);
                 }
 
                 @Override
                 public void onLogicError(String errorMessage, int errorCode) {
+                    progressBarListener.hideProgressBar();
                     UIUtils.handleErrorMessage(context, errorCode, errorMessage);
                 }
 
                 @Override
                 public void onNetworkError(VolleyError error) {
+                    progressBarListener.hideProgressBar();
                     handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener
                             () {
                         @Override

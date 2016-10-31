@@ -18,5 +18,4 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
  */
 public interface OnListFragmentInteractionListener {
     void onListFragmentInteraction(ExtensionDto event);
-    void showProgressBar();
 }

@@ -17,16 +17,13 @@ import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -34,7 +31,8 @@ import java.util.List;
 
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
-        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, View.OnClickListener {
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, View.OnClickListener,
+        ProgressBarListener {
 
     public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
@@ -204,6 +202,11 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public final void onAttachDescription(String descriptionText) {
         UIUtils.hideSoftKeyboard(this);
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
@@ -222,12 +225,6 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
     public final boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.top_menu_only_back, menu);
@@ -240,8 +237,8 @@ public class EventDetailsView extends AppCompatActivity implements
             Log.d(TAG, "Botón de imágenes pulsado");
             Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
                     Integer.toString(mEvent.getImageDescriptions().size()));
-            mProgressBar.setVisibility(View.VISIBLE);
-            ImageGalleryPresenter.loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
+            ImageGalleryPresenter
+                    .loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {
             Log.d(TAG, "Botón de video pulsado");
         } else if (view.getId() == R.id.button_audio) {

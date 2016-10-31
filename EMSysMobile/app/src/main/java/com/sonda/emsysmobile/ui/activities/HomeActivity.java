@@ -120,10 +120,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void showProgressBar() {
-    }
-
-    @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
         String textString = "text";
         if ((item.getItemId() != R.id.menu_view_map_button) && (item.getItemId() != R.id.menu_filter_button)) {
