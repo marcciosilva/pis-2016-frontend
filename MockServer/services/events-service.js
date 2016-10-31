@@ -2,6 +2,7 @@
 var events_list = require('../replies/events_list.json');
 var event_detail = require('../replies/event_detail.json');
 var event_detail_error = require('../replies/event_detail_error.json');
+var report_time_success = require('../replies/report_time_success.json');
 
 function delay(ms) {
     console.log("Esperando " + ms + " ms...");
@@ -56,6 +57,13 @@ var getEventDetail = function (request, response, next) {
     }
 };
 
+var postArrivalTime = function (request, response, next) {
+    console.log('POST a postArrivalTime');
+    console.log(request.body);
+    response.send(JSON.stringify(report_time_success), 200);
+};
+
+exports.postArrivalTime = postArrivalTime;
 exports.getEvents = getEvents;
 exports.getEventDetail = getEventDetail;
 exports.getSpecialCase = getSpecialCase;
