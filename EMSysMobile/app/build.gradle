@@ -37,6 +37,12 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.2'
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.2'
+
+    // used to provide the MiniDrawer to normal Drawer crossfade effect via a SlidingPane layout
+    // --> https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/MiniDrawerActivity.java
+    // https://github.com/mikepenz/Crossfader
+    compile 'com.mikepenz:crossfader:1.5.0@aar'
+
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.4'
@@ -51,14 +57,14 @@ dependencies {
     compile 'com.github.clans:fab:1.6.2'
 
 
-    // used to generate the Open Source section
-    // https://github.com/mikepenz/AboutLibraries
-    compile('com.mikepenz:aboutlibraries:5.8.5@aar') {
+    compile('com.mikepenz:materialdrawer:5.7.0@aar') {
         transitive = true
     }
-    //used to provide different itemAnimators for the RecyclerView
-    //https://github.com/mikepenz/ItemAnimators
-    compile 'com.mikepenz:itemanimators:0.5.0@aar'
+
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
     // used to provide the MiniDrawer to normal Drawer crossfade effect via a SlidingPane layout
     // --> https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/MiniDrawerActivity.java
     // https://github.com/mikepenz/Crossfader
@@ -72,7 +78,7 @@ dependencies {
     // https://github.com/mikepenz/Android-Iconics
     compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.6.0.3@aar'
-    compile 'com.mikepenz:octicons-typeface:3.0.0.1@aar'
+
 
 }
 

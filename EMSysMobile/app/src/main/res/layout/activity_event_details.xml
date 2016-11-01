@@ -14,13 +14,15 @@
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         tools:ignore="UnusedAttribute" />
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
     <com.sonda.emsysmobile.ui.views.CustomScrollView
         android:id="@+id/main_scrollview_map_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_normal"
         android:layout_marginTop="?attr/actionBarSize"
         android:weightSum="1">
 
@@ -240,6 +242,7 @@
 
     </com.sonda.emsysmobile.ui.views.CustomScrollView>
 
+    </FrameLayout>
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floating_action_menu"
         android:layout_width="wrap_content"
@@ -302,5 +305,4 @@
             fab:fab_size="normal"/>
 
     </com.github.clans.fab.FloatingActionMenu>
-
 </RelativeLayout>

@@ -1,11 +1,8 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -13,34 +10,24 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 import com.mikepenz.crossfader.Crossfader;
 import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.MiniDrawer;
-import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.interfaces.ICrossfader;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.activities.RootActivity;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-import com.mikepenz.materialdrawer.app.utils.CrossfadeWrapper;
 
 /**
  * Created by mserralta on 13/10/16.
  */
 
-public class EventDetailsView extends AppCompatActivity implements
+public class EventDetailsView extends RootActivity implements
         OnListFragmentInteractionListener,
         AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
 
@@ -73,83 +60,6 @@ public class EventDetailsView extends AppCompatActivity implements
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_details);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        //set the back arrow in the toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Detalle de evento");
-
-        final IProfile profile = new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com");
-        headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .withTranslucentStatusBar(false)
-                .addProfiles(
-                        profile,
-                        new ProfileSettingDrawerItem().withName("Cerrar sesión").withIdentifier(LOG_OUT)
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                        //sample usage of the onProfileChanged listener
-                        //if the clicked item has the identifier 1 add a new profile ;)
-                        if (profile instanceof IDrawerItem && ((IDrawerItem) profile).getIdentifier() == LOG_OUT) {
-                            //TODO CALL TO LOGOUT FUNCTION
-                        }
-                        //false if you have not consumed the event and it should close the drawer
-                        return false;
-                    }
-                })
-                .withSavedInstance(savedInstanceState)
-                .build();
-
-        result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withTranslucentStatusBar(false)
-                .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.menu_list_events_string).withIcon(R.drawable.ic_list_white_24dp).withIdentifier(1),
-                        new PrimaryDrawerItem().withName(R.string.menu_view_map_string).withIcon(R.drawable.ic_map_white_24dp).withBadge("22").withBadgeStyle(new BadgeStyle(Color.RED, Color.RED)).withIdentifier(2).withSelectable(false)//,
-                ) // add the items we want to use with our Drawer
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem instanceof Nameable) {
-                            //TODO: Implementar cambiar de pantalla
-                        }
-                        return false;
-                    }
-                })
-                .withGenerateMiniDrawer(true)
-                .withSavedInstance(savedInstanceState)
-                // build only the view of the Drawer (don't inflate it automatically in our layout which is done with .build())
-                .buildView(); //TODO Cambiar a .buildView()
-
-        //the MiniDrawer is managed by the Drawer and we just get it to hook it into the Crossfader
-        miniResult = result.getMiniDrawer();
-
-        //get the widths in px for the first and second panel
-        int firstWidth = (int) UIUtils.convertDpToPixel(300, this);
-        int secondWidth = (int) UIUtils.convertDpToPixel(72, this);
-
-        //create and build our crossfader (see the MiniDrawer is also builded in here, as the build method returns the view to be used in the crossfader)
-        //the crossfader library can be found here: https://github.com/mikepenz/Crossfader
-       crossFader = new Crossfader()
-               .withContent(findViewById(R.id.main_scrollview_map_detail))
-                .withFirst(result.getSlider(), firstWidth)
-                .withSecond(miniResult.build(this), secondWidth)
-                .withSavedInstance(savedInstanceState)
-                .build();
-
-
-//        //define the crossfader to be used with the miniDrawer. This is required to be able to automatically toggle open / close
-        miniResult.withCrossFader(new CrossfadeWrapper(crossFader));
-
-        //define a shadow (this is only for normal LTR layouts if you have a RTL app you need to define the other one
-//        crossFader.getCrossFadeSlidingPaneLayout().setShadowResourceLeft(R.drawable.material_drawer_shadow_left);
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -302,13 +212,13 @@ public class EventDetailsView extends AppCompatActivity implements
 //        return true;
 //    }
 
-    @Override
-    public void onBackPressed() {
-        //handle the back press :D close the drawer first and if the drawer is closed close the activity
-        if (crossFader != null && crossFader.isCrossfaded()) {
-            crossFader.crossfade();
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        //handle the back press :D close the drawer first and if the drawer is closed close the activity
+//        if (crossFader != null && crossFader.isCrossFaded()) {
+//            crossFader.crossFade();
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 }
