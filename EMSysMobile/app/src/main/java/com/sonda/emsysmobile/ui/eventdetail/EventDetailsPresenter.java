@@ -16,6 +16,8 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
 import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -194,5 +196,29 @@ public final class EventDetailsPresenter {
         if (mEventDetailsView != null) {
             mEventDetailsView.startActivityForResult(intent, 0);
         }
+    }
+
+    public static void reportTime(final Context context, int extensionId){
+        ReportTimeRequest<EmsysResponse> reportTimeRequest =
+                new ReportTimeRequest<>(context, EmsysResponse.class, extensionId);
+        reportTimeRequest.setListener(new Response.Listener<EmsysResponse>() {
+            @Override
+            public void onResponse(EmsysResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.app_name));
+                    builder.setMessage(
+                            context.getString(R.string.report_time_success));
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    UIUtils.handleErrorMessage(context, response.getCode(), context
+                            .getString(R.string.error_generic));
+                }
+            }
+        });
+        reportTimeRequest.execute();
     }
 }
