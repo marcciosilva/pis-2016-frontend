@@ -19,6 +19,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExtensionRecyclerViewAdapter extends RecyclerView
@@ -36,10 +37,19 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
         mContext = context;
     }
 
+    public ExtensionRecyclerViewAdapter(Context context, OnListFragmentInteractionListener listener) {
+        mExtensions = new ArrayList<>();
+        mListener = listener;
+        mContext = context;
+    }
+
     public final void setExtensions(List<ExtensionDto> mValues) {
         mExtensions.clear();
         mExtensions.addAll(mValues);
-        notifyDataSetChanged();
+    }
+
+    public final List<ExtensionDto> getExtensions() {
+        return mExtensions;
     }
 
     @Override

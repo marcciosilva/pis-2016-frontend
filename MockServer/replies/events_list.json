@@ -20,8 +20,8 @@
             "numero": null,
             "departamento": null,
             "sector": "sector1",
-            "longitud": 0,
-            "latitud": 0,
+            "longitud": -56.178485,
+            "latitud": -34.906426, 
             "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
             "en_proceso": true,
             "extensiones": [
@@ -67,12 +67,20 @@
                         }
                     ],
                     "estado": "faltadespachar",
-                    "time_stamp": "2016-10-08T21:27:17.037",
+                    "time_stamp": "2016-10-08T21:29:17.037",
                     "segunda_categoria": null,
                     "recursos": [
                         "recurso1"
                     ],
-                    "imagenes": [],
+                    "imagenes": [
+                        {
+                            "id": 1,
+                            "id_imagen": 1,
+                            "usuario": "Usuario1",
+                            "fecha_envio": "2016-10-27T13:16:31.34",
+                            "idExtension": 0
+                        }
+                    ],
                     "videos": [],
                     "audios": [],
                     "geo_ubicaciones": [
@@ -80,19 +88,30 @@
                             "idExtension": 0,
                             "usuario": null,
                             "fecha_envio": "0001-01-01T00:00:00.123",
-                            "longitud": 66.6,
-                            "latitud": 55.5
+                            "longitud": -56.160899,
+                            "latitud": -34.908712
                         },
                         {
                             "idExtension": 0,
                             "usuario": null,
                             "fecha_envio": "0001-01-01T00:00:00.123",
-                            "longitud": 88.8,
-                            "latitud": 77.7
+                            "longitud": -56.165805,
+                            "latitud": -34.918005
                         }
                     ]
                 }
-            ]
+            ],
+            "imagenes": [
+                {
+                    "id": 1,
+                    "id_imagen": 1,
+                    "usuario": "Usuario1",
+                    "fecha_envio": "2016-10-27T13:16:31.34",
+                    "idExtension": 0
+                }
+            ],
+            "videos": [],
+            "audios": []
         },
         {
             "id": 2,
@@ -107,7 +126,7 @@
             },
             "estado": "enviado",
             "time_stamp": "2016-10-08T21:27:17.023",
-            "fecha_creacion": "2016-10-08T21:27:17.023",
+            "fecha_creacion": "2016-10-08T21:28:17.023",
             "departamento": null,
             "calle": null,
             "esquina": null,
@@ -115,14 +134,14 @@
             "sector": "sector1",
             "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
             "en_proceso": true,
-            "latitud": -36.908599,
-            "longitud": -56.201376,
+            "longitud": -56.160899,
+            "latitud": -34.908712,
             "extensiones": [
                 {
                     "id": 2,
                     "zona": {
                         "id": 2,
-                        "nombre": "zona2",
+                        "nombre": "azona2",
                         "nombre_ue": "ue2"
                     },
                     "descripcion": "Lorem Ipsum... versiones de Lorem Ipsum.",
@@ -200,7 +219,10 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "imagenes": [],
+            "videos": [],
+            "audios": []
         }
     ]
 }

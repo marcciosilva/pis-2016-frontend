@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -17,7 +16,7 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
@@ -136,20 +135,20 @@ public final class EventDetailsPresenter {
         if (hasGeolocation) {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
-            mMapFragment = EventDetailMapView.getInstance();
-            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
-                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
-            mMapFragment.showView();
+            mEventDetailsView.showMap();
+//            mMapFragment = EventDetailMapView.getInstance();
+//            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
+//                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
+//            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
+//            mMapFragment.showView();
         }
     }
 
     public static void updateMapFragment() {
         if (mMapFragment != null) {
-            mMapFragment.showView();
+            mMapFragment.updateView();
         }
     }
-
 
     public static void attachDescriptionForExtension(final Context context, final String description, final int
             extensionId) {

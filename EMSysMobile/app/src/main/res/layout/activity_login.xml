@@ -1,86 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light"
-    android:padding="@dimen/spacing_normal"
+    android:fillViewport="true"
     tools:context=".ui.activities.login.AuthActivity">
 
-    <LinearLayout
-        android:id="@+id/buttons_container"
-        android:layout_width="@dimen/field_width_normal"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
-
-        <ImageView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:layout_gravity="center_horizontal"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo_emsys_shadow" />
+            android:layout_height="match_parent"
+            android:background="@color/gray_light"
+            android:padding="@dimen/spacing_normal">
+            <LinearLayout
+                android:id="@+id/buttons_container"
+                android:layout_width="@dimen/field_width_normal"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/input_username"
-            style="@style/AppEditText"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_normal"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:hint="@string/hint_username"
-            android:imeOptions="actionNext"
-            android:inputType="textNoSuggestions"
-            android:maxLines="1"
-            android:paddingLeft="@dimen/spacing_small"
-            android:paddingRight="@dimen/spacing_small"
-            android:theme="@style/AppEditText" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo_emsys_shadow" />
 
-        <EditText
-            android:id="@+id/input_password"
-            style="@style/AppEditText"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_normal"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:hint="@string/hint_password"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
-            android:paddingLeft="@dimen/spacing_small"
-            android:paddingRight="@dimen/spacing_small"
-            android:theme="@style/AppEditText" />
+                <EditText
+                    android:id="@+id/input_username"
+                    style="@style/AppEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:hint="@string/hint_username"
+                    android:imeOptions="actionNext"
+                    android:inputType="textNoSuggestions"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/spacing_small"
+                    android:paddingRight="@dimen/spacing_small"
+                    android:theme="@style/AppEditText" />
 
-        <Button
-            android:id="@+id/button_login"
-            style="@style/AppButtonDark"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
-            android:text="@string/action_login" />
+                <EditText
+                    android:id="@+id/input_password"
+                    style="@style/AppEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:hint="@string/hint_password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:paddingLeft="@dimen/spacing_small"
+                    android:paddingRight="@dimen/spacing_small"
+                    android:theme="@style/AppEditText" />
 
-    </LinearLayout>
+                <Button
+                    android:id="@+id/button_login"
+                    style="@style/AppButtonDark"
+                    android:layout_width="@dimen/button_width_large"
+                    android:layout_height="@dimen/button_height_normal"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:text="@string/action_login" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/buttons_container"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/blue_progress_bar"
-        android:visibility="gone"
-        />
+            </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/button_config"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/gray_light"
-        android:visibility="visible"
-        android:src="@drawable/ic_settings_black_36dp" />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/buttons_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@drawable/blue_progress_bar"
+                android:visibility="gone"
+                />
 
-</RelativeLayout>
+            <ImageButton
+                android:id="@+id/button_config"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:background="@color/gray_light"
+                android:visibility="visible"
+                android:src="@drawable/ic_settings_black_36dp" />
+        </RelativeLayout>
+
+</ScrollView>

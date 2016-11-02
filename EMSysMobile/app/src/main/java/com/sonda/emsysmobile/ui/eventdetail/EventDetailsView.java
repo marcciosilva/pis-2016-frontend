@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -17,7 +20,9 @@ import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.activities.RootActivity;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -29,7 +34,8 @@ import com.sonda.emsysmobile.utils.UIUtils;
 
 public class EventDetailsView extends RootActivity implements
         OnListFragmentInteractionListener,
-        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, View.OnClickListener,
+        ProgressBarListener {
 
     private static final int LOG_OUT = 1;
     public static final int SHOULD_UPDATE_MAP = 1;
@@ -47,6 +53,10 @@ public class EventDetailsView extends RootActivity implements
     private TextView mSector;
     private TextView mOrigin;
     private TextView mType;
+    private ImageButton mImagesButton;
+    private ImageButton mVideosButton;
+    private ImageButton mAudioButton;
+    private ProgressBar mProgressBar;
 
 
     private AccountHeader headerResult = null;
@@ -60,6 +70,12 @@ public class EventDetailsView extends RootActivity implements
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, "Detalle de evento",RootActivity.EVENT_MAP_LIST);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -76,6 +92,15 @@ public class EventDetailsView extends RootActivity implements
 
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
+
+        mImagesButton = (ImageButton) findViewById(R.id.button_images);
+        mImagesButton.setOnClickListener(this);
+        mVideosButton = (ImageButton) findViewById(R.id.button_video);
+        mVideosButton.setOnClickListener(this);
+        mAudioButton = (ImageButton) findViewById(R.id.button_audio);
+        mAudioButton.setOnClickListener(this);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +133,16 @@ public class EventDetailsView extends RootActivity implements
 
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public final void updateViewData(EventDto event) {
@@ -154,6 +189,13 @@ public class EventDetailsView extends RootActivity implements
         }
     }
 
+    public void showMap() {
+        findViewById(R.id.map_container).setVisibility(View.VISIBLE);
+        EventDetailMapView mapFragment = EventDetailMapView.getInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.map_container,
+                mapFragment, EventDetailMapView.class.getSimpleName()).commit();
+    }
+
     private void showUpdateDescriptionDialog() {
         FragmentManager fm = getSupportFragmentManager();
         AttachDescriptionDialogFragment attachDescriptionDialogFragment =
@@ -184,7 +226,16 @@ public class EventDetailsView extends RootActivity implements
 
     @Override
     public void onListFragmentInteraction(ExtensionDto event) {
+    }
 
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -221,4 +272,18 @@ public class EventDetailsView extends RootActivity implements
 //            super.onBackPressed();
 //        }
 //    }
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_images) {
+            Log.d(TAG, "Botón de imágenes pulsado");
+            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
+                    Integer.toString(mEvent.getImageDescriptions().size()));
+            ImageGalleryPresenter
+                    .loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
+        } else if (view.getId() == R.id.button_video) {
+            Log.d(TAG, "Botón de video pulsado");
+        } else if (view.getId() == R.id.button_audio) {
+            Log.d(TAG, "Botón de audio pulsado");
+        }
+    }
 }

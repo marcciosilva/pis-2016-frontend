@@ -14,6 +14,7 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.adapters.EventDetailExtensionRecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ import java.util.List;
  */
 public class EventDetailExtensionsFragment extends Fragment {
 
-    private OnListFragmentInteractionListener mListener;
+    private OnListFragmentInteractionListener mListFragmentInteractionListener;
+    private ProgressBarListener mProgressBarListener;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
     private EventDto mEventDto;
@@ -58,13 +60,15 @@ public class EventDetailExtensionsFragment extends Fragment {
 
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                   Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.event_detail_fragment_extensions, container, false);
         Context context = view.getContext();
-        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
+        RecyclerView mRecyclerView =
+                (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.setAdapter(new EventDetailExtensionRecyclerViewAdapter(
-                EventDetailExtensionsFragment.this.getActivity(), mExtensions, mListener));
+                EventDetailExtensionsFragment.this
+                        .getActivity(), mExtensions, mListFragmentInteractionListener));
         return view;
     }
 
@@ -72,7 +76,8 @@ public class EventDetailExtensionsFragment extends Fragment {
     public final void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnListFragmentInteractionListener) {
-            mListener = (OnListFragmentInteractionListener) context;
+            mListFragmentInteractionListener = (OnListFragmentInteractionListener) context;
+            mProgressBarListener = (ProgressBarListener) context;
         } else {
             throw new UnsupportedOperationException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -82,7 +87,7 @@ public class EventDetailExtensionsFragment extends Fragment {
     @Override
     public final void onDetach() {
         super.onDetach();
-        mListener = null;
+        mListFragmentInteractionListener = null;
     }
 
 }
