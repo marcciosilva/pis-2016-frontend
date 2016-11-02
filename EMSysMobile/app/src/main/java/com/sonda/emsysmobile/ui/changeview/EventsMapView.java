@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.changeview;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ScrollView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -72,7 +76,15 @@ public class EventsMapView extends SupportMapFragment
     }
 
     public void updateView() {
-        EventsMapPresenter.loadEvents(getActivity().getApplicationContext(), this);
+        if (isGooglePlayServicesAvailable(getActivity())){
+            EventsMapPresenter.loadEvents(getActivity().getApplicationContext(), this);
+        }
+    }
+
+    public boolean isGooglePlayServicesAvailable(Context context){
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context);
+        return resultCode == ConnectionResult.SUCCESS;
     }
 
     /**
