@@ -72,7 +72,15 @@
                     "recursos": [
                         "recurso1"
                     ],
-                    "imagenes": [],
+                    "imagenes": [
+                        {
+                            "id": 1,
+                            "id_imagen": 1,
+                            "usuario": "Usuario1",
+                            "fecha_envio": "2016-10-27T13:16:31.34",
+                            "idExtension": 0
+                        }
+                    ],
                     "videos": [],
                     "audios": [],
                     "geo_ubicaciones": [
@@ -92,7 +100,18 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "imagenes": [
+                {
+                    "id": 1,
+                    "id_imagen": 1,
+                    "usuario": "Usuario1",
+                    "fecha_envio": "2016-10-27T13:16:31.34",
+                    "idExtension": 0
+                }
+            ],
+            "videos": [],
+            "audios": []
         },
         {
             "id": 2,
@@ -200,7 +219,10 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "imagenes": [],
+            "videos": [],
+            "audios": []
         }
     ]
 }

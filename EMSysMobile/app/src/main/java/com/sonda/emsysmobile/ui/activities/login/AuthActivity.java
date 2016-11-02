@@ -25,6 +25,7 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -133,6 +134,9 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
      * la de eleccion del rol del usuario.
      */
     private void goToRoleChooser() {
+        // Se borran los archivos internos de la aplicacion, que pueden incluir imagenes
+        // de otra sesion ya cerrada.
+        MultimediaManager.getInstance(AuthActivity.this).clearInternalStorage();
         Intent intent = new Intent(this, RoleChooserActivity.class);
         startActivity(intent);
     }
