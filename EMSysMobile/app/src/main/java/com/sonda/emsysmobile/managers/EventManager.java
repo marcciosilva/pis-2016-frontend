@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.events.managers;
+package com.sonda.emsysmobile.managers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -80,8 +80,8 @@ public final class EventManager {
         return mInstance;
     }
 
-    public final void fetchExtensions(final String filter, final ApiCallback<List<ExtensionDto>> callback) {
-        if (mExtensions.size() == 0) {
+    public final void fetchExtensions(boolean fromService, final String filter, final ApiCallback<List<ExtensionDto>> callback) {
+        if (mExtensions.size() == 0 || fromService) {
             EventsRequest<EventsResponse> request =
                     new EventsRequest<>(mContext, EventsResponse.class);
             request.setListener(new Response.Listener<EventsResponse>() {

@@ -19,6 +19,8 @@
     <dimen name="button_height_normal">50dp</dimen>
     <dimen name="button_height_short">42dp</dimen>
     <dimen name="button_width_short">120dp</dimen>
+    <dimen name="button_width_large">150dp</dimen>
+    <dimen name="button_width_large2">220dp</dimen>
 
     <dimen name="field_width_normal">340dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
@@ -29,5 +31,7 @@
     <dimen name="row_height_small">70dp</dimen>
     <dimen name="row_height_normal">90dp</dimen>
     <dimen name="row_height_tall">120dp</dimen>
+
+    <dimen name="map_height">350dp</dimen>
 
 </resources>
