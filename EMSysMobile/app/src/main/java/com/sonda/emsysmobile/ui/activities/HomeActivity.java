@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,11 +31,10 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
-import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -122,15 +121,15 @@ public class HomeActivity extends AppCompatActivity
         try {
             String eventIdString = Integer.toString(extension.getEvent().getIdentifier());
             if (eventIdString == null) {
-                throw(new NullPointerException("EVENT_ID resulta nulo."));
+                throw (new NullPointerException("EVENT_ID resulta nulo."));
             }
             String eventExtensionZone = Integer.toString(extension.getIdentifier());
             if (eventExtensionZone == null) {
-                throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
+                throw (new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
             }
             EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent()
                     .getIdentifier(), extension.getIdentifier());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
                     getString(R.string.error_internal));
             Log.d(TAG, e.getMessage());
@@ -252,6 +251,9 @@ public class HomeActivity extends AppCompatActivity
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
                     EventManager.getInstance(HomeActivity.this).onLogout();
+                    // Se borran los archivos internos de la aplicacion, que pueden no
+                    // necesitarse en la proxima sesion que se inicie.
+                    MultimediaManager.getInstance(HomeActivity.this).clearInternalStorage();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();

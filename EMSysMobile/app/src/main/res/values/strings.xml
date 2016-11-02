@@ -51,6 +51,7 @@
     <string name="error_server_communication_message">Error en la comunicación con el servidor.</string>
     <string name="error_http_unauthorized">Pedido no autorizado</string>
     <string name="error_internal">Ocurrió un error interno en la aplicación.</string>
+    <string name="error_no_available_multimedia">No hay contenido multimedia disponible para la opción seleccionada</string>
 
     <!--Preferences-->
     <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>
@@ -121,9 +122,12 @@
     <string name="dummy_description">Description</string>
     <string name="dummy_text">Dummy text</string>
 
+    <!--Ver imagenes en Ver info de evento-->
+    <string name="image_file_path">emsysMobile</string>
+    <string name="path_separator">/</string>
+
     <!--Filtrar eventos-->
     <string name="filter_values">Ordenar por:</string>
     <string name="button_filter">Aplicar</string>
-    <!--<string name="filter_values"></string>-->
 
 </resources>

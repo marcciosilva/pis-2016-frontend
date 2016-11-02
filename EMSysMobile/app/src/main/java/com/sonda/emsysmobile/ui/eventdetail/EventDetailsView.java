@@ -4,12 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -17,7 +18,9 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -28,7 +31,8 @@ import com.sonda.emsysmobile.utils.UIUtils;
 
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
-        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, View.OnClickListener,
+        ProgressBarListener {
 
     public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
@@ -45,6 +49,10 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mSector;
     private TextView mOrigin;
     private TextView mType;
+    private ImageButton mImagesButton;
+    private ImageButton mVideosButton;
+    private ImageButton mAudioButton;
+    private ProgressBar mProgressBar;
 
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
@@ -75,6 +83,15 @@ public class EventDetailsView extends AppCompatActivity implements
 
         mType = (TextView) findViewById(R.id.type);
         mOrigin = (TextView) findViewById(R.id.origin);
+
+        mImagesButton = (ImageButton) findViewById(R.id.button_images);
+        mImagesButton.setOnClickListener(this);
+        mVideosButton = (ImageButton) findViewById(R.id.button_video);
+        mVideosButton.setOnClickListener(this);
+        mAudioButton = (ImageButton) findViewById(R.id.button_audio);
+        mAudioButton.setOnClickListener(this);
+
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
@@ -200,7 +217,16 @@ public class EventDetailsView extends AppCompatActivity implements
 
     @Override
     public void onListFragmentInteraction(ExtensionDto event) {
+    }
 
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -209,6 +235,21 @@ public class EventDetailsView extends AppCompatActivity implements
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_images) {
+            Log.d(TAG, "Botón de imágenes pulsado");
+            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
+                    Integer.toString(mEvent.getImageDescriptions().size()));
+            ImageGalleryPresenter
+                    .loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
+        } else if (view.getId() == R.id.button_video) {
+            Log.d(TAG, "Botón de video pulsado");
+        } else if (view.getId() == R.id.button_audio) {
+            Log.d(TAG, "Botón de audio pulsado");
         }
     }
 }

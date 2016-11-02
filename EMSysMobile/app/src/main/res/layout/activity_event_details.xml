@@ -7,6 +7,17 @@
                 android:layout_height="match_parent"
                 tools:context=".ui.eventdetail.EventDetailsView">
 
+    <ProgressBar
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:foregroundGravity="center"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/blue_progress_bar"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progressBar"
+        />
+
     <com.sonda.emsysmobile.ui.views.CustomScrollView
         android:id="@+id/main_scrollview_map_detail"
         android:layout_width="match_parent"
@@ -117,7 +128,6 @@
                         style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"/>
 
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -190,7 +200,17 @@
                         android:id="@+id/type"
                         style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"/>
+
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/event_detail_multimedia_section"/>
+
             </LinearLayout>
 
             <LinearLayout
