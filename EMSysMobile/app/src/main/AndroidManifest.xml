@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -23,6 +25,10 @@
             android:value="com.sonda.emsysmobile.persistence.model.SampleTable,
             com.sonda.emsysmobile.persistence.model.SampleReferencedTable"/>
 
+        <provider
+            android:name=".ui.eventdetail.multimedia.CustomContentProvider"
+            android:authorities="com.sonda.emsysmobile"
+            android:exported="true"/>
         <!-- ACTIVITIES -->
         <activity
             android:name=".ui.activities.login.AuthActivity"
@@ -47,6 +53,10 @@
             android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".ui.eventdetail.EventDetailsView"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".ui.eventdetail.multimedia.ImageGalleryView"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity

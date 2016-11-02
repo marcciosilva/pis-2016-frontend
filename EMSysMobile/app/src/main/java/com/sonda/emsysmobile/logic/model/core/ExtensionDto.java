@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +30,10 @@ public class ExtensionDto implements Serializable {
 
     @SerializedName("zona")
     private ZoneDto zone;
+
+    @SerializedName("imagenes")
+    private List<ImageDescriptionDto> imageDescriptions;
+
 
     /**
      * When this boolean is true, an indicator is shown
@@ -142,6 +147,10 @@ public class ExtensionDto implements Serializable {
 
     public final void setGeolocations(List<GeolocationDto> geolocations) {
         this.geolocations = geolocations;
+    }
+
+    public List<ImageDescriptionDto> getImageDescriptions() {
+        return imageDescriptions;
     }
 
     @Override

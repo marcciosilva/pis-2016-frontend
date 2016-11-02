@@ -36,6 +36,9 @@ app.configure(function(){
 app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
 app.get('/eventos/obtener', events.getEventDetail);
+
+app.get('/eventos/getimagedata', events.getImageData);
+
 app.post('/adjuntos/postgeoubicacion', adjuntos.postGeoLocation);
 
 
