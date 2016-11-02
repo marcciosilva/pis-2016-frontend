@@ -1,7 +1,10 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +25,10 @@ import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachImageDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import java.io.IOException;
+
+import static android.R.attr.bitmap;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -213,6 +220,14 @@ public class EventDetailsView extends AppCompatActivity implements
         if ((requestCode == 0) && (resultCode == SHOULD_UPDATE_MAP)) {
             Log.d(TAG, "Updating map...");
             EventDetailsPresenter.updateMapFragment();
+        } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            try {
+                //Getting the Bitmap from Gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -246,4 +261,6 @@ public class EventDetailsView extends AppCompatActivity implements
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
+
+
 }
