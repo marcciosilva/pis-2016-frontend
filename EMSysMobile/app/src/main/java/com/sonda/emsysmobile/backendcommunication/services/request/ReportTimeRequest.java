@@ -32,10 +32,8 @@ public class ReportTimeRequest<T> extends AbstractRequest {
 
     @Override
     protected final JsonObject getBody() {
-        String json = new Gson().toJson(idExtension);
-        JsonObject jsonObject = (JsonObject) new JsonParser().parse(json);
-        Log.d(TAG, "Request body:");
-        Log.d(TAG, jsonObject.toString());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("idExtension", this.idExtension);
         return jsonObject;
     }
 

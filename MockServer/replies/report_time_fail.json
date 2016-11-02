@@ -1,6 +1,6 @@
 {
-   "cod": 2,
+   "cod": 20,
    "response": {
-      "msg": "Usuario no autenticado."
+      "msg": "El recurso ya posee una hora de arribo previa en la extension seleccionada."
    }
 }

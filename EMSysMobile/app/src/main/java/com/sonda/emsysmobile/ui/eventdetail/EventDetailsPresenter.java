@@ -199,11 +199,11 @@ public final class EventDetailsPresenter {
     }
 
     public static void reportTime(final Context context, int extensionId){
-        ReportTimeRequest<EmsysResponse> reportTimeRequest =
-                new ReportTimeRequest<>(context, EmsysResponse.class, extensionId);
-        reportTimeRequest.setListener(new Response.Listener<EmsysResponse>() {
+        ReportTimeRequest<ReportTimeResponse> reportTimeRequest =
+                new ReportTimeRequest<>(context, ReportTimeResponse.class, extensionId);
+        reportTimeRequest.setListener(new Response.Listener<ReportTimeResponse>() {
             @Override
-            public void onResponse(EmsysResponse response) {
+            public void onResponse(ReportTimeResponse response) {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
@@ -211,6 +211,12 @@ public final class EventDetailsPresenter {
                     builder.setTitle(context.getString(R.string.app_name));
                     builder.setMessage(
                             context.getString(R.string.report_time_success));
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.app_name));
+                    builder.setMessage(response.getInnerResponse().getMsg());
                     builder.setPositiveButton("OK", null);
                     builder.show();
                 } else {

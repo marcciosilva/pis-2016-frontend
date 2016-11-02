@@ -21,6 +21,8 @@ import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
 
+import java.io.Console;
+
 /**
  * Created by mserralta on 13/10/16.
  */
