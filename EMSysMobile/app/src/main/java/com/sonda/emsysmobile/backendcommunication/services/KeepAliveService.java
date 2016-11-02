@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
@@ -23,8 +24,7 @@ public class KeepAliveService extends Service {
 
     public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
-    // A definir waitingTime.
-    private static int waitingTime = 600000;
+    public static int waitingTime = BuildConfig.WAITING_TIME;
 
     @Override
     public final void onCreate() {
@@ -72,8 +72,7 @@ public class KeepAliveService extends Service {
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     Log.d(TAG, "Exito.");
                 } else {
-                    String errorMsg = response.getInnerResponse().getMsg();
-                    handleErrorMessage(KeepAliveService.this, responseCode, errorMsg);
+                    Log.d(TAG, "Error!");
                 }
             }
         });
