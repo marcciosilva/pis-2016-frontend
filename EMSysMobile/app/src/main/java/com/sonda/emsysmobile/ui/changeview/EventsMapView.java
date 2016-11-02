@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.changeview;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -36,38 +39,40 @@ public class EventsMapView extends SupportMapFragment
         implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMarkerDragListener {
 
-    private FragmentActivity mCallingActivity;
+    private static final float DEFAULT_ZOOM = 14;
+    private static final LatLng DEFAULT_LAT_LONG =
+            new LatLng(-34.9021945,-56.1644537);
+
     private GoogleMap mMap;
     private static final String TAG = EventsMapView.class.getName();
     private List<CustomMarkerData> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
-    private CustomScrollView mMainScrollView;
-    private boolean mShouldBeVisible = false;
+    private boolean mAnimateCamera;
 
     public static EventsMapView getInstance() {
         return new EventsMapView();
     }
 
-    public final void initializeView(FragmentActivity callingActivity, CustomScrollView mainScrollView) {
-        mMainScrollView = mainScrollView;
-        mCallingActivity = callingActivity;
-        mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
-                this, EventsMapView.class.getSimpleName()).commit();
-        // Chequeo si el mapa esta instanciado o no.
+    @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
         if (mMap == null) {
             // Se obtiene el mapa a partir del SupportMapFragment.
             getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LAT_LONG, DEFAULT_ZOOM));
+                    mAnimateCamera = true;
+                    updateView();
                 }
             });
         }
-        hideView();
     }
 
-    private void loadEventsData() {
-        EventsMapPresenter.loadEvents(mCallingActivity, this);
+    public void updateView() {
+        EventsMapPresenter.loadEvents(getActivity().getApplicationContext(), this);
     }
 
     /**
@@ -77,56 +82,7 @@ public class EventsMapView extends SupportMapFragment
      */
     public final void updateEventsData(List<CustomMarkerData> markerDataList) {
         mMarkerDataList = markerDataList;
-        if (mShouldBeVisible) {
-            updateView();
-        }
-    }
-
-    public final void hideView() {
-        try {
-            mShouldBeVisible = false;
-            View view = getView();
-            ViewGroup.LayoutParams mapParams = view.getLayoutParams();
-            if (mapParams != null) {
-                mapParams.height = 0;
-                getView().setLayoutParams(mapParams);
-            }
-            mMainScrollView.removeInterceptScrollView(view);
-        } catch (NullPointerException e) {
-            Log.d(TAG, e.getStackTrace().toString());
-        }
-        mCallingActivity.getSupportFragmentManager().beginTransaction().hide(this).commit();
-    }
-
-    private void updateView() {
-        try {
-            View view = getView();
-            ViewGroup.LayoutParams mapParams = view.getLayoutParams();
-            if (mapParams != null) {
-                final int value = 200;
-                mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                        value, getResources().getDisplayMetrics());
-                view.setLayoutParams(mapParams);
-            }
-            mMainScrollView.addInterceptScrollView(view);
-            mCallingActivity.getSupportFragmentManager().beginTransaction().show(this).commitNow();
-            // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
-            // este cargado.
-            final ScrollView scrollview =
-                    (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
-            if (scrollview != null) {
-                scrollview.fullScroll(ScrollView.FOCUS_UP);
-            }
-            // Se configura el mapa para tener marcadores.
-            setUpMap();
-        } catch (NullPointerException e) {
-            Log.d(TAG, e.getStackTrace().toString());
-        }
-    }
-
-    public final void showView() {
-        mShouldBeVisible = true;
-        loadEventsData();
+        setUpMap();
     }
 
     private void setUpMap() {
@@ -141,7 +97,7 @@ public class EventsMapView extends SupportMapFragment
         mMap.setOnMarkerDragListener(this);
         // Se hace zoom para que todos los marcadores queden en vista.
         final View mapView = getView();
-        if (mapView.getViewTreeObserver().isAlive()) {
+        if (mapView != null && mapView.getViewTreeObserver().isAlive()) {
             mapView.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @SuppressLint("NewApi")
@@ -154,14 +110,25 @@ public class EventsMapView extends SupportMapFragment
                                 }
                                 LatLngBounds bounds = bld.build();
                                 final int minDistanceInMeter = 600;
-                                if (areBoundsTooSmall(bounds, minDistanceInMeter)) {
-                                    final int v = 17;
-                                    mMap.animateCamera(CameraUpdateFactory
-                                            .newLatLngZoom(bounds.getCenter(), v));
+                                final int v = 17;
+                                final int i = 70;
+                                if (mAnimateCamera) {
+                                    if (areBoundsTooSmall(bounds, minDistanceInMeter)) {
+                                        mMap.animateCamera(CameraUpdateFactory
+                                                .newLatLngZoom(bounds.getCenter(), v));
+                                    } else {
+                                        mMap.animateCamera(CameraUpdateFactory
+                                                .newLatLngBounds(bounds, i));
+                                    }
+                                    mAnimateCamera = false;
                                 } else {
-                                    final int i = 70;
-                                    mMap.animateCamera(CameraUpdateFactory
-                                            .newLatLngBounds(bounds, i));
+                                    if (areBoundsTooSmall(bounds, minDistanceInMeter)) {
+                                        mMap.moveCamera(CameraUpdateFactory
+                                                .newLatLngZoom(bounds.getCenter(), v));
+                                    } else {
+                                        mMap.moveCamera(CameraUpdateFactory
+                                                .newLatLngBounds(bounds, i));
+                                    }
                                 }
                                 mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                             }
@@ -195,14 +162,14 @@ public class EventsMapView extends SupportMapFragment
         // Se pasa al presenter la informacion del marcador, en el tipo de datos
         // custom utilizado para ellos (CustomMarkerData).
         boolean successfulOperation = EventsMapPresenter
-                .showEventDetail(mCallingActivity, new CustomMarkerData(marker.getTitle(),
+                .showEventDetail(getActivity().getApplicationContext(), new CustomMarkerData(marker.getTitle(),
                         marker.getSnippet(), marker.getPosition()));
         // Si no se pudo completar la operacion de mostrar el detalle del evento,
         // se presenta un dialog informando al usuario acerca de ello.
         if (!successfulOperation) {
             DialogFragment dialog =
                     UIUtils.getSimpleDialog(getString(R.string.error_event_details_from_map));
-            dialog.show(mCallingActivity.getSupportFragmentManager(), TAG);
+            dialog.show(getActivity().getSupportFragmentManager(), TAG);
         }
     }
 

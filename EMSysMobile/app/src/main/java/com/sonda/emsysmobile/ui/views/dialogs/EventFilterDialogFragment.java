@@ -117,9 +117,6 @@ public class EventFilterDialogFragment extends DialogFragment {
                 sendBackResult();
             }
         });
-
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     private void dismissDialog() {
