@@ -23,7 +23,6 @@ public class KeepAliveService extends Service {
 
     public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
-    // A definir waitingTime.
     private static int waitingTime = 600000;
 
     @Override
@@ -81,13 +80,6 @@ public class KeepAliveService extends Service {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(KeepAliveService.this, error, new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        keepAlive();
-                    }
-                });
             }
         });
         request.execute();

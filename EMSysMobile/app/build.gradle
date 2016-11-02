@@ -49,6 +49,9 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.github.clans:fab:1.6.2'
+    compile 'com.github.lawloretienne:imagegallery:0.0.15'
+    compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
+    compile 'com.hannesdorfmann.mosby:viewstate:2.0.1'
 }
 
 repositories {
