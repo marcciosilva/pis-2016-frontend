@@ -59,7 +59,7 @@ public class EventDetailsView extends RootActivity implements
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState, "Detalle de evento",RootActivity.EVENT_MAP_LIST);
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
