@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,9 +33,8 @@ import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
+import com.sonda.emsysmobile.ui.fragments.MapExtensionsFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
-import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -53,15 +52,23 @@ public class HomeActivity extends AppCompatActivity
     private FrameLayout mFragmentsContainer;
     private FloatingActionButton mFloatingButton;
     private boolean mContainerColapsed;
+    private MapExtensionsFragment mMapExtensionsFragment;
+    private String mSelectedFilter = "Prioridad";
 
     @Override
     public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-        ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
-        if (extensionsListFragment != null) {
-            extensionsListFragment.setFilter(selectedFilter);
-            extensionsListFragment.loadData(false);
+        mSelectedFilter = selectedFilter;
+        if (mMapContainer.getVisibility() == View.VISIBLE){
+            mMapExtensionsFragment.setFilter(selectedFilter);
+            mMapExtensionsFragment.getMapEvents();
+        }else {
+            ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                    .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+            if (extensionsListFragment != null) {
+                extensionsListFragment.setFilter(selectedFilter);
+                extensionsListFragment.loadData(false);
+            }
         }
     }
 
@@ -90,8 +97,10 @@ public class HomeActivity extends AppCompatActivity
             // Add the fragment to the 'fragment_container' FrameLayout
             mFragmentsContainer = (FrameLayout) findViewById(R.id.fragment_container);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, mExtensionsFragment,
-                            ExtensionsListFragment.class.getSimpleName()).commit();
+                    .add(R.id.fragment_container, mExtensionsFragment).commit();
+
+            //Crear fragment para lista en mapa
+            mMapExtensionsFragment = new MapExtensionsFragment();
 
             mMapContainer = (FrameLayout) findViewById(R.id.map_container);
         }
@@ -154,8 +163,8 @@ public class HomeActivity extends AppCompatActivity
                         .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
                 if (extensionsFragment == null) {
                     extensionsFragment = new ExtensionsListFragment();
-                    replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
                 }
+                replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
                 return true;
             case R.id.menu_external_service_button:
                 showMapView(false);
@@ -163,8 +172,8 @@ public class HomeActivity extends AppCompatActivity
                         .findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
                 if (externalServiceFragment == null) {
                     externalServiceFragment = new ExternalServiceQueryFragment();
-                    replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
                 }
+                replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
                 return true;
             case R.id.menu_view_map_button:
                 showMapView(true);
@@ -175,12 +184,12 @@ public class HomeActivity extends AppCompatActivity
                 } else {
                     mMapView.updateView();
                 }
-                extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsListFragment();
-                    replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
+                mMapExtensionsFragment = (MapExtensionsFragment) getSupportFragmentManager()
+                        .findFragmentByTag(MapExtensionsFragment.class.getSimpleName());
+                if (mMapExtensionsFragment == null) {
+                    mMapExtensionsFragment = new MapExtensionsFragment();
                 }
+                replaceFragment(mMapExtensionsFragment, MapExtensionsFragment.class.getSimpleName());
                 return true;
             case R.id.menu_logout_button:
                 logout();
@@ -192,8 +201,8 @@ public class HomeActivity extends AppCompatActivity
                         .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
                 if (extensionsListFragment == null) {
                     extensionsListFragment = new ExtensionsListFragment();
-                    replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
                 }
+                replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
                 // Luego se abre el diálogo para elegir el filtro.
                 FragmentManager fm = getSupportFragmentManager();
                 EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
