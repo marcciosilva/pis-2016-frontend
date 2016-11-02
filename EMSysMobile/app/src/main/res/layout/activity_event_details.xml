@@ -271,6 +271,17 @@
         fab:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/button_attach_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_image_white_24dp"
+            fab:fab_colorNormal="@color/colorPrimary_600"
+            fab:fab_colorPressed="@color/colorPrimary_800"
+            fab:fab_colorRipple="#99d4d4d4"
+            fab:fab_label="@string/attach_image_option_title"
+            fab:fab_size="normal"/>
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/button_update_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -18,6 +18,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
+import com.sonda.emsysmobile.ui.views.dialogs.AttachImageDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -27,9 +28,11 @@ import com.sonda.emsysmobile.utils.UIUtils;
 
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
-        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener {
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener,
+        AttachImageDialogFragment.OnAttachImageDialogListener{
 
     public static final int SHOULD_UPDATE_MAP = 1;
+    private static final int PICK_IMAGE_REQUEST = 1;
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
 
@@ -47,6 +50,7 @@ public class EventDetailsView extends AppCompatActivity implements
 
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
+    private FloatingActionButton mAttachImageBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -82,6 +86,14 @@ public class EventDetailsView extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 goToAttachGeolocationView();
+            }
+        });
+
+        mAttachImageBtn = (FloatingActionButton) findViewById(R.id.button_attach_image);
+        mAttachImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToAttachImageView();
             }
         });
 
@@ -150,19 +162,25 @@ public class EventDetailsView extends AppCompatActivity implements
         FragmentManager fm = getSupportFragmentManager();
         AttachDescriptionDialogFragment attachDescriptionDialogFragment =
                 AttachDescriptionDialogFragment.newInstance();
-        attachDescriptionDialogFragment.show(fm, "fragment_edit_name");
+        attachDescriptionDialogFragment.show(fm, "fragment_update_description");
     }
 
     private void goToAttachGeolocationView() {
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
-            Intent intent =
-                    new Intent(EventDetailsView.this, AttachGeoLocView.class);
+            Intent intent = new Intent(EventDetailsView.this, AttachGeoLocView.class);
             Bundle extras = new Bundle();
             extras.putInt("ExtensionId", extensionID);
             intent.putExtras(extras);
             EventDetailsPresenter.showGeolocationAttachView(intent);
         }
+    }
+
+    private void goToAttachImageView() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        AttachImageDialogFragment attachImageDialogFragment =
+                AttachImageDialogFragment.newInstance();
+        attachImageDialogFragment.show(fragmentManager, "fragment_attach_image_menu");
     }
 
     @Override
@@ -204,5 +222,20 @@ public class EventDetailsView extends AppCompatActivity implements
         return true;
     }
 
+    @Override
+    public void onOpenGalleryButtonSelected() {
+        showFileChooser();
+    }
 
+    @Override
+    public void onOpenCameraButtonSelected() {
+
+    }
+
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
 }
