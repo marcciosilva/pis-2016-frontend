@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.TypedValue;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,41 +37,38 @@ public class EventDetailMapView extends SupportMapFragment
         implements GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMarkerDragListener {
 
-    private FragmentActivity mCallingActivity;
+    private static final float DEFAULT_ZOOM = 14;
+    private static final LatLng DEFAULT_LAT_LONG =
+            new LatLng(-34.9021945,-56.1644537);
+
     private GoogleMap mMap;
     private static final String TAG = EventDetailMapView.class.getName();
     private List<List<CustomMarkerData>> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
-    private CustomScrollView mMainScrollView;
-    private boolean mShouldBeVisible = false;
-    private boolean mFirstPass;
 
     public static EventDetailMapView getInstance() {
         return new EventDetailMapView();
     }
 
-    public final void initializeView(FragmentActivity callingActivity, CustomScrollView
-            mainScrollView) {
-        mFirstPass = true;
-        mMainScrollView = mainScrollView;
-        mCallingActivity = callingActivity;
-        mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
-                this, EventDetailMapView.class.getSimpleName()).commit();
-        // Chequeo si el mapa esta instanciado o no.
+    @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+
         if (mMap == null) {
             // Se obtiene el mapa a partir del SupportMapFragment.
             getMapAsync(new OnMapReadyCallback() {
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LAT_LONG, DEFAULT_ZOOM));
+                    updateView();
                 }
             });
         }
-        hideView();
     }
 
-    private void loadEventData() {
-        EventDetailMapPresenter.loadEventDetails(mCallingActivity, this);
+    public void updateView() {
+        EventDetailMapPresenter.loadEventDetails(getActivity(), this);
     }
 
     /**
@@ -79,61 +78,7 @@ public class EventDetailMapView extends SupportMapFragment
      */
     public final void updateEventData(List<List<CustomMarkerData>> markerDataList) {
         mMarkerDataList = markerDataList;
-        if (mShouldBeVisible) {
-            updateView();
-        }
-    }
-
-    public final void hideView() {
-        try {
-            mShouldBeVisible = false;
-            View view = getView();
-            ViewGroup.LayoutParams mapParams = view.getLayoutParams();
-            if (mapParams != null) {
-                mapParams.height = 0;
-                getView().setLayoutParams(mapParams);
-            }
-            mMainScrollView.removeInterceptScrollView(view);
-        } catch (NullPointerException e) {
-            Log.d(TAG, e.getStackTrace().toString());
-        }
-        mCallingActivity.getSupportFragmentManager().beginTransaction().hide(this).commit();
-    }
-
-    private void updateView() {
-        Log.d(TAG, "updateView llamado");
-        try {
-            if (mFirstPass) {
-                View view = getView();
-                ViewGroup.LayoutParams mapParams = view.getLayoutParams();
-                if (mapParams != null) {
-                    final int value = 200;
-                    mapParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                            value, getResources().getDisplayMetrics());
-                    view.setLayoutParams(mapParams);
-                }
-                mMainScrollView.addInterceptScrollView(view);
-                mCallingActivity.getSupportFragmentManager().beginTransaction().show(this)
-                        .commitNow();
-                // Se encarga de scrollear hasta el tope de la activity una vez que el mapa
-                // este cargado.
-                final ScrollView scrollview =
-                        (ScrollView) mCallingActivity.findViewById(R.id.main_scrollview);
-                if (scrollview != null) {
-                    scrollview.fullScroll(ScrollView.FOCUS_UP);
-                }
-                mFirstPass = false;
-            }
-            // Se configura el mapa para tener marcadores.
-            setUpMap();
-        } catch (NullPointerException e) {
-            Log.d(TAG, e.getStackTrace().toString());
-        }
-    }
-
-    public final void showView() {
-        mShouldBeVisible = true;
-        loadEventData();
+        setUpMap();
     }
 
     private void setUpMap() {
@@ -148,7 +93,7 @@ public class EventDetailMapView extends SupportMapFragment
         mMap.setOnMarkerDragListener(this);
         // Se hace zoom para que todos los marcadores queden en vista.
         final View mapView = getView();
-        if (mapView.getViewTreeObserver().isAlive()) {
+        if (mapView != null && mapView.getViewTreeObserver().isAlive()) {
             mapView.getViewTreeObserver()
                     .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                         @SuppressLint("NewApi")
@@ -242,5 +187,4 @@ public class EventDetailMapView extends SupportMapFragment
     @Override
     public void onMarkerDragEnd(Marker marker) {
     }
-
 }

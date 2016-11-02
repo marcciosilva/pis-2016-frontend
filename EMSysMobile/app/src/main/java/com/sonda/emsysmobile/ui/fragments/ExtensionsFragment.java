@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
@@ -61,7 +61,6 @@ public class ExtensionsFragment extends Fragment {
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mExtensions = new ArrayList<>();
     }
 
@@ -106,7 +105,7 @@ public class ExtensionsFragment extends Fragment {
 
     public void getEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchExtensions(mFilter, new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(false, mFilter, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);

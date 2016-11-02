@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;

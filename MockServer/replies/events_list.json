@@ -20,8 +20,8 @@
             "numero": null,
             "departamento": null,
             "sector": "sector1",
-            "longitud": 0,
-            "latitud": 0,
+            "longitud": -56.178485,
+            "latitud": -34.906426, 
             "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
             "en_proceso": true,
             "extensiones": [
@@ -88,15 +88,15 @@
                             "idExtension": 0,
                             "usuario": null,
                             "fecha_envio": "0001-01-01T00:00:00.123",
-                            "longitud": 66.6,
-                            "latitud": 55.5
+                            "longitud": -56.160899,
+                            "latitud": -34.908712
                         },
                         {
                             "idExtension": 0,
                             "usuario": null,
                             "fecha_envio": "0001-01-01T00:00:00.123",
-                            "longitud": 88.8,
-                            "latitud": 77.7
+                            "longitud": -56.165805,
+                            "latitud": -34.918005
                         }
                     ]
                 }
@@ -134,8 +134,8 @@
             "sector": "sector1",
             "descripcion": "Lorem Ipsum... cual incluye versiones de Lorem Ipsum.",
             "en_proceso": true,
-            "latitud": -36.908599,
-            "longitud": -56.201376,
+            "longitud": -56.160899,
+            "latitud": -34.908712,
             "extensiones": [
                 {
                     "id": 2,

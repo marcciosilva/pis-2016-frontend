@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,26 +16,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
-import com.sonda.emsysmobile.events.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
-import com.sonda.emsysmobile.ui.fragments.ExtensionsFragment;
+import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
-import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -46,15 +46,24 @@ public class HomeActivity extends AppCompatActivity
         EventFilterDialogFragment.OnEventFilterDialogListener {
 
     private static final String TAG = HomeActivity.class.getName();
-    private EventsMapView mMapFragment = null;
-    private ExtensionsFragment mExtensionsFragment;
+
+    private EventsMapView mMapView;
+    private FrameLayout mMapContainer;
+    private FrameLayout mFragmentsContainer;
+    private FloatingActionButton mFloatingButton;
+    private boolean mContainerColapsed;
 
     @Override
     public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-        mExtensionsFragment.setFilter(selectedFilter);
-        mExtensionsFragment.getEvents();
+        ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+        if (extensionsListFragment != null) {
+            extensionsListFragment.setFilter(selectedFilter);
+            extensionsListFragment.loadData(false);
+        }
     }
+
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,16 +84,24 @@ public class HomeActivity extends AppCompatActivity
             }
 
             // Create a new Fragment to be placed in the activity layout
-            mExtensionsFragment = new ExtensionsFragment();
+            ExtensionsListFragment mExtensionsFragment = new ExtensionsListFragment();
 
             // Add the fragment to the 'fragment_container' FrameLayout
+            mFragmentsContainer = (FrameLayout) findViewById(R.id.fragment_container);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, mExtensionsFragment).commit();
-            // Inicializacion de fragment de mapa.
-            mMapFragment = EventsMapView.getInstance();
-            CustomScrollView mainScrollView = (CustomScrollView) findViewById(R.id.main_scrollview);
-            mMapFragment.initializeView(this, mainScrollView);
+                    .add(R.id.fragment_container, mExtensionsFragment,
+                            ExtensionsListFragment.class.getSimpleName()).commit();
+
+            mMapContainer = (FrameLayout) findViewById(R.id.map_container);
         }
+
+        mFloatingButton = (FloatingActionButton) findViewById(R.id.floating_button);
+        mFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleFragmentContainer();
+            }
+        });
     }
 
     @Override
@@ -104,15 +121,15 @@ public class HomeActivity extends AppCompatActivity
         try {
             String eventIdString = Integer.toString(extension.getEvent().getIdentifier());
             if (eventIdString == null) {
-                throw(new NullPointerException("EVENT_ID resulta nulo."));
+                throw (new NullPointerException("EVENT_ID resulta nulo."));
             }
             String eventExtensionZone = Integer.toString(extension.getIdentifier());
             if (eventExtensionZone == null) {
-                throw(new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
+                throw (new NullPointerException("EVENT_EXTENSION_ID resulta nulo."));
             }
             EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent()
                     .getIdentifier(), extension.getIdentifier());
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
                     getString(R.string.error_internal));
             Log.d(TAG, e.getMessage());
@@ -121,55 +138,65 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
-        String textString = "text";
-        if ((item.getItemId() != R.id.menu_view_map_button) && (item.getItemId() != R.id.menu_filter_button)) {
-            mMapFragment.hideView();
-        }
         switch (item.getItemId()) {
             case R.id.menu_create_event_button:
+                showMapView(false);
                 Fragment fragment = new TestFragment();
                 Bundle args = new Bundle();
-                args.putString(textString, getString(R.string.menu_create_event_string));
+                args.putString("text", getString(R.string.menu_create_event_string));
                 fragment.setArguments(args);
                 replaceFragment(fragment, "fragment1");
                 return true;
             case R.id.menu_list_events_button:
-                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager()
-                                .findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (mExtensionsFragment == null) {
-                    mExtensionsFragment = new ExtensionsFragment();
-                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
+                showMapView(false);
+                ExtensionsListFragment extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsListFragment();
+                    replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_external_service_button:
-                ExternalServiceQueryFragment externalServiceFragment = (ExternalServiceQueryFragment) getSupportFragmentManager().findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
+                showMapView(false);
+                ExternalServiceQueryFragment externalServiceFragment = (ExternalServiceQueryFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
                 if (externalServiceFragment == null) {
                     externalServiceFragment = new ExternalServiceQueryFragment();
                     replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_view_map_button:
-                mMapFragment.showView();
-                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (mExtensionsFragment == null) {
-                    mExtensionsFragment = new ExtensionsFragment();
-                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
+                showMapView(true);
+                if (mMapView == null) {
+                    mMapView = EventsMapView.getInstance();
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.map_container, mMapView, EventsMapView.class.getSimpleName()).commit();
+                } else {
+                    mMapView.updateView();
+                }
+                extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+                if (extensionsFragment == null) {
+                    extensionsFragment = new ExtensionsListFragment();
+                    replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
                 }
                 return true;
             case R.id.menu_logout_button:
                 logout();
                 return true;
             case R.id.menu_filter_button:
+                showMapView(false);
                 // Primero se redirige al listado.
-                mExtensionsFragment = (ExtensionsFragment) getSupportFragmentManager().findFragmentByTag(ExtensionsFragment.class.getSimpleName());
-                if (mExtensionsFragment == null) {
-                    mExtensionsFragment = new ExtensionsFragment();
-                    replaceFragment(mExtensionsFragment, ExtensionsFragment.class.getSimpleName());
+                ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+                if (extensionsListFragment == null) {
+                    extensionsListFragment = new ExtensionsListFragment();
+                    replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
                 }
                 // Luego se abre el diálogo para elegir el filtro.
                 FragmentManager fm = getSupportFragmentManager();
                 EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
-                eventFilterDialogFragment.show(fm, "fragment_edit_name");
+                eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
                 return true;
             default:
                 // Accion no reconocida, se lo delega a la superclase.
@@ -180,6 +207,33 @@ public class HomeActivity extends AppCompatActivity
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
+    }
+
+    private void showMapView(boolean visible) {
+        if (visible) {
+            mMapContainer.setVisibility(View.VISIBLE);
+            mFloatingButton.setVisibility(View.VISIBLE);
+            mContainerColapsed = false;
+            mFloatingButton.setImageDrawable(ContextCompat
+                    .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
+        } else {
+            mMapContainer.setVisibility(View.GONE);
+            mFloatingButton.setVisibility(View.GONE);
+            mFragmentsContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void toggleFragmentContainer() {
+        if (mContainerColapsed) {
+            mFragmentsContainer.setVisibility(View.VISIBLE);
+            mFloatingButton.setImageDrawable(ContextCompat
+                    .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
+        } else {
+            mFragmentsContainer.setVisibility(View.GONE);
+            mFloatingButton.setImageDrawable(ContextCompat
+                    .getDrawable(this, R.drawable.ic_keyboard_arrow_up_white_24dp));
+        }
+        mContainerColapsed = !mContainerColapsed;
     }
 
     private void logout() {

@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.utils.UIUtils;

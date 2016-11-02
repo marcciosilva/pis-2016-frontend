@@ -283,3 +283,5 @@ build/
 
 #NDK
 obj/
+
+.directory
