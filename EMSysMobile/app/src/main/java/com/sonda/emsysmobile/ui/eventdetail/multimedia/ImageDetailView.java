@@ -1,11 +1,14 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -27,7 +30,12 @@ public class ImageDetailView extends AppCompatActivity {
         }
         final ImageView imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         Bundle extras = getIntent().getExtras();
-        String imageUrl = extras.getString("imageUrl");
+        int imageId = extras.getInt("imageId");
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(ImageDetailView.this);
+        String imageUrl = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL) +
+                "/adjuntos/getimagedata?idImagen="
+                + Integer.toString(imageId);
         if (imageUrl != null) {
             Picasso.with(ImageDetailView.this)
                     .load(imageUrl)
@@ -37,7 +45,6 @@ public class ImageDetailView extends AppCompatActivity {
                             findViewById(R.id.progressBar).setVisibility(View.GONE);
                             imgAvatar.setVisibility(View.VISIBLE);
                         }
-
                         @Override
                         public void onError() {
                             findViewById(R.id.error_layout)

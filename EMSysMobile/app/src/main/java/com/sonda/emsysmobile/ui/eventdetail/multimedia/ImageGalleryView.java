@@ -54,7 +54,7 @@ public class ImageGalleryView extends AppCompatActivity {
                     ImageDescriptionDto item =
                             (ImageDescriptionDto) parent.getItemAtPosition(position);
                     Intent intent = new Intent(ImageGalleryView.this, ImageDetailView.class);
-                    intent.putExtra("imageUrl", item.getImageUrl());
+                    intent.putExtra("imageId", item.getId());
                     startActivity(intent);
                 }
             }

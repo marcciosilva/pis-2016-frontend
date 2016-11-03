@@ -63,13 +63,13 @@ public class GridViewAdapter extends ArrayAdapter {
         holder.imageTitle.setText("Imagen " + Integer.toString(item.getId()));
         ImageLoader imageLoader = AppRequestQueue.getInstance(context).getImageLoader();
         // TODO descomentar esto al probar con el backend
-//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-//        String imageUrl = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL) +
-//                "/eventos/getimagedata?idImagen="
-//                + Integer.toString(item.getId());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String imageUrl = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL) +
+                "/adjuntos/getimagedatathumbnail?idImagen="
+                + Integer.toString(item.getId());
 //        holder.image.setImageUrl(imageUrl, imageLoader);
-        String imageUrl =
-                "http://zeroturnaround.com/wp-content/uploads/2016/02/Android-Picasso-Images-Loading.png";
+//        String imageUrl =
+//                "http://zeroturnaround.com/wp-content/uploads/2016/02/Android-Picasso-Images-Loading.png";
         item.setImageUrl(imageUrl);
         Picasso.with(context)
                 .load(imageUrl)
