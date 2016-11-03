@@ -31,10 +31,6 @@
             android:exported="true"/>
         <!-- ACTIVITIES s-->
         <activity
-            android:name=".ui.eventdetail.multimedia.ImageTest"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan|stateHidden"/>
-        <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
@@ -61,6 +57,10 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.eventdetail.multimedia.ImageGalleryView"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".ui.eventdetail.multimedia.ImageDetailView"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity

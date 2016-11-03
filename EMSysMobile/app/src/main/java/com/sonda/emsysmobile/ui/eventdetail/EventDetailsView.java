@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,10 +15,8 @@ import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageTest;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
@@ -64,8 +60,8 @@ public class EventDetailsView extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        // Se agrega la flecha de ir hacia atras.
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -130,9 +126,10 @@ public class EventDetailsView extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
+        // Se maneja la flecha de ir hacia atras.
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

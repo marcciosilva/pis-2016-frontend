@@ -1,28 +1,21 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.ui.views.adapters.GridViewAdapter;
+import com.sonda.emsysmobile.utils.UIUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +33,11 @@ public class ImageGalleryView extends AppCompatActivity {
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_gallery);
+        // Se agrega la flecha de ir hacia atras.
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         gridView = (GridView) findViewById(R.id.gridView);
         Bundle extras = getIntent().getExtras();
         ArrayList<ImageDescriptionDto> imageDescriptions =
@@ -48,28 +46,30 @@ public class ImageGalleryView extends AppCompatActivity {
         gridView.setAdapter(gridAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ImageDescriptionDto item = (ImageDescriptionDto) parent.getItemAtPosition(position);
-                Intent intent = new Intent(ImageGalleryView.this, ImageTest.class);
-                intent.putExtra("imageUrl", item.getImageUrl());
-                startActivity(intent);
+                if (v.findViewById(R.id.error_layout).getVisibility() == View.VISIBLE) {
+                    UIUtils.handleErrorMessage(ImageGalleryView.this, ErrorCodeCategory
+                            .NO_AVAILABLE_MULTIMEDIA
+                            .getNumVal(), "La imágen no se puede visualizar.");
+                } else {
+                    ImageDescriptionDto item =
+                            (ImageDescriptionDto) parent.getItemAtPosition(position);
+                    Intent intent = new Intent(ImageGalleryView.this, ImageDetailView.class);
+                    intent.putExtra("imageUrl", item.getImageUrl());
+                    startActivity(intent);
+                }
             }
         });
     }
 
     @Override
-    public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_back) {
-            onBackPressed();
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Se maneja la flecha de ir hacia atras.
+        if (item.getItemId() == android.R.id.home) {
+            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
+            finish();
         }
-        return false;
-    }
 
-    @Override
-    public final boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.top_menu_only_back, menu);
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 }
