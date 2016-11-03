@@ -19,6 +19,8 @@
     <dimen name="button_height_normal">60dp</dimen>
     <dimen name="button_height_short">48dp</dimen>
     <dimen name="button_width_short">180dp</dimen>
+    <dimen name="button_width_large">200dp</dimen>
+    <dimen name="button_width_large2">300dp</dimen>
 
     <dimen name="row_height_small">90dp</dimen>
     <dimen name="row_height_normal">120dp</dimen>
