@@ -17,8 +17,10 @@ import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageTest;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
@@ -242,8 +244,10 @@ public class EventDetailsView extends AppCompatActivity implements
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
-            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
-                    Integer.toString(mEvent.getImageDescriptions().size()));
+//            Intent intent = new Intent(this, ImageTest.class);
+//            startActivity(intent);
+//            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
+//                    Integer.toString(mEvent.getImageDescriptions().size()));
             ImageGalleryPresenter
                     .loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {

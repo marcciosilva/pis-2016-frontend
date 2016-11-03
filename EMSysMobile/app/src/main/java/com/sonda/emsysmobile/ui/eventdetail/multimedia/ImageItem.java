@@ -1,30 +1,28 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
-import android.graphics.Bitmap;
-
 /**
  * Created by marccio on 28-Oct-16.
  */
 
 public class ImageItem {
-    private Bitmap image;
+    private String imageUrl;
     private String title;
     private String creator;
     private String creationDate;
 
-    public ImageItem(Bitmap image, String title, String creator, String creationDate) {
-        this.image = image;
+    public ImageItem(String imageUrl, String title, String creator, String creationDate) {
+        this.imageUrl = imageUrl;
         this.title = title;
         this.creator = creator;
         this.creationDate = creationDate;
     }
 
-    public final Bitmap getImage() {
-        return image;
+    public final String getImageUrl() {
+        return imageUrl;
     }
 
-    public final void setImage(Bitmap image) {
-        this.image = image;
+    public final void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public final String getTitle() {

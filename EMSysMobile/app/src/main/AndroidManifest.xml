@@ -29,7 +29,11 @@
             android:name=".ui.eventdetail.multimedia.CustomContentProvider"
             android:authorities="com.sonda.emsysmobile"
             android:exported="true"/>
-        <!-- ACTIVITIES -->
+        <!-- ACTIVITIES s-->
+        <activity
+            android:name=".ui.eventdetail.multimedia.ImageTest"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"

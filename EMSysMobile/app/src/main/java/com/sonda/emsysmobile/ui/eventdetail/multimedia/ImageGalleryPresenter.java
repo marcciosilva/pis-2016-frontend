@@ -46,81 +46,39 @@ public class ImageGalleryPresenter {
                     .getNumVal(), context
                     .getString(R.string.error_no_available_multimedia));
         } else {
-            MultimediaManager multimediaManager = MultimediaManager.getInstance(context);
-            multimediaManager.setImageDescriptions(imageDescriptions);
-            multimediaManager.fetchImages(new ApiCallback<List<ImageDataDto>>() {
-                @Override
-                public void onSuccess(List<ImageDataDto> imageDataList) {
-                    progressBarListener.hideProgressBar();
-                    initImageGalleryView(context, imageDataList, imageDescriptions);
-                }
-
-                @Override
-                public void onLogicError(String errorMessage, int errorCode) {
-                    progressBarListener.hideProgressBar();
-                    UIUtils.handleErrorMessage(context, errorCode, errorMessage);
-                }
-
-                @Override
-                public void onNetworkError(VolleyError error) {
-                    progressBarListener.hideProgressBar();
-                    handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener
-                            () {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            loadImages(context, imageDescriptions);
-                        }
-                    });
-                }
-            });
+            Intent intent = new Intent(context, ImageGalleryView.class);
+            intent.putExtra("imageDescriptions",
+                    (ArrayList<ImageDescriptionDto>) imageDescriptions);
+            progressBarListener.hideProgressBar();
+            context.startActivity(intent);
+//            MultimediaManager multimediaManager = MultimediaManager.getInstance(context);
+//            multimediaManager.setImageDescriptions(imageDescriptions);
+//            multimediaManager.fetchImages(new ApiCallback<List<ImageDataDto>>() {
+//                @Override
+//                public void onSuccess(List<ImageDataDto> imageDataList) {
+//                    progressBarListener.hideProgressBar();
+//                    initImageGalleryView(context, imageDataList, imageDescriptions);
+//                }
+//
+//                @Override
+//                public void onLogicError(String errorMessage, int errorCode) {
+//                    progressBarListener.hideProgressBar();
+//                    UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+//                }
+//
+//                @Override
+//                public void onNetworkError(VolleyError error) {
+//                    progressBarListener.hideProgressBar();
+//                    handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener
+//                            () {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            loadImages(context, imageDescriptions);
+//                        }
+//                    });
+//                }
+//            });
         }
-    }
-
-    private static void initImageGalleryView(Context context, List<ImageDataDto> imageDataList,
-                                             List<ImageDescriptionDto> imageDescriptions) {
-//        ArrayList<String> filesToShowInGallery = new ArrayList<>();
-        Intent intent = new Intent(context, ImageGalleryView.class);
-        // Genero archivos para las imagenes recibidas mediante requests, y agrego sus nombres
-        // a a lista que va a usar la view para cargar las imagenes en la galeria.
-        for (int i = 0; i < imageDataList.size(); i++) {
-            try {
-                String imageName = imageDataList.get(i).getName();
-                byte[] imageAsBytes = Base64.decode(imageDataList.get(i).getData(), 0);
-                File file = new File(context.getFilesDir(), imageDataList.get(i).getName());
-                Log.d(TAG, file.getAbsolutePath());
-                OutputStream fOut = new FileOutputStream(file);
-                Bitmap pictureBitmap =
-                        BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
-                // TODO manejar compresion de acuerdo a tipo de imagen.
-                pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut);
-                fOut.flush();
-                fOut.close();
-                // Agrego el nombre del archivo para pasar en el intent.
-//                filesToShowInGallery.add(imageName);
-//                fileNames.add(file.getName());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        // Obtengo los nombres de los archivos que la app mantiene en internal storage.
-        File[] files = context.getFilesDir().listFiles();
-        List<String> fileNames = new ArrayList<>();
-        for (int i = 0; i < files.length; i++) {
-            fileNames.add(files[i].getName());
-        }
-        // Agrego los nombres de los archivos que debo mostrar, pero que no fueron recibidos
-        // en requests porque ya estaban presentes en el directorio.
-        for (String fileName : fileNames) {
-            for (ImageDescriptionDto description : imageDescriptions) {
-                if (fileName.startsWith(description.getId() + ".")) {
-                    description.setFileName(fileName);
-                }
-            }
-        }
-        intent.putExtra("imageDescriptions", (ArrayList<ImageDescriptionDto>) imageDescriptions);
-        context.startActivity(intent);
     }
 
 }
