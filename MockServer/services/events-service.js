@@ -76,6 +76,7 @@ var getImageData = function (request, response, next) {
             response.send(JSON.stringify(getimagedata_error), 200);
         }        
     }
+};
 
 var postArrivalTime = function (request, response, next) {
     console.log('POST a postArrivalTime');
