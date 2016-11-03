@@ -1,32 +1,31 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.util.Log;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
+import com.sonda.emsysmobile.ui.views.adapters.GridViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by marccio on 27-Oct-16.
@@ -35,7 +34,7 @@ public class ImageGalleryPresenter {
 
     private static final String TAG = ImageGalleryPresenter.class.getName();
 
-    public static void loadImages(final Context context, final List<ImageDescriptionDto>
+    public static void loadGallery(final Context context, final List<ImageDescriptionDto>
             imageDescriptions) {
         final ProgressBarListener progressBarListener = (ProgressBarListener) context;
         progressBarListener.showProgressBar();
@@ -51,34 +50,59 @@ public class ImageGalleryPresenter {
                     (ArrayList<ImageDescriptionDto>) imageDescriptions);
             progressBarListener.hideProgressBar();
             context.startActivity(intent);
-//            MultimediaManager multimediaManager = MultimediaManager.getInstance(context);
-//            multimediaManager.setImageDescriptions(imageDescriptions);
-//            multimediaManager.fetchImages(new ApiCallback<List<ImageDataDto>>() {
-//                @Override
-//                public void onSuccess(List<ImageDataDto> imageDataList) {
-//                    progressBarListener.hideProgressBar();
-//                    initImageGalleryView(context, imageDataList, imageDescriptions);
-//                }
-//
-//                @Override
-//                public void onLogicError(String errorMessage, int errorCode) {
-//                    progressBarListener.hideProgressBar();
-//                    UIUtils.handleErrorMessage(context, errorCode, errorMessage);
-//                }
-//
-//                @Override
-//                public void onNetworkError(VolleyError error) {
-//                    progressBarListener.hideProgressBar();
-//                    handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener
-//                            () {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            loadImages(context, imageDescriptions);
-//                        }
-//                    });
-//                }
-//            });
         }
+    }
+
+    public static void loadThumbnail(final View view, Context context, ImageDescriptionDto item,
+                                     final GridViewAdapter.ViewHolder holder) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+//        String imageUrl =
+//                "http://zeroturnaround" +
+//                        ".com/wp-content/uploads/2016/02/Android-Picasso-Imasdges-Loading.png";
+        String imageUrl = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL) +
+                "/adjuntos/getimagethumbnail?idImagen="
+                + Integer.toString(item.getId());
+        item.setImageUrl(imageUrl);
+        // Agrego header de autenticacion a la request
+        final String authToken = sharedPrefs.getString("access_token", "");
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request newRequest = chain.request().newBuilder()
+                                .addHeader("auth", authToken)
+                                .build();
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        Picasso picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+
+        picasso
+                .load(imageUrl)
+                .fit()
+                .centerInside()
+                .into(holder.image, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        view.findViewById(R.id.progress_bar)
+                                .setVisibility(View.INVISIBLE);
+                        holder.image.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        view.findViewById(R.id.error_layout)
+                                .setVisibility(View.VISIBLE);
+                        view.findViewById(R.id.relative_container)
+                                .setVisibility(View.GONE);
+                    }
+
+                });
     }
 
 }

@@ -14,7 +14,7 @@
         android:src="@drawable/logo_emsys_large"/>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_xhuge"

@@ -55,7 +55,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ImageButton configButton = (ImageButton) findViewById(R.id.button_config);
         configButton.setOnClickListener(this);

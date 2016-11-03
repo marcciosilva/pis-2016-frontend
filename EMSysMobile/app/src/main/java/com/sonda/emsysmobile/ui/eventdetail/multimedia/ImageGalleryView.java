@@ -46,17 +46,17 @@ public class ImageGalleryView extends AppCompatActivity {
         gridView.setAdapter(gridAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                if (v.findViewById(R.id.error_layout).getVisibility() == View.VISIBLE) {
-                    UIUtils.handleErrorMessage(ImageGalleryView.this, ErrorCodeCategory
-                            .NO_AVAILABLE_MULTIMEDIA
-                            .getNumVal(), "La imágen no se puede visualizar.");
-                } else {
+//                if (v.findViewById(R.id.error_layout).getVisibility() == View.VISIBLE) {
+//                    UIUtils.handleErrorMessage(ImageGalleryView.this, ErrorCodeCategory
+//                            .NO_AVAILABLE_MULTIMEDIA
+//                            .getNumVal(), "La imágen no se puede visualizar.");
+//                } else {
                     ImageDescriptionDto item =
                             (ImageDescriptionDto) parent.getItemAtPosition(position);
                     Intent intent = new Intent(ImageGalleryView.this, ImageDetailView.class);
                     intent.putExtra("imageId", item.getId());
                     startActivity(intent);
-                }
+//                }
             }
         });
     }

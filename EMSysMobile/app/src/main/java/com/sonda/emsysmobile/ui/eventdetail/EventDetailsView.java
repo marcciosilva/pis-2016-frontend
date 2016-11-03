@@ -89,7 +89,7 @@ public class EventDetailsView extends AppCompatActivity implements
         mAudioButton = (ImageButton) findViewById(R.id.button_audio);
         mAudioButton.setOnClickListener(this);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +246,7 @@ public class EventDetailsView extends AppCompatActivity implements
 //            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
 //                    Integer.toString(mEvent.getImageDescriptions().size()));
             ImageGalleryPresenter
-                    .loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
+                    .loadGallery(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {
             Log.d(TAG, "Botón de video pulsado");
         } else if (view.getId() == R.id.button_audio) {

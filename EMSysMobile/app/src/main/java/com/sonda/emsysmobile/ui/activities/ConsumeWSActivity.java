@@ -33,7 +33,7 @@ public class ConsumeWSActivity extends AppCompatActivity implements View.OnClick
 
         mURLEditText = (EditText) findViewById(R.id.input_url);
         mResponseTextView = (TextView) findViewById(R.id.text_response);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         Button sendRequestButton = (Button) findViewById(R.id.button_send_request);
         sendRequestButton.setOnClickListener(this);
     }

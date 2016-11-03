@@ -14,7 +14,6 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             @Override
             public void onClick(View v) {
                 ImageGalleryPresenter
-                        .loadImages(mContext, holder.getItem()
+                        .loadGallery(mContext, holder.getItem()
                                 .getImageDescriptions());
             }
         });
