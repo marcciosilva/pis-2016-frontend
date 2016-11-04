@@ -1,6 +1,6 @@
 package com.sonda.emsysmobile.utils;
 
-import com.sonda.emsysmobile.logic.model.core.OfflineRequestDto;
+import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,9 +11,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class OfflineUtils {
 
-    private static BlockingQueue<OfflineRequestDto> queue = new LinkedBlockingQueue<OfflineRequestDto>();
+    private static BlockingQueue<OfflineAttachDescriptionDto> queue = new LinkedBlockingQueue<OfflineAttachDescriptionDto>();
 
-    public static BlockingQueue<OfflineRequestDto> getQueue() {
+    public static BlockingQueue<OfflineAttachDescriptionDto> getQueue() {
         return queue;
     }
 

@@ -2,8 +2,10 @@ package com.sonda.emsysmobile.ui.activities.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -20,12 +22,14 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.LoginRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
+import com.sonda.emsysmobile.logic.model.core.UserDto;
 import com.sonda.emsysmobile.logic.model.core.ZoneDto;
 import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity.EleccionRol;
@@ -42,7 +46,8 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Created by marccio on 9/28/16.
  */
 
-public class ZonasRecursosChooserActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class ZonasRecursosChooserActivity extends AppCompatActivity implements View
+        .OnClickListener, AdapterView.OnItemClickListener {
 
     private Button mDispatcherButton;
     private Button mResourceButton;
@@ -86,13 +91,15 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             ArrayList<ZoneDto> zonas = (ArrayList<ZoneDto>) mExtras.getSerializable("zonas");
             if (zonas != null) {
                 for (ZoneDto zona : zonas) {
-                    list.add(zona.getIdentifier() + " - " + zona.getName() + " - " + zona.getExecUnitName());
+                    list.add(zona.getIdentifier() + " - " + zona.getName() + " - " +
+                            zona.getExecUnitName());
                 }
             }
         } else {
             mDispatcherButton.setEnabled(false);
             mRolesListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-            ArrayList<ResourceDto> recursos = (ArrayList<ResourceDto>) mExtras.getSerializable("recursos");
+            ArrayList<ResourceDto> recursos =
+                    (ArrayList<ResourceDto>) mExtras.getSerializable("recursos");
             if (recursos != null) {
                 for (ResourceDto recurso : recursos) {
                     list.add(recurso.getId() + " - " + recurso.getCode());
@@ -153,9 +160,22 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
                 }
             }
-            loginUser(new RoleDto(zonas, recursos), new VolleyCallbackLoginUser() {
+            final RoleDto roles = new RoleDto(zonas, recursos);
+            loginUser(roles, new VolleyCallbackLoginUser() {
                 @Override
                 public void onSuccess() {
+                    SharedPreferences sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    Gson gson = new Gson();
+                    String json = sharedPreferences.getString("user_data", "");
+                    UserDto userDto = gson.fromJson(json, UserDto.class);
+                    userDto.setRoles(roles);
+                    SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+                    // Se actualiza el UserDto con los roles del usuario.
+                    json = gson.toJson(userDto);
+                    prefsEditor.putString("user_data", json);
+                    prefsEditor.commit();
+                    Log.d(TAG, "Roles de usuario agregados a preferencia user_data.");
                     suscribeToNotificationsTopics(zonas, recursos);
                     goToHome();
                 }
@@ -183,12 +203,13 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loginUser(roles, callback);
-                    }
-                });
+                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error, new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                loginUser(roles, callback);
+                            }
+                        });
             }
         });
         request.execute();
@@ -291,7 +312,8 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
         }
         for (ResourceDto resource : resources) {
             topic = "recurso-" + Integer.toString(resource.getId());
-            FirebaseMessaging.getInstance().subscribeToTopic("recurso-" + Integer.toString(resource.getId()));
+            FirebaseMessaging.getInstance()
+                    .subscribeToTopic("recurso-" + Integer.toString(resource.getId()));
             Log.d(TAG, "Suscribed to topic: " + topic + "\n");
         }
     }

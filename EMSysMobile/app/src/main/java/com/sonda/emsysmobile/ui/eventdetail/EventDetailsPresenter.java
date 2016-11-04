@@ -9,7 +9,13 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
@@ -93,6 +99,7 @@ public final class EventDetailsPresenter {
         Intent intent = new Intent(context, EventDetailsView.class);
         EventDetailMapPresenter.setEventDto(event);
         intent.putExtra("EventDto", event);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -152,8 +159,8 @@ public final class EventDetailsPresenter {
         }
     }
 
-    public static void attachDescriptionForExtension(final Context context, final String description, final int
-            extensionId) {
+    public static void attachDescriptionForExtension(final Context context, final String
+            description, final int extensionId) {
         UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest =
                 new UpdateDescriptionRequest<>(context, EmsysResponse.class);
         updateDescriptionRequest.setAttributes(description, extensionId);
@@ -178,7 +185,26 @@ public final class EventDetailsPresenter {
         updateDescriptionRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, context.getString(R.string.error_http));
+
+                if ((error instanceof NetworkError) || (error instanceof ServerError) ||
+                        (error instanceof TimeoutError)) {
+
+                }
+
+
+                String message = null;
+                if (error instanceof NetworkError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (error instanceof ServerError) {
+                    message = "The server could not be found. Please try again after some time!!";
+                } else if (error instanceof AuthFailureError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (error instanceof NoConnectionError) {
+                    message = "Cannot connect to Internet...Please check your connection!";
+                } else if (error instanceof TimeoutError) {
+                    message = "Connection TimeOut! Please check your internet connection.";
+                }
+                Log.d(TAG, message);
                 handleVolleyErrorResponse(context, error, new DialogInterface
                         .OnClickListener() {
                     @Override
@@ -197,7 +223,7 @@ public final class EventDetailsPresenter {
         }
     }
 
-    public static void reportTime(final Context context, int extensionId){
+    public static void reportTime(final Context context, int extensionId) {
         ReportTimeRequest<ReportTimeResponse> reportTimeRequest =
                 new ReportTimeRequest<>(context, ReportTimeResponse.class, extensionId);
         reportTimeRequest.setListener(new Response.Listener<ReportTimeResponse>() {
@@ -212,7 +238,7 @@ public final class EventDetailsPresenter {
                             context.getString(R.string.report_time_success));
                     builder.setPositiveButton("OK", null);
                     builder.show();
-                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()){
+                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(context.getString(R.string.app_name));
                     builder.setMessage(response.getInnerResponse().getMsg());
