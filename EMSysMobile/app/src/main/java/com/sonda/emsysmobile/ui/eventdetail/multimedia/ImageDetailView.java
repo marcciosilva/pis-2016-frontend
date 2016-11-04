@@ -63,7 +63,6 @@ public class ImageDetailView extends AppCompatActivity {
                 .downloader(new OkHttp3Downloader(client))
                 .build();
 
-
         picasso
                 .load(imageUrl)
                 .into(imgAvatar, new Callback() {
@@ -80,8 +79,7 @@ public class ImageDetailView extends AppCompatActivity {
                         findViewById(R.id.progress_bar).setVisibility(View.GONE);
                     }
                 });
-        // Attach a PhotoViewAttacher, which takes care of all of the zooming functionality.
-        // (not needed unless you are going to change the drawable later)
+        // Se agrega un PhotoViewAttacher, que se encarga de toda la funcionalidad de zoom.
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(imgAvatar);
 
     }

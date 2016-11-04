@@ -48,24 +48,18 @@ public class GridViewAdapter extends ArrayAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageDescriptionDto item = (ImageDescriptionDto) data.get(position);
-        holder.imageTitle.setText("Imagen " + Integer.toString(item.getId()));
-//        ImageLoader imageLoader = AppRequestQueue.getInstance(context).getImageLoader();
-
+        ImageDescriptionDto imageDescription = (ImageDescriptionDto) data.get(position);
+        holder.imageTitle.setText("Imagen " + Integer.toString(imageDescription.getId()));
         if ((convertView.findViewById(R.id.progress_bar).getVisibility() == View.INVISIBLE)
                 && (holder.image.getVisibility() == View.VISIBLE)) {
             convertView.findViewById(R.id.progress_bar)
                     .setVisibility(View.VISIBLE);
             holder.image.setVisibility(View.INVISIBLE);
         }
-        ImageGalleryPresenter.loadThumbnail(convertView, context, item, holder);
-
-
-
-
-        holder.creator.setText("Subido por: " + item.getUser());
+        ImageGalleryPresenter.loadThumbnail(convertView, context, imageDescription, holder);
+        holder.creator.setText("Subido por: " + imageDescription.getUser());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        holder.creationDate.setText(dateFormat.format(item.getDeliveryDate()));
+        holder.creationDate.setText(dateFormat.format(imageDescription.getDeliveryDate()));
         return convertView;
     }
 

@@ -56,9 +56,6 @@ public class ImageGalleryPresenter {
     public static void loadThumbnail(final View view, Context context, ImageDescriptionDto item,
                                      final GridViewAdapter.ViewHolder holder) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-//        String imageUrl =
-//                "http://zeroturnaround" +
-//                        ".com/wp-content/uploads/2016/02/Android-Picasso-Imasdges-Loading.png";
         String imageUrl = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL) +
                 "/adjuntos/getimagethumbnail?idImagen="
                 + Integer.toString(item.getId());

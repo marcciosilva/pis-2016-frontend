@@ -31,7 +31,6 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
@@ -251,9 +250,6 @@ public class HomeActivity extends AppCompatActivity
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
                     EventManager.getInstance(HomeActivity.this).onLogout();
-                    // Se borran los archivos internos de la aplicacion, que pueden no
-                    // necesitarse en la proxima sesion que se inicie.
-                    MultimediaManager.getInstance(HomeActivity.this).clearInternalStorage();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
