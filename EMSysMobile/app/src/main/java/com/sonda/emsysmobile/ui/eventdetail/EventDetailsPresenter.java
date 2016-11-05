@@ -55,14 +55,15 @@ public final class EventDetailsPresenter {
     public static void loadEventDetails(final Context context, final int eventId, final int
             eventExtensionId) {
         final EventManager eventManager = EventManager.getInstance(context);
+
+        //TODO llamar eventManager.getLocalEventDetails(eventId):
+        EventDto event = eventManager.getLocalEventDetail(eventId);
+        initEventDetailsView(context,event);
+
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
-                List<ExtensionDto> orderedExtensions =
-                        orderExtensions(event.getExtensions(), eventExtensionId);
-                eventManager.setEventAsRead(event);
-                event.setExtensions(orderedExtensions);
-                initEventDetailsView(context, event);
+                initEventDetailsView(context,event);
             }
 
             @Override
@@ -82,6 +83,18 @@ public final class EventDetailsPresenter {
         });
     }
 
+    public static void obtainExtensions(boolean started, EventDto event, final Context context, final int eventExtensionId, EventManager eventManager){
+        List<ExtensionDto> orderedExtensions =
+                orderExtensions(event.getExtensions(), eventExtensionId);
+        eventManager.setEventAsRead(event);
+        event.setExtensions(orderedExtensions);
+        initEventDetailsView(context,event);
+//        if (started){
+//            updateEventDetailsView(context, event);
+//        } else{
+//            initEventDetailsView(context, event);
+//        }
+    }
     /**
      * Inicializa la vista para el detalle del evento, pasandole los datos que correspondan
      * para que muestre.
@@ -95,6 +108,11 @@ public final class EventDetailsPresenter {
         intent.putExtra("EventDto", event);
         context.startActivity(intent);
     }
+
+    private static void updateEventDetailsView(Context context, EventDto event) {
+
+    }
+
 
     private static List<ExtensionDto> orderExtensions(List<ExtensionDto> extensions, int
             extensionId) {
