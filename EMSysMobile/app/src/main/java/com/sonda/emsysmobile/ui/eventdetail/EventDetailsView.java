@@ -69,13 +69,13 @@ public class EventDetailsView extends RootActivity implements
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, "Detalle de evento",RootActivity.EVENT_MAP_LIST);
+        super.onCreate(savedInstanceState,R.layout.activity_event_details, R.id.main_scrollview_map_detail, "Detalle de evento", RootActivity.EVENT_MAP_LIST);
 
         // add back arrow to toolbar
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
+//        if (getSupportActionBar() != null){
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        }
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);

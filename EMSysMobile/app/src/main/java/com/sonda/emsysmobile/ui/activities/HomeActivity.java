@@ -8,11 +8,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +38,20 @@ import com.sonda.emsysmobile.utils.UIUtils;
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity extends RootActivity
         implements OnListFragmentInteractionListener,
         EventFilterDialogFragment.OnEventFilterDialogListener {
 
-    private static final String TAG = HomeActivity.class.getName();
+    public static final String TAG = HomeActivity.class.getName();
+    public static final int EVENT_LIST_VIEW = 1;
+    public static final int EVENT_MAP_VIEW = 2;
+    public static final int EVENT_CREATE_EVENT_VIEW = 3;
 
     private EventsMapView mMapView;
     private FrameLayout mMapContainer;
     private FrameLayout mFragmentsContainer;
     private FloatingActionButton mFloatingButton;
-    private boolean mContainerColapsed;
+    private boolean mContainerCollapsed;
 
     @Override
     public final void onEventFilter(String selectedFilter) {
@@ -66,8 +66,9 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        super.onCreate(savedInstanceState, R.layout.activity_home, R.id.activity_main_layout, "Listado de eventos", RootActivity.EVENT_LIST);
+//        setContentView(R.layout.activity_home);
+
         // Start KeepAlive service.
         Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
         startService(intent);
@@ -104,12 +105,12 @@ public class HomeActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public final boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.top_menu, menu);
-        return true;
-    }
+//    @Override
+//    public final boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.top_menu, menu);
+//        return true;
+//    }
 
     public final void onBackPressed() {
         DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
@@ -213,7 +214,7 @@ public class HomeActivity extends AppCompatActivity
         if (visible) {
             mMapContainer.setVisibility(View.VISIBLE);
             mFloatingButton.setVisibility(View.VISIBLE);
-            mContainerColapsed = false;
+            mContainerCollapsed = false;
             mFloatingButton.setImageDrawable(ContextCompat
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
         } else {
@@ -224,7 +225,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void toggleFragmentContainer() {
-        if (mContainerColapsed) {
+        if (mContainerCollapsed) {
             mFragmentsContainer.setVisibility(View.VISIBLE);
             mFloatingButton.setImageDrawable(ContextCompat
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -233,7 +234,7 @@ public class HomeActivity extends AppCompatActivity
             mFloatingButton.setImageDrawable(ContextCompat
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_up_white_24dp));
         }
-        mContainerColapsed = !mContainerColapsed;
+        mContainerCollapsed = !mContainerCollapsed;
     }
 
     private void logout() {

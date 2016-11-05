@@ -1,19 +1,30 @@
 package com.sonda.emsysmobile.ui.activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.mikepenz.crossfader.Crossfader;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -32,8 +43,20 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
+import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
+import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.ui.changeview.EventsMapView;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
+import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
+import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
+import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by mserralta on 30/10/16.
@@ -55,16 +78,14 @@ public class RootActivity extends AppCompatActivity {
     protected Crossfader crossFader;
 
 
-    protected void onCreate(Bundle savedInstanceState, String title, int selectedItem) {
+    protected void onCreate(Bundle savedInstanceState, int guestActivityId,int guestActivityRootId, String title, int selectedItem) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_details);
+        setContentView(guestActivityId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Set custom icon because the default icon is back arrow
-//        getSupportActionBar().setIcon(R.drawable.hamburger_icon);
         toolbar.setNavigationIcon(R.drawable.hamburger_icon);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +135,26 @@ public class RootActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         Log.d("PRUEBA", "Toco el boton menu");
                         //TODO: Implementar cambiar de pantalla
-                        return false;
+                        switch ((int) drawerItem.getIdentifier()){
+                            case CREATE_EVENT:
+                                goToEventCreateView();
+                                return false;
+                            case EVENT_LIST:
+                                goToEventListView();
+                                return false;
+                            case EXTERNAL_SERVICE:
+                                goToExternalServiceView();
+                                return false;
+                            case EVENT_MAP_LIST:
+                                goToEventMapView();
+                                return false;
+                            case LOG_OUT:
+                                logout();
+                                return false;
+                            default:
+                                return false;
+                        }
+
                     }
                 })
                 .withGenerateMiniDrawer(true)
@@ -136,7 +176,7 @@ public class RootActivity extends AppCompatActivity {
         //create and build our crossfader (see the MiniDrawer is also builded in here, as the build method returns the view to be used in the crossfader)
         //the crossfader library can be found here: https://github.com/mikepenz/Crossfader
         crossFader = new Crossfader()
-                .withContent(findViewById(R.id.main_scrollview_map_detail))
+                .withContent(findViewById(guestActivityRootId))
                 .withFirst(result.getSlider(), firstWidth)
                 .withSecond(miniResult.build(this), secondWidth)
                 .withSavedInstance(savedInstanceState)
@@ -158,6 +198,104 @@ public class RootActivity extends AppCompatActivity {
             crossFader.crossFade();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void replaceFragment(Fragment fragment, String fragmentTAG) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
+    }
+
+
+    protected void goToEventCreateView(){
+        goToHome(HomeActivity.EVENT_CREATE_EVENT_VIEW);
+    }
+
+    protected void goToEventListView(){
+        goToHome(HomeActivity.EVENT_LIST_VIEW);
+    }
+
+    protected void goToEventMapView(){
+        goToHome(HomeActivity.EVENT_MAP_VIEW);
+    }
+
+    protected void goToExternalServiceView(){
+
+    }
+
+    public final void goToHome(int viewType) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("viewType", viewType);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void logout() {
+        //TODO Move this logic to other service
+        LogoutRequest<LoginLogoutResponse> request =
+                new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
+        request.setListener(new Response.Listener<LoginLogoutResponse>() {
+            @Override
+            public void onResponse(LoginLogoutResponse response) {
+                final int responseCode = response.getCode();
+                if (responseCode == 0) {
+                    // Stop KeepAlive service.
+                    Intent intent = new Intent(RootActivity.this, KeepAliveService.class);
+                    stopService(intent);
+                    // Se reinicia el token de autenticacion.
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
+                            .putString("access_token", "").commit();
+                    EventManager.getInstance(RootActivity.this).onLogout();
+                    // Se borran los archivos internos de la aplicacion, que pueden no
+                    // necesitarse en la proxima sesion que se inicie.
+                    MultimediaManager.getInstance(RootActivity.this).clearInternalStorage();
+                    goToSplash();
+                } else {
+                    String errorMsg = response.getInnerResponse().getMsg();
+                    handleErrorMessage(RootActivity.this, responseCode, errorMsg);
+                }
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, getString(R.string.error_http));
+                handleVolleyErrorResponse(RootActivity.this, error, new DialogInterface
+                        .OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                });
+            }
+        });
+        request.execute();
+    }
+
+    private void goToSplash() {
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+    }
+
+    /**
+     * Fragment that appears in the "content_frame", shows a planet
+     */
+    public static class TestFragment extends Fragment {
+
+        public TestFragment() {
+            // Constructor vacio requerido por todas las subclases de Fragment.
+        }
+
+        @Override
+        public final View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                       Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.test_fragment_layout, container, false);
+            String text = getArguments().getString("text");
+            TextView textView = (TextView) rootView.findViewById(R.id.fragment_textview);
+            textView.setText(text);
+            return rootView;
         }
     }
 }
