@@ -68,18 +68,22 @@ public final class EventDetailsPresenter {
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
-                Log.d(TAG, "Hubo respuesta del servidor");
-                event.setInformant("Pedrito el escamoso");
-                CategoryDto cat = new CategoryDto(2345, "palermo", "kew", CategoryPriority.HIGH, true);
-                ZoneDto zone = new ZoneDto("dafds", 12342, "asdfads");
-                ExtensionDto exte = new ExtensionDto(1234, "descripcion", ExtensionState.CLOSED,
-                        new Date(), cat, zone,
-                        null, event);
+//                Log.d(TAG, "Hubo respuesta del servidor");
+//                event.setInformant("Pedrito el escamoso");
+//                CategoryDto cat = new CategoryDto(2345, "palermo", "kew", CategoryPriority.HIGH, true);
+//                ZoneDto zone = new ZoneDto("dafds", 1234, "asdfads");
+//                ExtensionDto exte = new ExtensionDto(1234, "descripcion", ExtensionState.CLOSED,
+//                        new Date(), cat, zone,
+//                        null, event);
+//                List<ExtensionDto> lala = event.getExtensions();
+//                lala.add(exte);
+//                event.setExtensions(lala);
 
-                List<ExtensionDto> lala = event.getExtensions();
-                lala.add(exte);
-                event.setExtensions(lala);
-
+                List<ExtensionDto> orderedExtensions =
+                        orderExtensions(event.getExtensions(), eventExtensionId);
+                eventManager.setEventAsRead(event);
+                event.setExtensions(orderedExtensions);
+                updateMapFragment();
                 mEventDetailsView.updateViewData(event);
             }
 
@@ -90,28 +94,16 @@ public final class EventDetailsPresenter {
 
             @Override
             public void onNetworkError(VolleyError error) {
-                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loadEventDetails(context, eventId, eventExtensionId);
-                    }
-                });
+//                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        loadEventDetails(context, eventId, eventExtensionId);
+//                    }
+//                });
             }
         });
     }
 
-    public static void obtainExtensions(boolean started, EventDto event, final Context context, final int eventExtensionId, EventManager eventManager){
-        List<ExtensionDto> orderedExtensions =
-                orderExtensions(event.getExtensions(), eventExtensionId);
-        eventManager.setEventAsRead(event);
-        event.setExtensions(orderedExtensions);
-        initEventDetailsView(context,event);
-//        if (started){
-//            updateEventDetailsView(context, event);
-//        } else{
-//            initEventDetailsView(context, event);
-//        }
-    }
     /**
      * Inicializa la vista para el detalle del evento, pasandole los datos que correspondan
      * para que muestre.
@@ -125,11 +117,6 @@ public final class EventDetailsPresenter {
         intent.putExtra("EventDto", event);
         context.startActivity(intent);
     }
-
-    private static void updateEventDetailsView(Context context, EventDto event) {
-
-    }
-
 
     private static List<ExtensionDto> orderExtensions(List<ExtensionDto> extensions, int
             extensionId) {
