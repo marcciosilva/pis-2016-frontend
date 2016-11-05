@@ -18,6 +18,10 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
+import com.sonda.emsysmobile.logic.model.core.CategoryDto;
+import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
+import com.sonda.emsysmobile.logic.model.core.ExtensionState;
+import com.sonda.emsysmobile.logic.model.core.ZoneDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -26,6 +30,7 @@ import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -63,7 +68,19 @@ public final class EventDetailsPresenter {
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
-                initEventDetailsView(context,event);
+                Log.d(TAG, "Hubo respuesta del servidor");
+                event.setInformant("Pedrito el escamoso");
+                CategoryDto cat = new CategoryDto(2345, "palermo", "kew", CategoryPriority.HIGH, true);
+                ZoneDto zone = new ZoneDto("dafds", 12342, "asdfads");
+                ExtensionDto exte = new ExtensionDto(1234, "descripcion", ExtensionState.CLOSED,
+                        new Date(), cat, zone,
+                        null, event);
+
+                List<ExtensionDto> lala = event.getExtensions();
+                lala.add(exte);
+                event.setExtensions(lala);
+
+                mEventDetailsView.updateViewData(event);
             }
 
             @Override
