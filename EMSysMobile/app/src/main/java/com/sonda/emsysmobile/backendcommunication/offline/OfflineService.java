@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.GlobalVariables;
+import com.sonda.emsysmobile.backendcommunication.model.responses.OfflineAttachDescriptionResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.OfflineUpdateDescriptionRequest;
 import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
 import com.sonda.emsysmobile.logic.model.core.offline.OfflineDto;
 
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Created by nachoprbd on 21/10/2016.
+ * Created by marccio on 21/10/2016.
  */
 public class OfflineService extends Service {
 
@@ -20,7 +24,8 @@ public class OfflineService extends Service {
     private BlockingQueue<OfflineDto> queue;
     private boolean running = false;
     private Thread mainThread;
-    private final int WAIT_TIME = 1000;
+    private final int WAIT_TIME = 10000;
+    private boolean offline = false;
 
     @Override
     public void onCreate() {
@@ -38,35 +43,58 @@ public class OfflineService extends Service {
                     try {
                         // Se obtiene un elemento de la cola. El thread queda bloqueado esperando
                         // que aparezca un elemento para tomar.
-                        OfflineDto offlineDto = queue.take();
-                        // Espero a que la aplicacion vuelva a estar online.
-                        while (!GlobalVariables.isOfflineMode()) {
+                        final OfflineDto offlineDto = queue.take();
+                        // Espero en caso de no tener conexion espero.
+                        // En caso contrario, se siguen enviando OfflineDtos de la cola.
+                        if (offline) {
                             Thread.sleep(WAIT_TIME);
                         }
                         if (offlineDto instanceof OfflineAttachDescriptionDto) {
-                            Log.d(TAG, "Hay un offlineAttachDesc bla para mandar");
+                            sendDescription((OfflineAttachDescriptionDto) offlineDto);
                         }
-                        // TODO soportar otros offline dtos.
+                        Log.d(TAG, "Intentando enviar datos en servicio offline...");
                     } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        throw new RuntimeException(e);
+                        Log.d(TAG, e.getStackTrace().toString());
                     }
-                    // hacer get (o simil bloqueante) de la cola y procesarlo
                 }
-                Log.d(TAG, "Servicio offline terminado.");
             }
         });
         mainThread.start();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void addOfflineDescription(OfflineAttachDescriptionDto offlineAttachDescriptionDto) {
-        try {
-            queue.put(offlineAttachDescriptionDto);
-        } catch (InterruptedException e) {
-            mainThread.interrupt();
-            throw new RuntimeException(e);
-        }
+    private void sendDescription(final OfflineAttachDescriptionDto offlineDto) {
+        OfflineUpdateDescriptionRequest<OfflineAttachDescriptionResponse>
+                request =
+                new OfflineUpdateDescriptionRequest<>(OfflineService.this,
+                        OfflineAttachDescriptionResponse.class,
+                        (OfflineAttachDescriptionDto) offlineDto);
+        request.setListener(new Response
+                .Listener<OfflineAttachDescriptionResponse>() {
+            @Override
+            public void onResponse(OfflineAttachDescriptionResponse response) {
+                Log.d(TAG, "Envio realizado con exito");
+                offline = false;
+                // No debería hacerse nada más, ya que la request fue recibida
+                // correctamente por el servidor, independientemente del
+                // código que nos devuelva.
+                // Sólo hay que manejar el caso de error de red.
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+                    // Si no hay conexion.
+                    offline = true;
+                    // Se vuelve a agregar el dto a la cola.
+                    queue.put(offlineDto);
+                } catch (InterruptedException e) {
+                    Log.d(TAG, e.getStackTrace().toString());
+                }
+            }
+        });
+        request.execute();
     }
 
     @Override

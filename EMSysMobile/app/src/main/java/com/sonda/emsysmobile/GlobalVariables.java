@@ -12,19 +12,9 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalVariables {
 
-    private static boolean offlineMode = true;
-
     private static UserDto userData;
 
     private static BlockingQueue<OfflineDto> queue = new LinkedBlockingQueue<>();
-
-    public static boolean isOfflineMode() {
-        return offlineMode;
-    }
-
-    public static void setOfflineMode(boolean offlineMode) {
-        GlobalVariables.offlineMode = offlineMode;
-    }
 
     public static UserDto getUserData() {
         return userData;

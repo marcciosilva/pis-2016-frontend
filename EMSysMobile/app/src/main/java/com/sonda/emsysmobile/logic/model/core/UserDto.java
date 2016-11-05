@@ -10,10 +10,10 @@ import java.io.Serializable;
 
 public class UserDto implements Serializable {
 
-    @SerializedName("user")
+    @SerializedName("username")
     String username;
 
-    @SerializedName("pass")
+    @SerializedName("password")
     String password;
 
     @SerializedName("roles")

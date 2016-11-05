@@ -27,7 +27,7 @@ public class UpdateDescriptionRequest<T> extends AbstractRequest<T> {
     protected final JsonObject getBody() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("descripcion", this.description);
-        jsonObject.addProperty("idExtension", this.extensionID);
+        jsonObject.addProperty("id_extension", this.extensionID);
         return jsonObject;
     }
 

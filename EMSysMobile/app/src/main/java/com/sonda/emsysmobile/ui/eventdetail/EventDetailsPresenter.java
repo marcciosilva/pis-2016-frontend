@@ -1,26 +1,17 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
-import com.android.volley.NoConnectionError;
-import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
@@ -29,16 +20,15 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
-import com.sonda.emsysmobile.logic.model.core.UserDto;
 import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -201,6 +191,9 @@ public final class EventDetailsPresenter {
                             new OfflineAttachDescriptionDto();
                     // Obtengo informacion del usuario.
                     offlineAttachDescriptionDto.setUserData(GlobalVariables.getUserData());
+                    offlineAttachDescriptionDto.setDescription(description);
+                    offlineAttachDescriptionDto.setExtensionId(extensionId);
+                    offlineAttachDescriptionDto.setTimeStamp(new Date());
                     // Se agrega el dto a la cola de dtos a enviar.
                     try {
                         GlobalVariables.getQueue().put(offlineAttachDescriptionDto);
@@ -208,13 +201,8 @@ public final class EventDetailsPresenter {
                         Log.d(TAG, e.getStackTrace().toString());
                     }
                 }
-                handleVolleyErrorResponse(context, error, new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        attachDescriptionForExtension(context, description, extensionId);
-                    }
-                });
+                UIUtils.handleErrorMessage(context, ErrorCodeCategory.NETWORK_ERROR
+                        .getNumVal(), context.getString(R.string.error_network_update_desc));
             }
         });
         updateDescriptionRequest.execute();

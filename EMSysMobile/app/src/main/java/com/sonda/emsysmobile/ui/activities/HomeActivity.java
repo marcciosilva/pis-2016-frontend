@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
@@ -237,6 +239,8 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void logout() {
+        // Se borran los datos del usuario.
+        GlobalVariables.setUserData(null);
         LogoutRequest<LoginLogoutResponse> request =
                 new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
         request.setListener(new Response.Listener<LoginLogoutResponse>() {
