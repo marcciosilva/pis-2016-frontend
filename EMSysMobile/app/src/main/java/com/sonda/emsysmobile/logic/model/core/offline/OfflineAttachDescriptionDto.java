@@ -3,6 +3,8 @@ package com.sonda.emsysmobile.logic.model.core.offline;
 import com.google.gson.annotations.SerializedName;
 import com.sonda.emsysmobile.logic.model.core.UserDto;
 
+import java.util.Date;
+
 /**
  * Created by jmsmuy on 04/11/16.
  */
@@ -18,27 +20,27 @@ public class OfflineAttachDescriptionDto implements OfflineDto {
     @SerializedName("user_data")
     private UserDto userData;
 
-    public String getDescription() {
-        return description;
-    }
+    @SerializedName("time_stamp")
+    private Date timeStamp;
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getExtensionId() {
-        return extensionId;
     }
 
     public void setExtensionId(int extensionId) {
         this.extensionId = extensionId;
     }
 
-    public UserDto getUserData() {
-        return userData;
-    }
-
     public void setUserData(UserDto userData) {
         this.userData = userData;
     }
+
+    public Date getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(Date timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
 }

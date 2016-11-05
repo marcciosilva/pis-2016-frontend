@@ -42,6 +42,8 @@ app.get('/eventos/getimagedata', events.getImageData);
 app.post('/adjuntos/postgeoubicacion', adjuntos.postGeoLocation);
 app.post('/eventos/reportarhoraarribo', events.postArrivalTime);
 
+app.post('/eventos/actualizardescripcionrecursooffline', events.postOfflineUpdateDesc);
+
 //just a special get to test more easily
 //request it like: 'http://10.17.32.136:8081/events/1/detail/special_case?caso=un_json_cualquiera'
 app.get('/events/:event_id/detail/special_case', events.getSpecialCase);
