@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -29,6 +30,7 @@ import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
@@ -250,6 +252,9 @@ public class HomeActivity extends AppCompatActivity
                     // Se reinicia el token de autenticacion.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
+                    // Se reinicia el token de notificaciones
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    sharedPrefs.edit().remove(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY).apply();
                     EventManager.getInstance(HomeActivity.this).onLogout();
                     // Se borran los archivos internos de la aplicacion, que pueden no
                     // necesitarse en la proxima sesion que se inicie.
