@@ -17,7 +17,6 @@ public class EventDetailsRequest<T> extends AbstractRequest<T> {
 
     private int eventId;
 
-
     public EventDetailsRequest(Context context, Type responseType) {
         super(context, responseType, RequestType.GET);
     }

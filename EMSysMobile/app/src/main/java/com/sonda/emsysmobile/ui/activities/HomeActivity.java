@@ -31,7 +31,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
+import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;

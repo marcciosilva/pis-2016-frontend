@@ -16,10 +16,13 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
@@ -32,6 +35,7 @@ import com.sonda.emsysmobile.utils.UIUtils;
 import java.io.IOException;
 
 import static android.R.attr.bitmap;
+import static android.R.attr.path;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -243,6 +247,28 @@ public class EventDetailsView extends AppCompatActivity implements
             try {
                 //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+                    int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+                    String fileName = filePath.getLastPathSegment();
+                    Log.d(TAG, "Uploading file: " + fileName);
+                    MultimediaManager manager = MultimediaManager.getInstance(this);
+                    manager.uploadImage(extensionID, fileName, bitmap, new ApiCallback() {
+                        @Override
+                        public void onSuccess(Object object) {
+
+                        }
+
+                        @Override
+                        public void onLogicError(String errorMessage, int errorCode) {
+
+                        }
+
+                        @Override
+                        public void onNetworkError(VolleyError error) {
+
+                        }
+                    });
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

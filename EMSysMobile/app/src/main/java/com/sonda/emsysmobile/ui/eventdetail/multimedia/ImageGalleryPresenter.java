@@ -14,7 +14,7 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.utils.UIUtils;
 

@@ -1,23 +1,31 @@
-package com.sonda.emsysmobile.ui.eventdetail.multimedia;
+package com.sonda.emsysmobile.managers;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
+import com.sonda.emsysmobile.backendcommunication.AppRequestQueue;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.GetImageDataResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.AttachImageRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.GetImageDataRequest;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.R.attr.bitmap;
 
 /**
  * Created by marccio on 10/29/16.
@@ -144,4 +152,29 @@ public final class MultimediaManager {
         }
     }
 
+    public final void uploadImage(int extensionId, String name, Bitmap image, final ApiCallback callback) {
+        AttachImageRequest<EmsysResponse> request = new AttachImageRequest<>(mContext, EmsysResponse.class);
+        request.setAttributes(extensionId, name, getBase64Image(image));
+        request.setListener(new Response.Listener<EmsysResponse>() {
+            @Override
+            public void onResponse(EmsysResponse response) {
+                callback.onSuccess(response);
+                int a = 1;
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                int a = 2;
+            }
+        });
+        request.execute();
+    }
+
+    public String getBase64Image(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
 }

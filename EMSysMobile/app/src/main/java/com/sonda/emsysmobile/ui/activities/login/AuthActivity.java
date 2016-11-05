@@ -25,7 +25,7 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
+import com.sonda.emsysmobile.managers.MultimediaManager;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
