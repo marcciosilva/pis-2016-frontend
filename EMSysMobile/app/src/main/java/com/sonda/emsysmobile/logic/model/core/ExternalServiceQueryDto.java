@@ -3,7 +3,7 @@ package com.sonda.emsysmobile.logic.model.core;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by marccio on 16/10/16.
+ * Created by jmsmuy on 16/10/16.
  */
 
 public class ExternalServiceQueryDto {

@@ -113,11 +113,8 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                     userDto.setUsername(user);
                     userDto.setPassword(pass);
                     GlobalVariables.setUserData(userDto);
-//                    Gson gson = new Gson();
-//                    String json = gson.toJson(userDto);
-//                    prefsEditor.putString("user_data", json);
-//                    //Se guarda el token en shared preferences para usar en cada consulta al web
-//                    // service.
+                    //Se guarda el token en shared preferences para usar en cada consulta al web
+                    // service.
                     SharedPreferences.Editor prefsEditor =
                             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
                     prefsEditor.putString("access_token", response.getAccessToken());
