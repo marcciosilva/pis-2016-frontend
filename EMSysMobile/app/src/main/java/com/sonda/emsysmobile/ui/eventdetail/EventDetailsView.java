@@ -3,6 +3,7 @@ package com.sonda.emsysmobile.ui.eventdetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,7 +19,6 @@ import com.mikepenz.materialdrawer.MiniDrawer;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.activities.RootActivity;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
@@ -27,17 +27,15 @@ import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-
 /**
  * Created by mserralta on 13/10/16.
  */
 
-public class EventDetailsView extends RootActivity implements
+public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
         AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, View.OnClickListener,
         ProgressBarListener {
 
-    private static final int LOG_OUT = 1;
     public static final int SHOULD_UPDATE_MAP = 1;
     private EventDto mEvent;
     private static final String TAG = EventDetailsView.class.getName();
@@ -66,16 +64,18 @@ public class EventDetailsView extends RootActivity implements
 
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
+    private FloatingActionButton mReportTimeBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState,R.layout.activity_event_details, R.id.main_scrollview_map_detail, "Detalle de evento", RootActivity.EVENT_MAP_LIST);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_details);
 
         // add back arrow to toolbar
-//        if (getSupportActionBar() != null){
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        }
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -115,6 +115,14 @@ public class EventDetailsView extends RootActivity implements
             @Override
             public void onClick(View v) {
                 goToAttachGeolocationView();
+            }
+        });
+
+        mReportTimeBtn = (FloatingActionButton) findViewById(R.id.button_report_time);
+        mReportTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportTime();
             }
         });
 
@@ -212,6 +220,13 @@ public class EventDetailsView extends RootActivity implements
             extras.putInt("ExtensionId", extensionID);
             intent.putExtras(extras);
             EventDetailsPresenter.showGeolocationAttachView(intent);
+        }
+    }
+
+    private void reportTime(){
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.reportTime(this, extensionID);
         }
     }
 

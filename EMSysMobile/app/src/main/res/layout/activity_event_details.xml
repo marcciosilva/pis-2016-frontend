@@ -327,5 +327,16 @@
             fab:fab_label="@string/action_attach_geolocation"
             fab:fab_size="normal"/>
 
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/button_report_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_alarm_white_24dp"
+            fab:fab_colorNormal="@color/colorPrimary_600"
+            fab:fab_colorPressed="@color/colorPrimary_800"
+            fab:fab_colorRipple="#99d4d4d4"
+            fab:fab_label="@string/action_report_time"
+            fab:fab_size="normal"/>
+
     </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

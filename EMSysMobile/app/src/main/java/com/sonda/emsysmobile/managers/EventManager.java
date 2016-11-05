@@ -80,7 +80,7 @@ public final class EventManager {
         return mInstance;
     }
 
-    public final void fetchExtensions(boolean fromService, final String filter, final ApiCallback<List<ExtensionDto>> callback) {
+    public final void fetchExtensions(boolean fromService, final String filter, final boolean onMap, final ApiCallback<List<ExtensionDto>> callback) {
         if (mExtensions.size() == 0 || fromService) {
             EventsRequest<EventsResponse> request =
                     new EventsRequest<>(mContext, EventsResponse.class);
@@ -90,7 +90,7 @@ public final class EventManager {
                     int responseCode = response.getCode();
                     if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                         setEvents(response.getEvents());
-                        callback.onSuccess(getExtensionsList(filter));
+                        callback.onSuccess(getExtensionsList(filter, onMap));
                     } else {
                         //TODO soportar mensaje de error en EventsResponse
                         //callback.onError(response.getInnerResponse().getMsg(), responseCode);
@@ -106,7 +106,7 @@ public final class EventManager {
             });
             request.execute();
         } else {
-            callback.onSuccess(getExtensionsList(filter));
+            callback.onSuccess(getExtensionsList(filter, onMap));
         }
     }
 
@@ -217,14 +217,23 @@ public final class EventManager {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
-    private List<ExtensionDto> getExtensionsList(String filter) {
+    private List<ExtensionDto> getExtensionsList(String filter, boolean onMap) {
         if (mExtensions == null) {
             return null;
         }
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
-        for (int i = 0; i < mExtensions.size(); i++) {
-            arrayList.add(mExtensions.valueAt(i));
+        if(onMap){
+            for (int i = 0; i < mExtensions.size(); i++) {
+                if (mExtensions.valueAt(i).getGeolocations() == null){
+                    arrayList.add(mExtensions.valueAt(i));
+                }
+            }
+        } else{
+            for (int i = 0; i < mExtensions.size(); i++) {
+                arrayList.add(mExtensions.valueAt(i));
+            }
         }
+
         switch(filter){
             case "Prioridad":
                 sortExtensionsByPriority(arrayList);

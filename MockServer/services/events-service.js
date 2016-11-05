@@ -4,6 +4,9 @@ var event_detail = require('../replies/event_detail.json');
 var event_detail_error = require('../replies/event_detail_error.json');
 // getImageData
 var getimagedata_error = require('../replies/getimagedata_error.json');
+// reportTime
+var report_time_success = require('../replies/report_time_success.json');
+var report_time_fail = require('../replies/report_time_fail.json');
 
 function delay(ms) {
     console.log("Esperando " + ms + " ms...");
@@ -75,6 +78,13 @@ var getImageData = function (request, response, next) {
     }
 };
 
+var postArrivalTime = function (request, response, next) {
+    console.log('POST a postArrivalTime');
+    console.log(request.body);
+    response.send(JSON.stringify(report_time_fail), 200);
+};
+
+exports.postArrivalTime = postArrivalTime;
 exports.getEvents = getEvents;
 exports.getEventDetail = getEventDetail;
 exports.getSpecialCase = getSpecialCase;

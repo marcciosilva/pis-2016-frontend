@@ -103,6 +103,10 @@
     <string name="error_title">Error</string>
     <string name="ok_button">OK</string>
 
+    <!--Reportar hora-->
+    <string name="report_time_success">Se ha reportado la hora exitosamente</string>
+    <string name="action_report_time">Reportar hora</string>
+
     <!--Actualizar descripcion-->
     <string name="action_update_desc">Actualizar descripción</string>
     <string name="update_desc_success_string">La descripción fue actualizada</string>
