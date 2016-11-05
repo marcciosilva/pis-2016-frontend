@@ -33,7 +33,7 @@
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateVisible"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="Preferences"
@@ -55,8 +55,7 @@
         <activity
             android:name=".ui.eventdetail.EventDetailsView"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/NoActionBar"/>
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.eventdetail.multimedia.ImageGalleryView"
             android:configChanges="orientation|screenSize"

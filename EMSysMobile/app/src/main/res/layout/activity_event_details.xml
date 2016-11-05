@@ -6,19 +6,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".ui.eventdetail.EventDetailsView">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/MyActionBar.Custom"/>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar">
     <ProgressBar
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
@@ -34,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="?attr/actionBarSize"
         android:weightSum="1">
 
         <LinearLayout
@@ -265,7 +251,6 @@
 
     </com.sonda.emsysmobile.ui.views.CustomScrollView>
 
-    </FrameLayout>
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/floating_action_menu"
         android:layout_width="wrap_content"

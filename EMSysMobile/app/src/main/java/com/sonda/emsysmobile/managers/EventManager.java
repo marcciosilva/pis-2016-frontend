@@ -224,7 +224,7 @@ public final class EventManager {
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
         if(onMap){
             for (int i = 0; i < mExtensions.size(); i++) {
-                if (mExtensions.valueAt(i).getGeolocations() == null){
+                if (mExtensions.valueAt(i).getGeolocations().size() == 0){
                     arrayList.add(mExtensions.valueAt(i));
                 }
             }

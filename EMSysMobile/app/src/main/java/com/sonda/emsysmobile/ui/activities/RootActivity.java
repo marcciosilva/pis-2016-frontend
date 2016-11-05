@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -62,7 +63,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Created by mserralta on 30/10/16.
  */
 
-public class RootActivity extends AppCompatActivity {
+public abstract class RootActivity extends AppCompatActivity {
 
 
     private static final String TAG = RootActivity.class.getName();
@@ -127,8 +128,11 @@ public class RootActivity extends AppCompatActivity {
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.menu_list_events_string).withIcon(GoogleMaterial.Icon.gmd_format_list_bulleted).withIdentifier(EVENT_LIST),
                         new PrimaryDrawerItem().withName(R.string.menu_view_map_string).withIcon(GoogleMaterial.Icon.gmd_map).withIdentifier(EVENT_MAP_LIST),
-                        new PrimaryDrawerItem().withName(R.string.menu_external_service_string).withIcon(GoogleMaterial.Icon.gmd_cloud_download).withIdentifier(EXTERNAL_SERVICE)
-                ) // add the items we want to use with our Drawer
+                        new PrimaryDrawerItem().withName(R.string.menu_external_service_string).withIcon(GoogleMaterial.Icon.gmd_cloud_download).withIdentifier(EXTERNAL_SERVICE),
+                        new PrimaryDrawerItem().withName(R.string.menu_create_event_string).withIcon(GoogleMaterial.Icon.gmd_plus).withIdentifier(CREATE_EVENT)
+
+
+                        ) // add the items we want to use with our Drawer
 
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -165,7 +169,7 @@ public class RootActivity extends AppCompatActivity {
                 // build only the view of the Drawer (don't inflate it automatically in our layout which is done with .build())
                 .buildView();
 
-        result.setSelection(selectedItem);
+        result.setSelection(selectedItem, false);
         //the MiniDrawer is managed by the Drawer and we just get it to hook it into the Crossfader
         miniResult = result.getMiniDrawer();
 
@@ -197,7 +201,8 @@ public class RootActivity extends AppCompatActivity {
         if (crossFader != null && crossFader.isCrossFaded()) {
             crossFader.crossFade();
         } else {
-            super.onBackPressed();
+            DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
+            dialog.show(getSupportFragmentManager(), TAG);
         }
     }
 
@@ -207,28 +212,13 @@ public class RootActivity extends AppCompatActivity {
     }
 
 
-    protected void goToEventCreateView(){
-        goToHome(HomeActivity.EVENT_CREATE_EVENT_VIEW);
-    }
+    protected abstract void goToEventCreateView();
 
-    protected void goToEventListView(){
-        goToHome(HomeActivity.EVENT_LIST_VIEW);
-    }
+    protected abstract void goToEventListView();
 
-    protected void goToEventMapView(){
-        goToHome(HomeActivity.EVENT_MAP_VIEW);
-    }
+    protected abstract void goToEventMapView();
 
-    protected void goToExternalServiceView(){
-
-    }
-
-    public final void goToHome(int viewType) {
-        Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra("viewType", viewType);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-    }
+    protected abstract void goToExternalServiceView();
 
     private void logout() {
         //TODO Move this logic to other service
