@@ -7,13 +7,15 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <!--android:name="com.activeandroid.app.Application"-->
     <application
-        android:name="com.activeandroid.app.Application"
+        android:name=".EmsysMobile"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="database.db"/>
@@ -81,6 +83,7 @@
 
         <!-- SERVICES -->
         <service android:name=".backendcommunication.services.KeepAliveService"/>
+        <service android:name=".backendcommunication.offline.OfflineService"/>
         <service android:name=".notifications.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

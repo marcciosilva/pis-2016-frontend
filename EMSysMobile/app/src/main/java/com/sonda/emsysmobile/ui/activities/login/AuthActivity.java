@@ -22,6 +22,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
@@ -106,21 +107,21 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
             public void onResponse(AuthResponse response) {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    SharedPreferences.Editor prefsEditor =
-                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
                     // Se guarda un UserDto con las credenciales del usuario.
                     // Este dto sera completado con mas informacion en las activities posteriores.
                     UserDto userDto = new UserDto();
                     userDto.setUsername(user);
                     userDto.setPassword(pass);
-                    Gson gson = new Gson();
-                    String json = gson.toJson(userDto);
-                    prefsEditor.putString("user_data", json);
-                    //Se guarda el token en shared preferences para usar en cada consulta al web
-                    // service.
+                    GlobalVariables.setUserData(userDto);
+//                    Gson gson = new Gson();
+//                    String json = gson.toJson(userDto);
+//                    prefsEditor.putString("user_data", json);
+//                    //Se guarda el token en shared preferences para usar en cada consulta al web
+//                    // service.
+                    SharedPreferences.Editor prefsEditor =
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
                     prefsEditor.putString("access_token", response.getAccessToken());
                     prefsEditor.commit();
-                    Log.d(TAG, "Credenciales de usuario guardadas en preferencias como user_data.");
                     Log.d(TAG, "Token guardado en preferencias.");
                     goToRoleChooser();
                 } else {

@@ -7,13 +7,16 @@ import com.sonda.emsysmobile.logic.model.core.UserDto;
  * Created by jmsmuy on 04/11/16.
  */
 
-public class OfflineAttachDescriptionDto extends UserDto {
+public class OfflineAttachDescriptionDto implements OfflineDto {
 
     @SerializedName("descripcion")
-    String description;
+    private String description;
 
     @SerializedName("id_extension")
-    int extensionId;
+    private int extensionId;
+
+    @SerializedName("user_data")
+    private UserDto userData;
 
     public String getDescription() {
         return description;
@@ -29,5 +32,13 @@ public class OfflineAttachDescriptionDto extends UserDto {
 
     public void setExtensionId(int extensionId) {
         this.extensionId = extensionId;
+    }
+
+    public UserDto getUserData() {
+        return userData;
+    }
+
+    public void setUserData(UserDto userData) {
+        this.userData = userData;
     }
 }

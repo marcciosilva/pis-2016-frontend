@@ -23,6 +23,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
@@ -164,18 +165,9 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             loginUser(roles, new VolleyCallbackLoginUser() {
                 @Override
                 public void onSuccess() {
-                    SharedPreferences sharedPreferences =
-                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    Gson gson = new Gson();
-                    String json = sharedPreferences.getString("user_data", "");
-                    UserDto userDto = gson.fromJson(json, UserDto.class);
-                    userDto.setRoles(roles);
-                    SharedPreferences.Editor prefsEditor = sharedPreferences.edit();
+                    UserDto userDto = GlobalVariables.getUserData();
                     // Se actualiza el UserDto con los roles del usuario.
-                    json = gson.toJson(userDto);
-                    prefsEditor.putString("user_data", json);
-                    prefsEditor.commit();
-                    Log.d(TAG, "Roles de usuario agregados a preferencia user_data.");
+                    userDto.setRoles(roles);
                     suscribeToNotificationsTopics(zonas, recursos);
                     goToHome();
                 }

@@ -6,6 +6,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
@@ -17,6 +20,8 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.google.gson.Gson;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
@@ -24,6 +29,8 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
+import com.sonda.emsysmobile.logic.model.core.UserDto;
+import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -185,26 +192,22 @@ public final class EventDetailsPresenter {
         updateDescriptionRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                // Si la request falla por cuestiones de conectividad a Internet, se genera
+                // un objeto que almacena la descripcion de la extension, que se intenta enviar
+                // en el OfflineService cuando se recupere conectividad.
                 if ((error instanceof NetworkError) || (error instanceof ServerError) ||
                         (error instanceof TimeoutError)) {
-
+                    OfflineAttachDescriptionDto offlineAttachDescriptionDto =
+                            new OfflineAttachDescriptionDto();
+                    // Obtengo informacion del usuario.
+                    offlineAttachDescriptionDto.setUserData(GlobalVariables.getUserData());
+                    // Se agrega el dto a la cola de dtos a enviar.
+                    try {
+                        GlobalVariables.getQueue().put(offlineAttachDescriptionDto);
+                    } catch (InterruptedException e) {
+                        Log.d(TAG, e.getStackTrace().toString());
+                    }
                 }
-
-
-                String message = null;
-                if (error instanceof NetworkError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (error instanceof ServerError) {
-                    message = "The server could not be found. Please try again after some time!!";
-                } else if (error instanceof AuthFailureError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (error instanceof NoConnectionError) {
-                    message = "Cannot connect to Internet...Please check your connection!";
-                } else if (error instanceof TimeoutError) {
-                    message = "Connection TimeOut! Please check your internet connection.";
-                }
-                Log.d(TAG, message);
                 handleVolleyErrorResponse(context, error, new DialogInterface
                         .OnClickListener() {
                     @Override
