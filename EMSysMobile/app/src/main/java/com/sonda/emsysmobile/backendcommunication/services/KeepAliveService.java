@@ -1,42 +1,46 @@
 package com.sonda.emsysmobile.backendcommunication.services;
 
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequest;
-import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
+
+import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
+import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by nachoprbd on 21/10/2016.
  */
 public class KeepAliveService extends Service {
 
+    public static final String TAG = KeepAliveService.class.getName();
     private boolean logged;
-    // A definir waiting_time.
-    private static int waiting_time = 60000;
+    public static int waitingTime = BuildConfig.WAITING_TIME;
 
     @Override
-    public void onCreate() {
+    public final void onCreate() {
         logged = true;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public final int onStartCommand(Intent intent, int flags, int startId) {
+        // Se crea un thread que se encarga de ejecutar el keep alive cada cierto tiempo.
         new Thread(new Runnable() {
             public void run() {
                 while (logged) {
                     try {
-                        Thread.sleep(waiting_time);
+                        Thread.sleep(waitingTime);
                         if (logged) {
-                            keep_alive(new VolleyCallbackKeepAlive() {
-                                @Override
-                                public void onSuccess(KeepAliveDto keepAlive) {
-                                }
-                            });
+                            keepAlive();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -49,16 +53,16 @@ public class KeepAliveService extends Service {
     }
 
     @Override
-    public IBinder onBind(Intent intent) {
+    public final IBinder onBind(Intent intent) {
         return null;
     }
 
     @Override
-    public void onDestroy() {
+    public final void onDestroy() {
         logged = false;
     }
 
-    private void keep_alive(final VolleyCallbackKeepAlive callback) {
+    private void keepAlive() {
         KeepAliveRequest<KeepAliveResponse> request =
                 new KeepAliveRequest<>(getApplicationContext(), KeepAliveResponse.class);
         request.setListener(new Response.Listener<KeepAliveResponse>() {
@@ -66,23 +70,18 @@ public class KeepAliveService extends Service {
             public void onResponse(KeepAliveResponse response) {
                 final int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    KeepAliveDto keepAlive = response.getKeepAlive();
-                    callback.onSuccess(keepAlive);
+                    Log.d(TAG, "Exito.");
                 } else {
-                    /*
-                    String errorMsg = response.getExpirationTime().getMsg();
-                    handleErrorMessage(KeepAliveService.this, responseCode, errorMsg);
-                    */
+                    Log.d(TAG, "Error!");
                 }
             }
         });
-
-
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, getString(R.string.error_http));
+            }
+        });
         request.execute();
-        //Log.d("STATE", "keep alive!!" );
-    }
-
-    public interface VolleyCallbackKeepAlive {
-        void onSuccess(KeepAliveDto result);
     }
 }

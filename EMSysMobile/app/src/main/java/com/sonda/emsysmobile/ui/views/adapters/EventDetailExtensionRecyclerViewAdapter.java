@@ -6,12 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
-import com.sonda.emsysmobile.utils.DateUtils;
+import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 
 import java.util.List;
 
@@ -19,14 +22,15 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
     private final List<ExtensionDto> mExtensions;
-    private final OnListFragmentInteractionListener mListener;
+    private final OnListFragmentInteractionListener mListFragmentInteractionListener;
     private Context mContext;
     private static final String TAG = EventDetailExtensionRecyclerViewAdapter.class.getName();
 
     public EventDetailExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions,
-                                                   OnListFragmentInteractionListener listener) {
+                                                   OnListFragmentInteractionListener
+                                                           listFragmentInteractionListener) {
         mExtensions = extensions;
-        mListener = listener;
+        mListFragmentInteractionListener = listFragmentInteractionListener;
         mContext = context;
     }
 
@@ -44,15 +48,27 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         Log.d(TAG, "ZONE NAME: " + zoneString);
         holder.setItem(extension);
         holder.getIdAndZoneTextView().setText(zoneString);
-        holder.getDescriptionTextView().setText(extension.getDescription());
-        holder.getDateTextView().setText(DateUtils.dateToString(extension.getTimeStamp()));
+        if (position == 0) {
+            holder.getCurrentExtensionTextView().setVisibility(View.VISIBLE);
+        }
+        if ((extension.getDescription() != null) && (!extension.getDescription().equals(""))) {
+            holder.getDescriptionTextView().setText(extension.getDescription());
+        }
+        holder.getImagesButton().setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageGalleryPresenter
+                        .loadImages(mContext, holder.getItem()
+                                .getImageDescriptions());
+            }
+        });
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != mListener) {
+                if (null != mListFragmentInteractionListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.getItem());
+                    mListFragmentInteractionListener.onListFragmentInteraction(holder.getItem());
                 }
             }
         });
@@ -66,9 +82,14 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final View view;
         private final TextView idAndZoneTextView;
+        private final TextView currentExtension;
         private final TextView descriptionTextView;
-        private final TextView dateTextView;
+        private final TextView dispatcherTextView;
+        private ImageButton imagesButton;
+        private ImageButton videosButton;
+        private ImageButton audioButton;
         private ExtensionDto item;
+
 
         public final View getView() {
             return view;
@@ -78,12 +99,17 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             return idAndZoneTextView;
         }
 
+        public final TextView getCurrentExtensionTextView() {
+            return currentExtension;
+        }
+
+
         public final TextView getDescriptionTextView() {
             return descriptionTextView;
         }
 
-        public final TextView getDateTextView() {
-            return dateTextView;
+        public final TextView getDispatcherTextView() {
+            return descriptionTextView;
         }
 
         public final ExtensionDto getItem() {
@@ -94,12 +120,32 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             this.item = item;
         }
 
+        public TextView getCurrentExtension() {
+            return currentExtension;
+        }
+
+        public ImageButton getImagesButton() {
+            return imagesButton;
+        }
+
+        public ImageButton getVideosButton() {
+            return videosButton;
+        }
+
+        public ImageButton getAudioButton() {
+            return audioButton;
+        }
+
         public ViewHolder(View view) {
             super(view);
             this.view = view;
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
+            currentExtension = (TextView) view.findViewById(R.id.current_extension);
             descriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            dateTextView = (TextView) view.findViewById(R.id.label_date);
+            dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
+            imagesButton = (ImageButton) view.findViewById(R.id.button_images);
+            videosButton = (ImageButton) view.findViewById(R.id.button_video);
+            audioButton = (ImageButton) view.findViewById(R.id.button_audio);
         }
 
         @Override

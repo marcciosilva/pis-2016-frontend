@@ -2,16 +2,23 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
+import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
@@ -27,9 +34,11 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Created by marccio on 15-Oct-16.
  */
 
-public class EventDetailsPresenter {
+public final class EventDetailsPresenter {
 
     private static final String TAG = EventDetailsPresenter.class.getName();
+    private static EventDetailsView mEventDetailsView;
+    private static EventDetailMapView mMapFragment;
 
     private EventDetailsPresenter() {
         // Debe ser privado porque no debe ser utilizado.
@@ -45,12 +54,13 @@ public class EventDetailsPresenter {
      */
     public static void loadEventDetails(final Context context, final int eventId, final int
             eventExtensionId) {
-        EventManager eventManager = EventManager.getInstance(context);
+        final EventManager eventManager = EventManager.getInstance(context);
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
                 List<ExtensionDto> orderedExtensions =
                         orderExtensions(event.getExtensions(), eventExtensionId);
+                eventManager.setEventAsRead(event);
                 event.setExtensions(orderedExtensions);
                 initEventDetailsView(context, event);
             }
@@ -107,6 +117,7 @@ public class EventDetailsPresenter {
     }
 
     public static void initMapFragment(Context context, EventDto event) {
+        mEventDetailsView = (EventDetailsView) context;
         boolean hasGeolocation = false;
         Log.d(TAG, "Event ID = " + Integer.toString(event.getIdentifier()));
         Log.d(TAG, "LATITUD: " + Double.toString(event.getLatitude()));
@@ -126,13 +137,93 @@ public class EventDetailsPresenter {
         if (hasGeolocation) {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
-            EventDetailMapView mapFragment = EventDetailMapView.getInstance();
-            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
-                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-            mapFragment.initializeView((FragmentActivity) context, mainScrollView);
-            mapFragment.showView();
+            mEventDetailsView.showMap();
+//            mMapFragment = EventDetailMapView.getInstance();
+//            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
+//                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
+//            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
+//            mMapFragment.showView();
         }
     }
 
+    public static void updateMapFragment() {
+        if (mMapFragment != null) {
+            mMapFragment.updateView();
+        }
+    }
 
+    public static void attachDescriptionForExtension(final Context context, final String description, final int
+            extensionId) {
+        UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest =
+                new UpdateDescriptionRequest<>(context, EmsysResponse.class);
+        updateDescriptionRequest.setAttributes(description, extensionId);
+        updateDescriptionRequest.setListener(new Response.Listener<EmsysResponse>() {
+            @Override
+            public void onResponse(EmsysResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.app_name));
+                    builder.setMessage(
+                            context.getString(R.string.update_desc_success_string));
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    UIUtils.handleErrorMessage(context, response.getCode(), context
+                            .getString(R.string.error_generic));
+                }
+            }
+        });
+        updateDescriptionRequest.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, context.getString(R.string.error_http));
+                handleVolleyErrorResponse(context, error, new DialogInterface
+                        .OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        attachDescriptionForExtension(context, description, extensionId);
+                    }
+                });
+            }
+        });
+        updateDescriptionRequest.execute();
+    }
+
+    public static void showGeolocationAttachView(Intent intent) {
+        if (mEventDetailsView != null) {
+            mEventDetailsView.startActivityForResult(intent, 0);
+        }
+    }
+
+    public static void reportTime(final Context context, int extensionId){
+        ReportTimeRequest<ReportTimeResponse> reportTimeRequest =
+                new ReportTimeRequest<>(context, ReportTimeResponse.class, extensionId);
+        reportTimeRequest.setListener(new Response.Listener<ReportTimeResponse>() {
+            @Override
+            public void onResponse(ReportTimeResponse response) {
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.app_name));
+                    builder.setMessage(
+                            context.getString(R.string.report_time_success));
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.app_name));
+                    builder.setMessage(response.getInnerResponse().getMsg());
+                    builder.setPositiveButton("OK", null);
+                    builder.show();
+                } else {
+                    UIUtils.handleErrorMessage(context, response.getCode(), context
+                            .getString(R.string.error_generic));
+                }
+            }
+        });
+        reportTimeRequest.execute();
+    }
 }

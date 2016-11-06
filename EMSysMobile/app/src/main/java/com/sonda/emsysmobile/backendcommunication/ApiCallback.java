@@ -9,6 +9,7 @@ public interface ApiCallback<T> {
     /**
      * This method must be implemented inline in any Activity, Fragment or etc to handle
      * networking success callback
+     *
      * @param object
      */
     @SuppressWarnings("unused")
@@ -27,5 +28,4 @@ public interface ApiCallback<T> {
      */
     @SuppressWarnings("unused")
     void onNetworkError(VolleyError error);
-
 }

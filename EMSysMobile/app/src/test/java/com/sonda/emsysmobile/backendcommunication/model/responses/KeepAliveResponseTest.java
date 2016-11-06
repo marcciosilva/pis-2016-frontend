@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 /**
  * Created by marccio on 10/20/16.
  */
+/*
 public class KeepAliveResponseTest {
 
     private KeepAliveResponse mKeepAliveResponse;
@@ -74,4 +75,4 @@ public class KeepAliveResponseTest {
         assertFalse(mKeepAliveResponse.equals(new KeepAliveResponse(new KeepAliveDto(2))));
     }
 
-}
+}*/

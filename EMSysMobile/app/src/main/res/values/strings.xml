@@ -37,6 +37,7 @@
     <string name="menu_view_map_string">Ver mapa</string>
     <string name="menu_external_service_string">Servicio externo</string>
     <string name="menu_logout_string">Cerrar sesión</string>
+    <string name="menu_filter_string">Ordenar eventos</string>
 
     <!--Test fragment-->
     <string name="test_content_description">Test content description</string>
@@ -50,6 +51,7 @@
     <string name="error_server_communication_message">Error en la comunicación con el servidor.</string>
     <string name="error_http_unauthorized">Pedido no autorizado</string>
     <string name="error_internal">Ocurrió un error interno en la aplicación.</string>
+    <string name="error_no_available_multimedia">No hay contenido multimedia disponible para la opción seleccionada</string>
 
     <!--Preferences-->
     <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>
@@ -59,8 +61,20 @@
     <string name="map_event_view_detail">Ver detalle</string>
     <string name="error_event_details_from_map">Hubo un error al obtener el detalle del evento seleccionado.</string>
 
-    <!-- Events details-->
+    <!--Events details-->
     <string name="event_details_missing_value">No tiene</string>
+
+    <!--Events details - Extension Menu-->
+    <string name="attach_geolocation_option_title">Adjuntar geoubicación</string>
+    <string name="attach_image_option_title">Adjuntar imágen</string>
+    <string name="attach_audio_option_title">Adjuntar audio</string>
+    <string name="attach_video_option_title">Adjuntar video</string>
+
+    <string name="event_details_status">Estado</string>
+    <string name="event_details_status_without_dispatcher">Sin despachar</string>
+
+    <string name="event_details_dispatcher_description">Descripción del despachador</string>
+    <string name="event_details_dispatcher">Despachador</string>
 
     <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>
@@ -86,7 +100,38 @@
     <string name="query">Consultar</string>
     <string name="error_ws_unavailable">El Servicio externo no está disponible</string>
     <string name="error_title">Error</string>
-    <string name="ok_button">Ok</string>
+    <string name="ok_button">OK</string>
 
+    <!--Reportar hora-->
+    <string name="report_time_success">Se ha reportado la hora exitosamente</string>
+    <string name="action_report_time">Reportar hora</string>
+
+    <!--Actualizar descripcion-->
+    <string name="action_update_desc">Actualizar descripción</string>
+    <string name="update_desc_success_string">La descripción fue actualizada</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="input_title_update_description">Ingrese la nueva descripción</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_update">Actualizar</string>
+
+    <!--Adjuntar geoubicacion-->
+    <string name="action_attach_geolocation">Adjuntar geoubicación</string>
+    <string name="attach_geolocation_confirmation_button_text">Enviar ubicación seleccionada</string>
+    <string name="attach_geolocation_message">Seleccione la nueva ubicación geográfica</string>
+    <string name="attach_geolocation_null_selection_string">Debe seleccionar una ubicación primero.</string>
+    <string name="attach_geolocation_success_message">La geoubicación fue registrada.</string>
+
+    <string name="dummy_description">Description</string>
+    <string name="dummy_text">Dummy text</string>
+
+    <!--Ver imagenes en Ver info de evento-->
+    <string name="image_file_path">emsysMobile</string>
+    <string name="path_separator">/</string>
+
+    <!--Filtrar eventos-->
+    <string name="filter_values">Ordenar por:</string>
+    <string name="button_filter">Aplicar</string>
 
 </resources>

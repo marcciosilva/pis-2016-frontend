@@ -15,8 +15,8 @@ public final class RequestFactory {
         // Debe ser privado porque no debe ser utilizado.
     }
 
-    public static JsonArrayRequest genericGETRequest(String url, Response.Listener<JSONArray> listener,
-                                                     Response.ErrorListener errorListener) {
+    public static JsonArrayRequest genericGETRequest(String url, Response.Listener<JSONArray>
+            listener, Response.ErrorListener errorListener) {
         return new JsonArrayRequest(Request.Method.GET, url, null, listener, errorListener);
     }
 

@@ -15,8 +15,7 @@ import com.google.gson.JsonSyntaxException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
-public class GsonGetRequest<T> extends Request<T>
-{
+public class GsonGetRequest<T> extends Request<T> {
     private final Gson gson;
     private final Type type;
     private final Response.Listener<T> listener;
@@ -25,13 +24,12 @@ public class GsonGetRequest<T> extends Request<T>
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS";
 
     public GsonGetRequest
-    (
-            @NonNull final String url,
-            @NonNull final Type type,
-            @NonNull final Response.Listener<T> listener,
-            @NonNull final Response.ErrorListener errorListener
-    )
-    {
+            (
+                    @NonNull final String url,
+                    @NonNull final Type type,
+                    @NonNull final Response.Listener<T> listener,
+                    @NonNull final Response.ErrorListener errorListener
+            ) {
         super(Method.GET, url, errorListener);
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -48,15 +46,19 @@ public class GsonGetRequest<T> extends Request<T>
     }
 
     @Override
-    protected final Response<T> parseNetworkResponse(NetworkResponse response)
-    {
+    protected final Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            String json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser.parseCacheHeaders(response));
+            String json =
+                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            Log.d(TAG, "\n ------------------------------ \n RESPONSE from :" + getUrl() + "\n" +
+                    json + "\n------------------------------\n");
+            return (Response<T>) Response.success(gson.fromJson(json, type), HttpHeaderParser
+                    .parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
             Log.d(TAG, "Error en la sintaxis del mensaje recibido. Chequear JSON.");
+            e.printStackTrace();
             return Response.error(new ParseError(e));
         }
     }

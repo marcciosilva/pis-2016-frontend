@@ -18,7 +18,7 @@ Object.defineProperty(Object.prototype,'Enum', {
 var events = require('./services/events-service.js');
 var users = require('./services/users-service.js');
 var consumeWS = require('./services/consumeWS-service.js');
-
+var adjuntos = require('./services/adjuntos-service.js');
 
 var express = require('express')
   , app = express();
@@ -37,6 +37,10 @@ app.get('/eventos/listar', events.getEvents);
 app.post('/events', events.postEvents);
 app.get('/eventos/obtener', events.getEventDetail);
 
+app.get('/eventos/getimagedata', events.getImageData);
+
+app.post('/adjuntos/postgeoubicacion', adjuntos.postGeoLocation);
+app.post('/eventos/reportarhoraarribo', events.postArrivalTime);
 
 //just a special get to test more easily
 //request it like: 'http://10.17.32.136:8081/events/1/detail/special_case?caso=un_json_cualquiera'
@@ -44,7 +48,7 @@ app.get('/events/:event_id/detail/special_case', events.getSpecialCase);
 
 //Manejo usuarios
 
-//auth
+//aut
 //http://localhost:8081/users/authenticate
 var AuthChoice={};
 AuthChoice.Enum('Success', 'InvalidCredentials', 'AlreadyLogged');
@@ -145,10 +149,10 @@ KeepAliveChoice.Enum('Success', 'Fail');
 keepAliveChoice = KeepAliveChoice.Success;
 switch (keepAliveChoice) {
 	case KeepAliveChoice.Success:
-		app.post('/users/expiration_time', users.postUserKeepAliveSuccess);
+		app.post('/users/keepmealive', users.postUserKeepAliveSuccess);
 		break;
 	case KeepAliveChoice.Fail:
-		app.post('/users/expiration_time', users.postUserKeepAliveFail);
+		app.post('/users/keepmealive', users.postUserKeepAliveFail);
 		break;
 	default:
 		break;

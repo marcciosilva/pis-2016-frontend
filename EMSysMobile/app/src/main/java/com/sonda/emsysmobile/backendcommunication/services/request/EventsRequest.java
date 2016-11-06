@@ -7,7 +7,6 @@ import java.lang.reflect.Type;
 /**
  * Created by marccio on 10/3/16.
  */
-
 public class EventsRequest<T> extends AbstractRequest<T> {
 
     public static final String EVENTS_PATH = "/eventos/listar";

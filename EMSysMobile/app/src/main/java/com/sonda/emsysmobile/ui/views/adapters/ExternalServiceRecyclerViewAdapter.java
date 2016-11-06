@@ -15,12 +15,14 @@ import com.sonda.emsysmobile.utils.constants.ExternalService;
 
 import java.util.List;
 
-public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<ExternalServiceRecyclerViewAdapter.ViewHolder> {
+public class ExternalServiceRecyclerViewAdapter extends RecyclerView
+        .Adapter<ExternalServiceRecyclerViewAdapter.ViewHolder> {
 
     private final List<ExternalServiceItemDto> mValues;
     private Context mContext;
 
-    public ExternalServiceRecyclerViewAdapter(Context context, List<ExternalServiceItemDto> extensions) {
+    public ExternalServiceRecyclerViewAdapter(Context context, List<ExternalServiceItemDto>
+            extensions) {
         mValues = extensions;
         mContext = context;
     }
@@ -91,7 +93,7 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView.Adapter<Ext
             this.view = view;
             firstField = (TextView) view.findViewById(R.id.first_field_tv);
             secondField = (TextView) view.findViewById(R.id.second_field_tv);
-            thirdField = (TextView)view.findViewById(R.id.third_field_tv);
+            thirdField = (TextView) view.findViewById(R.id.third_field_tv);
         }
 
         @Override

@@ -29,11 +29,14 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 public class AbstractRequestTest extends BaseMockTest {
 
     AbstractRequest<Integer> mAbstractRequest;
+    private String mURL;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        //Revisar, lo seteo asi para que pueda ejecutar el test
+        mURL = "test";
         EmsysResponse testResponse = new EmsysResponse();
         testResponse.setCode(1);
         mAbstractRequest = new AbstractRequest<Integer>(context, EmsysResponse.class,
@@ -66,7 +69,7 @@ public class AbstractRequestTest extends BaseMockTest {
     public void execute() throws Exception {
         EndpointService mockEndpointService = mock(EndpointService.class);
         whenNew(EndpointService.class).withAnyArguments().thenReturn(mockEndpointService);
-        doNothing().when(mockEndpointService).execute(isA(AbstractRequest.RequestType.class),
+        doNothing().when(mockEndpointService).execute(mURL, isA(AbstractRequest.RequestType.class),
                 isA(String.class), isA(JsonObject.class), isA(Type.class),
                 isA(Response.Listener.class), isA(Response.ErrorListener.class));
         mAbstractRequest.execute();

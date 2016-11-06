@@ -29,5 +29,4 @@ public class EmsysResponse {
         final EmsysResponse other = (EmsysResponse) obj;
         return (code == other.code);
     }
-
 }

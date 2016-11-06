@@ -263,8 +263,7 @@ public class EventDtoTest {
 
     @Test
     public void setCategory_DifferentCategory_ReturnsTrue() throws Exception {
-        CategoryDto testCategory =
-                new CategoryDto(1, "alt_code", "alt_key", CategoryPriority.HIGH, false);
+        CategoryDto testCategory = new CategoryDto(1, "alt_code", "alt_key", CategoryPriority.HIGH, false);
         mExtensionEvent.setCategory(testCategory);
         assertTrue(mExtensionEvent.getCategory().equals(testCategory));
     }

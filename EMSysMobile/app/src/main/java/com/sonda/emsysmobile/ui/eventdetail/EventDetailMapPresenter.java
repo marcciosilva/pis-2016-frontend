@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.events.managers.EventManager;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
@@ -25,7 +25,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 /**
  * Created by marccio on 11-Oct-16.
  */
-public class EventDetailMapPresenter {
+public final class EventDetailMapPresenter {
 
     private static final String TAG = EventDetailMapPresenter.class.getName();
     private static EventDto mEventDto = null;
@@ -114,7 +114,7 @@ public class EventDetailMapPresenter {
     private static LatLng getUniqueCoordinates(LatLng originalCoordinates,
                                                List<List<CustomMarkerData>> data) {
         LatLng ll = new LatLng(originalCoordinates.latitude, originalCoordinates.longitude);
-        while (duplicateCoordinates(originalCoordinates, data)) {
+        while (duplicateCoordinates(ll, data)) {
             Log.d(TAG, "Colision entre coordenadas de eventos.");
             // Offset para longitud.
             double dx = Math.random();

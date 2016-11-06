@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    tools:context="com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment">
+
+    <TextView
+        android:id="@+id/input_title_description"
+        android:text="@string/input_title_update_description"
+        android:textSize="@dimen/font_normal"
+        android:textColor="@color/gray_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/input_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_small"
+        android:textSize="@dimen/font_large"
+        android:inputType="textMultiLine"
+        android:imeOptions="actionDone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_normal"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/spacing_tiny"
+            android:background="@color/gray_medium_light"
+            android:textColor="@color/colorPrimary_900"
+            style="@style/AppButton"
+            android:text="@string/button_cancel"/>
+
+        <Button
+            android:id="@+id/button_update"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height_normal"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/spacing_tiny"
+            style="@style/AppButton"
+            android:text="@string/button_update"/>
+
+    </LinearLayout>
+
+</LinearLayout>

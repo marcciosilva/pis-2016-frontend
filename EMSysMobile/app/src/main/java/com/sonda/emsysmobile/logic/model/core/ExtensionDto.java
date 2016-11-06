@@ -2,6 +2,7 @@ package com.sonda.emsysmobile.logic.model.core;
 
 import com.google.gson.annotations.SerializedName;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +30,16 @@ public class ExtensionDto implements Serializable {
 
     @SerializedName("zona")
     private ZoneDto zone;
+
+    @SerializedName("imagenes")
+    private List<ImageDescriptionDto> imageDescriptions;
+
+
+    /**
+     * When this boolean is true, an indicator is shown
+     * for this extension in the extensions list.
+     */
+    private boolean isModified;
 
     @SerializedName("geo_ubicaciones")
     private List<GeolocationDto> geolocations;
@@ -104,6 +115,14 @@ public class ExtensionDto implements Serializable {
         this.event = event;
     }
 
+    public final boolean isModified() {
+        return isModified;
+    }
+
+    public final void setModified(boolean modified) {
+        isModified = modified;
+    }
+
     /**
      * Get priority for Event
      * Try to get priority for his Category, but if it does not have one, return event's category priority.
@@ -128,6 +147,10 @@ public class ExtensionDto implements Serializable {
 
     public final void setGeolocations(List<GeolocationDto> geolocations) {
         this.geolocations = geolocations;
+    }
+
+    public List<ImageDescriptionDto> getImageDescriptions() {
+        return imageDescriptions;
     }
 
     @Override
