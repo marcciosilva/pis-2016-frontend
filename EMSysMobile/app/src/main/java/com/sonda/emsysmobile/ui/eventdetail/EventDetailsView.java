@@ -1,11 +1,14 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -32,7 +35,11 @@ import com.sonda.emsysmobile.ui.views.dialogs.AttachImageDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import static android.R.attr.bitmap;
 import static android.R.attr.path;
@@ -49,10 +56,13 @@ public class EventDetailsView extends AppCompatActivity implements
         ProgressBarListener {
 
     public static final int SHOULD_UPDATE_MAP = 1;
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private EventDto mEvent;
-    private static final String TAG = EventDetailsView.class.getName();
+    static final int PICK_IMAGE_REQUEST = 2;
+    static final int REQUEST_IMAGE_CAPTURE = 3;
+    static final String TAG = EventDetailsView.class.getName();
 
+    private String mCurrentPhotoPath;
+
+    private EventDto mEvent;
     private TextView mInformantName;
     private TextView mInformantPhone;
     private TextView mCreatedDate;
@@ -237,6 +247,37 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
+    public void onOpenGalleryButtonSelected() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onOpenCameraButtonSelected() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+                UIUtils.showToast(this, getString(R.string.error_access_camera_message));
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.sonda.emsysmobile.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    @Override
     public final void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == 0) && (resultCode == SHOULD_UPDATE_MAP)) {
@@ -245,7 +286,6 @@ public class EventDetailsView extends AppCompatActivity implements
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri filePath = data.getData();
             try {
-                //Getting the Bitmap from Gallery
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
                     int extensionID = mEvent.getExtensions().get(0).getIdentifier();
@@ -271,6 +311,32 @@ public class EventDetailsView extends AppCompatActivity implements
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            File imgFile = new File(mCurrentPhotoPath);
+            if(imgFile.exists()){
+                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+                    int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+                    MultimediaManager multimediaManager = MultimediaManager.getInstance(this);
+                    String fileName = imgFile.getName();
+                    multimediaManager.uploadImage(extensionID, fileName, bitmap, new ApiCallback() {
+                        @Override
+                        public void onSuccess(Object object) {
+
+                        }
+
+                        @Override
+                        public void onLogicError(String errorMessage, int errorCode) {
+
+                        }
+
+                        @Override
+                        public void onNetworkError(VolleyError error) {
+
+                        }
+                    });
+                }
             }
         }
     }
@@ -298,23 +364,6 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onOpenGalleryButtonSelected() {
-        showFileChooser();
-    }
-
-    @Override
-    public void onOpenCameraButtonSelected() {
-
-    }
-
-    private void showFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-    }
-
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
@@ -327,5 +376,21 @@ public class EventDetailsView extends AppCompatActivity implements
         } else if (view.getId() == R.id.button_audio) {
             Log.d(TAG, "Botón de audio pulsado");
         }
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "IMG_EM_" + timeStamp;
+        File storageDir = getExternalFilesDir(null);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        return image;
     }
 }

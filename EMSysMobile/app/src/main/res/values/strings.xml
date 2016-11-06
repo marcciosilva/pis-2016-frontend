@@ -52,6 +52,7 @@
     <string name="error_http_unauthorized">Pedido no autorizado</string>
     <string name="error_internal">Ocurrió un error interno en la aplicación.</string>
     <string name="error_no_available_multimedia">No hay contenido multimedia disponible para la opción seleccionada</string>
+    <string name="error_access_camera_message">Ocurrió un error al intentar acceder a la camara</string>
 
     <!--Preferences-->
     <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>

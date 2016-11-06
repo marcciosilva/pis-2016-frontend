@@ -2,10 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.sonda.emsysmobile">
 
+    <!-- Android app permisions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <!-- Android app features -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -26,9 +31,15 @@
             com.sonda.emsysmobile.persistence.model.SampleReferencedTable"/>
 
         <provider
-            android:name=".ui.eventdetail.multimedia.CustomContentProvider"
-            android:authorities="com.sonda.emsysmobile"
-            android:exported="true"/>
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.sonda.emsysmobile.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
         <!-- ACTIVITIES -->
         <activity
             android:name=".ui.activities.login.AuthActivity"
@@ -92,12 +103,14 @@
             </intent-filter>
         </service>
 
+        <!-- Metadata -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM"/>
+
     </application>
 
 </manifest>

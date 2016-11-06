@@ -19,10 +19,14 @@ import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static android.R.attr.bitmap;

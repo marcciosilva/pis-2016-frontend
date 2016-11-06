@@ -78,7 +78,6 @@ public class ImageGalleryPresenter {
 
     private static void initImageGalleryView(Context context, List<ImageDataDto> imageDataList,
                                              List<ImageDescriptionDto> imageDescriptions) {
-//        ArrayList<String> filesToShowInGallery = new ArrayList<>();
         Intent intent = new Intent(context, ImageGalleryView.class);
         // Genero archivos para las imagenes recibidas mediante requests, y agrego sus nombres
         // a a lista que va a usar la view para cargar las imagenes en la galeria.
@@ -95,9 +94,6 @@ public class ImageGalleryPresenter {
                 pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fOut);
                 fOut.flush();
                 fOut.close();
-                // Agrego el nombre del archivo para pasar en el intent.
-//                filesToShowInGallery.add(imageName);
-//                fileNames.add(file.getName());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
