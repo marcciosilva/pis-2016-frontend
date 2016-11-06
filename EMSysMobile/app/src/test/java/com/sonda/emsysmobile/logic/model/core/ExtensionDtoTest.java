@@ -369,6 +369,7 @@ public class ExtensionDtoTest {
         CategoryDto testExtensionCategory;
         ZoneDto testExtensionZone;
         EventDto testExtensionEvent;
+        List<GeolocationDto> testExtensionGeoLoc;
         // Extension > ZoneDto.
         String testExtensionZoneNateste;
         int testExtensionZoneIdentifier;
@@ -393,9 +394,10 @@ public class ExtensionDtoTest {
                 testExtensionZoneExecUnitNateste);
         // EventDto.
         testExtensionEvent = null;
+        testExtensionGeoLoc = new ArrayList<GeolocationDto>();
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
-                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
-                testExtensionEvent);
+                testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone,
+                testExtensionGeoLoc ,testExtensionEvent);
         assertTrue(mExtensionDto.equals(testExtensionDto));
     }
 

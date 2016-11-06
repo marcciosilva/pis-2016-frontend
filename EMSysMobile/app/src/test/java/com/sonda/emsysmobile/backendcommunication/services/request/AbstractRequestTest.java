@@ -1,11 +1,14 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.gson.JsonObject;
 import com.sonda.emsysmobile.BaseMockTest;
+import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorResponse;
 import com.sonda.emsysmobile.backendcommunication.services.endpoint.EndpointService;
@@ -35,8 +38,6 @@ public class AbstractRequestTest extends BaseMockTest {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        //Revisar, lo seteo asi para que pueda ejecutar el test
-        mURL = "test";
         EmsysResponse testResponse = new EmsysResponse();
         testResponse.setCode(1);
         mAbstractRequest = new AbstractRequest<Integer>(context, EmsysResponse.class,
@@ -67,6 +68,9 @@ public class AbstractRequestTest extends BaseMockTest {
 
     @Test
     public void execute() throws Exception {
+        //Revisar, lo seteo asi para que pueda ejecutar el test
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mURL = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
         EndpointService mockEndpointService = mock(EndpointService.class);
         whenNew(EndpointService.class).withAnyArguments().thenReturn(mockEndpointService);
         doNothing().when(mockEndpointService).execute(mURL, isA(AbstractRequest.RequestType.class),
