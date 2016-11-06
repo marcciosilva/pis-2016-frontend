@@ -32,6 +32,7 @@ import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
+import static com.sonda.emsysmobile.utils.UIUtils.hideSoftKeyboard;
 
 public class AuthActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -97,6 +98,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         String user = mUserEditText.getText().toString();
         String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
+        hideSoftKeyboard(AuthActivity.this);
 
         AuthRequest<AuthResponse> authRequest = new AuthRequest<>(getApplicationContext(), AuthResponse.class);
         authRequest.setAttributes(user, pass);
@@ -109,6 +111,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                     Log.d(TAG, "Token guardado en preferencias.");
                     sendRegistrationToServer();
+                    goToRoleChooser();
                 } else {
                     mProgressBar.setVisibility(View.GONE);
                     String errorMsg = response.getInnerResponse().getMsg();
