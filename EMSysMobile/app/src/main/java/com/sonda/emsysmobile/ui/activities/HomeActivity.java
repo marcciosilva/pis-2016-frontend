@@ -79,7 +79,6 @@ public class HomeActivity extends RootActivity
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_home, R.id.activity_main_layout, "Listado de eventos", RootActivity.EVENT_LIST);
-//        setContentView(R.layout.activity_home);
 
         // Start KeepAlive service.
         Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);

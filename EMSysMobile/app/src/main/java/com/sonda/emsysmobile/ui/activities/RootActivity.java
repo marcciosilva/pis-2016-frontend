@@ -137,8 +137,6 @@ public abstract class RootActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        Log.d("PRUEBA", "Toco el boton menu");
-                        //TODO: Implementar cambiar de pantalla
                         switch ((int) drawerItem.getIdentifier()){
                             case CREATE_EVENT:
                                 goToEventCreateView();

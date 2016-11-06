@@ -56,12 +56,6 @@ public class EventDetailsView extends AppCompatActivity implements
     private ImageButton mAudioButton;
     private ProgressBar mProgressBar;
 
-
-    private AccountHeader headerResult = null;
-    private Drawer result = null;
-    private MiniDrawer miniResult = null;
-    private Crossfader crossFader;
-
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
     private FloatingActionButton mReportTimeBtn;
@@ -262,31 +256,6 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
-//    @Override
-//    public final boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == R.id.menu_back) {
-//            onBackPressed();
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    @Override
-//    public final boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.top_menu_only_back, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public void onBackPressed() {
-//        //handle the back press :D close the drawer first and if the drawer is closed close the activity
-//        if (crossFader != null && crossFader.isCrossFaded()) {
-//            crossFader.crossFade();
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
