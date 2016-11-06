@@ -4,6 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
 
+
     defaultConfig {
         applicationId "com.sonda.emsysmobile"
         minSdkVersion 15
@@ -19,11 +20,15 @@ android {
 
             buildConfigField "String", "BASE_URL", "\" http://pis205.azurewebsites.net\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
+            buildConfigField "Integer", "WAITING_TIME", "600000"
+
+
         }
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://172.16.126.233/Emsys.ServiceLayer\""
-            buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.31:8081\""
+            buildConfigField "String", "BASE_URL", "\"http://pis205.azurewebsites.net\""
+            buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.43.220:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
+            buildConfigField "Integer", "WAITING_TIME", "600000"
             testCoverageEnabled true
         }
     }

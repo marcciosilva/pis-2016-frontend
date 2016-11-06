@@ -40,7 +40,7 @@ app.get('/eventos/obtener', events.getEventDetail);
 app.get('/eventos/getimagedata', events.getImageData);
 
 app.post('/adjuntos/postgeoubicacion', adjuntos.postGeoLocation);
-
+app.post('/eventos/reportarhoraarribo', events.postArrivalTime);
 
 //just a special get to test more easily
 //request it like: 'http://10.17.32.136:8081/events/1/detail/special_case?caso=un_json_cualquiera'
