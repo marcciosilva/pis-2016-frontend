@@ -42,6 +42,7 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.2'
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.2'
+
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.4'
@@ -54,6 +55,29 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.github.clans:fab:1.6.2'
+
+
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile('com.mikepenz:materialdrawer:5.7.0@aar') {
+        transitive = true
+    }
+    // used to provide the MiniDrawer to normal Drawer crossfade effect via a SlidingPane layout
+    // --> https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/MiniDrawerActivity.java
+    // https://github.com/mikepenz/Crossfader
+    compile 'com.mikepenz:crossfader:1.5.0@aar'
+    // used to provide the two step crossfade DrawerLayout. Which allows to have a mini layout which transforms to a normal layout within the drawer
+    // --> https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/CrossfadeDrawerLayoutActvitiy.java
+    // https://github.com/mikepenz/CrossfadeDrawerLayout
+    compile('com.mikepenz:crossfadedrawerlayout:1.0.0@aar')
+
+    // icon fonts used inside the sample
+    // https://github.com/mikepenz/Android-Iconics
+    compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
+    compile 'com.mikepenz:fontawesome-typeface:4.6.0.3@aar'
+
     compile 'com.github.lawloretienne:imagegallery:0.0.15'
     compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
     compile 'com.hannesdorfmann.mosby:viewstate:2.0.1'

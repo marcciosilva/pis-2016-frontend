@@ -18,6 +18,7 @@ import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsR
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
@@ -224,7 +225,8 @@ public final class EventManager {
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
         if(onMap){
             for (int i = 0; i < mExtensions.size(); i++) {
-                if (mExtensions.valueAt(i).getGeolocations() == null){
+                List<GeolocationDto> geoLocations = mExtensions.valueAt(i).getGeolocations();
+                if (geoLocations == null || geoLocations.isEmpty()) {
                     arrayList.add(mExtensions.valueAt(i));
                 }
             }

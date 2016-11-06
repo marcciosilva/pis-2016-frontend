@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -14,6 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.mikepenz.crossfader.Crossfader;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.MiniDrawer;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -24,8 +26,6 @@ import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.utils.DateUtils;
 import com.sonda.emsysmobile.utils.UIUtils;
-
-import java.io.Console;
 
 /**
  * Created by mserralta on 13/10/16.
