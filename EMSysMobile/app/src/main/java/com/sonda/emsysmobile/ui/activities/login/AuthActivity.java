@@ -22,8 +22,11 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.SendNotificationTokenRequest;
+import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 
@@ -105,7 +108,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                     //Se guarda el token en shared preferences para usar en cada consulta al web service.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("access_token", response.getAccessToken()).commit();
                     Log.d(TAG, "Token guardado en preferencias.");
-                    goToRoleChooser();
+                    sendRegistrationToServer();
                 } else {
                     mProgressBar.setVisibility(View.GONE);
                     String errorMsg = response.getInnerResponse().getMsg();
@@ -134,11 +137,14 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
      * la de eleccion del rol del usuario.
      */
     private void goToRoleChooser() {
+        Intent intent = new Intent(this, RoleChooserActivity.class);
+        startActivity(intent);
+    }
+
+    private void deleteMultimediaFiles() {
         // Se borran los archivos internos de la aplicacion, que pueden incluir imagenes
         // de otra sesion ya cerrada.
         MultimediaManager.getInstance(AuthActivity.this).clearInternalStorage();
-        Intent intent = new Intent(this, RoleChooserActivity.class);
-        startActivity(intent);
     }
 
     /**
@@ -175,5 +181,30 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    private void sendRegistrationToServer() {
+        String token = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY, null);
+        if (token != null) {
+            SendNotificationTokenRequest<EmsysResponse> request =
+                    new SendNotificationTokenRequest<>(this, EmsysResponse.class);
+            request.setToken(token);
+            request.setListener(new Response.Listener<EmsysResponse>() {
+                @Override
+                public void onResponse(EmsysResponse response) {
+                    Log.d(TAG, "Notifications token registered");
+                    goToRoleChooser();
+                }
+            });
+            request.setErrorListener(new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "Error when registering Notifications token: " + error.getMessage());
+                    goToRoleChooser();
+                }
+            });
+            request.execute();
+        }
     }
 }
