@@ -49,7 +49,6 @@ import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
@@ -234,9 +233,6 @@ public abstract class RootActivity extends AppCompatActivity {
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
                     EventManager.getInstance(RootActivity.this).onLogout();
-                    // Se borran los archivos internos de la aplicacion, que pueden no
-                    // necesitarse en la proxima sesion que se inicie.
-                    MultimediaManager.getInstance(RootActivity.this).clearInternalStorage();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
