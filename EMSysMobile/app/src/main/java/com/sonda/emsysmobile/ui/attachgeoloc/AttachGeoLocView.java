@@ -56,7 +56,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
         mGeoLocFragment = AttachGeoLocMapView.getInstance();
         mConfirmationButton = (Button) findViewById(R.id.button_send_geolocation);
         mConfirmationButton.setOnClickListener(this);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     @Override

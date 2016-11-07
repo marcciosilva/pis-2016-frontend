@@ -2,7 +2,6 @@ package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageItem;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
+import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +35,7 @@ public class GridViewAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);
@@ -47,18 +48,25 @@ public class GridViewAdapter extends ArrayAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ImageItem item = (ImageItem) data.get(position);
-        holder.imageTitle.setText(item.getTitle());
-        holder.image.setImageBitmap(item.getImage());
-        holder.creator.setText(item.getCreator());
-        holder.creationDate.setText(item.getCreationDate());
+        ImageDescriptionDto imageDescription = (ImageDescriptionDto) data.get(position);
+        holder.imageTitle.setText("Imagen " + Integer.toString(imageDescription.getId()));
+        if ((convertView.findViewById(R.id.progress_bar).getVisibility() == View.INVISIBLE)
+                && (holder.image.getVisibility() == View.VISIBLE)) {
+            convertView.findViewById(R.id.progress_bar)
+                    .setVisibility(View.VISIBLE);
+            holder.image.setVisibility(View.INVISIBLE);
+        }
+        ImageGalleryPresenter.loadThumbnail(convertView, context, imageDescription, holder);
+        holder.creator.setText("Subido por: " + imageDescription.getUser());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        holder.creationDate.setText(dateFormat.format(imageDescription.getDeliveryDate()));
         return convertView;
     }
 
-    static class ViewHolder {
-        TextView imageTitle;
-        ImageView image;
-        TextView creator;
-        TextView creationDate;
+    public static class ViewHolder {
+        public TextView imageTitle;
+        public ImageView image;
+        public TextView creator;
+        public TextView creationDate;
     }
 }

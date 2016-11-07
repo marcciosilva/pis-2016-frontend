@@ -19,13 +19,11 @@ import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.managers.EventManager;
-import com.sonda.emsysmobile.logic.model.core.CategoryDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -66,14 +64,14 @@ public class ExtensionsFragment extends Fragment {
 
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                                   Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_extensions, container, false);
 
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         showSpinner(true);
         getEvents();
@@ -105,7 +103,7 @@ public class ExtensionsFragment extends Fragment {
 
     public void getEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchExtensions(false, mFilter, new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(false, mFilter, false, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);

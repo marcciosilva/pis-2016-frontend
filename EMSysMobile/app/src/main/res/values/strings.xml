@@ -1,3 +1,4 @@
+
 <resources>
 
     <string name="app_name">emsys</string>
@@ -104,9 +105,15 @@
     <string name="error_title">Error</string>
     <string name="ok_button">OK</string>
 
+    <!--Reportar hora-->
+    <string name="report_time_success">Se ha reportado la hora exitosamente</string>
+    <string name="action_report_time">Reportar hora</string>
+
     <!--Actualizar descripcion-->
     <string name="action_update_desc">Actualizar descripción</string>
     <string name="update_desc_success_string">La descripción fue actualizada</string>
+    <string name="error_network_update_desc">"Ocurrió un problema en la comunicación. La descripción será enviada cuando sea posible."</string>
+
     <string name="input_title_update_description">Ingrese la nueva descripción</string>
     <string name="button_cancel">Cancelar</string>
     <string name="button_update">Actualizar</string>

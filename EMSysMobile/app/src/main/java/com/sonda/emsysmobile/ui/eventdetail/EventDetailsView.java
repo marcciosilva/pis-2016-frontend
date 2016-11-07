@@ -12,8 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,6 +21,10 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.mikepenz.crossfader.Crossfader;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.MiniDrawer;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -85,14 +87,15 @@ public class EventDetailsView extends AppCompatActivity implements
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
     private FloatingActionButton mAttachImageBtn;
+    private FloatingActionButton mReportTimeBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
 
-        // add back arrow to toolbar
-        if (getSupportActionBar() != null){
+        // Se agrega la flecha de ir hacia atras.
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
@@ -120,7 +123,7 @@ public class EventDetailsView extends AppCompatActivity implements
         mAudioButton = (ImageButton) findViewById(R.id.button_audio);
         mAudioButton.setOnClickListener(this);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
 
@@ -148,6 +151,14 @@ public class EventDetailsView extends AppCompatActivity implements
             }
         });
 
+        mReportTimeBtn = (FloatingActionButton) findViewById(R.id.button_report_time);
+        mReportTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportTime();
+            }
+        });
+
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
         // Inicializacion de fragment de extensiones.
@@ -167,9 +178,10 @@ public class EventDetailsView extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // handle arrow click here
+        // Se maneja la flecha de ir hacia atras.
         if (item.getItemId() == android.R.id.home) {
-            finish(); // close this activity and return to preview activity (if there is any)
+            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -282,6 +294,13 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
+    private void reportTime(){
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.reportTime(this, extensionID);
+        }
+    }
+
     @Override
     public final void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -391,10 +410,12 @@ public class EventDetailsView extends AppCompatActivity implements
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
-            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
-                    Integer.toString(mEvent.getImageDescriptions().size()));
+//            Intent intent = new Intent(this, ImageTest.class);
+//            startActivity(intent);
+//            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
+//                    Integer.toString(mEvent.getImageDescriptions().size()));
             ImageGalleryPresenter
-                    .loadImages(EventDetailsView.this, mEvent.getImageDescriptions());
+                    .loadGallery(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {
             Log.d(TAG, "Botón de video pulsado");
         } else if (view.getId() == R.id.button_audio) {

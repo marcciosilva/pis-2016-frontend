@@ -59,7 +59,7 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
             return;
         }
 
-        mEventManager.fetchExtensions(fromServer, mFilter, new ApiCallback<List<ExtensionDto>>() {
+        mEventManager.fetchExtensions(fromServer, mFilter, false, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 if (isViewAttached()) {
