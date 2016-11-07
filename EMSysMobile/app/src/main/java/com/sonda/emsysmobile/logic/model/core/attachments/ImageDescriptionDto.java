@@ -23,15 +23,7 @@ public class ImageDescriptionDto implements Serializable {
     @SerializedName("id_extension")
     private int extensionId;
 
-    private String fileName;
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
+    private String imageUrl;
 
     public int getId() {
         return id;
@@ -47,5 +39,13 @@ public class ImageDescriptionDto implements Serializable {
 
     public int getExtensionId() {
         return extensionId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

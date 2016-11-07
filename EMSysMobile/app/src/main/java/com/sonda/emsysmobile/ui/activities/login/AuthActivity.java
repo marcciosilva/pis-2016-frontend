@@ -21,15 +21,16 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.gson.Gson;
 import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.AuthResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.SendNotificationTokenRequest;
 import com.sonda.emsysmobile.logic.model.core.UserDto;
+import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -59,7 +60,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ImageButton configButton = (ImageButton) findViewById(R.id.button_config);
         configButton.setOnClickListener(this);
@@ -120,7 +121,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                     prefsEditor.putString("access_token", response.getAccessToken());
                     prefsEditor.commit();
                     Log.d(TAG, "Token guardado en preferencias.");
-                    goToRoleChooser();
+                    sendRegistrationToServer();
                 } else {
                     mProgressBar.setVisibility(View.GONE);
                     String errorMsg = response.getInnerResponse().getMsg();
@@ -150,9 +151,6 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
      * la de eleccion del rol del usuario.
      */
     private void goToRoleChooser() {
-        // Se borran los archivos internos de la aplicacion, que pueden incluir imagenes
-        // de otra sesion ya cerrada.
-        MultimediaManager.getInstance(AuthActivity.this).clearInternalStorage();
         Intent intent = new Intent(this, RoleChooserActivity.class);
         startActivity(intent);
     }
@@ -191,5 +189,30 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    private void sendRegistrationToServer() {
+        String token = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY, null);
+        if (token != null) {
+            SendNotificationTokenRequest<EmsysResponse> request =
+                    new SendNotificationTokenRequest<>(this, EmsysResponse.class);
+            request.setToken(token);
+            request.setListener(new Response.Listener<EmsysResponse>() {
+                @Override
+                public void onResponse(EmsysResponse response) {
+                    Log.d(TAG, "Notifications token registered");
+                    goToRoleChooser();
+                }
+            });
+            request.setErrorListener(new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "Error when registering Notifications token: " + error.getMessage());
+                    goToRoleChooser();
+                }
+            });
+            request.execute();
+        }
     }
 }

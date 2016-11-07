@@ -2,14 +2,13 @@ package com.sonda.emsysmobile.ui.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +22,8 @@ import android.widget.TextView;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
@@ -31,9 +32,9 @@ import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.MapExtensionsFragment;
@@ -44,17 +45,17 @@ import com.sonda.emsysmobile.utils.UIUtils;
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
-public class HomeActivity extends AppCompatActivity
+public class HomeActivity extends RootActivity
         implements OnListFragmentInteractionListener,
         EventFilterDialogFragment.OnEventFilterDialogListener {
 
-    private static final String TAG = HomeActivity.class.getName();
+    public static final String TAG = HomeActivity.class.getName();
 
     private EventsMapView mMapView;
     private FrameLayout mMapContainer;
     private FrameLayout mFragmentsContainer;
     private FloatingActionButton mFloatingButton;
-    private boolean mContainerColapsed;
+    private boolean mContainerCollapsed;
     private MapExtensionsFragment mMapExtensionsFragment;
     private String mSelectedFilter = "Prioridad";
 
@@ -77,8 +78,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        super.onCreate(savedInstanceState, R.layout.activity_home, R.id.activity_main_layout, "Listado de eventos", RootActivity.EVENT_LIST);
+
         // Start KeepAlive service.
         Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
         startService(intent);
@@ -118,15 +119,16 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public final boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.top_menu, menu);
+            inflater.inflate(R.menu.embedded, menu);
+            menu.findItem(R.id.menu_1).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).actionBar());
         return true;
     }
 
+
     public final void onBackPressed() {
-        DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
-        dialog.show(getSupportFragmentManager(), TAG);
+        super.onBackPressed();
     }
 
     @Override
@@ -151,70 +153,80 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_create_event_button:
-                showMapView(false);
-                Fragment fragment = new TestFragment();
-                Bundle args = new Bundle();
-                args.putString("text", getString(R.string.menu_create_event_string));
-                fragment.setArguments(args);
-                replaceFragment(fragment, "fragment1");
-                return true;
-            case R.id.menu_list_events_button:
-                showMapView(false);
-                ExtensionsListFragment extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
-                if (extensionsFragment == null) {
-                    extensionsFragment = new ExtensionsListFragment();
-                }
-                replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
-                return true;
-            case R.id.menu_external_service_button:
-                showMapView(false);
-                ExternalServiceQueryFragment externalServiceFragment = (ExternalServiceQueryFragment) getSupportFragmentManager()
-                        .findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
-                if (externalServiceFragment == null) {
-                    externalServiceFragment = new ExternalServiceQueryFragment();
-                }
-                replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
-                return true;
-            case R.id.menu_view_map_button:
-                showMapView(true);
-                if (mMapView == null) {
-                    mMapView = EventsMapView.getInstance();
-                    getSupportFragmentManager().beginTransaction()
-                            .add(R.id.map_container, mMapView, EventsMapView.class.getSimpleName()).commit();
-                } else {
-                    mMapView.updateView();
-                }
-                mMapExtensionsFragment = (MapExtensionsFragment) getSupportFragmentManager()
-                        .findFragmentByTag(MapExtensionsFragment.class.getSimpleName());
-                if (mMapExtensionsFragment == null) {
-                    mMapExtensionsFragment = new MapExtensionsFragment();
-                }
-                replaceFragment(mMapExtensionsFragment, MapExtensionsFragment.class.getSimpleName());
-                return true;
-            case R.id.menu_logout_button:
-                logout();
-                return true;
-            case R.id.menu_filter_button:
-                showMapView(false);
-                // Primero se redirige al listado.
-                ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
-                if (extensionsListFragment == null) {
-                    extensionsListFragment = new ExtensionsListFragment();
-                }
-                replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
-                // Luego se abre el diálogo para elegir el filtro.
-                FragmentManager fm = getSupportFragmentManager();
-                EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
-                eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
-                return true;
-            default:
-                // Accion no reconocida, se lo delega a la superclase.
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() ==R.id.menu_1){
+            showMapView(false);
+            // Primero se redirige al listado.
+            ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                    .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+            if (extensionsListFragment == null) {
+                extensionsListFragment = new ExtensionsListFragment();
+            }
+            replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
+            // Luego se abre el diálogo para elegir el filtro.
+            FragmentManager fm = getSupportFragmentManager();
+            EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
+            eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
         }
+
+        return true;
+    }
+
+    @Override
+    protected void goToEventCreateView() {
+        getSupportActionBar().setTitle("Creación de evento");
+        showFilterMenu(false);
+        showMapView(false);
+        Fragment fragment = new TestFragment();
+        Bundle args = new Bundle();
+        args.putString("text", getString(R.string.menu_create_event_string));
+        fragment.setArguments(args);
+        replaceFragment(fragment, "fragment1");
+    }
+
+    @Override
+    protected void goToEventListView() {
+        getSupportActionBar().setTitle("Listado de eventos");
+        showFilterMenu(true);
+        showMapView(false);
+        ExtensionsListFragment extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
+                .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+        if (extensionsFragment == null) {
+            extensionsFragment = new ExtensionsListFragment();
+        }
+        replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
+    }
+
+    @Override
+    protected void goToEventMapView() {
+        getSupportActionBar().setTitle("Eventos en el mapa");
+        showFilterMenu(false);
+        showMapView(true);
+        if (mMapView == null) {
+            mMapView = EventsMapView.getInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.map_container, mMapView, EventsMapView.class.getSimpleName()).commit();
+        } else {
+            mMapView.updateView();
+        }
+        mMapExtensionsFragment = (MapExtensionsFragment) getSupportFragmentManager()
+                .findFragmentByTag(MapExtensionsFragment.class.getSimpleName());
+        if (mMapExtensionsFragment == null) {
+            mMapExtensionsFragment = new MapExtensionsFragment();
+        }
+        replaceFragment(mMapExtensionsFragment, MapExtensionsFragment.class.getSimpleName());
+    }
+
+    @Override
+    protected void goToExternalServiceView() {
+        getSupportActionBar().setTitle("Servicio externo");
+        showFilterMenu(false);
+        showMapView(false);
+        ExternalServiceQueryFragment externalServiceFragment = (ExternalServiceQueryFragment) getSupportFragmentManager()
+                .findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
+        if (externalServiceFragment == null) {
+            externalServiceFragment = new ExternalServiceQueryFragment();
+        }
+        replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
     }
 
     private void replaceFragment(Fragment fragment, String fragmentTAG) {
@@ -226,7 +238,7 @@ public class HomeActivity extends AppCompatActivity
         if (visible) {
             mMapContainer.setVisibility(View.VISIBLE);
             mFloatingButton.setVisibility(View.VISIBLE);
-            mContainerColapsed = false;
+            mContainerCollapsed = false;
             mFloatingButton.setImageDrawable(ContextCompat
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
         } else {
@@ -236,8 +248,15 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+    private void showFilterMenu(boolean visible){
+        if (visible) {
+            findViewById(R.id.menu_1).setVisibility(View.VISIBLE);
+        }else {
+            findViewById(R.id.menu_1).setVisibility(View.GONE);
+        }
+    }
     private void toggleFragmentContainer() {
-        if (mContainerColapsed) {
+        if (mContainerCollapsed) {
             mFragmentsContainer.setVisibility(View.VISIBLE);
             mFloatingButton.setImageDrawable(ContextCompat
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -246,7 +265,7 @@ public class HomeActivity extends AppCompatActivity
             mFloatingButton.setImageDrawable(ContextCompat
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_up_white_24dp));
         }
-        mContainerColapsed = !mContainerColapsed;
+        mContainerCollapsed = !mContainerCollapsed;
     }
 
     private void logout() {
@@ -265,10 +284,10 @@ public class HomeActivity extends AppCompatActivity
                     // Se reinicia el token de autenticacion.
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
+                    // Se reinicia el token de notificaciones
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    sharedPrefs.edit().remove(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY).apply();
                     EventManager.getInstance(HomeActivity.this).onLogout();
-                    // Se borran los archivos internos de la aplicacion, que pueden no
-                    // necesitarse en la proxima sesion que se inicie.
-                    MultimediaManager.getInstance(HomeActivity.this).clearInternalStorage();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
