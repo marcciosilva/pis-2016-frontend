@@ -15,7 +15,7 @@ import java.lang.reflect.Type;
 
 public class ReportTimeRequest<T> extends AbstractRequest {
 
-    public static final String REPORTTIME_PATH = "/eventos/reportarhoraarribo";
+    public static final String REPORTTIME_PATH = "/eventos/reportarhoraarribo?idExtension=";
     private static final String TAG = LoginRequest.class.getName();
 
     private int idExtension;
@@ -27,14 +27,12 @@ public class ReportTimeRequest<T> extends AbstractRequest {
 
     @Override
     protected final String getPath() {
-        return REPORTTIME_PATH;
+        return REPORTTIME_PATH + Integer.toString(idExtension);
     }
 
     @Override
     protected final JsonObject getBody() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("id_extension", this.idExtension);
-        return jsonObject;
+        return null;
     }
 
 }
