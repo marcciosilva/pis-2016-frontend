@@ -1,6 +1,7 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -61,7 +62,7 @@ public final class EventDetailsPresenter {
 
         //TODO llamar eventManager.getLocalEventDetails(eventId):
         EventDto event = eventManager.getLocalEventDetail(eventId);
-        initEventDetailsView(context,event);
+        initEventDetailsView(context, event);
 
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
@@ -76,7 +77,9 @@ public final class EventDetailsPresenter {
 
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
-                UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                    UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                }
             }
 
             @Override
@@ -174,8 +177,10 @@ public final class EventDetailsPresenter {
                     builder.setPositiveButton("OK", null);
                     builder.show();
                 } else {
-                    UIUtils.handleErrorMessage(context, response.getCode(), context
-                            .getString(R.string.error_generic));
+                    if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                        UIUtils.handleErrorMessage(context, response.getCode(), context
+                                .getString(R.string.error_generic));
+                    }
                 }
             }
         });
@@ -201,8 +206,10 @@ public final class EventDetailsPresenter {
                         Log.d(TAG, e.getStackTrace().toString());
                     }
                 }
-                UIUtils.handleErrorMessage(context, ErrorCodeCategory.NETWORK_ERROR
-                        .getNumVal(), context.getString(R.string.error_network_update_desc));
+                if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                    UIUtils.handleErrorMessage(context, ErrorCodeCategory.NETWORK_ERROR
+                            .getNumVal(), context.getString(R.string.error_network_update_desc));
+                }
             }
         });
         updateDescriptionRequest.execute();
@@ -236,8 +243,10 @@ public final class EventDetailsPresenter {
                     builder.setPositiveButton("OK", null);
                     builder.show();
                 } else {
-                    UIUtils.handleErrorMessage(context, response.getCode(), context
-                            .getString(R.string.error_generic));
+                    if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                        UIUtils.handleErrorMessage(context, response.getCode(), context
+                                .getString(R.string.error_generic));
+                    }
                 }
             }
         });

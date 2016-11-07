@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
@@ -47,18 +48,24 @@ public final class EventDetailMapPresenter {
 
                         @Override
                         public void onLogicError(String errorMessage, int errorCode) {
-                            UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                            if (((context instanceof Activity) &&
+                                    (!((Activity) context).isFinishing()))) {
+                                UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                            }
                         }
 
                         @Override
                         public void onNetworkError(VolleyError error) {
-                            handleVolleyErrorResponse(context, error, new DialogInterface
-                                    .OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    loadEventDetails(context, view);
-                                }
-                            });
+                            if (((context instanceof Activity) &&
+                                    (!((Activity) context).isFinishing()))) {
+                                handleVolleyErrorResponse(context, error, new DialogInterface
+                                        .OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        loadEventDetails(context, view);
+                                    }
+                                });
+                            }
                         }
                     });
         }

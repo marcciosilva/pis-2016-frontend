@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,9 +41,11 @@ public class ImageGalleryPresenter {
         if (imageDescriptions.isEmpty()) {
             // No hay imagenes asociadas al evento.
             progressBarListener.hideProgressBar();
-            UIUtils.handleErrorMessage(context, ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA
-                    .getNumVal(), context
-                    .getString(R.string.error_no_available_multimedia));
+            if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                UIUtils.handleErrorMessage(context, ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA
+                        .getNumVal(), context
+                        .getString(R.string.error_no_available_multimedia));
+            }
         } else {
             Intent intent = new Intent(context, ImageGalleryView.class);
             intent.putExtra("imageDescriptions",

@@ -125,7 +125,9 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                 } else {
                     mProgressBar.setVisibility(View.GONE);
                     String errorMsg = response.getInnerResponse().getMsg();
-                    handleErrorMessage(AuthActivity.this, responseCode, errorMsg);
+                    if (!isFinishing()) {
+                        handleErrorMessage(AuthActivity.this, responseCode, errorMsg);
+                    }
                 }
             }
         });
@@ -134,13 +136,15 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
             public void onErrorResponse(VolleyError error) {
                 mProgressBar.setVisibility(View.GONE);
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(AuthActivity.this, error, new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        login();
-                    }
-                });
+                if (!isFinishing()) {
+                    handleVolleyErrorResponse(AuthActivity.this, error, new DialogInterface
+                            .OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            login();
+                        }
+                    });
+                }
             }
         });
         authRequest.execute();

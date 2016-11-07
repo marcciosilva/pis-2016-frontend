@@ -145,8 +145,10 @@ public class HomeActivity extends RootActivity
             EventDetailsPresenter.loadEventDetails(HomeActivity.this, extension.getEvent()
                     .getIdentifier(), extension.getIdentifier());
         } catch (NullPointerException e) {
-            UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
-                    getString(R.string.error_internal));
+            if (!isFinishing()) {
+                UIUtils.handleErrorMessage(this, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
+                        getString(R.string.error_internal));
+            }
             Log.d(TAG, e.getMessage());
         }
     }
@@ -291,7 +293,9 @@ public class HomeActivity extends RootActivity
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
-                    handleErrorMessage(HomeActivity.this, responseCode, errorMsg);
+                    if (!isFinishing()) {
+                        handleErrorMessage(HomeActivity.this, responseCode, errorMsg);
+                    }
                 }
             }
         });
@@ -299,13 +303,15 @@ public class HomeActivity extends RootActivity
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        logout();
-                    }
-                });
+                if (!isFinishing()) {
+                    handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface
+                            .OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            logout();
+                        }
+                    });
+                }
             }
         });
         request.execute();

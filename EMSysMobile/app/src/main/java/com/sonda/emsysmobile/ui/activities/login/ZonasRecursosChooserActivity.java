@@ -187,7 +187,10 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     callback.onSuccess();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
-                    handleErrorMessage(ZonasRecursosChooserActivity.this, responseCode, errorMsg);
+                    if (!isFinishing()) {
+                        handleErrorMessage(ZonasRecursosChooserActivity.this, responseCode,
+                                errorMsg);
+                    }
                 }
             }
         });
@@ -195,13 +198,15 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error, new
-                        DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                loginUser(roles, callback);
-                            }
-                        });
+                if (!isFinishing()) {
+                    handleVolleyErrorResponse(ZonasRecursosChooserActivity.this, error, new
+                            DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loginUser(roles, callback);
+                                }
+                            });
+                }
             }
         });
         request.execute();

@@ -218,7 +218,9 @@ public abstract class RootActivity extends AppCompatActivity {
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();
-                    handleErrorMessage(RootActivity.this, responseCode, errorMsg);
+                    if (!isFinishing()) {
+                        handleErrorMessage(RootActivity.this, responseCode, errorMsg);
+                    }
                 }
             }
         });
@@ -226,13 +228,15 @@ public abstract class RootActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, getString(R.string.error_http));
-                handleVolleyErrorResponse(RootActivity.this, error, new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        logout();
-                    }
-                });
+                if (!isFinishing()) {
+                    handleVolleyErrorResponse(RootActivity.this, error, new DialogInterface
+                            .OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            logout();
+                        }
+                    });
+                }
             }
         });
         request.execute();

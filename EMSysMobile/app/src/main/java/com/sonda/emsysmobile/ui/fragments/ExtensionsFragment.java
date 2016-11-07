@@ -1,5 +1,6 @@
 package com.sonda.emsysmobile.ui.fragments;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -119,7 +120,9 @@ public class ExtensionsFragment extends Fragment {
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
                 showSpinner(false);
-                UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
+                if (!getActivity().isFinishing()) {
+                    UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
+                }
             }
 
             @Override

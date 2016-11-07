@@ -68,11 +68,14 @@ public final class UIUtils {
             public void onClick(DialogInterface dialog, int which) {
                 if (responseCode == ErrorCodeCategory.NO_AUTH.getNumVal()) {
                     Intent intent = new Intent(context, SplashActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
-                } else if (responseCode == ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
+                } else if (responseCode ==
+                        ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
                     Intent intent = new Intent(context, RoleChooserActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                 }
             }
