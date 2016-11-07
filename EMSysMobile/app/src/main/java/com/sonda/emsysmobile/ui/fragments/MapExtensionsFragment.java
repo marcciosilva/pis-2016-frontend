@@ -18,8 +18,8 @@ import android.widget.ProgressBar;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
-import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.views.adapters.ExtensionRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -34,7 +34,7 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ExtensionsFragment extends Fragment {
+public class MapExtensionsFragment extends Fragment {
 
     private OnListFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
@@ -42,23 +42,24 @@ public class ExtensionsFragment extends Fragment {
     private ProgressBar mProgressBar;
     private String mFilter = "Prioridad";
 
-    private static final String TAG = ExtensionsFragment.class.getName();
+    private static final String TAG = MapExtensionsFragment.class.getName();
     private static final String EVENTS_UPDATED = "events_updated";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public ExtensionsFragment() {
+    public MapExtensionsFragment() {
     }
 
-    public static ExtensionsFragment newInstance() {
-        return new ExtensionsFragment();
+    public static MapExtensionsFragment newInstance() {
+        return new MapExtensionsFragment();
     }
 
     @Override
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mExtensions = new ArrayList<>();
     }
 
@@ -71,10 +72,10 @@ public class ExtensionsFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.loadingView);
 
         showSpinner(true);
-        getEvents();
+        getMapEvents();
 
         return view;
     }
@@ -101,16 +102,16 @@ public class ExtensionsFragment extends Fragment {
         mFilter = selectedFilter;
     }
 
-    public void getEvents() {
+    public void getMapEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
-        eventManager.fetchExtensions(false, mFilter, false, new ApiCallback<List<ExtensionDto>>() {
+        eventManager.fetchExtensions(false, mFilter, true, new ApiCallback<List<ExtensionDto>>() {
             @Override
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);
                 mExtensions = extensions;
                 ExtensionRecyclerViewAdapter adapter = (ExtensionRecyclerViewAdapter) mRecyclerView.getAdapter();
                 if (adapter == null) {
-                    mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(ExtensionsFragment.this.getActivity(), mExtensions, mListener));
+                    mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(MapExtensionsFragment.this.getActivity(), mExtensions, mListener));
                 } else {
                     adapter.setExtensions(mExtensions);
                 }
@@ -129,7 +130,7 @@ public class ExtensionsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         showSpinner(true);
-                        getEvents();
+                        getMapEvents();
                     }
                 });
             }
@@ -167,7 +168,7 @@ public class ExtensionsFragment extends Fragment {
     private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            getEvents();
+            getMapEvents();
         }
     };
 }

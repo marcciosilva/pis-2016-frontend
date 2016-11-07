@@ -7,7 +7,21 @@
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.activities.HomeActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/MyActionBar.Custom"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar">
     <LinearLayout
+        android:id="@+id/activity_main_layout"
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
@@ -29,6 +43,7 @@
             android:background="@color/white"/>
 
     </LinearLayout>
+    </FrameLayout>
 
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/floating_button"

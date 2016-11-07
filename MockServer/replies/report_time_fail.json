@@ -1,0 +1,6 @@
+{
+   "cod": 20,
+   "response": {
+      "msg": "El recurso ya posee una hora de arribo previa en la extension seleccionada."
+   }
+}

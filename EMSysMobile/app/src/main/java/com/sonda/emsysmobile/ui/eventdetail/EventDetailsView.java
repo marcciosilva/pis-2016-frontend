@@ -12,6 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.mikepenz.crossfader.Crossfader;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.MiniDrawer;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
@@ -54,6 +58,7 @@ public class EventDetailsView extends AppCompatActivity implements
 
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
+    private FloatingActionButton mReportTimeBtn;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -104,6 +109,14 @@ public class EventDetailsView extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 goToAttachGeolocationView();
+            }
+        });
+
+        mReportTimeBtn = (FloatingActionButton) findViewById(R.id.button_report_time);
+        mReportTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reportTime();
             }
         });
 
@@ -202,6 +215,13 @@ public class EventDetailsView extends AppCompatActivity implements
             extras.putInt("ExtensionId", extensionID);
             intent.putExtras(extras);
             EventDetailsPresenter.showGeolocationAttachView(intent);
+        }
+    }
+
+    private void reportTime(){
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.reportTime(this, extensionID);
         }
     }
 
