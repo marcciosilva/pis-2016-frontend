@@ -166,6 +166,14 @@ public final class EventManager {
         request.execute();
     }
 
+    public final EventDto getLocalEventDetail(int eventId){
+        for(EventDto event: mEvents) {
+            if(event.getIdentifier() == eventId)
+                return event;
+        }
+        return null;
+    }
+
     public final void getEventDetail(int eventId, final ApiCallback<EventDto> callback) {
         EventDetailsRequest<EventDetailsResponse> request =
                 new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
