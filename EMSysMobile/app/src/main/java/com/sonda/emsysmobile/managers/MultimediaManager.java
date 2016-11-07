@@ -162,14 +162,19 @@ public final class MultimediaManager {
         request.setListener(new Response.Listener<EmsysResponse>() {
             @Override
             public void onResponse(EmsysResponse response) {
-                callback.onSuccess(response);
-                int a = 1;
+                int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    callback.onSuccess(response);
+                } else {
+                    // TODO asociar un mensaje de error para cada codigo posible.
+                    callback.onLogicError("Unsupported", responseCode);
+                }
             }
         });
         request.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                int a = 2;
+                callback.onNetworkError(error);
             }
         });
         request.execute();

@@ -17,7 +17,7 @@ public class AttachImageRequest<T> extends AbstractRequest<T> {
     private String image;
     private int extensionId;
 
-    public static final String UPLOAD_IMAGE_PATH = "/eventos/adjuntarimagen";
+    public static final String UPLOAD_IMAGE_PATH = "/adjuntos/adjuntarimagen";
 
     public AttachImageRequest(Context context, Type responseType) {
         super(context, responseType, RequestType.POST);

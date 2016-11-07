@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.FileProvider;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -79,6 +81,7 @@ public class EventDetailsView extends AppCompatActivity implements
     private ImageButton mAudioButton;
     private ProgressBar mProgressBar;
 
+    private FloatingActionMenu mFloatingActionMenu;
     private FloatingActionButton mUpdateDescriptionBtn;
     private FloatingActionButton mAttachGeolocationBtn;
     private FloatingActionButton mAttachImageBtn;
@@ -118,6 +121,8 @@ public class EventDetailsView extends AppCompatActivity implements
         mAudioButton.setOnClickListener(this);
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+
+        mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
 
         mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
@@ -280,32 +285,43 @@ public class EventDetailsView extends AppCompatActivity implements
     @Override
     public final void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if ((requestCode == 0) && (resultCode == SHOULD_UPDATE_MAP)) {
             Log.d(TAG, "Updating map...");
             EventDetailsPresenter.updateMapFragment();
-        } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mAttachImageBtn.setShowProgressBackground(true);
+            mAttachImageBtn.setIndeterminate(true);
             Uri filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
                     int extensionID = mEvent.getExtensions().get(0).getIdentifier();
-                    String fileName = filePath.getLastPathSegment();
+                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+                    String fileName = "IMG_EM_" + timeStamp + ".jpg";
                     Log.d(TAG, "Uploading file: " + fileName);
                     MultimediaManager manager = MultimediaManager.getInstance(this);
                     manager.uploadImage(extensionID, fileName, bitmap, new ApiCallback() {
                         @Override
                         public void onSuccess(Object object) {
-
+                            mAttachImageBtn.hideProgress();
+                            UIUtils.showToast(EventDetailsView.this,
+                                    getString(R.string.message_image_attached));
                         }
 
                         @Override
                         public void onLogicError(String errorMessage, int errorCode) {
-
+                            mAttachImageBtn.hideProgress();
+                            UIUtils.showToast(EventDetailsView.this,
+                                    getString(R.string.error_message_image_not_attached));
                         }
 
                         @Override
                         public void onNetworkError(VolleyError error) {
-
+                            mAttachImageBtn.hideProgress();
+                            UIUtils.showToast(EventDetailsView.this,
+                                    getString(R.string.error_message_image_not_attached));
                         }
                     });
                 }
@@ -313,6 +329,8 @@ public class EventDetailsView extends AppCompatActivity implements
                 e.printStackTrace();
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            mAttachImageBtn.setShowProgressBackground(true);
+            mAttachImageBtn.setIndeterminate(true);
             File imgFile = new File(mCurrentPhotoPath);
             if(imgFile.exists()){
                 Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
@@ -323,17 +341,23 @@ public class EventDetailsView extends AppCompatActivity implements
                     multimediaManager.uploadImage(extensionID, fileName, bitmap, new ApiCallback() {
                         @Override
                         public void onSuccess(Object object) {
-
+                            mAttachImageBtn.hideProgress();
+                            UIUtils.showToast(EventDetailsView.this,
+                                    getString(R.string.message_image_attached));
                         }
 
                         @Override
                         public void onLogicError(String errorMessage, int errorCode) {
-
+                            mAttachImageBtn.hideProgress();
+                            UIUtils.showToast(EventDetailsView.this,
+                                    getString(R.string.error_message_image_not_attached));
                         }
 
                         @Override
                         public void onNetworkError(VolleyError error) {
-
+                            mAttachImageBtn.hideProgress();
+                            UIUtils.showToast(EventDetailsView.this,
+                                    getString(R.string.error_message_image_not_attached));
                         }
                     });
                 }
@@ -382,7 +406,7 @@ public class EventDetailsView extends AppCompatActivity implements
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
         String imageFileName = "IMG_EM_" + timeStamp;
-        File storageDir = getExternalFilesDir(null);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -390,7 +414,7 @@ public class EventDetailsView extends AppCompatActivity implements
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 }

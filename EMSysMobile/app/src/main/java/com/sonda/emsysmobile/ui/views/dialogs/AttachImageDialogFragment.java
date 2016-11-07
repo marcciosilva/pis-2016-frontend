@@ -73,6 +73,7 @@ public class AttachImageDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 mListener.onOpenGalleryButtonSelected();
+                dismissDialog();
             }
         });
 
@@ -81,6 +82,7 @@ public class AttachImageDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 mListener.onOpenCameraButtonSelected();
+                dismissDialog();
             }
         });
 
