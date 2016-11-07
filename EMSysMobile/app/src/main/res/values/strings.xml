@@ -110,6 +110,7 @@
     <!--Actualizar descripcion-->
     <string name="action_update_desc">Actualizar descripción</string>
     <string name="update_desc_success_string">La descripción fue actualizada</string>
+    <string name="error_network_update_desc">"Ocurrió un problema en la comunicación. La descripción será enviada cuando sea posible."</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

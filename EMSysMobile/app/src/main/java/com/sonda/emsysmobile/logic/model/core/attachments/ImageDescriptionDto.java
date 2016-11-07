@@ -20,7 +20,7 @@ public class ImageDescriptionDto implements Serializable {
     @SerializedName("fecha_envio")
     private Date deliveryDate;
 
-    @SerializedName("idExtension")
+    @SerializedName("id_extension")
     private int extensionId;
 
     private String imageUrl;
