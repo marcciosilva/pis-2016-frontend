@@ -2,23 +2,34 @@ package com.sonda.emsysmobile.backendcommunication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.util.LruCache;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -56,7 +67,24 @@ public final class AppRequestQueue {
                     public void putBitmap(String url, Bitmap bitmap) {
                         cache.put(url, bitmap);
                     }
+                }) {
+            @Override
+            protected Request<Bitmap> makeImageRequest(String requestUrl, int maxWidth,
+                                                       int maxHeight, ImageView.ScaleType scaleType,
+                                                       final String cacheKey) {
+                return new ImageRequest(requestUrl, new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap response) {
+                        onGetImageSuccess(cacheKey, response);
+                    }
+                }, maxWidth, maxHeight, scaleType, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        onGetImageError(cacheKey, error);
+                    }
                 });
+            }
+        };
     }
 
     public static synchronized AppRequestQueue getInstance(Context context) {

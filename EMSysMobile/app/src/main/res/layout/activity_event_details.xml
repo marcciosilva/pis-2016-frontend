@@ -14,7 +14,7 @@
         android:indeterminateDrawable="@drawable/blue_progress_bar"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         />
     <com.sonda.emsysmobile.ui.views.CustomScrollView
         android:id="@+id/main_scrollview_map_detail"

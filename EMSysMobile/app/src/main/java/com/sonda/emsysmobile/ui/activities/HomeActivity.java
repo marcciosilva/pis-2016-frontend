@@ -34,7 +34,6 @@ import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.MapExtensionsFragment;
@@ -286,9 +285,6 @@ public class HomeActivity extends RootActivity
                     SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                     sharedPrefs.edit().remove(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY).apply();
                     EventManager.getInstance(HomeActivity.this).onLogout();
-                    // Se borran los archivos internos de la aplicacion, que pueden no
-                    // necesitarse en la proxima sesion que se inicie.
-                    MultimediaManager.getInstance(HomeActivity.this).clearInternalStorage();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();

@@ -22,7 +22,7 @@ function delay(ms) {
 }
 
 var getEvents = function (request, response, next) {
-    delay(2000);
+    // delay(2000);
 	console.log('GET');
     response.send(JSON.stringify(events_list), 200);
 };

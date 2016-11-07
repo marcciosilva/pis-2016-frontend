@@ -25,11 +25,7 @@
             android:value="com.sonda.emsysmobile.persistence.model.SampleTable,
             com.sonda.emsysmobile.persistence.model.SampleReferencedTable"/>
 
-        <provider
-            android:name=".ui.eventdetail.multimedia.CustomContentProvider"
-            android:authorities="com.sonda.emsysmobile"
-            android:exported="true"/>
-        <!-- ACTIVITIES -->
+        <!-- ACTIVITIES s-->
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
@@ -58,7 +54,11 @@
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.eventdetail.multimedia.ImageGalleryView"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".ui.eventdetail.multimedia.ImageDetailView"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.attachgeoloc.AttachGeoLocView"

@@ -1,26 +1,21 @@
 package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.ui.views.adapters.GridViewAdapter;
+import com.sonda.emsysmobile.utils.UIUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,58 +33,37 @@ public class ImageGalleryView extends AppCompatActivity {
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_gallery);
-
+        // Se agrega la flecha de ir hacia atras.
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         gridView = (GridView) findViewById(R.id.gridView);
-        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, getData());
+        Bundle extras = getIntent().getExtras();
+        ArrayList<ImageDescriptionDto> imageDescriptions =
+                (ArrayList<ImageDescriptionDto>) extras.getSerializable("imageDescriptions");
+        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, imageDescriptions);
         gridView.setAdapter(gridAdapter);
-
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ImageItem item = (ImageItem) parent.getItemAtPosition(position);
-                String filePath = item.getTitle();
-                Intent intent = new Intent();
-                intent.setAction(android.content.Intent.ACTION_VIEW);
-                intent.setDataAndType(Uri
-                        .parse("content://com.sonda.emsysmobile/" + filePath), "image/*");
-                startActivity(intent);
-
+                    ImageDescriptionDto item =
+                            (ImageDescriptionDto) parent.getItemAtPosition(position);
+                    Intent intent = new Intent(ImageGalleryView.this, ImageDetailView.class);
+                    intent.putExtra("imageId", item.getId());
+                    startActivity(intent);
             }
         });
     }
 
-    private ArrayList<ImageItem> getData() {
-        Bundle extras = getIntent().getExtras();
-        ArrayList<ImageDescriptionDto> imageDescriptions =
-                (ArrayList<ImageDescriptionDto>) extras.getSerializable("imageDescriptions");
-        final ArrayList<ImageItem> imageItems = new ArrayList<>();
-        for (int i = 0; i < imageDescriptions.size(); i++) {
-            ImageDescriptionDto description = imageDescriptions.get(i);
-            String path =
-                    getFilesDir() + getString(R.string.path_separator) +
-                            description.getFileName();
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            Date creationDate = description.getDeliveryDate();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-            imageItems.add(new ImageItem(bitmap, description.getFileName(), description
-                    .getUser(), dateFormat.format(creationDate)));
-        }
-        return imageItems;
-    }
-
     @Override
-    public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_back) {
-            onBackPressed();
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Se maneja la flecha de ir hacia atras.
+        if (item.getItemId() == android.R.id.home) {
+            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
+            finish();
         }
-        return false;
-    }
 
-    @Override
-    public final boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.top_menu_only_back, menu);
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 }

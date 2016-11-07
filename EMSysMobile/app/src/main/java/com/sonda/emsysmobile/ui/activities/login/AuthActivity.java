@@ -28,7 +28,6 @@ import com.sonda.emsysmobile.backendcommunication.services.request.AuthRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.SendNotificationTokenRequest;
 import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.activities.SettingsActivity;
-import com.sonda.emsysmobile.ui.eventdetail.multimedia.MultimediaManager;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -58,7 +57,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         mPassEditText = (EditText) findViewById(R.id.input_password);
         mPassEditText.setTypeface(Typeface.DEFAULT);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         ImageButton configButton = (ImageButton) findViewById(R.id.button_config);
         configButton.setOnClickListener(this);
@@ -139,12 +138,6 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
     private void goToRoleChooser() {
         Intent intent = new Intent(this, RoleChooserActivity.class);
         startActivity(intent);
-    }
-
-    private void deleteMultimediaFiles() {
-        // Se borran los archivos internos de la aplicacion, que pueden incluir imagenes
-        // de otra sesion ya cerrada.
-        MultimediaManager.getInstance(AuthActivity.this).clearInternalStorage();
     }
 
     /**
