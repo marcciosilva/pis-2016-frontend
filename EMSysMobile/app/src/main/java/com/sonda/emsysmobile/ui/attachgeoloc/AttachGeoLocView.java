@@ -133,5 +133,4 @@ public class AttachGeoLocView extends AppCompatActivity implements
         inflater.inflate(R.menu.top_menu_only_back, menu);
         return true;
     }
-
 }

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.sonda.emsysmobile.BuildConfig;
@@ -101,5 +100,4 @@ public class ImageGalleryPresenter {
 
                 });
     }
-
 }

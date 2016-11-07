@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.VolleyError;
@@ -104,6 +105,10 @@ public final class UIUtils {
         builder.show();
     }
 
+    public static void showToast(Context context, String text) {
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
      *
@@ -154,5 +159,4 @@ public final class UIUtils {
             return false;
         }
     }
-
 }
