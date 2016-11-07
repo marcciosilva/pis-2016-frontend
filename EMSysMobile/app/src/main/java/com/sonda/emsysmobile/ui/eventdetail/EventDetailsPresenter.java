@@ -1,16 +1,18 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
@@ -18,15 +20,11 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
-import com.sonda.emsysmobile.logic.model.core.CategoryDto;
-import com.sonda.emsysmobile.logic.model.core.CategoryPriority;
-import com.sonda.emsysmobile.logic.model.core.ExtensionState;
-import com.sonda.emsysmobile.logic.model.core.ZoneDto;
+import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -68,17 +66,6 @@ public final class EventDetailsPresenter {
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
-//                Log.d(TAG, "Hubo respuesta del servidor");
-//                event.setInformant("Pedrito el escamoso");
-//                CategoryDto cat = new CategoryDto(2345, "palermo", "kew", CategoryPriority.HIGH, true);
-//                ZoneDto zone = new ZoneDto("dafds", 1234, "asdfads");
-//                ExtensionDto exte = new ExtensionDto(1234, "descripcion", ExtensionState.CLOSED,
-//                        new Date(), cat, zone,
-//                        null, event);
-//                List<ExtensionDto> lala = event.getExtensions();
-//                lala.add(exte);
-//                event.setExtensions(lala);
-
                 List<ExtensionDto> orderedExtensions =
                         orderExtensions(event.getExtensions(), eventExtensionId);
                 eventManager.setEventAsRead(event);
@@ -94,12 +81,6 @@ public final class EventDetailsPresenter {
 
             @Override
             public void onNetworkError(VolleyError error) {
-//                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        loadEventDetails(context, eventId, eventExtensionId);
-//                    }
-//                });
             }
         });
     }
@@ -115,6 +96,7 @@ public final class EventDetailsPresenter {
         Intent intent = new Intent(context, EventDetailsView.class);
         EventDetailMapPresenter.setEventDto(event);
         intent.putExtra("EventDto", event);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -174,8 +156,8 @@ public final class EventDetailsPresenter {
         }
     }
 
-    public static void attachDescriptionForExtension(final Context context, final String description, final int
-            extensionId) {
+    public static void attachDescriptionForExtension(final Context context, final String
+            description, final int extensionId) {
         UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest =
                 new UpdateDescriptionRequest<>(context, EmsysResponse.class);
         updateDescriptionRequest.setAttributes(description, extensionId);
@@ -200,14 +182,27 @@ public final class EventDetailsPresenter {
         updateDescriptionRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, context.getString(R.string.error_http));
-                handleVolleyErrorResponse(context, error, new DialogInterface
-                        .OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        attachDescriptionForExtension(context, description, extensionId);
+                // Si la request falla por cuestiones de conectividad a Internet, se genera
+                // un objeto que almacena la descripcion de la extension, que se intenta enviar
+                // en el OfflineService cuando se recupere conectividad.
+                if ((error instanceof NetworkError) || (error instanceof ServerError) ||
+                        (error instanceof TimeoutError)) {
+                    OfflineAttachDescriptionDto offlineAttachDescriptionDto =
+                            new OfflineAttachDescriptionDto();
+                    // Obtengo informacion del usuario.
+                    offlineAttachDescriptionDto.setUserData(GlobalVariables.getUserData());
+                    offlineAttachDescriptionDto.setDescription(description);
+                    offlineAttachDescriptionDto.setExtensionId(extensionId);
+                    offlineAttachDescriptionDto.setTimeStamp(new Date());
+                    // Se agrega el dto a la cola de dtos a enviar.
+                    try {
+                        GlobalVariables.getQueue().put(offlineAttachDescriptionDto);
+                    } catch (InterruptedException e) {
+                        Log.d(TAG, e.getStackTrace().toString());
                     }
-                });
+                }
+                UIUtils.handleErrorMessage(context, ErrorCodeCategory.NETWORK_ERROR
+                        .getNumVal(), context.getString(R.string.error_network_update_desc));
             }
         });
         updateDescriptionRequest.execute();
@@ -219,7 +214,7 @@ public final class EventDetailsPresenter {
         }
     }
 
-    public static void reportTime(final Context context, int extensionId){
+    public static void reportTime(final Context context, int extensionId) {
         ReportTimeRequest<ReportTimeResponse> reportTimeRequest =
                 new ReportTimeRequest<>(context, ReportTimeResponse.class, extensionId);
         reportTimeRequest.setListener(new Response.Listener<ReportTimeResponse>() {
@@ -234,7 +229,7 @@ public final class EventDetailsPresenter {
                             context.getString(R.string.report_time_success));
                     builder.setPositiveButton("OK", null);
                     builder.show();
-                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()){
+                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(context.getString(R.string.app_name));
                     builder.setMessage(response.getInnerResponse().getMsg());

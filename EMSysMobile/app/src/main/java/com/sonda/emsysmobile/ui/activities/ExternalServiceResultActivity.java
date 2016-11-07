@@ -45,7 +45,7 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.list_external_service_items);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         Bundle intentExtras = getIntent().getExtras();
 
