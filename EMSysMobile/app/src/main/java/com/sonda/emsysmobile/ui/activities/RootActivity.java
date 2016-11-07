@@ -34,7 +34,6 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutRes
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.managers.EventManager;
-import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -167,7 +166,7 @@ public abstract class RootActivity extends AppCompatActivity {
                 .build();
 
 
-//        //define the crossfader to be used with the miniDrawer. This is required to be able to automatically toggle open / close
+        //define the crossfader to be used with the miniDrawer. This is required to be able to automatically toggle open / close
         miniResult.withCrossFader(new CrossfadeWrapper(crossFader));
 
         //define a shadow (this is only for normal LTR layouts if you have a RTL app you need to define the other one
@@ -216,9 +215,6 @@ public abstract class RootActivity extends AppCompatActivity {
                     PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
                             .putString("access_token", "").commit();
                     EventManager.getInstance(RootActivity.this).onLogout();
-                    // Se borran los archivos internos de la aplicacion, que pueden no
-                    // necesitarse en la proxima sesion que se inicie.
-                    MultimediaManager.getInstance(RootActivity.this).clearInternalStorage();
                     goToSplash();
                 } else {
                     String errorMsg = response.getInnerResponse().getMsg();

@@ -228,6 +228,10 @@ public class EventDetailsView extends AppCompatActivity implements
             if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))) {
                 mOrigin.setText(mEvent.getOrigin());
             }
+            EventDetailExtensionsFragment extensionsFragment =
+                    EventDetailExtensionsFragment.newInstance(mEvent);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, extensionsFragment).commit();
         }
     }
 

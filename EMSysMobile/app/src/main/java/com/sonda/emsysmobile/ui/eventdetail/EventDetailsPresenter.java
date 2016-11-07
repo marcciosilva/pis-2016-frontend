@@ -58,6 +58,11 @@ public final class EventDetailsPresenter {
     public static void loadEventDetails(final Context context, final int eventId, final int
             eventExtensionId) {
         final EventManager eventManager = EventManager.getInstance(context);
+
+        //TODO llamar eventManager.getLocalEventDetails(eventId):
+        EventDto event = eventManager.getLocalEventDetail(eventId);
+        initEventDetailsView(context,event);
+
         eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
             @Override
             public void onSuccess(EventDto event) {
@@ -65,7 +70,8 @@ public final class EventDetailsPresenter {
                         orderExtensions(event.getExtensions(), eventExtensionId);
                 eventManager.setEventAsRead(event);
                 event.setExtensions(orderedExtensions);
-                initEventDetailsView(context, event);
+                updateMapFragment();
+                mEventDetailsView.updateViewData(event);
             }
 
             @Override
@@ -75,12 +81,6 @@ public final class EventDetailsPresenter {
 
             @Override
             public void onNetworkError(VolleyError error) {
-                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loadEventDetails(context, eventId, eventExtensionId);
-                    }
-                });
             }
         });
     }
