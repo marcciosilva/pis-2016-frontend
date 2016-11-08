@@ -54,6 +54,12 @@
     <string name="error_internal">Ocurrió un error interno en la aplicación.</string>
     <string name="error_no_available_multimedia">No hay contenido multimedia disponible para la opción seleccionada</string>
     <string name="error_access_camera_message">Ocurrió un error al intentar acceder a la camara</string>
+    <string name="error_invalid_credentials">Las credenciales son inválidas</string>
+    <string name="error_already_reported_hour">El recurso ya posee una hora de arribo previa en la extension seleccionada.</string>
+    <string name="success_msg">Éxito</string>
+    <string name="error_resource_unavailable">El recurso seleccionado no se encuentra disponible.</string>
+    <string name="error_no_permission">El usuario no esta autorizado a acceder al contenido solicitado</string>
+    <string name="error_unkown">Error desconocido</string>
 
     <!--Preferences-->
     <string name="preferences_routes_summary">Configuración de rutas de servicios.</string>
