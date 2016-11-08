@@ -37,6 +37,7 @@ import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.UserDto;
+import com.sonda.emsysmobile.logic.model.core.ZoneDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -96,8 +97,8 @@ public abstract class RootActivity extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.header)
                 .withTranslucentStatusBar(false)
                 .addProfiles(
-                        profile,
-                        new ProfileSettingDrawerItem().withName("Cerrar sesión").withIdentifier(LOG_OUT)
+                        profile
+//                        new ProfileSettingDrawerItem().withName("Cerrar sesión").withIdentifier(LOG_OUT)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -105,7 +106,7 @@ public abstract class RootActivity extends AppCompatActivity {
                         //sample usage of the onProfileChanged listener
                         //if the clicked item has the identifier 1 add a new profile ;)
                         if (profile instanceof IDrawerItem && ((IDrawerItem) profile).getIdentifier() == LOG_OUT) {
-                            //TODO CALL TO LOGOUT FUNCTION
+                            logout();
                         }
                         //false if you have not consumed the event and it should close the drawer
                         return false;
@@ -113,6 +114,8 @@ public abstract class RootActivity extends AppCompatActivity {
                 })
                 .withSavedInstance(savedInstanceState)
                 .build();
+
+        addZoneName(headerResult);
 
         result = new DrawerBuilder()
                 .withActivity(this)
@@ -202,6 +205,16 @@ public abstract class RootActivity extends AppCompatActivity {
         return "Usuario sin rol";
     }
 
+
+    private void addZoneName(AccountHeader headerAccount){
+        if(logedUser.isZoneDispatcher()){
+            List<ZoneDto> zones = logedUser.getRoles().getZones();
+            for (ZoneDto zone: zones) {
+                headerAccount.addProfiles(new ProfileSettingDrawerItem().withName(zone.getName()));
+            }
+
+        }
+    }
 //    private List<IDrawerItem> getRoles(){
 //        Set<String> roles =  PreferenceManager.getDefaultSharedPreferences(this)
 //                .getStringSet("role_type", null);
