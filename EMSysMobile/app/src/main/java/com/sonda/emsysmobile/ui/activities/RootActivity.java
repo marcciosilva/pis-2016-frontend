@@ -30,17 +30,19 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.logic.model.core.ResourceDto;
+import com.sonda.emsysmobile.logic.model.core.UserDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
 
+
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -59,6 +61,7 @@ public abstract class RootActivity extends AppCompatActivity {
     public static final int CREATE_EVENT = 4;
     private static final int LOG_OUT = 5;
 
+    private UserDto logedUser;
     protected AccountHeader headerResult = null;
     protected Drawer result = null;
     protected MiniDrawer miniResult = null;
@@ -68,6 +71,8 @@ public abstract class RootActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState, int guestActivityId,int guestActivityRootId, String title, int selectedItem) {
         super.onCreate(savedInstanceState);
         setContentView(guestActivityId);
+
+        logedUser = GlobalVariables.getUserData();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -184,41 +189,31 @@ public abstract class RootActivity extends AppCompatActivity {
     }
 
     private String getUsername(){
-        String username = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("username", "");
-        return username;
+        return logedUser.getUsername();
     }
 
     private String getRoleLabel(){
-        String roleType = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString("role_type", "");
-        if (roleType == "zone_dispatcher"){
-            Set<String> zones = PreferenceManager.getDefaultSharedPreferences(this)
-                    .getStringSet("role_type", null);
-
-            int zoneCount = 0;
-            if (zones != null){
-                zoneCount = zones.size();
-            }
-            return "Despachado de zona (" + String.valueOf(zoneCount)+ ")";
-        }else if (roleType == "resource") {
-            return "Recurso";
+        if(logedUser.isZoneDispatcher()){
+            return "Despachado de zona (" + String.valueOf(logedUser.getRoles().getZones().size())+ ")";
+        }else if (logedUser.isResource()) {
+            List<ResourceDto> resources = logedUser.getRoles().getResources();
+            return "Recurso (" + resources.get(0).getCode()+")";
         }
-        return "";
+        return "Usuario sin rol";
     }
 
-    private List<IDrawerItem> getRoles(){
-        Set<String> roles =  PreferenceManager.getDefaultSharedPreferences(this)
-                .getStringSet("role_type", null);
-
-        List<IDrawerItem> items = null;
-        for (String role: roles) {
-            IDrawerItem item = new ProfileSettingDrawerItem().withName(role);
-            items.add(item);
-        }
-        return items;
-
-    }
+//    private List<IDrawerItem> getRoles(){
+//        Set<String> roles =  PreferenceManager.getDefaultSharedPreferences(this)
+//                .getStringSet("role_type", null);
+//
+//        List<IDrawerItem> items = null;
+//        for (String role: roles) {
+//            IDrawerItem item = new ProfileSettingDrawerItem().withName(role);
+//            items.add(item);
+//        }
+//        return items;
+//
+//    }
 
     @Override
     public void onBackPressed() {
