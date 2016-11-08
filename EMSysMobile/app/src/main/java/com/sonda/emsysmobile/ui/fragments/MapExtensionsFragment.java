@@ -98,7 +98,7 @@ public class MapExtensionsFragment extends Fragment {
                 .unregisterReceiver(broadcastReceiverEvents);
     }
 
-    public void setFilter(String selectedFilter){
+    public void setFilter(String selectedFilter) {
         mFilter = selectedFilter;
     }
 
@@ -109,9 +109,11 @@ public class MapExtensionsFragment extends Fragment {
             public void onSuccess(List<ExtensionDto> extensions) {
                 showSpinner(false);
                 mExtensions = extensions;
-                ExtensionRecyclerViewAdapter adapter = (ExtensionRecyclerViewAdapter) mRecyclerView.getAdapter();
+                ExtensionRecyclerViewAdapter adapter =
+                        (ExtensionRecyclerViewAdapter) mRecyclerView.getAdapter();
                 if (adapter == null) {
-                    mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(MapExtensionsFragment.this.getActivity(), mExtensions, mListener));
+                    mRecyclerView.setAdapter(new ExtensionRecyclerViewAdapter(
+                            MapExtensionsFragment.this.getActivity(), mExtensions, mListener));
                 } else {
                     adapter.setExtensions(mExtensions);
                 }
@@ -120,19 +122,22 @@ public class MapExtensionsFragment extends Fragment {
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
                 showSpinner(false);
-                UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
+                if (!getActivity().isFinishing()) {
+                    UIUtils.handleErrorMessage(getContext(), errorCode, errorMessage);
+                }
             }
 
             @Override
             public void onNetworkError(VolleyError error) {
                 showSpinner(false);
-                handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showSpinner(true);
-                        getMapEvents();
-                    }
-                });
+                handleVolleyErrorResponse(getContext(), error,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showSpinner(true);
+                                getMapEvents();
+                            }
+                        });
             }
         });
     }

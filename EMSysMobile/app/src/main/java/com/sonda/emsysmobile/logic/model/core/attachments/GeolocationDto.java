@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class GeolocationDto implements Serializable {
 
-    @SerializedName("idExtension")
+    @SerializedName("id_extension")
     private int extensionIdentifier;
 
     @SerializedName("usuario")

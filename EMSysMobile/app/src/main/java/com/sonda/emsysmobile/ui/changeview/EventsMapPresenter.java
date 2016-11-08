@@ -1,8 +1,11 @@
 package com.sonda.emsysmobile.ui.changeview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
@@ -45,17 +48,22 @@ public final class EventsMapPresenter {
 
             @Override
             public void onLogicError(String errorMessage, int errorCode) {
-                UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                    UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                }
             }
 
             @Override
             public void onNetworkError(VolleyError error) {
-                handleVolleyErrorResponse(context, error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        loadEvents(context, view);
-                    }
-                });
+                if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                    handleVolleyErrorResponse(context, error,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    loadEvents(context, view);
+                                }
+                            });
+                }
             }
         });
     }
@@ -153,8 +161,10 @@ public final class EventsMapPresenter {
                 EventDetailsPresenter
                         .loadEventDetails(context, eventId, eventExtensionId);
             } catch (NullPointerException e) {
-                UIUtils.handleErrorMessage(context, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
-                        context.getString(R.string.error_internal));
+                if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                    UIUtils.handleErrorMessage(context, ErrorCodeCategory.LOGIC_ERROR.getNumVal(),
+                            context.getString(R.string.error_internal));
+                }
                 Log.d(TAG, e.getMessage());
             }
             return true;

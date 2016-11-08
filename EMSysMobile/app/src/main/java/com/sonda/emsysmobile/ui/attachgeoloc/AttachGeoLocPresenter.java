@@ -53,21 +53,25 @@ public final class AttachGeoLocPresenter {
                         });
                         builder.show();
                     } else {
-                        UIUtils.handleErrorMessage(view, response.getCode(), response
-                                .getInnerResponse().getMsg());
+                        if (!view.isFinishing()) {
+                            UIUtils.handleErrorMessage(view, response.getCode(), response
+                                    .getInnerResponse().getMsg());
+                        }
                     }
                 }
             });
             request.setErrorListener(new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    handleVolleyErrorResponse(view, error, new DialogInterface
-                            .OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            sendGeoLocation(view);
-                        }
-                    });
+                    if (!view.isFinishing()) {
+                        handleVolleyErrorResponse(view, error, new DialogInterface
+                                .OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                sendGeoLocation(view);
+                            }
+                        });
+                    }
                 }
             });
             request.execute();

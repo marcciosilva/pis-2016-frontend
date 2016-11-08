@@ -1,7 +1,6 @@
 package com.sonda.emsysmobile.backendcommunication.services;
 
 import android.app.Service;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -13,9 +12,6 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequest;
-
-import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by nachoprbd on 21/10/2016.

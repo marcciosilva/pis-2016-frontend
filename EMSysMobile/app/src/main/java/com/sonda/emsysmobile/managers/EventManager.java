@@ -8,8 +8,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.util.SparseArray;
 
+import com.android.volley.NetworkError;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EventDetailsResponse;
@@ -18,6 +22,7 @@ import com.sonda.emsysmobile.backendcommunication.services.request.EventDetailsR
 import com.sonda.emsysmobile.backendcommunication.services.request.EventsRequest;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.notifications.NotificationsEvents;
 
@@ -161,6 +166,14 @@ public final class EventManager {
         request.execute();
     }
 
+    public final EventDto getLocalEventDetail(int eventId){
+        for(EventDto event: mEvents) {
+            if(event.getIdentifier() == eventId)
+                return event;
+        }
+        return null;
+    }
+
     public final void getEventDetail(int eventId, final ApiCallback<EventDto> callback) {
         EventDetailsRequest<EventDetailsResponse> request =
                 new EventDetailsRequest<>(mContext, EventDetailsResponse.class);
@@ -224,7 +237,8 @@ public final class EventManager {
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
         if(onMap){
             for (int i = 0; i < mExtensions.size(); i++) {
-                if (mExtensions.valueAt(i).getGeolocations() == null){
+                List<GeolocationDto> geoLocations = mExtensions.valueAt(i).getGeolocations();
+                if (geoLocations == null || geoLocations.isEmpty()) {
                     arrayList.add(mExtensions.valueAt(i));
                 }
             }
