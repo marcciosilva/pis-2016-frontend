@@ -25,28 +25,22 @@ public class AuthRequestTest extends BaseMockTest {
 
     @Test
     public void getPath() throws Exception {
-        // TODO mejorar.
-        mAuthRequest.getPath();
+        assertEquals(mAuthRequest.getPath(), AuthRequest.AUTH_PATH);
     }
 
     @Test
     public void getBody() throws Exception {
-        // TODO mejorar.
-        mAuthRequest.getBody();
-//        // Seteo atributos.
-//        final String test_user = "test_user";
-//        final String test_password = "test_password";
-//        mAuthRequest.setAttributes(test_user, test_password);
-//        // Chequeo si el getBody me devuelve el cuerpo que debiera.
-//        JsonObject testBody = new JsonObject();
-//        testBody.addProperty("password", test_user);
-//        testBody.addProperty("username", test_password);
-//        assertTrue(mAuthRequest.getBody().toString().equals(testBody.toString()));
+        // Seteo atributos.
+        final String test_user = "test_user";
+        final String test_password = "test_password";
+        mAuthRequest.setAttributes(test_user, test_password);
+        JsonObject body = mAuthRequest.getBody();
+        assertEquals(body.get("username").getAsString(), test_user);
+        assertEquals(body.get("password").getAsString(), test_password);
     }
 
     @Test
     public void setAttributes() throws Exception {
-        // TODO mejorar.
         mAuthRequest.setAttributes("test_user", "test_password");
     }
 

@@ -1,11 +1,17 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sonda.emsysmobile.BaseMockTest;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * Created by marccio on 10/22/16.
@@ -33,8 +39,10 @@ public class ExternalServiceRequestTest extends BaseMockTest {
 
     @Test
     public void getBody() throws Exception {
-        // TODO mejorar.
-        mExternalServiceRequest.getBody();
+        String jsonString = new Gson().toJson(mExternalServiceQueryDto);
+        JsonObject jsonToCompare = (JsonObject) new JsonParser().parse(jsonString);
+        JsonObject json = mExternalServiceRequest.getBody();
+        assertEquals(json, jsonToCompare);
     }
 
 }

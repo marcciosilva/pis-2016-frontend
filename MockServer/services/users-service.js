@@ -30,6 +30,7 @@ var getUsers = function (request, response, next) {
 
 // Devuelve una response exitosa siempre
 var postUserSuccess = function(request, response, next) {
+	console.log('POST a /users/authenticate');
 	response.setHeader("content-type","application/json");
 	response.send(JSON.stringify(auth_success));
 };

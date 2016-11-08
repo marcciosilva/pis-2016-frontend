@@ -6,30 +6,31 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Created by marccio on 10/22/16.
+ * Created by Pape on 8/11/2016.
  */
-public class GetRolesRequestTest extends BaseMockTest {
 
-    private GetRolesRequest<Integer> mGetRolesRequest;
+public class EventsRequestTest extends BaseMockTest {
+
+    private EventsRequest<Integer> mEventRequest;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        mGetRolesRequest = new GetRolesRequest<>(context, EmsysResponse.class);
+        mEventRequest = new EventsRequest<>(context, EmsysResponse.class);
     }
 
     @Test
     public void getPath() throws Exception {
-        assertEquals(mGetRolesRequest.getPath(), GetRolesRequest.GET_ROLES_PATH);
+        assertEquals(mEventRequest.getPath(), EventsRequest.EVENTS_PATH);
     }
 
     @Test
     public void getBody() throws Exception {
-        assertTrue(mGetRolesRequest.getBody() == null);
+        assertTrue(mEventRequest.getBody() == null);
     }
-
 }

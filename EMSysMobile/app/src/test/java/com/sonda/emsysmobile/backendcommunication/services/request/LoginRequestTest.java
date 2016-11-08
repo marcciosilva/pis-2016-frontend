@@ -1,5 +1,8 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sonda.emsysmobile.BaseMockTest;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
@@ -47,8 +50,10 @@ public class LoginRequestTest extends BaseMockTest {
 
     @Test
     public void getBody() throws Exception {
-        // TODO mejorar.
-        mLoginRequest.getBody();
+        String jsonString = new Gson().toJson(mRoleDto);
+        JsonObject jsonToCompare = (JsonObject) new JsonParser().parse(jsonString);
+        JsonObject json = mLoginRequest.getBody();
+        assertEquals(json, jsonToCompare);
     }
 
 }
