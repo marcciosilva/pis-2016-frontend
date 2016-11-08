@@ -17,24 +17,26 @@ import static org.junit.Assert.assertTrue;
 public class ReportTimeRequestTest extends BaseMockTest {
 
     private ReportTimeRequest<Integer> mReportTimeRequest;
+    private int mTestIdExtension;
 
     @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        mReportTimeRequest = new ReportTimeRequest<>(context, EmsysResponse.class, 1);
+        mTestIdExtension = 1;
+        mReportTimeRequest =
+                new ReportTimeRequest<>(context, EmsysResponse.class, mTestIdExtension);
     }
 
     @Test
     public void getPath() throws Exception {
-        assertEquals(mReportTimeRequest.getPath(), ReportTimeRequest.REPORTTIME_PATH);
+        assertEquals(mReportTimeRequest.getPath(),
+                ReportTimeRequest.REPORTTIME_PATH + Integer.toString(mTestIdExtension));
     }
 
     @Test
     public void getBody() throws Exception {
-        JsonObject jsonToCompare = new JsonObject();
-        jsonToCompare.addProperty("idExtension", 1);
         JsonObject json = mReportTimeRequest.getBody();
-        assertEquals(json, jsonToCompare);
+        assertEquals(json, null);
     }
 }

@@ -34,6 +34,7 @@ public class GetImageDataRequestExecuteTest {
     public void executeTest() throws Exception {
         mGetImageDataRequest = new GetImageDataRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 GetImageDataResponse.class);
+        mGetImageDataRequest.setAttributes(1);
         mGetImageDataRequest.setListener(new Response.Listener<GetImageDataResponse>(){
             @Override
             public void onResponse(GetImageDataResponse response) {
