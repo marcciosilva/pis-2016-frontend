@@ -125,7 +125,9 @@ public class ExtensionDto implements Serializable {
 
     /**
      * Get priority for Event
-     * Try to get priority for his Category, but if it does not have one, return event's category priority.
+     * Try to get priority for his Category, but if it does not have one, return event's category
+     * priority.
+     *
      * @return An instance of CategoryPriority Enum.
      */
     public final CategoryPriority getPriority() {
@@ -151,6 +153,10 @@ public class ExtensionDto implements Serializable {
 
     public List<ImageDescriptionDto> getImageDescriptions() {
         return imageDescriptions;
+    }
+
+    public void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
+        this.imageDescriptions = imageDescriptions;
     }
 
     @Override

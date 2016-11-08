@@ -17,7 +17,6 @@ import static junit.framework.Assert.assertTrue;
  */
 public class ExtensionDtoTest {
 
-
     private int mIdentifier;
     private String mInformant;
     private String mPhone;
@@ -341,6 +340,29 @@ public class ExtensionDtoTest {
     }
 
     @Test
+    public void isModified() throws Exception {
+        mExtensionDto.setModified(true);
+        assertTrue(mExtensionDto.isModified());
+    }
+
+    @Test
+    public void getGeolocations() throws Exception {
+        mExtensionDto.setGeolocations(null);
+        assertTrue(mExtensionDto.getGeolocations() == null);
+    }
+
+    @Test
+    public void getImageDescriptions() throws Exception {
+        mExtensionDto.setImageDescriptions(null);
+        assertTrue(mExtensionDto.getImageDescriptions() == null);
+    }
+
+    @Test
+    public void equals_SameObject_ReturnsTrue() {
+        assertTrue(mExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
     public void equals_NullComparison_ReturnsFalse() {
         assertFalse(mExtensionDto.equals(null));
     }
@@ -447,6 +469,50 @@ public class ExtensionDtoTest {
                 testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent);
         assertFalse(mExtensionDto.equals(testExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentIdentifier_ReturnsFalse() {
+        testExtensionDto.setIdentifier(2);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentDescription_ReturnsFalse() {
+        testExtensionDto.setDescription("alt_description");
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentExtensionState_ReturnsFalse() {
+        testExtensionDto.setExtensionState(ExtensionState.DISPATCH_MISSING);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentTimeStamp_ReturnsFalse() {
+        testExtensionDto.setTimeStamp(new Date(1992,1,1));
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentCategory_ReturnsFalse() {
+        testExtensionDto.setCategory(new CategoryDto(2, mCategoryCode, mCategoryKey,
+                mCategoryPriority, mCategoryIsActive));
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentGeolocations_ReturnsFalse() {
+        testExtensionDto.setGeolocations(new ArrayList<GeolocationDto>());
+        mExtensionDto.setGeolocations(null);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentZone_ReturnsFalse() {
+        testExtensionDto.setZone(null);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
     }
 
 }

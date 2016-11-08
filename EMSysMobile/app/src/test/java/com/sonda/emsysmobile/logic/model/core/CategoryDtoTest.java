@@ -13,10 +13,12 @@ import static org.junit.Assert.assertTrue;
 public class CategoryDtoTest {
 
     private CategoryDto mCategoryDto;
+    private CategoryDto testCategoryDto;
 
     @Before
     public void setUp() {
         mCategoryDto = new CategoryDto(1, "1", "key1", CategoryPriority.HIGH, true);
+        testCategoryDto = new CategoryDto(1, "1", "key1", CategoryPriority.HIGH, true);
     }
 
     @Test
@@ -87,13 +89,41 @@ public class CategoryDtoTest {
 
     @Test
     public void equals_CompareWithSameFields_ReturnsTrue() {
-        CategoryDto testCategoryDto = new CategoryDto(1, "1", "key1", CategoryPriority.HIGH, true);
         assertTrue(mCategoryDto.equals(testCategoryDto));
     }
 
     @Test
-    public void equals_CompareWithDifferentFields_ReturnsFalse() {
-        CategoryDto testCategoryDto = new CategoryDto(1, "1", "key1", CategoryPriority.HIGH, false);
+    public void equals_CompareWithDifferentIdentifier_ReturnsFalse() {
+        mCategoryDto.setIdentifier(1);
+        testCategoryDto.setIdentifier(2);
+        assertFalse(mCategoryDto.equals(testCategoryDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentIsActive_ReturnsFalse() {
+        mCategoryDto.setActive(true);
+        testCategoryDto.setActive(false);
+        assertFalse(mCategoryDto.equals(testCategoryDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentCode_ReturnsFalse() {
+        mCategoryDto.setCode("1");
+        testCategoryDto.setCode("2");
+        assertFalse(mCategoryDto.equals(testCategoryDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentKey_ReturnsFalse() {
+        mCategoryDto.setKey("1");
+        testCategoryDto.setKey("2");
+        assertFalse(mCategoryDto.equals(testCategoryDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentPriority_ReturnsFalse() {
+        mCategoryDto.setPriority(CategoryPriority.HIGH);
+        testCategoryDto.setPriority(CategoryPriority.LOW);
         assertFalse(mCategoryDto.equals(testCategoryDto));
     }
 
