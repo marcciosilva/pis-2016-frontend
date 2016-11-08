@@ -36,7 +36,9 @@ import com.sonda.emsysmobile.ui.activities.HomeActivity;
 import com.sonda.emsysmobile.ui.activities.login.RoleChooserActivity.EleccionRol;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -144,6 +146,8 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     }
                     zonas.add(new ZoneDto(nombre, Integer.parseInt(id), nombreUE));
                 }
+                saveRoleType("zone_dispatcher");
+                saveUserZones(zonas);
             } else if (mResourceButton.isEnabled()) {
                 // Debe haber un solo recurso en los items.
                 // Se parsea cada item seleccionado para construir
@@ -160,6 +164,9 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     }
                     recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
                 }
+
+                saveRoleType("resource");
+                saveUserResources(recursos);
             }
             final RoleDto roles = new RoleDto(zonas, recursos);
             loginUser(roles, new VolleyCallbackLoginUser() {
@@ -173,6 +180,29 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                 }
             });
         }
+    }
+
+    private void saveRoleType(String role){
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("role_type", role).commit();
+    }
+
+    private void saveUserZones(ArrayList<ZoneDto> zoneList){
+        Set<String> zones = null;
+        for (ZoneDto zone: zoneList) {
+            zones.add(zone.getName());
+        }
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putStringSet("roles", zones).commit();
+        Log.d(TAG, String.valueOf(zones.size()));
+    }
+    
+    private void saveUserResources(ArrayList<ResourceDto> resourceList){
+        Set<String> resources = null;
+        for (ResourceDto resource: resourceList) {
+            resources.add(resource.getCode());
+        }
+        PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putStringSet("roles", resources).commit();
+
+        Log.d(TAG, String.valueOf(resources.size()));
     }
 
     private void loginUser(final RoleDto roles, final VolleyCallbackLoginUser callback) {

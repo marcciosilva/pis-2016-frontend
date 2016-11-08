@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.renderscript.ScriptIntrinsic;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,10 @@ import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -77,7 +82,10 @@ public abstract class RootActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle(title);
 
-        final IProfile profile = new ProfileDrawerItem().withName("Mike Penz").withEmail("Despachador de zonas (3)").withIcon("https://avatars3.githubusercontent.com/u/887462?v=3&s=460");
+        String userName = getUsername();
+        String roleLabel = getRoleLabel();
+//        List<IDrawerItem> items = getRoles();
+        final IProfile profile = new ProfileDrawerItem().withName(userName).withEmail(roleLabel).withIcon("https://avatars3.githubusercontent.com/u/887462?v=3&s=460");
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
@@ -162,6 +170,7 @@ public abstract class RootActivity extends AppCompatActivity {
                 .withContent(findViewById(guestActivityRootId))
                 .withFirst(result.getSlider(), firstWidth)
                 .withSecond(miniResult.build(this), secondWidth)
+                .withGmailStyleSwiping()
                 .withSavedInstance(savedInstanceState)
                 .build();
 
@@ -171,6 +180,43 @@ public abstract class RootActivity extends AppCompatActivity {
 
         //define a shadow (this is only for normal LTR layouts if you have a RTL app you need to define the other one
         crossFader.getCrossFadeSlidingPaneLayout().setShadowResourceLeft(R.drawable.material_drawer_shadow_left);
+
+    }
+
+    private String getUsername(){
+        String username = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("username", "");
+        return username;
+    }
+
+    private String getRoleLabel(){
+        String roleType = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString("role_type", "");
+        if (roleType == "zone_dispatcher"){
+            Set<String> zones = PreferenceManager.getDefaultSharedPreferences(this)
+                    .getStringSet("role_type", null);
+
+            int zoneCount = 0;
+            if (zones != null){
+                zoneCount = zones.size();
+            }
+            return "Despachado de zona (" + String.valueOf(zoneCount)+ ")";
+        }else if (roleType == "resource") {
+            return "Recurso";
+        }
+        return "";
+    }
+
+    private List<IDrawerItem> getRoles(){
+        Set<String> roles =  PreferenceManager.getDefaultSharedPreferences(this)
+                .getStringSet("role_type", null);
+
+        List<IDrawerItem> items = null;
+        for (String role: roles) {
+            IDrawerItem item = new ProfileSettingDrawerItem().withName(role);
+            items.add(item);
+        }
+        return items;
 
     }
 
