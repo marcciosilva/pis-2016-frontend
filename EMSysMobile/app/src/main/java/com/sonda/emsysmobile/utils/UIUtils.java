@@ -53,8 +53,8 @@ public final class UIUtils {
         return dialog;
     }
 
-    public static void handleErrorMessage(final Context context, final int responseCode, final
-    String errorMsg) {
+    public static void handleErrorMessage(final Context context, final int responseCode, String
+            errorMsg) {
         // Obtengo mensaje de error correspondiente al codigo.
         Log.d(TAG, "errorMsg : " + errorMsg);
         Log.d(TAG, "errorCode : " + Integer.toString(responseCode));
@@ -62,6 +62,29 @@ public final class UIUtils {
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 context);
         builder.setTitle("Error");
+        if (errorMsg == null) {
+            if (responseCode == ErrorCodeCategory.NETWORK_ERROR.getNumVal()) {
+                errorMsg = ErrorCodeCategory.NETWORK_ERROR.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA.getNumVal()) {
+                errorMsg = ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.LOGIC_ERROR.getNumVal()) {
+                errorMsg = ErrorCodeCategory.LOGIC_ERROR.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                errorMsg = ErrorCodeCategory.SUCCESS.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.INVALID_CREDENTIALS.getNumVal()) {
+                errorMsg = ErrorCodeCategory.INVALID_CREDENTIALS.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.NO_AUTH.getNumVal()) {
+                errorMsg = ErrorCodeCategory.NO_AUTH.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
+                errorMsg = ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.NOT_ALLOWED.getNumVal()) {
+                errorMsg = ErrorCodeCategory.NOT_ALLOWED.getMsg(context);
+            } else if (responseCode == ErrorCodeCategory.TIME_ALREADY_REPORTED.getNumVal()) {
+                errorMsg = ErrorCodeCategory.TIME_ALREADY_REPORTED.getMsg(context);
+            } else {
+                errorMsg = context.getString(R.string.error_unkown);
+            }
+        }
         builder.setMessage(errorMsg);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
@@ -115,7 +138,8 @@ public final class UIUtils {
     /**
      * This method converts dp unit to equivalent pixels, depending on device density.
      *
-     * @param dp      A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param dp      A value in dp (density independent pixels) unit. Which we need to convert
+     *                into pixels
      * @param context Context to get resources and device specific display metrics
      * @return A float value to represent px equivalent to dp depending on device density
      */
