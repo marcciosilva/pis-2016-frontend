@@ -4,6 +4,12 @@
     <item
         android:id="@+id/menu_1"
         android:orderInCategory="1"
-        android:title="Toggle Side Panel"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_2"
+        android:orderInCategory="1"
+        android:title=""
         app:showAsAction="ifRoom" />
 </menu>

@@ -3,6 +3,8 @@ package com.sonda.emsysmobile.notifications;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 /**
  * Created by ssainz on 10/13/16.
  */
@@ -14,6 +16,7 @@ public class Notification implements Parcelable {
     private String title;
     private String description;
     private String code;
+    private Date date;
     private int objectId;
 
     public Notification(String title, String description, String code, int objectId) {
@@ -24,10 +27,9 @@ public class Notification implements Parcelable {
     }
 
     public Notification(String code, int objectId) {
-        this.title = DEFAULT_TITLE;
-        this.description = DEFAULT_DESCRIPTION;
         this.code = code;
         this.objectId = objectId;
+        buildTitleAndDescription();
     }
 
     public final String getTitle() {
@@ -60,6 +62,14 @@ public class Notification implements Parcelable {
 
     public final void setObjectId(int objectId) {
         this.objectId = objectId;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     protected Notification(Parcel in) {
@@ -112,5 +122,24 @@ public class Notification implements Parcelable {
             return NotificationsEvents.UPDATE_EVENTS_LIST;
         }
         return NotificationsEvents.NONE;
+    }
+
+    private void buildTitleAndDescription() {
+        if (code.equals("AE")) {
+            this.title = "Se ha dado de alta un nuevo evento";
+            this.description = "El evento " + this.objectId + " se ha dado de alta para alguna de tus zonas";
+        } if (code.equals("ME")) {
+            this.title = "Se ha modificado un evento";
+            this.description = "El evento " + this.objectId + " ha sido modificado";
+        } if (code.equals("CE")) {
+            this.title = "Se ha cerrado una extensión";
+            this.description = "La extensión del evento " + this.objectId + " ha sido cerrada";
+        } if (code.equals("SE")) {
+            this.title = "Se asignó una extensión";
+            this.description = "La extensión perteneciente al evento " + this.objectId + " ha sido asignada";
+        } if (code.equals("RE")) {
+            this.title = "Ya no estás asignado a un evento";
+            this.description = "Ya no estás asignado al evento " + this.objectId;
+        }
     }
 }

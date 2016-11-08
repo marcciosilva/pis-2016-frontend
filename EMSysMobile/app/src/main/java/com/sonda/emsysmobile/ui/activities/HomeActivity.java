@@ -32,12 +32,15 @@ import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.managers.MultimediaManager;
+import com.sonda.emsysmobile.managers.NotificationsManager;
 import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.MapExtensionsFragment;
+import com.sonda.emsysmobile.ui.fragments.NotificationsFragment;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
@@ -47,7 +50,8 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends RootActivity
         implements OnListFragmentInteractionListener,
-        EventFilterDialogFragment.OnEventFilterDialogListener {
+        EventFilterDialogFragment.OnEventFilterDialogListener,
+        NotificationsFragment.OnFragmentInteractionListener {
 
     public static final String TAG = HomeActivity.class.getName();
 
@@ -83,6 +87,9 @@ public class HomeActivity extends RootActivity
         // Start KeepAlive service.
         Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
         startService(intent);
+
+        // Creating notifications manager singleton
+        NotificationsManager.getInstance(this);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -123,6 +130,7 @@ public class HomeActivity extends RootActivity
         MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.embedded, menu);
             menu.findItem(R.id.menu_1).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).actionBar());
+            menu.findItem(R.id.menu_2).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_notifications_active).color(Color.WHITE).actionBar());
         return true;
     }
 
@@ -155,7 +163,7 @@ public class HomeActivity extends RootActivity
 
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() ==R.id.menu_1){
+        if (item.getItemId() == R.id.menu_1){
             showMapView(false);
             // Primero se redirige al listado.
             ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
@@ -168,6 +176,11 @@ public class HomeActivity extends RootActivity
             FragmentManager fm = getSupportFragmentManager();
             EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
             eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
+        } else if (item.getItemId() == R.id.menu_2) {
+            showMapView(false);
+
+            NotificationsFragment notificationsFragment = NotificationsFragment.newInstance();
+            replaceFragment(notificationsFragment, NotificationsFragment.class.getSimpleName());
         }
 
         return true;
@@ -253,10 +266,19 @@ public class HomeActivity extends RootActivity
     private void showFilterMenu(boolean visible){
         if (visible) {
             findViewById(R.id.menu_1).setVisibility(View.VISIBLE);
-        }else {
+        } else {
             findViewById(R.id.menu_1).setVisibility(View.GONE);
         }
     }
+
+    private void showNotificationIcon(boolean visible) {
+        if (visible) {
+            findViewById(R.id.menu_2).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.menu_2).setVisibility(View.GONE);
+        }
+    }
+
     private void toggleFragmentContainer() {
         if (mContainerCollapsed) {
             mFragmentsContainer.setVisibility(View.VISIBLE);
@@ -322,6 +344,11 @@ public class HomeActivity extends RootActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onNotificationSelected(int eventId) {
+
     }
 
     /**
