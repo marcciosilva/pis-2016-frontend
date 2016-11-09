@@ -49,13 +49,20 @@ public class UserDto implements Serializable {
     }
 
     public boolean isZoneDispatcher(){
-        List<ZoneDto> zones = getRoles().getZones();
-        return zones != null && zones.size() != 0;
+        if (roles != null) {
+            List<ZoneDto> zones = roles.getZones();
+            return ((zones != null) && (zones.size() != 0));
+        } else {
+            return false;
+        }
     }
 
-
     public boolean isResource(){
-        List<ResourceDto> resources = getRoles().getResources();
-        return resources != null && resources.size() != 0;
+        if (roles != null) {
+            List<ResourceDto> resources = roles.getResources();
+            return ((resources != null) && (resources.size() != 0));
+        } else {
+            return false;
+        }
     }
 }
