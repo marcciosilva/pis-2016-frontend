@@ -137,7 +137,7 @@ public final class MultimediaManager {
                                 }
                             } else {
                                 // TODO asociar un mensaje de error para cada codigo posible.
-                                callback.onLogicError("Unsupported", responseCode);
+                                callback.onLogicError(null, responseCode);
                             }
                         }
                     });
@@ -167,7 +167,7 @@ public final class MultimediaManager {
                     callback.onSuccess(response);
                 } else {
                     // TODO asociar un mensaje de error para cada codigo posible.
-                    callback.onLogicError("Unsupported", responseCode);
+                    callback.onLogicError(null, responseCode);
                 }
             }
         });

@@ -99,7 +99,7 @@ public final class EventManager {
                     } else {
                         //TODO soportar mensaje de error en EventsResponse
                         //callback.onError(response.getInnerResponse().getMsg(), responseCode);
-                        callback.onLogicError("Unsupported", 1);
+                        callback.onLogicError(null, responseCode);
                     }
                 }
             });
@@ -126,7 +126,7 @@ public final class EventManager {
                         callback.onSuccess(mEvents);
                     } else {
                         //TODO soportar mensaje de error en EventsResponse
-                        callback.onLogicError("Unsupported", 1);
+                        callback.onLogicError(null, responseCode);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -193,7 +193,7 @@ public final class EventManager {
                 } else {
                     //TODO soportar mensaje de error en EventsResponse
                     //callback.onError(response.getInnerResponse().getMsg(), responseCode);
-                    callback.onLogicError("Unsupported", 1);
+                    callback.onLogicError(null, responseCode);
                 }
             }
         });
