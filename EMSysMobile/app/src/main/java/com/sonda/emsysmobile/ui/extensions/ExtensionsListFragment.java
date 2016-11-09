@@ -33,7 +33,8 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  * Created by ssainz on 10/29/16.
  */
 public class ExtensionsListFragment
-        extends MvpLceViewStateFragment<SwipeRefreshLayout, List<ExtensionDto>, ExtensionsView, ExtensionsPresenter>
+        extends
+        MvpLceViewStateFragment<SwipeRefreshLayout, List<ExtensionDto>, ExtensionsView, ExtensionsPresenter>
         implements ExtensionsView, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView mRecyclerView;
@@ -86,7 +87,9 @@ public class ExtensionsListFragment
     }
 
     @Override
-    public @NonNull LceViewState<List<ExtensionDto>, ExtensionsView> createViewState() {
+    public
+    @NonNull
+    LceViewState<List<ExtensionDto>, ExtensionsView> createViewState() {
         setRetainInstance(true);
         return new RetainingLceViewState<>();
     }
@@ -102,10 +105,13 @@ public class ExtensionsListFragment
     }
 
     @Override
-    public @NonNull ExtensionsPresenter createPresenter() {
+    public
+    @NonNull
+    ExtensionsPresenter createPresenter() {
         EventManager eventManager =
                 EventManager.getInstance(this.getActivity().getApplicationContext());
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        LocalBroadcastManager localBroadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
         return new ExtensionsListPresenter(eventManager, localBroadcastManager);
     }
 
@@ -136,7 +142,8 @@ public class ExtensionsListFragment
         super.showLoading(pullToRefresh);
         if (pullToRefresh && !contentView.isRefreshing()) {
             contentView.post(new Runnable() {
-                @Override public void run() {
+                @Override
+                public void run() {
                     contentView.setRefreshing(true);
                 }
             });
@@ -146,18 +153,22 @@ public class ExtensionsListFragment
     @Override
     public void showError(String errorMessage, int errorCode, boolean pullToRefresh) {
         contentView.setRefreshing(false);
-        UIUtils.handleErrorMessage(getActivity(), errorCode, errorMessage);
+        if (!getActivity().isFinishing()) {
+            UIUtils.handleErrorMessage(getActivity(), errorCode, errorMessage);
+        }
     }
 
     @Override
     public void showError(VolleyError error, final boolean pullToRefresh) {
         contentView.setRefreshing(false);
-        handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                presenter.loadExtensions(pullToRefresh);
-            }
-        });
+        if (!getActivity().isFinishing()) {
+            handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    presenter.loadExtensions(pullToRefresh);
+                }
+            });
+        }
     }
 
     public void setFilter(String filter) {

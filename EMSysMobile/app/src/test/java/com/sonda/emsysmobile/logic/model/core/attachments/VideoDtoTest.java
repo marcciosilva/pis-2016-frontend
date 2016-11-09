@@ -45,6 +45,11 @@ public class VideoDtoTest {
     }
 
     @Test
+    public void equals_CompareWithSameObject_ReturnsTrue() {
+        assertTrue(mVideoDto.equals(mVideoDto));
+    }
+
+    @Test
     public void equals_CompareWithSameFields_ReturnsTrue() {
         assertTrue(mVideoDto.equals(new VideoDto(mPath)));
     }

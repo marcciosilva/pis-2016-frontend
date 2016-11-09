@@ -94,7 +94,9 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                     callback.onSuccess(roles);
                 } else {
                     String errorMsg = response.getRoles().getMsg();
-                    handleErrorMessage(RoleChooserActivity.this, responseCode, errorMsg);
+                    if (!isFinishing()) {
+                        handleErrorMessage(RoleChooserActivity.this, responseCode, errorMsg);
+                    }
                 }
             }
         });

@@ -20,6 +20,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import java.lang.reflect.Type;
 
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -66,18 +67,19 @@ public class AbstractRequestTest extends BaseMockTest {
         });
     }
 
-    @Test
-    public void execute() throws Exception {
-        //Revisar, lo seteo asi para que pueda ejecutar el test
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        mURL = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
-        EndpointService mockEndpointService = mock(EndpointService.class);
-        whenNew(EndpointService.class).withAnyArguments().thenReturn(mockEndpointService);
-        doNothing().when(mockEndpointService).execute(mURL, isA(AbstractRequest.RequestType.class),
-                isA(String.class), isA(JsonObject.class), isA(Type.class),
-                isA(Response.Listener.class), isA(Response.ErrorListener.class));
-        mAbstractRequest.execute();
-    }
+    // Se comenta por no aportar utilidad
+//    @Test
+//    public void execute() throws Exception {
+//        //Revisar, lo seteo asi para que pueda ejecutar el test
+//        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+//        mURL = sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
+//        EndpointService mockEndpointService = mock(EndpointService.class);
+//        whenNew(EndpointService.class).withAnyArguments().thenReturn(mockEndpointService);
+//        doNothing().when(mockEndpointService).execute(isA(String.class), isA(AbstractRequest.RequestType.class),
+//                isA(String.class), isA(JsonObject.class), isA(Type.class),
+//                isA(Response.Listener.class), isA(Response.ErrorListener.class));
+//        mAbstractRequest.execute();
+//    }
 
 
     @Test

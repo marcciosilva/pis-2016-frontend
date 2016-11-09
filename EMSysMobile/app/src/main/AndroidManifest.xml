@@ -2,10 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.sonda.emsysmobile">
 
+    <!-- Android app permisions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+
+    <!-- Android app features -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
         android:name="com.activeandroid.app.Application"
@@ -14,6 +19,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <meta-data
             android:name="AA_DB_NAME"
             android:value="database.db"/>
@@ -26,14 +32,20 @@
             com.sonda.emsysmobile.persistence.model.SampleReferencedTable"/>
 
         <provider
-            android:name=".ui.eventdetail.multimedia.CustomContentProvider"
-            android:authorities="com.sonda.emsysmobile"
-            android:exported="true"/>
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.sonda.emsysmobile.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
         <!-- ACTIVITIES -->
         <activity
             android:name=".ui.activities.login.AuthActivity"
             android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateVisible"/>
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity
             android:name=".ui.activities.SettingsActivity"
             android:label="Preferences"
@@ -50,14 +62,19 @@
         <activity android:name=".ui.activities.ConsumeWSActivity"/>
         <activity
             android:name=".ui.activities.HomeActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/NoActionBar"/>
         <activity
             android:name=".ui.eventdetail.EventDetailsView"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.eventdetail.multimedia.ImageGalleryView"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+        <activity
+            android:name=".ui.eventdetail.multimedia.ImageDetailView"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
         <activity
             android:name=".ui.attachgeoloc.AttachGeoLocView"
@@ -81,6 +98,7 @@
 
         <!-- SERVICES -->
         <service android:name=".backendcommunication.services.KeepAliveService"/>
+        <service android:name=".backendcommunication.offline.OfflineService"/>
         <service android:name=".notifications.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
@@ -92,12 +110,14 @@
             </intent-filter>
         </service>
 
+        <!-- Metadata -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version"/>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB339nhoZjK3iayzfMY6EGoZZKyyb7ikmM"/>
+
     </application>
 
 </manifest>

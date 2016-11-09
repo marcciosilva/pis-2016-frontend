@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.backendcommunication.offline.OfflineService;
+import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -32,6 +34,12 @@ public class SplashActivity extends AppCompatActivity {
                 goToAuthActivity();
             }
         }, delayMillis);
+
+
+        // Start Offline service.
+        Intent intent = new Intent(SplashActivity.this, OfflineService.class);
+        startService(intent);
+
     }
 
     private void setUpPreferences() {

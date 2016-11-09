@@ -6,7 +6,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context=".ui.eventdetail.EventDetailsView">
-
     <ProgressBar
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
@@ -15,15 +14,13 @@
         android:indeterminateDrawable="@drawable/blue_progress_bar"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:id="@+id/progressBar"
+        android:id="@+id/progress_bar"
         />
-
     <com.sonda.emsysmobile.ui.views.CustomScrollView
         android:id="@+id/main_scrollview_map_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_normal"
         android:weightSum="1">
 
         <LinearLayout
@@ -294,26 +291,40 @@
         fab:menu_showShadow="true">
 
         <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/button_attach_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_image_white_24dp"
+            fab:fab_colorNormal="@color/colorPrimary_600"
+            fab:fab_colorPressed="@color/colorPrimary_800"
+            fab:fab_colorRipple="#99d4d4d4"
+            fab:fab_label="@string/attach_image_option_title"
+            fab:fab_size="normal"
+            fab:fab_progress_color="@color/colorPrimary_900"/>
+
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/button_update_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_mode_edit_white_24dp"
             fab:fab_colorNormal="@color/colorPrimary_600"
             fab:fab_colorPressed="@color/colorPrimary_800"
             fab:fab_colorRipple="#99d4d4d4"
             fab:fab_label="@string/action_update_desc"
-            fab:fab_size="normal"/>
+            fab:fab_size="normal"
+            fab:fab_progress_color="@color/colorPrimary_900"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/button_attach_geolocation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit_location_white_24dp"
             fab:fab_colorNormal="@color/colorPrimary_600"
             fab:fab_colorPressed="@color/colorPrimary_800"
             fab:fab_colorRipple="#99d4d4d4"
             fab:fab_label="@string/action_attach_geolocation"
-            fab:fab_size="normal"/>
+            fab:fab_size="normal"
+            fab:fab_progress_color="@color/colorPrimary_900"/>
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/button_report_time"
@@ -327,5 +338,4 @@
             fab:fab_size="normal"/>
 
     </com.github.clans.fab.FloatingActionMenu>
-
 </RelativeLayout>

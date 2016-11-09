@@ -36,7 +36,7 @@ public class UpdateDescripcionRequestTest extends BaseMockTest {
         mUpdateDescriptionRequest.setAttributes(desc, idExt);
         JsonObject jsonToCompare = new JsonObject();
         jsonToCompare.addProperty("descripcion", desc);
-        jsonToCompare.addProperty("idExtension", idExt);
+        jsonToCompare.addProperty("id_extension", idExt);
         JsonObject json = mUpdateDescriptionRequest.getBody();
         assertEquals(json, jsonToCompare);
     }

@@ -7,6 +7,8 @@ var getimagedata_error = require('../replies/getimagedata_error.json');
 // reportTime
 var report_time_success = require('../replies/report_time_success.json');
 var report_time_fail = require('../replies/report_time_fail.json');
+// offlineAttachDescription
+var offline_update_desc_success = require('../replies/offline_update_desc_success.json');
 
 function delay(ms) {
     console.log("Esperando " + ms + " ms...");
@@ -22,7 +24,7 @@ function delay(ms) {
 }
 
 var getEvents = function (request, response, next) {
-    delay(2000);
+    // delay(2000);
 	console.log('GET');
     response.send(JSON.stringify(events_list), 200);
 };
@@ -84,9 +86,16 @@ var postArrivalTime = function (request, response, next) {
     response.send(JSON.stringify(report_time_fail), 200);
 };
 
+var postOfflineUpdateDesc = function (request, response, next) {
+    console.log('POST a postOfflineUpdateDesc');
+    console.log(request.body);
+    response.send(JSON.stringify(offline_update_desc_success), 200);
+};
+
 exports.postArrivalTime = postArrivalTime;
 exports.getEvents = getEvents;
 exports.getEventDetail = getEventDetail;
 exports.getSpecialCase = getSpecialCase;
 exports.postEvents = postEvents;
 exports.getImageData = getImageData;
+exports.postOfflineUpdateDesc = postOfflineUpdateDesc;
