@@ -83,7 +83,7 @@ var getImageData = function (request, response, next) {
 var postArrivalTime = function (request, response, next) {
     console.log('POST a postArrivalTime');
     console.log(request.body);
-    response.send(JSON.stringify(report_time_fail), 200);
+    response.send(JSON.stringify(report_time_success), 200);
 };
 
 var postOfflineUpdateDesc = function (request, response, next) {
