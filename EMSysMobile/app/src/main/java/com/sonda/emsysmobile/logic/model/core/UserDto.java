@@ -48,7 +48,7 @@ public class UserDto implements Serializable {
         this.roles = roles;
     }
 
-    public boolean isZoneDispatcher(){
+    public boolean isZoneDispatcher() {
         if (roles != null) {
             List<ZoneDto> zones = roles.getZones();
             return ((zones != null) && (zones.size() != 0));
@@ -57,7 +57,7 @@ public class UserDto implements Serializable {
         }
     }
 
-    public boolean isResource(){
+    public boolean isResource() {
         if (roles != null) {
             List<ResourceDto> resources = roles.getResources();
             return ((resources != null) && (resources.size() != 0));
