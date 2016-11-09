@@ -14,6 +14,11 @@ import java.io.Serializable;
 
 public class ImageDataDto {
 
+    public ImageDataDto(String _name, String _data){
+        this.name = _name;
+        this.data = _data;
+    }
+
     @SerializedName("nombre")
     private String name;
 

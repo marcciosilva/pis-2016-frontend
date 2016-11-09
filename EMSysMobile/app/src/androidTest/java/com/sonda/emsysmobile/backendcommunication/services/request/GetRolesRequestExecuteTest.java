@@ -6,9 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ExternalServiceResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.GetImageDataResponse;
-import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
+import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 import org.junit.Rule;
@@ -22,9 +20,9 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class GetImageDataRequestExecuteTest {
+public class GetRolesRequestExecuteTest {
 
-    private GetImageDataRequest<GetImageDataResponse> mGetImageDataRequest;
+    private GetRolesRequest<GetRolesResponse> mGetRolesRequest;
 
     //Obtengo el context de la app a partir de una activity
     @Rule
@@ -32,21 +30,20 @@ public class GetImageDataRequestExecuteTest {
 
     @Test
     public void executeTest() throws Exception {
-        mGetImageDataRequest = new GetImageDataRequest<>(mActivityRule.getActivity().getApplicationContext(),
-                GetImageDataResponse.class);
-        mGetImageDataRequest.setAttributes(1);
-        mGetImageDataRequest.setListener(new Response.Listener<GetImageDataResponse>(){
+        mGetRolesRequest = new GetRolesRequest<>(mActivityRule.getActivity().getApplicationContext(),
+                GetRolesResponse.class);
+        mGetRolesRequest.setListener(new Response.Listener<GetRolesResponse>(){
             @Override
-            public void onResponse(GetImageDataResponse response) {
+            public void onResponse(GetRolesResponse response) {
                 int responseCode = response.getCode();
                 assertEquals(responseCode, ErrorCodeCategory.SUCCESS.getNumVal());
             }
         });
-        mGetImageDataRequest.setErrorListener(new Response.ErrorListener() {
+        mGetRolesRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
         });
-        mGetImageDataRequest.execute();
+        mGetRolesRequest.execute();
     }
 }

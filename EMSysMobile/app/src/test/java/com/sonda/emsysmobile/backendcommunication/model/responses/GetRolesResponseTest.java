@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by marccio on 9/30/16.
  */
 
-public class GetRolesResponseUnitTest {
+public class GetRolesResponseTest {
 
     private GetRolesResponse mGetRolesResponse;
     private RoleDto mRoleDto;

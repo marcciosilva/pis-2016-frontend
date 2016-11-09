@@ -6,9 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ExternalServiceResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.GetImageDataResponse;
-import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
+import com.sonda.emsysmobile.backendcommunication.model.responses.KeepAliveResponse;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 import org.junit.Rule;
@@ -22,9 +20,9 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class GetImageDataRequestExecuteTest {
+public class KeepAliveRequestExecuteTest {
 
-    private GetImageDataRequest<GetImageDataResponse> mGetImageDataRequest;
+    private KeepAliveRequest<KeepAliveResponse> mKeepAliveRequest;
 
     //Obtengo el context de la app a partir de una activity
     @Rule
@@ -32,21 +30,21 @@ public class GetImageDataRequestExecuteTest {
 
     @Test
     public void executeTest() throws Exception {
-        mGetImageDataRequest = new GetImageDataRequest<>(mActivityRule.getActivity().getApplicationContext(),
-                GetImageDataResponse.class);
-        mGetImageDataRequest.setAttributes(1);
-        mGetImageDataRequest.setListener(new Response.Listener<GetImageDataResponse>(){
+        mKeepAliveRequest = new KeepAliveRequest<>(mActivityRule.getActivity().getApplicationContext(),
+                KeepAliveResponse.class);
+        mKeepAliveRequest.setListener(new Response.Listener<KeepAliveResponse>(){
             @Override
-            public void onResponse(GetImageDataResponse response) {
+            public void onResponse(KeepAliveResponse response) {
                 int responseCode = response.getCode();
                 assertEquals(responseCode, ErrorCodeCategory.SUCCESS.getNumVal());
             }
         });
-        mGetImageDataRequest.setErrorListener(new Response.ErrorListener() {
+        mKeepAliveRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
         });
-        mGetImageDataRequest.execute();
+        mKeepAliveRequest.execute();
     }
+
 }

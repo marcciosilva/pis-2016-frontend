@@ -6,14 +6,15 @@ import android.support.test.runner.AndroidJUnit4;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ExternalServiceResponse;
-import com.sonda.emsysmobile.backendcommunication.model.responses.GetImageDataResponse;
-import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
+import com.sonda.emsysmobile.backendcommunication.model.responses.UpdateGeoLocationResponse;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Date;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -22,9 +23,9 @@ import static junit.framework.Assert.assertEquals;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class GetImageDataRequestExecuteTest {
+public class UpdateGeoLocationRequestExecuteTest {
 
-    private GetImageDataRequest<GetImageDataResponse> mGetImageDataRequest;
+    private UpdateGeoLocationRequest<UpdateGeoLocationResponse> mUpdateGeoLocRequest;
 
     //Obtengo el context de la app a partir de una activity
     @Rule
@@ -32,21 +33,21 @@ public class GetImageDataRequestExecuteTest {
 
     @Test
     public void executeTest() throws Exception {
-        mGetImageDataRequest = new GetImageDataRequest<>(mActivityRule.getActivity().getApplicationContext(),
-                GetImageDataResponse.class);
-        mGetImageDataRequest.setAttributes(1);
-        mGetImageDataRequest.setListener(new Response.Listener<GetImageDataResponse>(){
+        GeolocationDto geolocationDto = new GeolocationDto(1, "test_user", new Date(), 1.2, 1.2);
+        mUpdateGeoLocRequest = new UpdateGeoLocationRequest<>(mActivityRule.getActivity().getApplicationContext(),
+                UpdateGeoLocationResponse.class, geolocationDto);
+        mUpdateGeoLocRequest.setListener(new Response.Listener<UpdateGeoLocationResponse>(){
             @Override
-            public void onResponse(GetImageDataResponse response) {
+            public void onResponse(UpdateGeoLocationResponse response) {
                 int responseCode = response.getCode();
                 assertEquals(responseCode, ErrorCodeCategory.SUCCESS.getNumVal());
             }
         });
-        mGetImageDataRequest.setErrorListener(new Response.ErrorListener() {
+        mUpdateGeoLocRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
             }
         });
-        mGetImageDataRequest.execute();
+        mUpdateGeoLocRequest.execute();
     }
 }
