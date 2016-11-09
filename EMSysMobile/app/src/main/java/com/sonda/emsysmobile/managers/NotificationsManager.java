@@ -20,7 +20,7 @@ public class NotificationsManager {
 
     private static final String TAG = NotificationsManager.class.getSimpleName();
     private static final String NOTIFICATION_KEY = "notification";
-    private static final String EVENTS_UPDATED = "events_updated";
+    private static final String NOTIFICATION_RECEIVED = "notification_received";
 
     private static NotificationsManager mInstance;
     private Context mContext;
@@ -62,7 +62,9 @@ public class NotificationsManager {
             if (intent.getExtras() != null) {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
-                    notifications.add(notification);
+                    notifications.add(0, notification);
+                    Intent newNotifIntent = new Intent(NOTIFICATION_RECEIVED);
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(newNotifIntent);
                 }
             }
         }

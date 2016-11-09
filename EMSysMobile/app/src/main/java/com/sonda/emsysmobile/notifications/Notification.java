@@ -18,17 +18,20 @@ public class Notification implements Parcelable {
     private String code;
     private Date date;
     private int objectId;
+    private boolean isRead;
 
     public Notification(String title, String description, String code, int objectId) {
         this.title = title;
         this.description = description;
         this.code = code;
         this.objectId = objectId;
+        this.isRead = false;
     }
 
     public Notification(String code, int objectId) {
         this.code = code;
         this.objectId = objectId;
+        this.date = new Date();
         buildTitleAndDescription();
     }
 
@@ -70,6 +73,14 @@ public class Notification implements Parcelable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     protected Notification(Parcel in) {

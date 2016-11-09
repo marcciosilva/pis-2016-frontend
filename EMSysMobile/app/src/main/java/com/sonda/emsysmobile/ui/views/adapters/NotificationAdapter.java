@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.views.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +21,8 @@ import java.util.List;
  * Created by sasainz on 11/8/16.
  */
 
-public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
+public class NotificationAdapter
+        extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
 
     private final List<Notification> notifications;
     private final Context context;
@@ -48,7 +51,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         Notification notification = notifications.get(position);
 
         holder.setItem(notification);
-        holder.getDate().setText(DateUtils.dateToString(notification.getDate()));
+        holder.getDate().setText(DateUtils.timeAgoString(context, notification.getDate()));
         holder.getTitle().setText(notification.getTitle());
         holder.getDescription().setText(notification.getDescription());
     }

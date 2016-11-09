@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 
 /**
  * Created by sasainz on 11/2/16.

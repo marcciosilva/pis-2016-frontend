@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/gray_xxxlight">
 
     <TextView
         android:id="@+id/label_date"
@@ -12,14 +13,15 @@
         android:layout_marginTop="@dimen/spacing_normal"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginRight="@dimen/spacing_normal"
-        android:textSize="@dimen/font_large"
+        android:textSize="@dimen/font_normal"
+        android:textStyle="italic"
         tools:text="02/10/2016"/>
 
     <TextView
         android:id="@+id/label_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginRight="@dimen/spacing_normal"
         android:textColor="@color/black"
@@ -31,12 +33,17 @@
         android:id="@+id/label_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginTop="@dimen/spacing_tiny"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginRight="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_normal"
         android:textColor="@color/black"
         android:textSize="@dimen/font_large"
         tools:text="El evento 3 ha sido modificado"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_dark"/>
 
 </LinearLayout>
