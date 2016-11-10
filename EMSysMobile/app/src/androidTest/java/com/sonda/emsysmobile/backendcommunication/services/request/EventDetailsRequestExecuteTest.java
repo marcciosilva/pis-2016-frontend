@@ -29,7 +29,7 @@ public class EventDetailsRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void EventDetailsRequestTest() throws Exception {
         mEventDetailsRequest = new EventDetailsRequest<>(mActivityRule.getActivity().getApplicationContext(), EventDetailsResponse.class);
         mEventDetailsRequest.setAttributes(1);
         mEventDetailsRequest.setListener(new Response.Listener<EventDetailsResponse>(){

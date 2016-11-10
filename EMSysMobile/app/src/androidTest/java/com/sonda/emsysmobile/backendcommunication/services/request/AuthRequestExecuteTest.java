@@ -35,7 +35,7 @@ public class AuthRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void AuthRequestTest() throws Exception {
         mAuthRequest = new AuthRequest<>(mActivityRule.getActivity().getApplicationContext(), AuthResponse.class);
         mAuthRequest.setAttributes("test_user", "test_pass");
         mAuthRequest.setListener(new Response.Listener<AuthResponse>(){

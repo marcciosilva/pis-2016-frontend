@@ -32,7 +32,7 @@ public class UpdateGeoLocationRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void UpdateGeoLocationRequestTest() throws Exception {
         GeolocationDto geolocationDto = new GeolocationDto(1, "test_user", new Date(), 1.2, 1.2);
         mUpdateGeoLocRequest = new UpdateGeoLocationRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 UpdateGeoLocationResponse.class, geolocationDto);

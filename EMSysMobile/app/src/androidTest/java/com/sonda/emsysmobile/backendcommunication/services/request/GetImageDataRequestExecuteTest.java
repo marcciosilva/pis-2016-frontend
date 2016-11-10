@@ -32,7 +32,7 @@ public class GetImageDataRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void GetImageDataExecuteTest() throws Exception {
         mGetImageDataRequest = new GetImageDataRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 GetImageDataResponse.class);
         mGetImageDataRequest.setAttributes(1);

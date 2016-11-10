@@ -16,11 +16,7 @@ public class ImageDataDtoTest {
 
     @Before
     public void setUp() throws Exception {
-        mName = "name";
-        mData = "data";
-        imageDataDto = new ImageDataDto();
-        imageDataDto.setName(mName);
-        imageDataDto.setData(mData);
+        imageDataDto = new ImageDataDto("name", "data");
     }
 
     @Test

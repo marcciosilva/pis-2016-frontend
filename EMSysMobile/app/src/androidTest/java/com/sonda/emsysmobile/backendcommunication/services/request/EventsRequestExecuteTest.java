@@ -29,7 +29,7 @@ public class EventsRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void EventsRequestsTest() throws Exception {
         mEventsRequest = new EventsRequest<>(mActivityRule.getActivity().getApplicationContext(), EventsResponse.class);
         mEventsRequest.setListener(new Response.Listener<EventsResponse>(){
             @Override

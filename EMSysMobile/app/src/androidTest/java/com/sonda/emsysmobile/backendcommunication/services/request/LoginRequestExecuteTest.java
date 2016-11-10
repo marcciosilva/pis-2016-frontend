@@ -36,7 +36,7 @@ public class LoginRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void LoginRequestTest() throws Exception {
         ZoneDto zoneDto = new ZoneDto("test_name", 1, "test_name");
         List<ZoneDto> listZones = new ArrayList<ZoneDto>();
         listZones.add(zoneDto);

@@ -29,7 +29,7 @@ public class GetRolesRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void GetRolesRequestTest() throws Exception {
         mGetRolesRequest = new GetRolesRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 GetRolesResponse.class);
         mGetRolesRequest.setListener(new Response.Listener<GetRolesResponse>(){

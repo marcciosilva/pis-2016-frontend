@@ -29,7 +29,7 @@ public class KeepAliveRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void KeepAliveRequestTest() throws Exception {
         mKeepAliveRequest = new KeepAliveRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 KeepAliveResponse.class);
         mKeepAliveRequest.setListener(new Response.Listener<KeepAliveResponse>(){

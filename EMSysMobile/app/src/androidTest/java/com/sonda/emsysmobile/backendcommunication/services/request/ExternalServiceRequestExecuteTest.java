@@ -30,7 +30,7 @@ public class ExternalServiceRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void ExternalServiceExecuteTest() throws Exception {
         ExternalServiceQueryDto queryDto = new ExternalServiceQueryDto("test_parameter_1", "test_parameter_2", "test_parameter_3");
         mExternalServiceRequest = new ExternalServiceRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 ExternalServiceResponse.class, queryDto);

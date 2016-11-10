@@ -29,7 +29,7 @@ public class ReportTimeRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void ReportTimeRequestTest() throws Exception {
         mReportTimeRequest = new ReportTimeRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 ReportTimeResponse.class,1);
         mReportTimeRequest.setListener(new Response.Listener<ReportTimeResponse>(){

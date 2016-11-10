@@ -29,7 +29,7 @@ public class LogoutRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void LogoutRequestTest() throws Exception {
         mLogoutRequest = new LogoutRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 LoginLogoutResponse.class);
         mLogoutRequest.setListener(new Response.Listener<LoginLogoutResponse>(){

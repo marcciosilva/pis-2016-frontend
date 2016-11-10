@@ -29,7 +29,7 @@ public class UpdateDescriptionRequestExecuteTest {
     public ActivityTestRule<AuthActivity> mActivityRule = new ActivityTestRule(AuthActivity.class);
 
     @Test
-    public void executeTest() throws Exception {
+    public void UpdateDescriptionRequestTest() throws Exception {
         mUpdateDescriptironRequest = new UpdateDescriptionRequest<>(mActivityRule.getActivity().getApplicationContext(),
                 UpdateGeoLocationResponse.class);
         mUpdateDescriptironRequest.setListener(new Response.Listener<UpdateGeoLocationResponse>(){
