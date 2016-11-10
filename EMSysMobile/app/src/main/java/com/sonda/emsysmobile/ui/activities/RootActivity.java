@@ -5,14 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -29,13 +25,20 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
+import com.sonda.emsysmobile.logic.model.core.ResourceDto;
+import com.sonda.emsysmobile.logic.model.core.UserDto;
+import com.sonda.emsysmobile.logic.model.core.ZoneDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
+
+
+import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
@@ -54,15 +57,19 @@ public abstract class RootActivity extends AppCompatActivity {
     public static final int CREATE_EVENT = 4;
     private static final int LOG_OUT = 5;
 
+    private UserDto userData;
     protected AccountHeader headerResult = null;
     protected Drawer result = null;
     protected MiniDrawer miniResult = null;
     protected Crossfader crossFader;
 
 
-    protected void onCreate(Bundle savedInstanceState, int guestActivityId,int guestActivityRootId, String title, int selectedItem) {
+    protected void onCreate(Bundle savedInstanceState, int guestActivityId, int
+            guestActivityRootId, String title, int selectedItem) {
         super.onCreate(savedInstanceState);
         setContentView(guestActivityId);
+
+        userData = GlobalVariables.getUserData();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,48 +84,57 @@ public abstract class RootActivity extends AppCompatActivity {
         });
         getSupportActionBar().setTitle(title);
 
-        final IProfile profile = new ProfileDrawerItem().withName("Mike Penz").withEmail("Despachador de zonas (3)").withIcon("https://avatars3.githubusercontent.com/u/887462?v=3&s=460");
+        String userName = getUsername();
+        String roleLabel = getRoleLabel();
+        final IProfile profile = new ProfileDrawerItem().withName(userName).withEmail(roleLabel)
+                .withIcon("https://avatars3.githubusercontent.com/u/887462?v=3&s=460");
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
                 .withTranslucentStatusBar(false)
                 .addProfiles(
-                        profile,
-                        new ProfileSettingDrawerItem().withName("Cerrar sesión").withIdentifier(LOG_OUT)
+                        profile
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                        //sample usage of the onProfileChanged listener
-                        //if the clicked item has the identifier 1 add a new profile ;)
-                        if (profile instanceof IDrawerItem && ((IDrawerItem) profile).getIdentifier() == LOG_OUT) {
-                            //TODO CALL TO LOGOUT FUNCTION
+                        if (profile instanceof IDrawerItem &&
+                                ((IDrawerItem) profile).getIdentifier() == LOG_OUT) {
+                            logout();
                         }
-                        //false if you have not consumed the event and it should close the drawer
                         return false;
                     }
                 })
                 .withSavedInstance(savedInstanceState)
                 .build();
 
+        addZoneName(headerResult);
+
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withTranslucentStatusBar(false)
-                .withAccountHeader(headerResult) //set the AccountHeader we created earlier for the header
+                .withAccountHeader(headerResult)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.menu_list_events_string).withIcon(GoogleMaterial.Icon.gmd_format_list_bulleted).withIdentifier(EVENT_LIST),
-                        new PrimaryDrawerItem().withName(R.string.menu_view_map_string).withIcon(GoogleMaterial.Icon.gmd_map).withIdentifier(EVENT_MAP_LIST),
-                        new PrimaryDrawerItem().withName(R.string.menu_external_service_string).withIcon(GoogleMaterial.Icon.gmd_cloud_download).withIdentifier(EXTERNAL_SERVICE),
-                        new PrimaryDrawerItem().withName(R.string.menu_create_event_string).withIcon(GoogleMaterial.Icon.gmd_plus).withIdentifier(CREATE_EVENT)
+                        new PrimaryDrawerItem().withName(R.string.menu_list_events_string)
+                                .withIcon(GoogleMaterial.Icon.gmd_format_list_bulleted)
+                                .withIdentifier(EVENT_LIST),
+                        new PrimaryDrawerItem().withName(R.string.menu_view_map_string)
+                                .withIcon(GoogleMaterial.Icon.gmd_map)
+                                .withIdentifier(EVENT_MAP_LIST),
+                        new PrimaryDrawerItem().withName(R.string.menu_external_service_string)
+                                .withIcon(GoogleMaterial.Icon.gmd_cloud_download)
+                                .withIdentifier(EXTERNAL_SERVICE),
+                        new PrimaryDrawerItem().withName(R.string.menu_create_event_string)
+                                .withIcon(GoogleMaterial.Icon.gmd_plus).withIdentifier(CREATE_EVENT)
 
 
-                        ) // add the items we want to use with our Drawer
+                )
 
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch ((int) drawerItem.getIdentifier()){
+                        switch ((int) drawerItem.getIdentifier()) {
                             case CREATE_EVENT:
                                 goToEventCreateView();
                                 return false;
@@ -143,53 +159,66 @@ public abstract class RootActivity extends AppCompatActivity {
                 .withGenerateMiniDrawer(true)
                 .withSavedInstance(savedInstanceState)
                 .addStickyDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.menu_logout_string).withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(LOG_OUT)
+                        new PrimaryDrawerItem().withName(R.string.menu_logout_string)
+                                .withIcon(FontAwesome.Icon.faw_sign_out).withIdentifier(LOG_OUT)
                 )
-                // build only the view of the Drawer (don't inflate it automatically in our layout which is done with .build())
                 .buildView();
 
         result.setSelection(selectedItem, false);
-        //the MiniDrawer is managed by the Drawer and we just get it to hook it into the Crossfader
         miniResult = result.getMiniDrawer();
 
-        //get the widths in px for the first and second panel
         int firstWidth = (int) UIUtils.convertDpToPixel(300, this);
         int secondWidth = (int) UIUtils.convertDpToPixel(72, this);
 
-        //create and build our crossfader (see the MiniDrawer is also builded in here, as the build method returns the view to be used in the crossfader)
-        //the crossfader library can be found here: https://github.com/mikepenz/Crossfader
         crossFader = new Crossfader()
                 .withContent(findViewById(guestActivityRootId))
                 .withFirst(result.getSlider(), firstWidth)
                 .withSecond(miniResult.build(this), secondWidth)
+                .withGmailStyleSwiping()
                 .withSavedInstance(savedInstanceState)
                 .build();
 
-
-        //define the crossfader to be used with the miniDrawer. This is required to be able to automatically toggle open / close
         miniResult.withCrossFader(new CrossfadeWrapper(crossFader));
 
-        //define a shadow (this is only for normal LTR layouts if you have a RTL app you need to define the other one
-        crossFader.getCrossFadeSlidingPaneLayout().setShadowResourceLeft(R.drawable.material_drawer_shadow_left);
+        crossFader.getCrossFadeSlidingPaneLayout()
+                .setShadowResourceLeft(R.drawable.material_drawer_shadow_left);
+    }
 
+    private String getUsername() {
+        return userData.getUsername();
+    }
+
+    private String getRoleLabel() {
+        if (userData.isZoneDispatcher()) {
+            return "Despachado de zona (" + String.valueOf(userData.getRoles().getZones().size()) +
+                    ")";
+        } else if (userData.isResource()) {
+            List<ResourceDto> resources = userData.getRoles().getResources();
+            return "Recurso (" + resources.get(0).getCode() + ")";
+        }
+        return "Usuario sin rol";
+    }
+
+
+    private void addZoneName(AccountHeader headerAccount) {
+        if (userData.isZoneDispatcher()) {
+            List<ZoneDto> zones = userData.getRoles().getZones();
+            for (ZoneDto zone : zones) {
+                headerAccount.addProfiles(new ProfileSettingDrawerItem().withName(zone.getName()));
+            }
+        }
     }
 
     @Override
     public void onBackPressed() {
-        //handle the back press :D close the drawer first and if the drawer is closed close the activity
         if (crossFader != null && crossFader.isCrossFaded()) {
             crossFader.crossFade();
         } else {
-            DialogFragment dialog = UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
+            DialogFragment dialog =
+                    UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
             dialog.show(getSupportFragmentManager(), TAG);
         }
     }
-
-    private void replaceFragment(Fragment fragment, String fragmentTAG) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
-    }
-
 
     protected abstract void goToEventCreateView();
 
@@ -249,23 +278,4 @@ public abstract class RootActivity extends AppCompatActivity {
         finish();
     }
 
-    /**
-     * Fragment that appears in the "content_frame", shows a planet
-     */
-    public static class TestFragment extends Fragment {
-
-        public TestFragment() {
-            // Constructor vacio requerido por todas las subclases de Fragment.
-        }
-
-        @Override
-        public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                       Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.test_fragment_layout, container, false);
-            String text = getArguments().getString("text");
-            TextView textView = (TextView) rootView.findViewById(R.id.fragment_textview);
-            textView.setText(text);
-            return rootView;
-        }
-    }
 }

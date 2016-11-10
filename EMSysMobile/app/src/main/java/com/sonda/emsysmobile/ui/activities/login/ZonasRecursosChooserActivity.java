@@ -2,10 +2,8 @@ package com.sonda.emsysmobile.ui.activities.login;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -22,7 +20,6 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.Gson;
 import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
@@ -160,6 +157,7 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     }
                     recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
                 }
+
             }
             final RoleDto roles = new RoleDto(zonas, recursos);
             loginUser(roles, new VolleyCallbackLoginUser() {
