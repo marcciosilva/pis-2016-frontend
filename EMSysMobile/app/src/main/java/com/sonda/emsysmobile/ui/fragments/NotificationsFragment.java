@@ -4,10 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +22,7 @@ import com.sonda.emsysmobile.ui.views.adapters.NotificationAdapter;
 import java.util.ArrayList;
 
 
-public class NotificationsFragment extends Fragment {
+public class NotificationsFragment extends DialogFragment {
 
     private static final String NOTIFICATION_RECEIVED = "notification_received";
 
@@ -44,6 +42,7 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_TITLE, 0);
     }
 
     @Override
@@ -66,6 +65,10 @@ public class NotificationsFragment extends Fragment {
     @Override
     public final void onResume() {
         super.onResume();
+
+        int width = getResources().getDimensionPixelSize(R.dimen.popup_width);
+        int height = getResources().getDimensionPixelSize(R.dimen.popup_height);
+        getDialog().getWindow().setLayout(width, height);
 
         //We wants than Broadcast Receiver be registered when the fragment is active
         LocalBroadcastManager.getInstance(this.getActivity())
@@ -133,7 +136,7 @@ public class NotificationsFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        void onNotificationSelected(int eventId);
+        void onNotificationSelected(Notification notification);
     }
 
     private BroadcastReceiver broadcastReceiverNotifications = new BroadcastReceiver() {

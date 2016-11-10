@@ -34,4 +34,9 @@
 
     <dimen name="map_height">350dp</dimen>
 
+    <dimen name="dialog_width_large">400dp</dimen>
+
+    <dimen name="popup_width">300dp</dimen>
+    <dimen name="popup_height">24000dp</dimen>
+
 </resources>

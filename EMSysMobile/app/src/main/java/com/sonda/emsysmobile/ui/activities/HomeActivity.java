@@ -40,6 +40,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.managers.NotificationsManager;
 import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
+import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
@@ -67,6 +68,7 @@ public class HomeActivity extends RootActivity
     private FloatingActionButton mFloatingButton;
     private boolean mContainerCollapsed;
     private MapExtensionsFragment mMapExtensionsFragment;
+    private NotificationsFragment mNotificationsFragment;
     private String mSelectedFilter = "Prioridad";
 
     @Override
@@ -171,6 +173,7 @@ public class HomeActivity extends RootActivity
     public final boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_1){
             showMapView(false);
+
             // Primero se redirige al listado.
             ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
                     .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
@@ -178,15 +181,20 @@ public class HomeActivity extends RootActivity
                 extensionsListFragment = new ExtensionsListFragment();
             }
             replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
+
             // Luego se abre el diálogo para elegir el filtro.
             FragmentManager fm = getSupportFragmentManager();
             EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
             eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
+
         } else if (item.getItemId() == R.id.menu_item_notif_on) {
+
             showMapView(false);
             setNotificationActive(false);
-            NotificationsFragment notificationsFragment = NotificationsFragment.newInstance();
-            replaceFragment(notificationsFragment, NotificationsFragment.class.getSimpleName());
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mNotificationsFragment = NotificationsFragment.newInstance();
+            mNotificationsFragment.show(fragmentManager, NotificationsFragment.class.getSimpleName());
         }
 
         return true;
@@ -277,9 +285,6 @@ public class HomeActivity extends RootActivity
         }
     }
 
-    private void setNotificationActive(boolean active) {
-    }
-
     private void toggleFragmentContainer() {
         if (mContainerCollapsed) {
             mFragmentsContainer.setVisibility(View.VISIBLE);
@@ -348,7 +353,12 @@ public class HomeActivity extends RootActivity
     }
 
     @Override
-    public void onNotificationSelected(int eventId) {
+    public void onNotificationSelected(Notification notification) {
+        mNotificationsFragment.dismiss();
+        EventDetailsPresenter.loadEventDetails(HomeActivity.this, notification.getObjectId());
+    }
+
+    private void setNotificationActive(boolean active) {
         //TODO: show badge in notifications icon
     }
 

@@ -47,13 +47,24 @@ public class NotificationAdapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Notification notification = notifications.get(position);
 
         holder.setItem(notification);
         holder.getDate().setText(DateUtils.timeAgoString(context, notification.getDate()));
         holder.getTitle().setText(notification.getTitle());
         holder.getDescription().setText(notification.getDescription());
+
+        holder.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != listener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    listener.onNotificationSelected(holder.getItem());
+                }
+            }
+        });
     }
 
     @Override

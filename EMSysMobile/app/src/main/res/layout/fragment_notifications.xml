@@ -8,10 +8,10 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/notifications_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/white"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/row_notification" />
+        tools:listitem="@layout/row_notification"/>
 
     <TextView
         android:id="@+id/empty_view"

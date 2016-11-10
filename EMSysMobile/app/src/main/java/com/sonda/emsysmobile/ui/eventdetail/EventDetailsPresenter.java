@@ -89,6 +89,43 @@ public final class EventDetailsPresenter {
     }
 
     /**
+     * Carga los detalles del evento (si es necesario), y se encarga de comenzar
+     * la inicializacion de la vista del detalle del evento.
+     *
+     * @param context
+     * @param eventId
+     */
+    public static void loadEventDetails(final Context context, final int eventId) {
+        final EventManager eventManager = EventManager.getInstance(context);
+
+        //TODO llamar eventManager.getLocalEventDetails(eventId):
+        EventDto event = eventManager.getLocalEventDetail(eventId);
+        if (event != null) {
+            initEventDetailsView(context, event);
+
+            eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
+                @Override
+                public void onSuccess(EventDto event) {
+                    eventManager.setEventAsRead(event);
+                    updateMapFragment();
+                    mEventDetailsView.updateViewData(event);
+                }
+
+                @Override
+                public void onLogicError(String errorMessage, int errorCode) {
+                    if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
+                        UIUtils.handleErrorMessage(context, errorCode, errorMessage);
+                    }
+                }
+
+                @Override
+                public void onNetworkError(VolleyError error) {
+                }
+            });
+        }
+    }
+
+    /**
      * Inicializa la vista para el detalle del evento, pasandole los datos que correspondan
      * para que muestre.
      *
