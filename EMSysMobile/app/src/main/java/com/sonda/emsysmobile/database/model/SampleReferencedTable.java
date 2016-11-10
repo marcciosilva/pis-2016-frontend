@@ -17,6 +17,15 @@ public class SampleReferencedTable extends Model {
     @Column(name = "Name", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String name;
 
+    public SampleReferencedTable() {
+        super();
+    }
+
+    public SampleReferencedTable(String name) {
+        super();
+        this.name = name;
+    }
+
     // Metodo opcional para obtener tuplas asociadas a una tupla de esta tabla.
     public final List<SampleTable> items() {
         return getMany(SampleTable.class, "SampleReferencedTable");
@@ -29,4 +38,17 @@ public class SampleReferencedTable extends Model {
     public final void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!SampleReferencedTable.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final SampleReferencedTable other = (SampleReferencedTable) obj;
+        return (super.equals(other) && name.equals(other.getName()));
+    }
+
 }

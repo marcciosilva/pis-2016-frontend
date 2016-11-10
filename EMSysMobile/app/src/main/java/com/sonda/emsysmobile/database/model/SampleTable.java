@@ -43,4 +43,16 @@ public class SampleTable extends Model {
     public final void setSampleReferencedTable(SampleReferencedTable sampleReferencedTable) {
         this.sampleReferencedTable = sampleReferencedTable;
     }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!SampleTable.class.isAssignableFrom(obj.getClass())) {
+            return false;
+        }
+        final SampleTable other = (SampleTable) obj;
+        return (super.equals(other) && name.equals(other.getName()) && sampleReferencedTable.equals(other.getSampleReferencedTable()));
+    }
 }
