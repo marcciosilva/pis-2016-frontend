@@ -6,15 +6,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.logic.model.core.DescriptionDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
@@ -50,8 +54,17 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         if (position == 0) {
             holder.getCurrentExtensionTextView().setVisibility(View.VISIBLE);
         }
-        if ((extension.getDescription() != null) && (!extension.getDescription().equals(""))) {
-            holder.getDescriptionTextView().setText(extension.getDescription());
+        if ((extension.getDispatcherDescription() != null) && (!extension.getDispatcherDescription().isEmpty())) {
+            ArrayList<String> list = new ArrayList<>();
+            for (DescriptionDto desc: extension.getDispatcherDescription()) {
+                list.add(desc.toString());
+            }
+
+            ArrayAdapter adapter = new ArrayAdapter<>(mContext,
+                    android.R.layout.simple_list_item_1,
+                    list);
+            holder.getDispatcherDescriptionListView().setAdapter(adapter);
+//            holder.getDescriptionTextView().setText(extension.getDescription());
         }
         holder.getImagesButton().setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -82,7 +95,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         private final View view;
         private final TextView idAndZoneTextView;
         private final TextView currentExtension;
-        private final TextView descriptionTextView;
+        private final ListView dispatcherDescriptionListView;
         private final TextView dispatcherTextView;
         private ImageButton imagesButton;
         private ImageButton videosButton;
@@ -103,12 +116,12 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         }
 
 
-        public final TextView getDescriptionTextView() {
-            return descriptionTextView;
+        public final ListView getDispatcherDescriptionListView() {
+            return dispatcherDescriptionListView;
         }
 
         public final TextView getDispatcherTextView() {
-            return descriptionTextView;
+            return dispatcherTextView;
         }
 
         public final ExtensionDto getItem() {
@@ -140,7 +153,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             this.view = view;
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
             currentExtension = (TextView) view.findViewById(R.id.current_extension);
-            descriptionTextView = (TextView) view.findViewById(R.id.label_description);
+            dispatcherDescriptionListView = (ListView) view.findViewById(R.id.dispatcher_description_listView);
             dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
             imagesButton = (ImageButton) view.findViewById(R.id.button_images);
             videosButton = (ImageButton) view.findViewById(R.id.button_video);

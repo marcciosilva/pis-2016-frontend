@@ -58,7 +58,22 @@
                         android:text="@string/event_details_missing_value"/>
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_normal"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/EventDetails.FieldLabel"
+                    android:text="Descripcion del evento"/>
 
+                <TextView
+                    android:id="@+id/general_description"
+                    style="@style/EventDetails.FieldValue"
+                    android:text="@string/event_details_missing_value"/>
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -89,6 +104,47 @@
                         style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"/>
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+
+                    <TextView
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Motivo"/>
+
+                    <TextView
+                        android:id="@+id/category"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"/>
+
+                    <TextView
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Origen"/>
+
+                    <TextView
+                        android:id="@+id/origin"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+
+                    <TextView
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Tipo de alarma"/>
+
+                    <TextView
+                        android:id="@+id/type"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -159,48 +215,6 @@
                 android:layout_marginTop="@dimen/spacing_normal"
                 android:layout_marginBottom="@dimen/spacing_normal"
                 android:visibility="gone"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    style="@style/EventDetails.HalfLinear">
-
-                    <TextView
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Motivo"/>
-
-                    <TextView
-                        android:id="@+id/category"
-                        style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"/>
-
-                    <TextView
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Origen"/>
-
-                    <TextView
-                        android:id="@+id/origin"
-                        style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/EventDetails.HalfLinear">
-
-                    <TextView
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Tipo de alarma"/>
-
-                    <TextView
-                        android:id="@+id/type"
-                        style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -46,6 +46,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static android.R.attr.bitmap;
+import static android.R.attr.measureAllChildren;
 import static android.R.attr.path;
 
 /**
@@ -74,10 +75,11 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mStreet;
     private TextView mNumber;
     private TextView mCorner;
-    private TextView mCategory;
     private TextView mSector;
+    private TextView mCategory;
     private TextView mOrigin;
     private TextView mType;
+    private TextView mGeneralDescription;
     private ImageButton mImagesButton;
     private ImageButton mVideosButton;
     private ImageButton mAudioButton;
@@ -106,15 +108,18 @@ public class EventDetailsView extends AppCompatActivity implements
         mCreatedDate = (TextView) findViewById(R.id.event_date_created);
         mStatus = (TextView) findViewById(R.id.event_status);
 
+        mCategory = (TextView) findViewById(R.id.category);
+        mType = (TextView) findViewById(R.id.type);
+        mOrigin = (TextView) findViewById(R.id.origin);
+
+        mGeneralDescription = (TextView) findViewById(R.id.general_description);
+
         mStreet = (TextView) findViewById(R.id.informant_street);
         mCorner = (TextView) findViewById(R.id.informant_corner);
         mNumber = (TextView) findViewById(R.id.informant_number);
-
-        mCategory = (TextView) findViewById(R.id.category);
         mSector = (TextView) findViewById(R.id.informant_sector);
 
-        mType = (TextView) findViewById(R.id.type);
-        mOrigin = (TextView) findViewById(R.id.origin);
+
 
         mImagesButton = (ImageButton) findViewById(R.id.button_images);
         mImagesButton.setOnClickListener(this);
@@ -198,8 +203,12 @@ public class EventDetailsView extends AppCompatActivity implements
                 mInformantPhone.setText(mEvent.getPhone());
             }
 
-            if ((mEvent.getCreatedDate() != null) && (mEvent.getCreatedDate() != null)) {
+            if (mEvent.getCreatedDate() != null) {
                 mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
+            }
+
+            if ((mEvent.getGeneralDescription() != null ) && (mEvent.getGeneralDescription() != "")){
+                mGeneralDescription.setText(mEvent.getGeneralDescription());
             }
 
             if ((mEvent.getStatus() != null) && (!mEvent.getStatus().equals(""))) {
