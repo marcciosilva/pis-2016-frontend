@@ -33,8 +33,10 @@
 
     <!-- Gray scale -->
     <color name="white">#FFFFFF</color>
-    <color name="gray_light">#F5F5F5</color>
-    <color name="gray_medium_light">#e6e6e6</color>
+    <color name="gray_xxxlight">#fdfdfd</color>
+    <color name="gray_xxlight">#F5F5F5</color>
+    <color name="gray_xlight">#f0f0f0</color>
+    <color name="gray_light">#e6e6e6</color>
     <color name="gray">#939393</color>
     <color name="gray_dark">#5F5F5F</color>
     <color name="black">#323232</color>

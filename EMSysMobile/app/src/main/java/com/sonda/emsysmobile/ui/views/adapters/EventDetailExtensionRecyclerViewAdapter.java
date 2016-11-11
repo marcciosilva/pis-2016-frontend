@@ -18,7 +18,7 @@ import com.sonda.emsysmobile.logic.model.core.DescriptionDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.ResourceAssignationDto;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 
 import java.util.ArrayList;
 import java.util.List;

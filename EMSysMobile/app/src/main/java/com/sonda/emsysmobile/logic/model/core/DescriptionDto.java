@@ -99,7 +99,10 @@ public class DescriptionDto implements Serializable {
         if(description != null)
             evaluatedDescription = description;
 
+        String evaluatedOffline = "";
+        if (offline_added)
+            evaluatedOffline = "[OFFLINE]";
 
-        return "["+ DateUtils.dateToString(date) + " - " + user + "] " + evaluatedDescription;
+        return "["+ DateUtils.dateToString(date) + " - " + user + "] " + evaluatedOffline + " " + evaluatedDescription;
     }
 }

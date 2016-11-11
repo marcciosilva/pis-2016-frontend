@@ -24,8 +24,8 @@ public class ExternalServiceQueryFragment extends Fragment {
     private EditText mSecondParamET;
     private EditText mThirdParamET;
 
-    public static ExtensionsFragment newInstance() {
-        return new ExtensionsFragment();
+    public static ExternalServiceQueryFragment newInstance() {
+        return new ExternalServiceQueryFragment();
     }
 
     @Override
