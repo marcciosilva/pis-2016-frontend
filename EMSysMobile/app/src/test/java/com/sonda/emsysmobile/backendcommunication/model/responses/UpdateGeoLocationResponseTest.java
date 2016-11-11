@@ -1,35 +1,27 @@
 package com.sonda.emsysmobile.backendcommunication.model.responses;
 
-import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
-import com.sonda.emsysmobile.logic.model.core.ResourceDto;
-import com.sonda.emsysmobile.logic.model.core.RoleDto;
-import com.sonda.emsysmobile.logic.model.core.ZoneDto;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 /**
- * Created by marccio on 10/20/16.
+ * Created by Pape on 11/11/2016.
  */
 
-public class KeepAliveResponseTest {
+public class UpdateGeoLocationResponseTest {
 
-    private KeepAliveResponse mKeepAliveResponse;
+    private UpdateGeoLocationResponse mUpdateGeoLocResponse;
     private ErrorResponse mInnerResponse;
 
     @Before
     public void setUp() {
-        mKeepAliveResponse = new KeepAliveResponse();
+        mUpdateGeoLocResponse = new UpdateGeoLocationResponse();
         mInnerResponse = new ErrorResponse();
         mInnerResponse.setMsg("errorMsg");
-        mKeepAliveResponse.setInnerResponse(mInnerResponse);
-        mKeepAliveResponse.setCode(0);
+        mUpdateGeoLocResponse.setInnerResponse(mInnerResponse);
+        mUpdateGeoLocResponse.setCode(0);
     }
 
     /**
@@ -37,7 +29,7 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void getInnerResponse_CompareWithSameInnerResponse_ReturnsTrue() {
-        assertTrue(mKeepAliveResponse.getInnerResponse().equals(mInnerResponse));
+        assertTrue(mUpdateGeoLocResponse.getInnerResponse().equals(mInnerResponse));
     }
 
     /**
@@ -45,8 +37,8 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void setInnerResponse_Null_ReturnsTrue() {
-        mKeepAliveResponse.setInnerResponse(null);
-        assertTrue(mKeepAliveResponse.getInnerResponse() == null);
+        mUpdateGeoLocResponse.setInnerResponse(null);
+        assertTrue(mUpdateGeoLocResponse.getInnerResponse() == null);
     }
 
     /**
@@ -54,7 +46,7 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void equals_NullComparison_ReturnsFalse() {
-        assertFalse(mKeepAliveResponse.equals(null));
+        assertFalse(mUpdateGeoLocResponse.equals(null));
     }
 
     /**
@@ -62,7 +54,7 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void equals_DifferentClass_ReturnsFalse() {
-        assertFalse(mKeepAliveResponse.equals(new Object()));
+        assertFalse(mUpdateGeoLocResponse.equals(new Object()));
     }
 
     /**
@@ -70,12 +62,11 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void equals_CompareWithSameFields_ReturnsTrue() {
-        KeepAliveResponse testResponse = new KeepAliveResponse();
+        UpdateGeoLocationResponse testResponse = new UpdateGeoLocationResponse();
         testResponse.setCode(0);
         ErrorResponse testInnerResponse = new ErrorResponse();
         testInnerResponse.setMsg("errorMsg");
         testResponse.setInnerResponse(testInnerResponse);
-        assertTrue(mKeepAliveResponse.equals(testResponse));
+        assertTrue(mUpdateGeoLocResponse.equals(testResponse));
     }
-
 }

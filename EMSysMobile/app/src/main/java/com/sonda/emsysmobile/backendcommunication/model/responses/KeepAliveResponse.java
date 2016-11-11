@@ -27,7 +27,10 @@ public class KeepAliveResponse extends EmsysResponse {
             return false;
         }
         final KeepAliveResponse other = (KeepAliveResponse) obj;
-        return (super.equals(other) && innerResponse == other.innerResponse);
+        if (innerResponse.getMsg() != other.innerResponse.getMsg()) {
+            return false;
+        }
+        return this.getCode() == other.getCode();
     }
 
 }

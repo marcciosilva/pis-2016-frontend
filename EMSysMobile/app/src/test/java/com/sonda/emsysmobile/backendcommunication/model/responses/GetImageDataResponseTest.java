@@ -13,20 +13,19 @@ import static junit.framework.Assert.assertEquals;
 
 public class GetImageDataResponseTest {
 
-    private ImageDataDto mImageDataDto;
+    private GetImageDataResponse mGetImageDataResponse;
 
     @Before
     public void setUp(){
-        mImageDataDto = new ImageDataDto("test_name", "test_data");
+        ImageDataDto mImageDataDto = new ImageDataDto("test_name", "test_data");
+        mGetImageDataResponse = new GetImageDataResponse(mImageDataDto);
     }
 
     @Test
-    public void getName(){
-        assertEquals(mImageDataDto.getName(), "test_name");
-    }
-
-    @Test
-    public void getData(){
-        assertEquals(mImageDataDto.getData(), "test_data");
+    public void getImageData(){
+        ImageDataDto mImageDataDtoToCompare = new ImageDataDto("test_name", "test_data");
+        ImageDataDto mImageDataDtoToTest = mGetImageDataResponse.getImageData();
+        assertEquals(mImageDataDtoToCompare.getName(), mImageDataDtoToTest.getName());
+        assertEquals(mImageDataDtoToCompare.getData(), mImageDataDtoToTest.getData());
     }
 }

@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d(TAG, msg);
             Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
         } else if (view.getId() == R.id.button_test_database) {
-            DatabaseTest.executeTest();
+            //DatabaseTest.executeTest();
         }
     }
 
