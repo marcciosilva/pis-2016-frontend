@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_normal"
-    android:background="@color/gray_light"
+    android:background="@color/gray_xxlight"
     tools:context=".ui.activities.login.ZonasRecursosChooserActivity"
     android:orientation="vertical">
 

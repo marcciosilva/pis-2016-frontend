@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.adapters.EventDetailExtensionRecyclerViewAdapter;
 

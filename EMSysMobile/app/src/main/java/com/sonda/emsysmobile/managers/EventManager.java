@@ -295,7 +295,7 @@ public final class EventManager {
             if (intent.getExtras() != null) {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
-                    Log.i(TAG, "Receiving notificación con código: " + notification.getCode());
+                    Log.i(TAG, "Receiving notification with code: " + notification.getCode());
                     if (intent.getAction()
                             .equals(NotificationsEvents.UPDATE_EVENTS_LIST.toString())) {
                         updateEvents(null, null);

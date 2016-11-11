@@ -47,10 +47,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Notification notification = new Notification(notificationCode, objectIdentifier);
             Log.d(TAG, notification.toString());
             postApplicationEvent(notification);
-//            return;
+            showNotificationOnStatusBar("EMSYS Mobile", notification.getTitle());
         }
-
-        showNotificationOnStatusBar("EMSYS Mobile", "Tienes una nueva notificación");
     }
     // [END receive_message]
 

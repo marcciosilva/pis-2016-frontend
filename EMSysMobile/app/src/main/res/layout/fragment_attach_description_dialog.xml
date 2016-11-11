@@ -33,7 +33,7 @@
             android:layout_height="@dimen/button_height_normal"
             android:layout_weight="1"
             android:layout_margin="@dimen/spacing_tiny"
-            android:background="@color/gray_medium_light"
+            android:background="@color/gray_light"
             android:textColor="@color/colorPrimary_900"
             style="@style/AppButton"
             android:text="@string/button_cancel"/>
