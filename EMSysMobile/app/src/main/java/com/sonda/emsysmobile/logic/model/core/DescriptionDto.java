@@ -24,18 +24,22 @@ public class DescriptionDto implements Serializable {
     @SerializedName("origen")
     private int origin;
 
-    public DescriptionDto(String user, Date date, String description, int origin) {
+    @SerializedName("agregada_offline")
+    private boolean offline_added;
+
+    public DescriptionDto(String user, Date date, String description, int origin, boolean offline_added) {
         this.user = user;
         this.date = date;
         this.description = description;
         this.origin = origin;
+        this.offline_added = offline_added;
     }
 
     public String getUser() {
         return user;
     }
 
-    public void setCode(String user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
@@ -63,19 +67,31 @@ public class DescriptionDto implements Serializable {
         this.origin = origin;
     }
 
+    public boolean isOfflineAdded() {
+        return offline_added;
+    }
+
+    public void setOfflineAdded(boolean offline_added) {
+        this.offline_added = offline_added;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof DescriptionDto)) return false;
 
         DescriptionDto that = (DescriptionDto) o;
 
-        if (origin != that.origin) return false;
-        if (user != null ? !user.equals(that.user) : that.user != null) return false;
-        if (date != null ? !date.equals(that.date) : that.date != null) return false;
-        return description != null ? description.equals(that.description) : that.description == null;
+        if (getOrigin() != that.getOrigin()) return false;
+        if (offline_added != that.offline_added) return false;
+        if (getUser() != null ? !getUser().equals(that.getUser()) : that.getUser() != null)
+            return false;
+        if (getDate() != null ? !getDate().equals(that.getDate()) : that.getDate() != null)
+            return false;
+        return getDescription() != null ? getDescription().equals(that.getDescription()) : that.getDescription() == null;
 
     }
+
 
     @Override
     public String toString() {

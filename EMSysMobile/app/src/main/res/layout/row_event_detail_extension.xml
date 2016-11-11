@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
-                android:textColor="@color/black"
+                android:textColor="@color/gray_dark"
                 android:textSize="@dimen/font_large"
                 android:textStyle="bold"
                 tools:text="Zona 1"/>
@@ -30,7 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
                 android:text="Zona actual de despacho"
-                android:textSize="@dimen/font_large"
+                android:textColor="@color/gray_dark"
+                android:textSize="@dimen/font_normal"
                 tools:text="Zona actual de despacho"
                 android:visibility="invisible"/>
         </LinearLayout>
@@ -98,10 +99,25 @@
                 android:orientation="vertical">
 
             </LinearLayout>
-            <!--<ListView-->
-                <!--android:id="@+id/dispatcher_description_listView"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"/>-->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="@dimen/spacing_normal"
+            android:orientation="vertical">
+
+
+            <TextView
+                style="@style/EventDetails.FieldLabel"
+                android:text="@string/event_details_resource_description"/>
+            <LinearLayout
+                android:id="@+id/resource_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
         </LinearLayout>
 
 

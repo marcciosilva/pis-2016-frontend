@@ -190,7 +190,7 @@ public abstract class RootActivity extends AppCompatActivity {
 
     private String getRoleLabel() {
         if (userData.isZoneDispatcher()) {
-            return "Despachado de zona (" + String.valueOf(userData.getRoles().getZones().size()) +
+            return "Despachador de zona (" + String.valueOf(userData.getRoles().getZones().size()) +
                     ")";
         } else if (userData.isResource()) {
             List<ResourceDto> resources = userData.getRoles().getResources();

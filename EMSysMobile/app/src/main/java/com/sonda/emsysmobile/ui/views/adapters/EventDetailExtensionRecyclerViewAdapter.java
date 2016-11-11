@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.DescriptionDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.ResourceAssignationDto;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
 
@@ -61,8 +62,25 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 view.setText(desc.toString());
                 holder.getDispatcherDescriptionLinearLayout().addView(view);
             }
-
+        } else {
+            TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+            view.setText(R.string.event_details_missing_value);
+            holder.getDispatcherDescriptionLinearLayout().addView(view);
         }
+
+        List<String> resourceDescriptions = getResourceDescriptions(extension.getResourceAssignations());
+        if ((resourceDescriptions != null) && (!resourceDescriptions.isEmpty())) {
+            for (String desc: resourceDescriptions) {
+                TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+                view.setText(desc);
+                holder.getResourceDescriptionLinearLayout().addView(view);
+            }
+        } else {
+            TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+            view.setText(R.string.event_details_missing_value);
+            holder.getResourceDescriptionLinearLayout().addView(view);
+        }
+
         holder.getImagesButton().setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +101,21 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         });
     }
 
+    private List<String> getResourceDescriptions(List<ResourceAssignationDto> resourceAssignationList) {
+        List<String> result = new ArrayList<>();
+        for (ResourceAssignationDto resourceAssignation: resourceAssignationList) {
+            List<DescriptionDto> descriptions = resourceAssignation.getDescriptions();
+            for (DescriptionDto description: descriptions){
+                if(description.getUser() == null)
+                    description.setUser(resourceAssignation.getResource());
+                result.add(description.toString());
+            }
+
+        }
+
+        return result;
+    }
+
     @Override
     public final int getItemCount() {
         return mExtensions.size();
@@ -93,6 +126,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         private final TextView idAndZoneTextView;
         private final TextView currentExtension;
         private final LinearLayout dispatcherDescriptionLinearLayout;
+        private final LinearLayout resourceDescriptionLinearLayout;
         private final TextView dispatcherTextView;
         private ImageButton imagesButton;
         private ImageButton videosButton;
@@ -115,6 +149,10 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
 
         public final LinearLayout getDispatcherDescriptionLinearLayout() {
             return dispatcherDescriptionLinearLayout;
+        }
+
+        public final LinearLayout getResourceDescriptionLinearLayout() {
+            return resourceDescriptionLinearLayout;
         }
 
         public final ExtensionDto getItem() {
@@ -147,6 +185,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
             currentExtension = (TextView) view.findViewById(R.id.current_extension);
             dispatcherDescriptionLinearLayout = (LinearLayout) view.findViewById(R.id.dispatcher_description);
+            resourceDescriptionLinearLayout = (LinearLayout) view.findViewById(R.id.resource_description);
             dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
             imagesButton = (ImageButton) view.findViewById(R.id.button_images);
             videosButton = (ImageButton) view.findViewById(R.id.button_video);
