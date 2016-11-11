@@ -30,6 +30,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="@dimen/spacing_normal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/EventDetails.SectionTitle"
+                    android:text="Información general: "/>
+                <TextView
+                    android:id="@+id/general_information_title_event_identifier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_large"
+                    android:textColor="@color/gray_dark"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
@@ -246,13 +263,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/font_normal">
-
+                android:background="@color/gray_light"
+                android:padding="@dimen/spacing_normal">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zonas"
-                    android:textSize="@dimen/font_large"/>
+                    style="@style/EventDetails.SectionTitle"
+                    android:text="Zonas"/>
             </LinearLayout>
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static android.R.attr.bitmap;
@@ -68,6 +69,8 @@ public class EventDetailsView extends AppCompatActivity implements
     private String mCurrentPhotoPath;
 
     private EventDto mEvent;
+
+    private TextView mGeneralInformationTitleEventIdentifier;
     private TextView mInformantName;
     private TextView mInformantPhone;
     private TextView mCreatedDate;
@@ -101,6 +104,7 @@ public class EventDetailsView extends AppCompatActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        mGeneralInformationTitleEventIdentifier = (TextView) findViewById(R.id.general_information_title_event_identifier);
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -195,6 +199,9 @@ public class EventDetailsView extends AppCompatActivity implements
     public final void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
+            String eventIdentifier = mEvent.getIdentifier() + " - " + mEvent.getExtensions().get(0).getZone().getName();
+            mGeneralInformationTitleEventIdentifier.setText(eventIdentifier);
+
             if ((mEvent.getInformant() != null) && (!mEvent.getInformant().equals(""))) {
                 mInformantName.setText(mEvent.getInformant());
             }
