@@ -39,6 +39,9 @@ public class EventDto implements Serializable {
     @SerializedName("cod_sector")
     private String sectorCode;
 
+    @SerializedName("descripcion")
+    private String generalDescription;
+
     @SerializedName("calle")
     private String street;
 
@@ -159,6 +162,10 @@ public class EventDto implements Serializable {
 
     public final void setSectorCode(String sectorCode) {
         this.sectorCode = sectorCode;
+    }
+
+    public final String getGeneralDescription(){
+        return generalDescription;
     }
 
     public final String getStreet() {

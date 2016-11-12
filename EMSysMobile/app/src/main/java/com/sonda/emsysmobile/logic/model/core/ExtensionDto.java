@@ -34,6 +34,11 @@ public class ExtensionDto implements Serializable {
     @SerializedName("imagenes")
     private List<ImageDescriptionDto> imageDescriptions;
 
+    @SerializedName("descripcion_despachadores")
+    private List<DescriptionDto> dispatcher_description;
+
+    @SerializedName("asignaciones_recursos")
+    private List<ResourceAssignationDto> resource_assignations;
 
     /**
      * When this boolean is true, an indicator is shown
@@ -121,6 +126,22 @@ public class ExtensionDto implements Serializable {
 
     public final void setModified(boolean modified) {
         isModified = modified;
+    }
+
+    public List<DescriptionDto> getDispatcherDescription() {
+        return dispatcher_description;
+    }
+
+    public void setDispatcherDescription(List<DescriptionDto> dispatcher_description) {
+        this.dispatcher_description = dispatcher_description;
+    }
+
+    public List<ResourceAssignationDto> getResourceAssignations() {
+        return resource_assignations;
+    }
+
+    public void setResourceAssignations(List<ResourceAssignationDto> resource_assignations) {
+        this.resource_assignations = resource_assignations;
     }
 
     /**

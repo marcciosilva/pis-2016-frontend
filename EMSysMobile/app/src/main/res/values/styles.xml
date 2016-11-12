@@ -70,6 +70,12 @@
         <item name="android:orientation">vertical</item>
     </style>
 
+    <style name="EventDetails.SectionTitle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:textColor">@color/gray_dark</item>
+    </style>
+
     <style name="EventDetails.FieldLabel">
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textStyle">bold</item>
