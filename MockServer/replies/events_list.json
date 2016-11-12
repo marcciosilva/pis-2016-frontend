@@ -27,6 +27,7 @@
             "extensiones": [
                 {
                     "id": 1,
+                    "is_assigned" : true,
                     "zona": {
                         "id": 1,
                         "nombre": "zona1",
@@ -139,6 +140,7 @@
             "extensiones": [
                 {
                     "id": 2,
+                    "is_assigned" : false,
                     "zona": {
                         "id": 2,
                         "nombre": "azona2",
@@ -154,6 +156,7 @@
                 },
                 {
                     "id": 3,
+                    "is_assigned" : true,
                     "zona": {
                         "id": 3,
                         "nombre": "zona3",

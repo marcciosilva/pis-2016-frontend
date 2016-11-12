@@ -20,7 +20,6 @@ public class UserDto implements Serializable {
     @SerializedName("roles")
     RoleDto roles;
 
-
     public UserDto() {
     }
 

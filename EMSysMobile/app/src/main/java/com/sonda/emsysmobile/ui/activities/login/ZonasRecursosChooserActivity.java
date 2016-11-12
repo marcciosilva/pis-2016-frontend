@@ -157,7 +157,6 @@ public class ZonasRecursosChooserActivity extends AppCompatActivity implements V
                     }
                     recursos.add(new ResourceDto(code, Integer.parseInt(idString)));
                 }
-
             }
             final RoleDto roles = new RoleDto(zonas, recursos);
             loginUser(roles, new VolleyCallbackLoginUser() {

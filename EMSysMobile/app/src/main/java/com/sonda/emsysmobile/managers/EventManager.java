@@ -46,8 +46,8 @@ public final class EventManager {
     /**
      * Using SparseArray because it is intended to be more memory efficient than using a HashMap
      * to map Integers to Objects.
-     * Visit this link to know more about use of SparseArray in Android: https://developer
-     * .android.com/reference/android/util/SparseArray.html
+     * Visit this link to know more about use of SparseArray in Android:
+     * https://developer.android.com/reference/android/util/SparseArray.html
      */
     private SparseArray<ExtensionDto> mExtensions;
 
@@ -234,16 +234,23 @@ public final class EventManager {
             return null;
         }
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
+        ExtensionDto extension;
         if(onMap){
             for (int i = 0; i < mExtensions.size(); i++) {
-                List<GeolocationDto> geoLocations = mExtensions.valueAt(i).getGeolocations();
-                if (geoLocations == null || geoLocations.isEmpty()) {
-                    arrayList.add(mExtensions.valueAt(i));
+                extension = mExtensions.valueAt(i);
+                if (extension.isAssigned()) {
+                    List<GeolocationDto> geoLocations = extension.getGeolocations();
+                    if (geoLocations == null || geoLocations.isEmpty()) {
+                        arrayList.add(extension);
+                    }
                 }
             }
         } else{
             for (int i = 0; i < mExtensions.size(); i++) {
-                arrayList.add(mExtensions.valueAt(i));
+                extension = mExtensions.valueAt(i);
+                if (extension.isAssigned()) {
+                    arrayList.add(extension);
+                }
             }
         }
 
