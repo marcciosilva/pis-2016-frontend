@@ -51,7 +51,6 @@ public final class EventManager {
      */
     private SparseArray<ExtensionDto> mExtensions;
 
-
     private static final String TAG = EventManager.class.getName();
 
     private EventManager(Context context) {
