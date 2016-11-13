@@ -1,35 +1,29 @@
 package com.sonda.emsysmobile.backendcommunication.model.responses;
 
-import com.sonda.emsysmobile.logic.model.core.KeepAliveDto;
-import com.sonda.emsysmobile.logic.model.core.ResourceDto;
-import com.sonda.emsysmobile.logic.model.core.RoleDto;
-import com.sonda.emsysmobile.logic.model.core.ZoneDto;
+import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 
 /**
- * Created by marccio on 10/20/16.
+ * Created by Pape on 11/11/2016.
  */
 
-public class KeepAliveResponseTest {
+public class OfflineAttachDescriptionResponseTest {
 
-    private KeepAliveResponse mKeepAliveResponse;
+    private OfflineAttachDescriptionResponse mOfflineAttachDescResponse;
     private ErrorResponse mInnerResponse;
 
     @Before
     public void setUp() {
-        mKeepAliveResponse = new KeepAliveResponse();
+        mOfflineAttachDescResponse = new OfflineAttachDescriptionResponse();
         mInnerResponse = new ErrorResponse();
         mInnerResponse.setMsg("errorMsg");
-        mKeepAliveResponse.setInnerResponse(mInnerResponse);
-        mKeepAliveResponse.setCode(0);
+        mOfflineAttachDescResponse.setInnerResponse(mInnerResponse);
+        mOfflineAttachDescResponse.setCode(0);
     }
 
     /**
@@ -37,7 +31,7 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void getInnerResponse_CompareWithSameInnerResponse_ReturnsTrue() {
-        assertTrue(mKeepAliveResponse.getInnerResponse().equals(mInnerResponse));
+        assertTrue(mOfflineAttachDescResponse.getInnerResponse().equals(mInnerResponse));
     }
 
     /**
@@ -45,8 +39,8 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void setInnerResponse_Null_ReturnsTrue() {
-        mKeepAliveResponse.setInnerResponse(null);
-        assertTrue(mKeepAliveResponse.getInnerResponse() == null);
+        mOfflineAttachDescResponse.setInnerResponse(null);
+        assertTrue(mOfflineAttachDescResponse.getInnerResponse() == null);
     }
 
     /**
@@ -54,7 +48,7 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void equals_NullComparison_ReturnsFalse() {
-        assertFalse(mKeepAliveResponse.equals(null));
+        assertFalse(mOfflineAttachDescResponse.equals(null));
     }
 
     /**
@@ -62,7 +56,7 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void equals_DifferentClass_ReturnsFalse() {
-        assertFalse(mKeepAliveResponse.equals(new Object()));
+        assertFalse(mOfflineAttachDescResponse.equals(new Object()));
     }
 
     /**
@@ -70,12 +64,11 @@ public class KeepAliveResponseTest {
      */
     @Test
     public void equals_CompareWithSameFields_ReturnsTrue() {
-        KeepAliveResponse testResponse = new KeepAliveResponse();
+        OfflineAttachDescriptionResponse testResponse = new OfflineAttachDescriptionResponse();
         testResponse.setCode(0);
         ErrorResponse testInnerResponse = new ErrorResponse();
         testInnerResponse.setMsg("errorMsg");
         testResponse.setInnerResponse(testInnerResponse);
-        assertTrue(mKeepAliveResponse.equals(testResponse));
+        assertTrue(mOfflineAttachDescResponse.equals(testResponse));
     }
-
 }

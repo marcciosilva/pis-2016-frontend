@@ -11,6 +11,10 @@ public class OfflineAttachDescriptionResponse extends EmsysResponse{
     @SerializedName("response")
     private ErrorResponse innerResponse;
 
+    public final void setInnerResponse(ErrorResponse innerResponse) {
+        this.innerResponse = innerResponse;
+    }
+
     public final ErrorResponse getInnerResponse() {
         return innerResponse;
     }
