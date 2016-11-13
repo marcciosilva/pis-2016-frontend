@@ -34,6 +34,9 @@ public class ExtensionDto implements Serializable {
     @SerializedName("imagenes")
     private List<ImageDescriptionDto> imageDescriptions;
 
+    @SerializedName("is_assigned")
+    private boolean isAssigned;
+
     @SerializedName("descripcion_despachadores")
     private List<DescriptionDto> dispatcher_description;
 
@@ -114,6 +117,14 @@ public class ExtensionDto implements Serializable {
 
     public final void setZone(ZoneDto zone) {
         this.zone = zone;
+    }
+
+    public boolean isAssigned() {
+        return isAssigned;
+    }
+
+    public void setAssigned(boolean assigned) {
+        isAssigned = assigned;
     }
 
     public final EventDto getEvent() {

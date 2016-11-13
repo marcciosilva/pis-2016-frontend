@@ -29,6 +29,7 @@ import com.sonda.emsysmobile.notifications.NotificationsEvents;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,11 +47,10 @@ public final class EventManager {
     /**
      * Using SparseArray because it is intended to be more memory efficient than using a HashMap
      * to map Integers to Objects.
-     * Visit this link to know more about use of SparseArray in Android: https://developer
-     * .android.com/reference/android/util/SparseArray.html
+     * Visit this link to know more about use of SparseArray in Android:
+     * https://developer.android.com/reference/android/util/SparseArray.html
      */
     private SparseArray<ExtensionDto> mExtensions;
-
 
     private static final String TAG = EventManager.class.getName();
 
@@ -185,8 +185,10 @@ public final class EventManager {
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     EventDto event = response.getEvent();
                     if (event != null) {
+                        updateEvent(event);
                         for (ExtensionDto extension : event.getExtensions()) {
                             extension.setEvent(event);
+                            mExtensions.put(extension.getIdentifier(), extension);
                         }
                     }
                     callback.onSuccess(event);
@@ -218,6 +220,15 @@ public final class EventManager {
         }
     }
 
+    public void updateEvent(EventDto event){
+        for (int index = 0; index < mEvents.size(); index++){
+            if(mEvents.get(index).getIdentifier() == event.getIdentifier()){
+                mEvents.remove(index);
+            }
+        }
+        mEvents.add(event);
+    }
+
     public void setEventAsRead(EventDto event) {
         List<ExtensionDto> eventExtensions = event.getExtensions();
         for (ExtensionDto extension : eventExtensions) {
@@ -235,16 +246,23 @@ public final class EventManager {
             return null;
         }
         ArrayList<ExtensionDto> arrayList = new ArrayList<>(mExtensions.size());
+        ExtensionDto extension;
         if(onMap){
             for (int i = 0; i < mExtensions.size(); i++) {
-                List<GeolocationDto> geoLocations = mExtensions.valueAt(i).getGeolocations();
-                if (geoLocations == null || geoLocations.isEmpty()) {
-                    arrayList.add(mExtensions.valueAt(i));
+                extension = mExtensions.valueAt(i);
+                if (extension.isAssigned()) {
+                    List<GeolocationDto> geoLocations = extension.getGeolocations();
+                    if (geoLocations == null || geoLocations.isEmpty()) {
+                        arrayList.add(extension);
+                    }
                 }
             }
         } else{
             for (int i = 0; i < mExtensions.size(); i++) {
-                arrayList.add(mExtensions.valueAt(i));
+                extension = mExtensions.valueAt(i);
+                if (extension.isAssigned()) {
+                    arrayList.add(extension);
+                }
             }
         }
 

@@ -420,10 +420,6 @@ public class EventDetailsView extends AppCompatActivity implements
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
-//            Intent intent = new Intent(this, ImageTest.class);
-//            startActivity(intent);
-//            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
-//                    Integer.toString(mEvent.getImageDescriptions().size()));
             ImageGalleryPresenter
                     .loadGallery(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {
