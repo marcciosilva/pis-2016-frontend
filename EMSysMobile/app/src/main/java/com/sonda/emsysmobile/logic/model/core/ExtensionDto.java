@@ -40,6 +40,9 @@ public class ExtensionDto implements Serializable {
     @SerializedName("asignaciones_recursos")
     private List<ResourceAssignationDto> resource_assignations;
 
+    @SerializedName("recursos")
+    private List<String> resources;
+
     /**
      * When this boolean is true, an indicator is shown
      * for this extension in the extensions list.
@@ -53,7 +56,7 @@ public class ExtensionDto implements Serializable {
 
     public ExtensionDto(int identifier, String description, ExtensionState extensionState,
                         Date timeStamp, CategoryDto category, ZoneDto zone,
-                        List<GeolocationDto> geolocations, EventDto event) {
+                        List<GeolocationDto> geolocations, EventDto event, List<String> resources) {
         this.identifier = identifier;
         this.description = description;
         this.extensionState = extensionState;
@@ -62,6 +65,7 @@ public class ExtensionDto implements Serializable {
         this.zone = zone;
         this.geolocations = geolocations;
         this.event = event;
+        this.resources = resources;
     }
 
     public final int getIdentifier() {
@@ -144,6 +148,14 @@ public class ExtensionDto implements Serializable {
         this.resource_assignations = resource_assignations;
     }
 
+    public final List<String> getResources(){
+        return resources;
+    }
+
+    public final void setResources(List<String> resources){
+        this.resources = resources;
+    }
+
     /**
      * Get priority for Event
      * Try to get priority for his Category, but if it does not have one, return event's category priority.
@@ -204,6 +216,10 @@ public class ExtensionDto implements Serializable {
         }
         if (geolocations != null ? !geolocations.equals(that.geolocations) :
                 that.geolocations != null) {
+            return false;
+        }
+
+        if (resources != null ? !resources.equals(that.resources) : that.resources != null){
             return false;
         }
 

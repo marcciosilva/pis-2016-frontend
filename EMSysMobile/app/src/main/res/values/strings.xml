@@ -84,6 +84,7 @@
     <string name="event_details_dispatcher_description">Descripción del despachador</string>
     <string name="event_details_resource_description">Descripción de los recursos</string>
     <string name="event_details_dispatcher">Despachador</string>
+    <string name="event_details_resources_description">Recursos asignados</string>
 
     <!-- External Service Related -->
     <string name="dummy_first_field_external_service_row">Dummy First text!</string>

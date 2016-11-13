@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -99,20 +100,52 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 }
             }
         });
+        // Initializes the resources list
+        ArrayAdapter<String> resourcesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1,
+                android.R.id.text1, extension.getResources());
+        if (extension.getResources().size() > 0){
+            holder.getResourcesLabel().setVisibility(View.GONE);
+            holder.getResourcesListView().setAdapter(resourcesAdapter);
+            setListViewHeightBasedOnChildren(holder.getResourcesListView());
+        }else{
+            holder.getResourcesListView().setVisibility(View.GONE);
+        }
+    }
+
+    // This sets the height of the list view to show all resources
+    private static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
     private List<String> getResourceDescriptions(List<ResourceAssignationDto> resourceAssignationList) {
         List<String> result = new ArrayList<>();
-        for (ResourceAssignationDto resourceAssignation: resourceAssignationList) {
-            List<DescriptionDto> descriptions = resourceAssignation.getDescriptions();
-            for (DescriptionDto description: descriptions){
-                if(description.getUser() == null)
-                    description.setUser(resourceAssignation.getResource());
-                result.add(description.toString());
+        if (resourceAssignationList != null){
+            for (ResourceAssignationDto resourceAssignation: resourceAssignationList) {
+                List<DescriptionDto> descriptions = resourceAssignation.getDescriptions();
+                for (DescriptionDto description: descriptions){
+                    if(description.getUser() == null)
+                        description.setUser(resourceAssignation.getResource());
+                    result.add(description.toString());
+                }
+
             }
-
         }
-
         return result;
     }
 
@@ -132,7 +165,8 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         private ImageButton videosButton;
         private ImageButton audioButton;
         private ExtensionDto item;
-
+        private final ListView resourcesListView;
+        private final TextView resourcesLabel;
 
         public final View getView() {
             return view;
@@ -179,6 +213,10 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             return audioButton;
         }
 
+        public ListView getResourcesListView(){return resourcesListView;}
+
+        public TextView getResourcesLabel(){return resourcesLabel;}
+
         public ViewHolder(View view) {
             super(view);
             this.view = view;
@@ -190,6 +228,8 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             imagesButton = (ImageButton) view.findViewById(R.id.button_images);
             videosButton = (ImageButton) view.findViewById(R.id.button_video);
             audioButton = (ImageButton) view.findViewById(R.id.button_audio);
+            resourcesListView = (ListView) view.findViewById(R.id.list_resources);
+            resourcesLabel = (TextView) view.findViewById(R.id.label_resources);
         }
 
         @Override
