@@ -34,6 +34,7 @@ import com.sonda.emsysmobile.ui.activities.SettingsActivity;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
+import static com.sonda.emsysmobile.utils.UIUtils.hideSoftKeyboard;
 
 public class AuthActivity extends FragmentActivity implements View.OnClickListener {
 
@@ -96,6 +97,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void login() {
+        hideSoftKeyboard(this);
         final String user = mUserEditText.getText().toString();
         final String pass = mPassEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);

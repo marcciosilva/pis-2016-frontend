@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -21,10 +20,6 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.mikepenz.crossfader.Crossfader;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.MiniDrawer;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -32,7 +27,7 @@ import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.interfaces.ProgressBarListener;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachDescriptionDialogFragment;
 import com.sonda.emsysmobile.ui.views.dialogs.AttachImageDialogFragment;
@@ -44,9 +39,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.path;
 
 /**
  * Created by mserralta on 13/10/16.
@@ -67,6 +59,8 @@ public class EventDetailsView extends AppCompatActivity implements
     private String mCurrentPhotoPath;
 
     private EventDto mEvent;
+
+    private TextView mGeneralInformationTitleEventIdentifier;
     private TextView mInformantName;
     private TextView mInformantPhone;
     private TextView mCreatedDate;
@@ -74,10 +68,11 @@ public class EventDetailsView extends AppCompatActivity implements
     private TextView mStreet;
     private TextView mNumber;
     private TextView mCorner;
-    private TextView mCategory;
     private TextView mSector;
+    private TextView mCategory;
     private TextView mOrigin;
     private TextView mType;
+    private TextView mGeneralDescription;
     private ImageButton mImagesButton;
     private ImageButton mVideosButton;
     private ImageButton mAudioButton;
@@ -99,6 +94,7 @@ public class EventDetailsView extends AppCompatActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+        mGeneralInformationTitleEventIdentifier = (TextView) findViewById(R.id.general_information_title_event_identifier);
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -106,15 +102,18 @@ public class EventDetailsView extends AppCompatActivity implements
         mCreatedDate = (TextView) findViewById(R.id.event_date_created);
         mStatus = (TextView) findViewById(R.id.event_status);
 
+        mCategory = (TextView) findViewById(R.id.category);
+        mType = (TextView) findViewById(R.id.type);
+        mOrigin = (TextView) findViewById(R.id.origin);
+
+        mGeneralDescription = (TextView) findViewById(R.id.general_description);
+
         mStreet = (TextView) findViewById(R.id.informant_street);
         mCorner = (TextView) findViewById(R.id.informant_corner);
         mNumber = (TextView) findViewById(R.id.informant_number);
-
-        mCategory = (TextView) findViewById(R.id.category);
         mSector = (TextView) findViewById(R.id.informant_sector);
 
-        mType = (TextView) findViewById(R.id.type);
-        mOrigin = (TextView) findViewById(R.id.origin);
+
 
         mImagesButton = (ImageButton) findViewById(R.id.button_images);
         mImagesButton.setOnClickListener(this);
@@ -190,6 +189,9 @@ public class EventDetailsView extends AppCompatActivity implements
     public final void updateViewData(EventDto event) {
         mEvent = event;
         if (mEvent != null) {
+            String eventIdentifier = mEvent.getIdentifier() + " - " + mEvent.getExtensions().get(0).getZone().getName();
+            mGeneralInformationTitleEventIdentifier.setText(eventIdentifier);
+
             if ((mEvent.getInformant() != null) && (!mEvent.getInformant().equals(""))) {
                 mInformantName.setText(mEvent.getInformant());
             }
@@ -198,8 +200,12 @@ public class EventDetailsView extends AppCompatActivity implements
                 mInformantPhone.setText(mEvent.getPhone());
             }
 
-            if ((mEvent.getCreatedDate() != null) && (mEvent.getCreatedDate() != null)) {
+            if (mEvent.getCreatedDate() != null) {
                 mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
+            }
+
+            if ((mEvent.getGeneralDescription() != null ) && (mEvent.getGeneralDescription() != "")){
+                mGeneralDescription.setText(mEvent.getGeneralDescription());
             }
 
             if ((mEvent.getStatus() != null) && (!mEvent.getStatus().equals(""))) {
@@ -414,10 +420,6 @@ public class EventDetailsView extends AppCompatActivity implements
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
-//            Intent intent = new Intent(this, ImageTest.class);
-//            startActivity(intent);
-//            Log.d(TAG, "Cantidad de descripciones de imagenes para el evento: " +
-//                    Integer.toString(mEvent.getImageDescriptions().size()));
             ImageGalleryPresenter
                     .loadGallery(EventDetailsView.this, mEvent.getImageDescriptions());
         } else if (view.getId() == R.id.button_video) {

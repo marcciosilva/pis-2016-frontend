@@ -32,7 +32,7 @@
         android:layout_marginRight="@dimen/spacing_normal"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:background="@color/gray_medium_light"
+        android:background="@color/gray_light"
         android:textColor="@color/gray_dark"
         android:text="Cancelar"
         style="@style/AppButton"/>

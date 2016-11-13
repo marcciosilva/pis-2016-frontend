@@ -43,14 +43,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             String notificationCode = remoteMessage.getData().get("code");
-            int objectIdentifier = Integer.parseInt(remoteMessage.getData().get("primarykey"));
+            int objectIdentifier = Integer.parseInt(remoteMessage.getData().get("eventId"));
             Notification notification = new Notification(notificationCode, objectIdentifier);
             Log.d(TAG, notification.toString());
             postApplicationEvent(notification);
-//            return;
+            showNotificationOnStatusBar("EMSYS Mobile", notification.getTitle());
         }
-
-        showNotificationOnStatusBar("EMSYS Mobile", "Tienes una nueva notificación");
     }
     // [END receive_message]
 

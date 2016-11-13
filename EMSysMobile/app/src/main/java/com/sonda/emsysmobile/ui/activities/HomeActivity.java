@@ -1,7 +1,11 @@
 package com.sonda.emsysmobile.ui.activities;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,6 +13,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,13 +38,16 @@ import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.managers.EventManager;
+import com.sonda.emsysmobile.managers.NotificationsManager;
 import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
+import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.ui.extensions.ExtensionsListFragment;
 import com.sonda.emsysmobile.ui.fragments.ExternalServiceQueryFragment;
 import com.sonda.emsysmobile.ui.fragments.MapExtensionsFragment;
-import com.sonda.emsysmobile.ui.fragments.OnListFragmentInteractionListener;
+import com.sonda.emsysmobile.ui.fragments.NotificationsFragment;
+import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
@@ -47,8 +56,10 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class HomeActivity extends RootActivity
         implements OnListFragmentInteractionListener,
-        EventFilterDialogFragment.OnEventFilterDialogListener {
+        EventFilterDialogFragment.OnEventFilterDialogListener,
+        NotificationsFragment.OnFragmentInteractionListener {
 
+    private static final String NOTIFICATION_RECEIVED = "notification_received";
     public static final String TAG = HomeActivity.class.getName();
 
     private EventsMapView mMapView;
@@ -57,6 +68,7 @@ public class HomeActivity extends RootActivity
     private FloatingActionButton mFloatingButton;
     private boolean mContainerCollapsed;
     private MapExtensionsFragment mMapExtensionsFragment;
+    private NotificationsFragment mNotificationsFragment;
     private String mSelectedFilter = "Prioridad";
 
     @Override
@@ -76,6 +88,7 @@ public class HomeActivity extends RootActivity
         }
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_home, R.id.activity_main_layout, "Listado de eventos", RootActivity.EVENT_LIST);
@@ -83,6 +96,9 @@ public class HomeActivity extends RootActivity
         // Start KeepAlive service.
         Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
         startService(intent);
+
+        // Creating notifications manager singleton
+        NotificationsManager.getInstance(this);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -123,9 +139,9 @@ public class HomeActivity extends RootActivity
         MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.embedded, menu);
             menu.findItem(R.id.menu_1).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).actionBar());
+            menu.findItem(R.id.menu_item_notif_on).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_notifications_active).color(Color.WHITE).actionBar());
         return true;
     }
-
 
     public final void onBackPressed() {
         super.onBackPressed();
@@ -155,8 +171,9 @@ public class HomeActivity extends RootActivity
 
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() ==R.id.menu_1){
+        if (item.getItemId() == R.id.menu_1){
             showMapView(false);
+
             // Primero se redirige al listado.
             ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
                     .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
@@ -164,10 +181,20 @@ public class HomeActivity extends RootActivity
                 extensionsListFragment = new ExtensionsListFragment();
             }
             replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
+
             // Luego se abre el diálogo para elegir el filtro.
             FragmentManager fm = getSupportFragmentManager();
             EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
             eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
+
+        } else if (item.getItemId() == R.id.menu_item_notif_on) {
+
+            showMapView(false);
+            setNotificationActive(false);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mNotificationsFragment = NotificationsFragment.newInstance();
+            mNotificationsFragment.show(fragmentManager, NotificationsFragment.class.getSimpleName());
         }
 
         return true;
@@ -253,10 +280,11 @@ public class HomeActivity extends RootActivity
     private void showFilterMenu(boolean visible){
         if (visible) {
             findViewById(R.id.menu_1).setVisibility(View.VISIBLE);
-        }else {
+        } else {
             findViewById(R.id.menu_1).setVisibility(View.GONE);
         }
     }
+
     private void toggleFragmentContainer() {
         if (mContainerCollapsed) {
             mFragmentsContainer.setVisibility(View.VISIBLE);
@@ -323,6 +351,42 @@ public class HomeActivity extends RootActivity
         startActivity(intent);
         finish();
     }
+
+    @Override
+    public void onNotificationSelected(Notification notification) {
+        mNotificationsFragment.dismiss();
+        EventDetailsPresenter.loadEventDetails(HomeActivity.this, notification.getObjectId());
+    }
+
+    private void setNotificationActive(boolean active) {
+        //TODO: show badge in notifications icon
+    }
+
+    @Override
+    public final void onResume() {
+        super.onResume();
+
+        //We wants than Broadcast Receiver be registered when the fragment is active
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(broadcastReceiverNotifications,
+                        new IntentFilter(NOTIFICATION_RECEIVED));
+    }
+
+    @Override
+    public final void onPause() {
+        super.onPause();
+
+        //We should unregister Broadcast Reciever when te fragment is paused
+        LocalBroadcastManager.getInstance(this)
+                .unregisterReceiver(broadcastReceiverNotifications);
+    }
+
+    private BroadcastReceiver broadcastReceiverNotifications = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setNotificationActive(true);
+        }
+    };
 
     /**
      * Fragment that appears in the "content_frame", shows a planet

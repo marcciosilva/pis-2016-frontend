@@ -59,6 +59,7 @@ public class EventsResponseTest {
     private String mExtensionZoneExecUnitName;
     EventsResponse mEventsResponse;
     private List<EventDto> mEvents;
+    private List<String> mExtensionResources;
 
     @Before
     public void setUp() throws Exception {
@@ -97,12 +98,14 @@ public class EventsResponseTest {
         mExtensionZone = new ZoneDto(mExtensionZoneName, mExtensionZoneIdentifier,
                 mExtensionZoneExecUnitName);
         // EventDto.
+        mExtensionResources = new ArrayList<>();
         mExtensionEvent = new EventDto(mIdentifier, mInformant, mPhone, mTimeStamp, mCreatedDate,
                 mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber, mDepartment,
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
-                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone,
-                new ArrayList<GeolocationDto>(), mExtensionEvent);
+                mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
+                mExtensionEvent, mExtensionResources);
+
         mExtensions.add(mExtensionDto);
         mEvents = new ArrayList<>();
         mEvents.add(mExtensionEvent);

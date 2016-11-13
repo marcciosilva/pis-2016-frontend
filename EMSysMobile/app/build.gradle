@@ -10,7 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
-        versionName "1.0"
+        versionName "2.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -18,13 +18,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\" http://pis205.azurewebsites.net\""
+            buildConfigField "String", "BASE_URL", "\"http://pis2016.westus.cloudapp.azure.com/Liberacion3.6/Servicios\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
             buildConfigField "Integer", "WAITING_TIME", "600000"
         }
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://192.168.1.11:8081\""
-            buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.11:8081\""
+            buildConfigField "String", "BASE_URL", "\"http://pis2016.westus.cloudapp.azure.com/Liberacion3.6/Servicios\""
+            buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.43.220:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
             buildConfigField "Integer", "WAITING_TIME", "600000"
             testCoverageEnabled true
@@ -47,37 +47,24 @@ dependencies {
     // Set this dependency to build and run Espresso tests
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.google.android.gms:play-services-appindexing:9.4.0'
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
+    compile 'com.google.android.gms:play-services-location:9.4.0'
     compile 'com.android.volley:volley:1.0.0'
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.google.firebase:firebase-messaging:9.4.0'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
-    compile 'com.google.android.gms:play-services-appindexing:9.4.0'
-    compile 'com.google.android.gms:play-services-maps:9.4.0'
-    compile 'com.google.android.gms:play-services-location:9.4.0'
     compile 'com.androidmapsextensions:android-maps-extensions:2.2.0'
-    compile 'com.android.support:support-v4:24.1.1'
-    compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.github.clans:fab:1.6.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
-    compile('com.mikepenz:materialdrawer:5.7.0@aar') {
-        transitive = true
-    }
-    // used to provide the MiniDrawer to normal Drawer crossfade effect via a SlidingPane layout
-    // --> https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/MiniDrawerActivity.java
-    // https://github.com/mikepenz/Crossfader
+    compile('com.mikepenz:materialdrawer:5.7.0@aar') { transitive = true }
     compile 'com.mikepenz:crossfader:1.5.0@aar'
-    // used to provide the two step crossfade DrawerLayout. Which allows to have a mini layout which transforms to a normal layout within the drawer
-    // --> https://github.com/mikepenz/MaterialDrawer/blob/develop/app/src/main/java/com/mikepenz/materialdrawer/app/CrossfadeDrawerLayoutActvitiy.java
-    // https://github.com/mikepenz/CrossfadeDrawerLayout
     compile('com.mikepenz:crossfadedrawerlayout:1.0.0@aar')
-
-    // icon fonts used inside the sample
-    // https://github.com/mikepenz/Android-Iconics
     compile 'com.mikepenz:google-material-typeface:2.2.0.1@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.6.0.3@aar'
-
     compile 'com.github.lawloretienne:imagegallery:0.0.15'
     compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
     compile 'com.hannesdorfmann.mosby:viewstate:2.0.1'

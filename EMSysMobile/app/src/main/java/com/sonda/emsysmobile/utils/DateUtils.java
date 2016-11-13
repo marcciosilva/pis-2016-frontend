@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.utils;
 
+import android.content.Context;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +21,13 @@ public final class DateUtils {
         if (date != null) {
             DateFormat df = new SimpleDateFormat(SIMPLE_FORMAT);
             return df.format(date);
+        }
+        return "";
+    }
+
+    public static String timeAgoString(Context context, Date date) {
+        if (date != null) {
+            return GoogleTimeAgo.getTimeAgo(date.getTime(), context);
         }
         return "";
     }

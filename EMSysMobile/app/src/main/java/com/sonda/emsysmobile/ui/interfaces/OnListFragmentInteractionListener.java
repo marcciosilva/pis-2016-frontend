@@ -1,4 +1,4 @@
-package com.sonda.emsysmobile.ui.fragments;
+package com.sonda.emsysmobile.ui.interfaces;
 
 /**
  * Created by marccio on 10/20/16.

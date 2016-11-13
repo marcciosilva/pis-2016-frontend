@@ -10,7 +10,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/gray_light"
+            android:background="@color/gray_xxlight"
             android:padding="@dimen/spacing_normal">
             <LinearLayout
                 android:id="@+id/buttons_container"
@@ -84,7 +84,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/gray_light"
+                android:background="@color/gray_xxlight"
                 android:visibility="visible"
                 android:src="@drawable/ic_settings_black_36dp" />
         </RelativeLayout>
