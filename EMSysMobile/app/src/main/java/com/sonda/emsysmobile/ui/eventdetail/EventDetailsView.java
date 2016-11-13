@@ -160,17 +160,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
 
-        // Inicializacion de fragment de extensiones.
-        if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            EventDetailExtensionsFragment extensionsFragment =
-                    EventDetailExtensionsFragment.newInstance(mEvent);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
-        }
-
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
     }
@@ -234,10 +223,11 @@ public class EventDetailsView extends AppCompatActivity implements
             if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))) {
                 mOrigin.setText(mEvent.getOrigin());
             }
+
             EventDetailExtensionsFragment extensionsFragment =
                     EventDetailExtensionsFragment.newInstance(mEvent);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
+                    .replace(R.id.fragment_container, extensionsFragment).commit();
         }
     }
 
