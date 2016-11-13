@@ -148,7 +148,7 @@
     <string name="button_filter">Aplicar</string>
 
     <!-- Notificaciones -->
-    <string name="message_no_notifications">¡Ups! Parece que aún no tienes notificaciones</string>
+    <string name="message_no_notifications">Aún no tienes notificaciones</string>
     <string name="date_text_just_now">hace unos segundos</string>
     <string name="date_text_a_minute_ago">hace un minuto</string>
     <string name="date_text_minutes_ago">"hace %1$d minutos"</string>
@@ -156,5 +156,6 @@
     <string name="date_text_hours_ago">"hace %1$d horas"</string>
     <string name="date_text_yesterday">ayer</string>
     <string name="date_text_days_ago">" días atras"</string>
+    <string name="notifications_title">Notificaciones</string>
 
 </resources>

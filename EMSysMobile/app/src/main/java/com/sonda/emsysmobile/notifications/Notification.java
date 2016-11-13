@@ -17,21 +17,29 @@ public class Notification implements Parcelable {
     private String description;
     private String code;
     private Date date;
-    private int objectId;
+    private int eventId;
+    private int extensionId;
+    private String zoneName;
     private boolean isRead;
 
-    public Notification(String title, String description, String code, int objectId) {
+
+    public Notification(String title, String description, String code, int eventId, int extensionId, String zoneName) {
         this.title = title;
         this.description = description;
         this.code = code;
-        this.objectId = objectId;
+        this.eventId = eventId;
+        this.extensionId = extensionId;
+        this.zoneName = zoneName;
         this.isRead = false;
     }
 
-    public Notification(String code, int objectId) {
+    public Notification(String code, int objectId, int extensionId, String zoneName) {
         this.code = code;
-        this.objectId = objectId;
+        this.eventId = objectId;
         this.date = new Date();
+        this.extensionId = extensionId;
+        this.zoneName = zoneName;
+        this.isRead = false;
         buildTitleAndDescription();
     }
 
@@ -59,12 +67,12 @@ public class Notification implements Parcelable {
         this.code = code;
     }
 
-    public final int getObjectId() {
-        return objectId;
+    public int getEventId() {
+        return eventId;
     }
 
-    public final void setObjectId(int objectId) {
-        this.objectId = objectId;
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
     public Date getDate() {
@@ -73,6 +81,22 @@ public class Notification implements Parcelable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getExtensionId() {
+        return extensionId;
+    }
+
+    public void setExtensionId(int extensionId) {
+        this.extensionId = extensionId;
+    }
+
+    public String getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(String zoneName) {
+        this.zoneName = zoneName;
     }
 
     public boolean isRead() {
@@ -87,7 +111,10 @@ public class Notification implements Parcelable {
         title = in.readString();
         description = in.readString();
         code = in.readString();
-        objectId = in.readInt();
+        eventId = in.readInt();
+        extensionId = in.readInt();
+        zoneName = in.readString();
+        isRead = in.readByte() != 0;
     }
 
     public static final Creator<Notification> CREATOR = new Creator<Notification>() {
@@ -104,7 +131,7 @@ public class Notification implements Parcelable {
 
     @Override
     public final String toString() {
-        return "Notification received. \n Notification Code: " + this.code + "\n Primary key: " + this.objectId;
+        return "Notification received. \n Notification Code: " + this.code + "\n Primary key: " + this.eventId;
     }
 
     @Override
@@ -117,13 +144,17 @@ public class Notification implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeString(code);
-        parcel.writeInt(objectId);
+        parcel.writeInt(eventId);
+        parcel.writeInt(extensionId);
+        parcel.writeString(zoneName);
+        parcel.writeByte((byte) (isRead ? 1 : 0));
     }
 
     public final NotificationsEvents getEventFromCode() {
         if (code.equals("AE")) {
             return NotificationsEvents.UPDATE_EVENTS_LIST;
-        } if (code.equals("ME")) {
+        } if (code.equals("ME") || code.equals("AA") || code.equals("AI")
+                || code.equals("AV") || code.equals("AG")) {
             return NotificationsEvents.UPDATE_ONE_EVENT;
         } if (code.equals("CE")) {
             return NotificationsEvents.UPDATE_EVENTS_LIST;
@@ -138,19 +169,36 @@ public class Notification implements Parcelable {
     private void buildTitleAndDescription() {
         if (code.equals("AE")) {
             this.title = "Se ha dado de alta un nuevo evento";
-            this.description = "El evento " + this.objectId + " se ha dado de alta para alguna de tus zonas";
-        } if (code.equals("ME")) {
+            this.description = "Se ha creado el evento " + this.eventId + " en " + this.zoneName;
+        } if (code.equals("ME") || code.equals("AA") || code.equals("AI")
+                || code.equals("AV") || code.equals("AG")) {
             this.title = "Se ha modificado un evento";
-            this.description = "El evento " + this.objectId + " ha sido modificado";
+            switch (code) {
+                case "AA":
+                    this.description = "Se adjuntó un audio al evento " + this.eventId + " en " + this.zoneName;
+                    break;
+                case "AI":
+                    this.description = "Se adjuntó una imagen al evento " + this.eventId + " en " + this.zoneName;
+                    break;
+                case "AV":
+                    this.description = "Se adjuntó un video al evento " + this.eventId + " en " + this.zoneName;
+                    break;
+                case "AG":
+                    this.description = "Se adjuntó una ubicación al evento " + this.eventId + " en " + this.zoneName;
+                    break;
+                default:
+                    this.description = "Se modificó el evento " + this.eventId + " en " + this.zoneName;
+                    break;
+            }
         } if (code.equals("CE")) {
-            this.title = "Se ha cerrado una extensión";
-            this.description = "La extensión del evento " + this.objectId + " ha sido cerrada";
+            this.title = "Se ha cerrado un evento";
+            this.description = "Se cerró el evento " + this.eventId + " en " + this.zoneName;
         } if (code.equals("SE")) {
-            this.title = "Se asignó una extensión";
-            this.description = "La extensión perteneciente al evento " + this.objectId + " ha sido asignada";
+            this.title = "Se ha asignado un evento";
+            this.description = "El recurso ha sido asignado al evento " + this.eventId + " en " + this.zoneName;
         } if (code.equals("RE")) {
-            this.title = "Ya no estás asignado a un evento";
-            this.description = "Ya no estás asignado al evento " + this.objectId;
+            this.title = "El recurso ya no está asignado a un evento";
+            this.description = "El recurso se ha retirado del evento " + this.eventId + " en " + this.zoneName;
         }
     }
 }

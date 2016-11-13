@@ -62,6 +62,7 @@ public class NotificationsManager {
             if (intent.getExtras() != null) {
                 Notification notification = (Notification) intent.getExtras().get(NOTIFICATION_KEY);
                 if (notification != null) {
+                    notification.setRead(false);
                     notifications.add(0, notification);
                     Intent newNotifIntent = new Intent(NOTIFICATION_RECEIVED);
                     LocalBroadcastManager.getInstance(mContext).sendBroadcast(newNotifIntent);

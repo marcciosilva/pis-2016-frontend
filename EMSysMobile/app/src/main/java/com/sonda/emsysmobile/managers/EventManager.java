@@ -319,8 +319,7 @@ public final class EventManager {
                         updateEvents(null, null);
                     } else if (intent.getAction()
                             .equals(NotificationsEvents.UPDATE_ONE_EVENT.toString())) {
-                        ExtensionDto extensionDto = mExtensions.get(notification.getObjectId());
-                        //TODO: Update just one event with an API Call
+                        ExtensionDto extensionDto = mExtensions.get(notification.getEventId());
                         if (extensionDto != null) {
                             extensionDto.setModified(true);
                             Intent eventsIntent = new Intent(EVENTS_UPDATED);

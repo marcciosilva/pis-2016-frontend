@@ -91,7 +91,6 @@ public class NotificationsFragment extends DialogFragment {
         mNotifications = notificationsManager.getNotifications();
         loadData();
         manageEmptyView();
-        markNotificationsAsRead();
     }
 
     private void loadData() {
@@ -127,6 +126,12 @@ public class NotificationsFragment extends DialogFragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        markNotificationsAsRead();
     }
 
     @Override

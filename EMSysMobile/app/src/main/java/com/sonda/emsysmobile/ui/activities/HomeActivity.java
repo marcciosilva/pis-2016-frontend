@@ -355,7 +355,7 @@ public class HomeActivity extends RootActivity
     @Override
     public void onNotificationSelected(Notification notification) {
         mNotificationsFragment.dismiss();
-        EventDetailsPresenter.loadEventDetails(HomeActivity.this, notification.getObjectId());
+        EventDetailsPresenter.loadEventDetails(HomeActivity.this, notification.getEventId(), notification.getExtensionId());
     }
 
     private void setNotificationActive(boolean active) {
