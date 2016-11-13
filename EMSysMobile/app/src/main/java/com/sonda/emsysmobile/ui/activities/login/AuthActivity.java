@@ -121,7 +121,7 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                     SharedPreferences.Editor prefsEditor =
                             PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
                     prefsEditor.putString("access_token", response.getAccessToken());
-                    prefsEditor.commit();
+                    prefsEditor.apply();
                     Log.d(TAG, "Token guardado en preferencias.");
                     sendRegistrationToServer();
                 } else {
@@ -219,6 +219,9 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
                 }
             });
             request.execute();
+        }
+        else {
+            goToRoleChooser();
         }
     }
 }

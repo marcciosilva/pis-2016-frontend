@@ -251,8 +251,7 @@ public final class EventManager {
             for (int i = 0; i < mExtensions.size(); i++) {
                 extension = mExtensions.valueAt(i);
                 if (extension.isAssigned()) {
-                    List<GeolocationDto> geoLocations = extension.getGeolocations();
-                    if (geoLocations == null || geoLocations.isEmpty()) {
+                    if ((extension.getEvent().getLatitude() == 0.0) && extension.getEvent().getLongitude() == 0.0){
                         arrayList.add(extension);
                     }
                 }
@@ -283,7 +282,7 @@ public final class EventManager {
     private void sortExtensionsByDate(List<ExtensionDto> extensions) {
         Collections.sort(extensions, new Comparator<ExtensionDto>() {
             public int compare(ExtensionDto ext1, ExtensionDto ext2) {
-                return ext1.getTimeStamp().compareTo(ext2.getTimeStamp());
+                return ext2.getTimeStamp().compareTo(ext1.getTimeStamp());
             }
         });
     }

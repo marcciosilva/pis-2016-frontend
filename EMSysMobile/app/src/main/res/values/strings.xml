@@ -54,10 +54,10 @@
     <string name="error_no_available_multimedia">No hay contenido multimedia disponible para la opción seleccionada</string>
     <string name="error_access_camera_message">Ocurrió un error al intentar acceder a la camara</string>
     <string name="error_invalid_credentials">Las credenciales son inválidas</string>
-    <string name="error_already_reported_hour">El recurso ya posee una hora de arribo previa en la extension seleccionada.</string>
+    <string name="error_already_reported_hour">El recurso ya posee una hora de arribo previa en la extensión seleccionada.</string>
     <string name="success_msg">Éxito</string>
     <string name="error_resource_unavailable">El recurso seleccionado no se encuentra disponible.</string>
-    <string name="error_no_permission">El usuario no esta autorizado a acceder al contenido solicitado</string>
+    <string name="error_no_permission">El usuario no está autorizado a acceder al contenido solicitado</string>
     <string name="error_unkown">Error desconocido</string>
 
     <!--Preferences-->
@@ -73,7 +73,7 @@
 
     <!--Events details - Extension Menu-->
     <string name="attach_geolocation_option_title">Adjuntar geoubicación</string>
-    <string name="attach_image_option_title">Adjuntar imágen</string>
+    <string name="attach_image_option_title">Adjuntar imagen</string>
     <string name="attach_audio_option_title">Adjuntar audio</string>
     <string name="attach_video_option_title">Adjuntar video</string>
     <string name="attach_image_menu_title">Seleccione una opción</string>
@@ -133,8 +133,8 @@
     <string name="attach_geolocation_success_message">La geoubicación fue registrada.</string>
 
     <!--Adjuntar imágenes-->
-    <string name="message_image_attached">Se adjuntó la imágen al evento.</string>
-    <string name="error_message_image_not_attached">Ocurrió un error al subir la imágen</string>
+    <string name="message_image_attached">Se adjuntó la imagen al evento.</string>
+    <string name="error_message_image_not_attached">Ocurrió un error al subir la imagen</string>
 
     <string name="dummy_description">Description</string>
     <string name="dummy_text">Dummy text</string>
