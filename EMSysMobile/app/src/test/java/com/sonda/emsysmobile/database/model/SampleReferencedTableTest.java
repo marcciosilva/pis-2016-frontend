@@ -15,8 +15,12 @@ public class SampleReferencedTableTest {
 
     @Before
     public void setUp(){
-        mSampleReferencedTable = new SampleReferencedTable("reference1");
-        mSampleReferencedTable = new SampleReferencedTable("reference1");
+        mSampleReferencedTable = new SampleReferencedTable();
+        mSampleReferencedTable.setName("reference1");
+        mSampleReferencedTable.save();
+        testSampleReferencedTable = new SampleReferencedTable();
+        mSampleReferencedTable.setName("reference1");
+        testSampleReferencedTable.save();
     }
 
     @Test
@@ -27,13 +31,16 @@ public class SampleReferencedTableTest {
     @Test
     public void setName_DifferentName_ReturnsTrue() {
         mSampleReferencedTable.setName("reference2");
+        mSampleReferencedTable.save();
         assertTrue(mSampleReferencedTable.getName().equals("reference2"));
     }
 
     @Test
     public void setName_CompareWithDifferentName_ReturnsFalse() {
         mSampleReferencedTable.setName("reference1");
+        mSampleReferencedTable.save();
         testSampleReferencedTable.setName("reference2");
+        testSampleReferencedTable.save();
         assertFalse(mSampleReferencedTable.equals(testSampleReferencedTable));
     }
 
