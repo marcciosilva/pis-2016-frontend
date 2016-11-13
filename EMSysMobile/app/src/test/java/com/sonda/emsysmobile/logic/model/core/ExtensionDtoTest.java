@@ -51,6 +51,7 @@ public class ExtensionDtoTest {
     private String mExtensionZoneName;
     private int mExtensionZoneIdentifier;
     private String mExtensionZoneExecUnitName;
+    private List<String> mExtensionResources;
 
     @Before
     public void setUp() throws Exception {
@@ -86,6 +87,7 @@ public class ExtensionDtoTest {
         mExtensionZoneName = "zone1";
         mExtensionZoneIdentifier = 1;
         mExtensionZoneExecUnitName = "ue1";
+        mExtensionResources = new ArrayList<>();
         mExtensionZone = new ZoneDto(mExtensionZoneName, mExtensionZoneIdentifier,
                 mExtensionZoneExecUnitName);
         // EventDto.
@@ -94,7 +96,7 @@ public class ExtensionDtoTest {
                 mExtensions, mCategory, mLatitude, mLongitude);
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
-                mExtensionEvent);
+                mExtensionEvent, mExtensionResources);
         mExtensions.add(mExtensionDto);
     }
 
@@ -207,6 +209,7 @@ public class ExtensionDtoTest {
         double testLatitude;
         double testLongitude;
         List<ExtensionDto> testExtensions;
+        List<String> testExtensionResources;
         // Category.
         CategoryDto testCategory;
         int testCategoryIdentifier;
@@ -259,6 +262,7 @@ public class ExtensionDtoTest {
         testExtensionZoneName = "zone1";
         testExtensionZoneIdentifier = 1;
         testExtensionZoneExecUnitName = "ue1";
+        testExtensionResources = new ArrayList<>();
         testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitName);
         // EventDto.
@@ -267,7 +271,7 @@ public class ExtensionDtoTest {
                 testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone, null,
-                testExtensionEvent);
+                testExtensionEvent, testExtensionResources);
         testExtensions.add(testExtension);
         mExtensionDto.setEvent(testExtensionEvent);
         assertTrue(mExtensionDto.getEvent().equals(testExtensionEvent));
@@ -306,6 +310,7 @@ public class ExtensionDtoTest {
         String testExtensionZoneNateste;
         int testExtensionZoneIdentifier;
         String testExtensionZoneExecUnitNateste;
+        List<String> testExtensionResources;
         // Category.
         testCategoryIdentifier = 1;
         testCategoryCode = "categoryCode";
@@ -324,11 +329,12 @@ public class ExtensionDtoTest {
         testExtensionZoneExecUnitNateste = "ue1";
         testExtensionZone = new ZoneDto(testExtensionZoneNateste, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitNateste);
+        testExtensionResources = new ArrayList<>();
         // EventDto.
         testExtensionEvent = null;
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
-                testExtensionEvent);
+                testExtensionEvent, testExtensionResources);
         assertTrue(mExtensionDto.equals(testExtensionDto));
     }
 
@@ -354,6 +360,7 @@ public class ExtensionDtoTest {
         String testExtensionZoneNateste;
         int testExtensionZoneIdentifier;
         String testExtensionZoneExecUnitNateste;
+        List<String> testExtensionResources;
         // Category.
         testCategoryIdentifier = 1;
         testCategoryCode = "categoryCode";
@@ -370,13 +377,14 @@ public class ExtensionDtoTest {
         testExtensionZoneNateste = "zone1";
         testExtensionZoneIdentifier = 1;
         testExtensionZoneExecUnitNateste = "ue1";
+        testExtensionResources = new ArrayList<>();
         testExtensionZone = new ZoneDto(testExtensionZoneNateste, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitNateste);
         // EventDto.
         testExtensionEvent = null;
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
-                testExtensionEvent);
+                testExtensionEvent, testExtensionResources);
         assertFalse(mExtensionDto.equals(testExtensionDto));
     }
 
