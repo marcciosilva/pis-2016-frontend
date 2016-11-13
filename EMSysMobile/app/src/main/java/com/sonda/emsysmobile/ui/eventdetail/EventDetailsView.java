@@ -20,10 +20,12 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.UserDto;
 import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
@@ -151,6 +153,14 @@ public class EventDetailsView extends AppCompatActivity implements
         });
 
         mReportTimeBtn = (FloatingActionButton) findViewById(R.id.button_report_time);
+        UserDto userDto = GlobalVariables.getUserData();
+        if (userDto != null){
+            // If user is not logged as resource
+            if (userDto.getRoles().getResources().size() == 0){
+                mReportTimeBtn.setVisibility(View.GONE);
+            }
+        }
+
         mReportTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
