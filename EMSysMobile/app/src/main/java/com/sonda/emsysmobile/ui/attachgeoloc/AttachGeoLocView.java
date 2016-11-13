@@ -43,6 +43,12 @@ public class AttachGeoLocView extends AppCompatActivity implements
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attach_geoloc);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
         // Inicializo servicio de Google para obtener ubicacion actual.
         // Create an instance of GoogleAPIClient.
         if (mGoogleApiClient == null) {
@@ -119,18 +125,13 @@ public class AttachGeoLocView extends AppCompatActivity implements
     }
 
     @Override
-    public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() ==R.id.menu_back) {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Se maneja la flecha de ir hacia atras.
+        if (item.getItemId() == android.R.id.home) {
+            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
             onBackPressed();
             return true;
         }
         return false;
-    }
-
-    @Override
-    public final boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.top_menu_only_back, menu);
-        return true;
     }
 }
