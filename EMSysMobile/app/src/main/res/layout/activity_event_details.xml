@@ -30,6 +30,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray_light"
+                android:padding="@dimen/spacing_normal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/EventDetails.SectionTitle"
+                    android:text="Información general: "/>
+                <TextView
+                    android:id="@+id/general_information_title_event_identifier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_large"
+                    android:textColor="@color/gray_dark"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
@@ -58,7 +75,22 @@
                         android:text="@string/event_details_missing_value"/>
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="@dimen/spacing_normal"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/EventDetails.FieldLabel"
+                    android:text="Descripcion del evento"/>
 
+                <TextView
+                    android:id="@+id/general_description"
+                    style="@style/EventDetails.FieldValue"
+                    android:text="@string/event_details_missing_value"/>
+
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -89,6 +121,47 @@
                         style="@style/EventDetails.FieldValue"
                         android:text="@string/event_details_missing_value"/>
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+
+                    <TextView
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Motivo"/>
+
+                    <TextView
+                        android:id="@+id/category"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"/>
+
+                    <TextView
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Origen"/>
+
+                    <TextView
+                        android:id="@+id/origin"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/EventDetails.HalfLinear">
+
+                    <TextView
+                        style="@style/EventDetails.FieldLabel"
+                        android:text="Tipo de alarma"/>
+
+                    <TextView
+                        android:id="@+id/type"
+                        style="@style/EventDetails.FieldValue"
+                        android:text="@string/event_details_missing_value"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -164,48 +237,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
-                    style="@style/EventDetails.HalfLinear">
-
-                    <TextView
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Motivo"/>
-
-                    <TextView
-                        android:id="@+id/category"
-                        style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"/>
-
-                    <TextView
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Origen"/>
-
-                    <TextView
-                        android:id="@+id/origin"
-                        style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/EventDetails.HalfLinear">
-
-                    <TextView
-                        style="@style/EventDetails.FieldLabel"
-                        android:text="Tipo de alarma"/>
-
-                    <TextView
-                        android:id="@+id/type"
-                        style="@style/EventDetails.FieldValue"
-                        android:text="@string/event_details_missing_value"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
                 <include layout="@layout/event_detail_multimedia_section"/>
 
             </LinearLayout>
@@ -232,13 +263,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/font_normal">
-
+                android:background="@color/gray_light"
+                android:padding="@dimen/spacing_normal">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Zonas"
-                    android:textSize="@dimen/font_large"/>
+                    style="@style/EventDetails.SectionTitle"
+                    android:text="Zonas"/>
             </LinearLayout>
 
             <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -29,6 +29,7 @@ import com.sonda.emsysmobile.notifications.NotificationsEvents;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -184,8 +185,10 @@ public final class EventManager {
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     EventDto event = response.getEvent();
                     if (event != null) {
+                        updateEvent(event);
                         for (ExtensionDto extension : event.getExtensions()) {
                             extension.setEvent(event);
+                            mExtensions.put(extension.getIdentifier(), extension);
                         }
                     }
                     callback.onSuccess(event);
@@ -215,6 +218,15 @@ public final class EventManager {
                 mExtensions.append(extension.getIdentifier(), extension);
             }
         }
+    }
+
+    public void updateEvent(EventDto event){
+        for (int index = 0; index < mEvents.size(); index++){
+            if(mEvents.get(index).getIdentifier() == event.getIdentifier()){
+                mEvents.remove(index);
+            }
+        }
+        mEvents.add(event);
     }
 
     public void setEventAsRead(EventDto event) {
