@@ -39,7 +39,7 @@ public final class AttachGeoLocPresenter {
                     int responseCode = response.getCode();
                     if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                         // Show toast with success message
-                        UIUtils.showToast(view.getApplicationContext(), view.getApplicationContext().getString(R.string.update_desc_success_string));
+                        UIUtils.showToast(view.getApplicationContext(), view.getApplicationContext().getString(R.string.attach_geolocation_success_message));
                         view.setResult(EventDetailsView.SHOULD_UPDATE_MAP);
                         view.finish();
                     } else {
