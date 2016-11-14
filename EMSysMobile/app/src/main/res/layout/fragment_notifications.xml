@@ -3,20 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.sonda.emsysmobile.ui.fragments.NotificationsFragment">
+    tools:context="com.sonda.emsysmobile.ui.fragments.NotificationsFragment"
+    android:background="@color/gray_xxxlight">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/notifications_list"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/row_notification"/>
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingLeft="@dimen/tool_bar_top_padding"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:background="?attr/colorPrimary"
+            android:text="@string/notifications_title"
+            style="?attr/actionBarStyle"
+            android:textSize="@dimen/font_normal"
+            android:textColor="@color/white"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/notifications_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray_xxxlight"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/row_notification"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/empty_view"
         android:layout_width="@dimen/field_width_normal"
         android:layout_height="wrap_content"
+        android:paddingTop="?attr/actionBarSize"
         android:layout_gravity="center"
         android:textSize="@dimen/font_larger"
         android:gravity="center"
