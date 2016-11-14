@@ -38,20 +38,10 @@ public final class AttachGeoLocPresenter {
                 public void onResponse(UpdateGeoLocationResponse response) {
                     int responseCode = response.getCode();
                     if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                        //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                        AlertDialog.Builder builder = new AlertDialog.Builder(view);
-                        builder.setTitle(view.getString(R.string.app_name));
-                        builder.setMessage(
-                                view.getString(R.string.attach_geolocation_success_message));
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Se termina la activity.
-                                view.setResult(EventDetailsView.SHOULD_UPDATE_MAP);
-                                view.finish();
-                            }
-                        });
-                        builder.show();
+                        // Show toast with success message
+                        UIUtils.showToast(view.getApplicationContext(), view.getApplicationContext().getString(R.string.attach_geolocation_success_message));
+                        view.setResult(EventDetailsView.SHOULD_UPDATE_MAP);
+                        view.finish();
                     } else {
                         if (!view.isFinishing()) {
                             UIUtils.handleErrorMessage(view, response.getCode(), response

@@ -26,6 +26,7 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.UserDto;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
@@ -234,6 +235,17 @@ public class EventDetailsView extends AppCompatActivity implements
                 mOrigin.setText(mEvent.getOrigin());
             }
 
+            if(mEvent.getImageDescriptions().size() == 0){
+                mImagesButton.setEnabled(false);
+                mImagesButton.setImageResource(R.drawable.ic_collections_grey_700_36dp);
+            }
+
+            // TODO enable when implemented
+            mVideosButton.setEnabled(false);
+            mVideosButton.setImageResource(R.drawable.ic_video_library_grey_700_36dp);
+            mAudioButton.setEnabled(false);
+            mAudioButton.setImageResource(R.drawable.ic_library_music_grey_700_36dp);
+
             EventDetailExtensionsFragment extensionsFragment =
                     EventDetailExtensionsFragment.newInstance(mEvent);
             getSupportFragmentManager().beginTransaction()
@@ -263,6 +275,7 @@ public class EventDetailsView extends AppCompatActivity implements
             extras.putInt("ExtensionId", extensionID);
             intent.putExtras(extras);
             EventDetailsPresenter.showGeolocationAttachView(intent);
+            mFloatingActionMenu.close(true);
         }
     }
 
@@ -292,6 +305,7 @@ public class EventDetailsView extends AppCompatActivity implements
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 UIUtils.showToast(this, getString(R.string.error_access_camera_message));
+                mFloatingActionMenu.close(true);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -308,6 +322,7 @@ public class EventDetailsView extends AppCompatActivity implements
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
             EventDetailsPresenter.reportTime(this, extensionID);
+            mFloatingActionMenu.close(true);
         }
     }
 
@@ -337,6 +352,7 @@ public class EventDetailsView extends AppCompatActivity implements
                             mAttachImageBtn.hideProgress();
                             UIUtils.showToast(EventDetailsView.this,
                                     getString(R.string.message_image_attached));
+                            mFloatingActionMenu.close(true);
                         }
 
                         @Override
@@ -414,6 +430,7 @@ public class EventDetailsView extends AppCompatActivity implements
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
+            mFloatingActionMenu.close(true);
         }
     }
 

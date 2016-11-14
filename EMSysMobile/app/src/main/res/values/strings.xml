@@ -113,7 +113,8 @@
     <string name="ok_button">OK</string>
 
     <!--Reportar hora-->
-    <string name="report_time_success">Se ha reportado la hora exitosamente</string>
+    <string name="report_time_success">Se adjunto hora de arribo</string>
+    <string name="time_already_reported">La hora de arribo ya fue reportada anteriormente</string>
     <string name="action_report_time">Reportar hora</string>
 
     <!--Actualizar descripcion-->

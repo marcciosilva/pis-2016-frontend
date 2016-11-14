@@ -100,6 +100,16 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
                 }
             }
         });
+        // Disables multimedia buttons if extension donesn't have multimedia
+        if (extension.getImageDescriptions().size() == 0){
+            holder.getImagesButton().setEnabled(false);
+            holder.getImagesButton().setImageResource(R.drawable.ic_collections_grey_700_36dp);
+        }
+        //TODO enable when implemented
+        holder.getAudioButton().setEnabled(false);
+        holder.getVideosButton().setEnabled(false);
+        holder.getAudioButton().setImageResource(R.drawable.ic_library_music_grey_700_36dp);
+        holder.getVideosButton().setImageResource(R.drawable.ic_video_library_grey_700_36dp);
         // Initializes the resources list
         ArrayAdapter<String> resourcesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1,
                 android.R.id.text1, extension.getResources());
