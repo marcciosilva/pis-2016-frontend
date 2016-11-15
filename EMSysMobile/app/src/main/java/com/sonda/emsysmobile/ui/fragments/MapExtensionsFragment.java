@@ -37,14 +37,21 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
  */
 public class MapExtensionsFragment extends Fragment {
 
+    private static final String EVENTS_UPDATED = "events_updated";
     private OnListFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private List<ExtensionDto> mExtensions;
     private ProgressBar mProgressBar;
     private String mFilter = "Prioridad";
-
-    private static final String TAG = MapExtensionsFragment.class.getName();
-    private static final String EVENTS_UPDATED = "events_updated";
+    /**
+     * Receives a notification when event list is updated
+     */
+    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getMapEvents();
+        }
+    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,53 +64,11 @@ public class MapExtensionsFragment extends Fragment {
         return new MapExtensionsFragment();
     }
 
-    @Override
-    public final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mExtensions = new ArrayList<>();
-    }
-
-    @Override
-    public final View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                   Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_extensions, container, false);
-
-        Context context = view.getContext();
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-        mProgressBar = (ProgressBar) view.findViewById(R.id.loadingView);
-
-        showSpinner(true);
-        getMapEvents();
-
-        return view;
-    }
-
-    @Override
-    public final void onResume() {
-        super.onResume();
-
-        //We wants than Broadcast Receiver be registered when the fragment is active
-        LocalBroadcastManager.getInstance(this.getActivity())
-                .registerReceiver(broadcastReceiverEvents, new IntentFilter(EVENTS_UPDATED));
-    }
-
-    @Override
-    public final void onPause() {
-        super.onPause();
-
-        //We should unregister Broadcast Reciever when te fragment is paused
-        LocalBroadcastManager.getInstance(this.getActivity())
-                .unregisterReceiver(broadcastReceiverEvents);
-    }
-
-    public void setFilter(String selectedFilter) {
+    public final void setFilter(String selectedFilter) {
         mFilter = selectedFilter;
     }
 
-    public void getMapEvents() {
+    public final void getMapEvents() {
         EventManager eventManager = EventManager.getInstance(getActivity().getApplicationContext());
         eventManager.fetchExtensions(false, mFilter, true, new ApiCallback<List<ExtensionDto>>() {
             @Override
@@ -163,18 +128,50 @@ public class MapExtensionsFragment extends Fragment {
     }
 
     @Override
+    public final void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mExtensions = new ArrayList<>();
+    }
+
+    @Override
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_extensions, container, false);
+
+        Context context = view.getContext();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+        mProgressBar = (ProgressBar) view.findViewById(R.id.loadingView);
+
+        showSpinner(true);
+        getMapEvents();
+
+        return view;
+    }
+
+    @Override
+    public final void onResume() {
+        super.onResume();
+
+        //We wants than Broadcast Receiver be registered when the fragment is active
+        LocalBroadcastManager.getInstance(this.getActivity())
+                .registerReceiver(broadcastReceiverEvents, new IntentFilter(EVENTS_UPDATED));
+    }
+
+    @Override
+    public final void onPause() {
+        super.onPause();
+
+        //We should unregister Broadcast Reciever when te fragment is paused
+        LocalBroadcastManager.getInstance(this.getActivity())
+                .unregisterReceiver(broadcastReceiverEvents);
+    }
+
+    @Override
     public final void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
-    /**
-     * Receives a notification when event list is updated
-     */
-    private BroadcastReceiver broadcastReceiverEvents = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getMapEvents();
-        }
-    };
 }

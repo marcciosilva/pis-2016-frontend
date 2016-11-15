@@ -23,23 +23,23 @@ public class OfflineAttachDescriptionDto implements OfflineDto {
     @SerializedName("time_stamp")
     private Date timeStamp;
 
-    public void setDescription(String description) {
+    public final void setDescription(String description) {
         this.description = description;
     }
 
-    public void setExtensionId(int extensionId) {
+    public final void setExtensionId(int extensionId) {
         this.extensionId = extensionId;
     }
 
-    public void setUserData(UserDto userData) {
+    public final void setUserData(UserDto userData) {
         this.userData = userData;
     }
 
-    public Date getTimeStamp() {
+    public final Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
+    public final void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 

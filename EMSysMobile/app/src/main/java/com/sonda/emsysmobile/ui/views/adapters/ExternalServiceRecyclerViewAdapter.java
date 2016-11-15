@@ -64,6 +64,14 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView
         private final TextView thirdField;
         private ExternalServiceItemDto item;
 
+        public ViewHolder(View view) {
+            super(view);
+            this.view = view;
+            firstField = (TextView) view.findViewById(R.id.first_field_tv);
+            secondField = (TextView) view.findViewById(R.id.second_field_tv);
+            thirdField = (TextView) view.findViewById(R.id.third_field_tv);
+        }
+
         public final View getView() {
             return view;
         }
@@ -86,14 +94,6 @@ public class ExternalServiceRecyclerViewAdapter extends RecyclerView
 
         public final TextView getThirdField() {
             return thirdField;
-        }
-
-        public ViewHolder(View view) {
-            super(view);
-            this.view = view;
-            firstField = (TextView) view.findViewById(R.id.first_field_tv);
-            secondField = (TextView) view.findViewById(R.id.second_field_tv);
-            thirdField = (TextView) view.findViewById(R.id.third_field_tv);
         }
 
         @Override

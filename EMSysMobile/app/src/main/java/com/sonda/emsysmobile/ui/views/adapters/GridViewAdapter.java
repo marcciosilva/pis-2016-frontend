@@ -15,6 +15,7 @@ import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by marccio on 28-Oct-16.
@@ -23,10 +24,9 @@ import java.util.ArrayList;
 public class GridViewAdapter extends ArrayAdapter {
     private Context context;
     private int layoutResourceId;
-    private ArrayList data = new ArrayList();
-    private static final String TAG = GridViewAdapter.class.getName();
+    private List data = new ArrayList();
 
-    public GridViewAdapter(Context context, int layoutResourceId, ArrayList data) {
+    public GridViewAdapter(Context context, int layoutResourceId, List data) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -34,33 +34,34 @@ public class GridViewAdapter extends ArrayAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public final View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder holder;
-        if (convertView == null) {
+        View localConvertView = convertView;
+        if (localConvertView == null) {
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            convertView = inflater.inflate(layoutResourceId, parent, false);
+            localConvertView = inflater.inflate(layoutResourceId, parent, false);
             holder = new ViewHolder();
-            holder.imageTitle = (TextView) convertView.findViewById(R.id.text);
-            holder.image = (ImageView) convertView.findViewById(R.id.image);
-            holder.creator = (TextView) convertView.findViewById(R.id.creator);
-            holder.creationDate = (TextView) convertView.findViewById(R.id.creationDate);
-            convertView.setTag(holder);
+            holder.setImageTitle((TextView) localConvertView.findViewById(R.id.text));
+            holder.setImage((ImageView) localConvertView.findViewById(R.id.image));
+            holder.setCreator((TextView) localConvertView.findViewById(R.id.creator));
+            holder.setCreationDate((TextView) localConvertView.findViewById(R.id.creationDate));
+            localConvertView.setTag(holder);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolder) localConvertView.getTag();
         }
         ImageDescriptionDto imageDescription = (ImageDescriptionDto) data.get(position);
-        holder.imageTitle.setText("Imagen " + Integer.toString(imageDescription.getId()));
-        if ((convertView.findViewById(R.id.progress_bar).getVisibility() == View.INVISIBLE)
-                && (holder.image.getVisibility() == View.VISIBLE)) {
-            convertView.findViewById(R.id.progress_bar)
+        holder.getImageTitle().setText("Imagen " + Integer.toString(imageDescription.getId()));
+        if ((localConvertView.findViewById(R.id.progress_bar).getVisibility() == View.INVISIBLE)
+                && (holder.getImage().getVisibility() == View.VISIBLE)) {
+            localConvertView.findViewById(R.id.progress_bar)
                     .setVisibility(View.VISIBLE);
-            holder.image.setVisibility(View.INVISIBLE);
+            holder.getImage().setVisibility(View.INVISIBLE);
         }
-        ImageGalleryPresenter.loadThumbnail(convertView, context, imageDescription, holder);
-        holder.creator.setText("Subido por: " + imageDescription.getUser());
+        ImageGalleryPresenter.loadThumbnail(localConvertView, context, imageDescription, holder);
+        holder.getCreator().setText("Subido por: " + imageDescription.getUser());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        holder.creationDate.setText(dateFormat.format(imageDescription.getDeliveryDate()));
-        return convertView;
+        holder.getCreationDate().setText(dateFormat.format(imageDescription.getDeliveryDate()));
+        return localConvertView;
     }
 
     public static class ViewHolder {
@@ -68,5 +69,37 @@ public class GridViewAdapter extends ArrayAdapter {
         public ImageView image;
         public TextView creator;
         public TextView creationDate;
+
+        public TextView getImageTitle() {
+            return imageTitle;
+        }
+
+        public void setImageTitle(TextView imageTitle) {
+            this.imageTitle = imageTitle;
+        }
+
+        public ImageView getImage() {
+            return image;
+        }
+
+        public void setImage(ImageView image) {
+            this.image = image;
+        }
+
+        public TextView getCreator() {
+            return creator;
+        }
+
+        public void setCreator(TextView creator) {
+            this.creator = creator;
+        }
+
+        public TextView getCreationDate() {
+            return creationDate;
+        }
+
+        public void setCreationDate(TextView creationDate) {
+            this.creationDate = creationDate;
+        }
     }
 }

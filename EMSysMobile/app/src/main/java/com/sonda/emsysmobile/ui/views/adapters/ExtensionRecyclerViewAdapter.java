@@ -37,19 +37,20 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
         mContext = context;
     }
 
-    public ExtensionRecyclerViewAdapter(Context context, OnListFragmentInteractionListener listener) {
+    public ExtensionRecyclerViewAdapter(Context context,
+                                        OnListFragmentInteractionListener listener) {
         mExtensions = new ArrayList<>();
         mListener = listener;
         mContext = context;
     }
 
+    public final List<ExtensionDto> getExtensions() {
+        return mExtensions;
+    }
+
     public final void setExtensions(List<ExtensionDto> mValues) {
         mExtensions.clear();
         mExtensions.addAll(mValues);
-    }
-
-    public final List<ExtensionDto> getExtensions() {
-        return mExtensions;
     }
 
     @Override
@@ -138,6 +139,17 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
         private ExtensionDto item;
         private ImageButton menu;
 
+        public ViewHolder(View view) {
+            super(view);
+            this.view = view;
+            idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
+            descriptionTextView = (TextView) view.findViewById(R.id.label_description);
+            priorityView = view.findViewById(R.id.view_priority_mark);
+            dateTextView = (TextView) view.findViewById(R.id.label_date);
+            modifiedIndicator = view.findViewById(R.id.modified_indicator);
+            menu = (ImageButton) view.findViewById(R.id.menu_extensions);
+        }
+
         public final View getView() {
             return view;
         }
@@ -172,17 +184,6 @@ public class ExtensionRecyclerViewAdapter extends RecyclerView
 
         public final void setMenu(ImageButton menu) {
             this.menu = menu;
-        }
-
-        public ViewHolder(View view) {
-            super(view);
-            this.view = view;
-            idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
-            descriptionTextView = (TextView) view.findViewById(R.id.label_description);
-            priorityView = view.findViewById(R.id.view_priority_mark);
-            dateTextView = (TextView) view.findViewById(R.id.label_date);
-            modifiedIndicator = view.findViewById(R.id.modified_indicator);
-            menu = (ImageButton) view.findViewById(R.id.menu_extensions);
         }
 
         @Override

@@ -39,7 +39,8 @@ public class AuthInnerResponse extends ErrorResponse {
             return false;
         }
         final AuthInnerResponse other = (AuthInnerResponse) obj;
-        return (super.equals(other) && accessToken.equals(other.accessToken) && expirationTime == other.expirationTime);
+        return (super.equals(other) && accessToken.equals(other.accessToken) &&
+                expirationTime == other.expirationTime);
     }
 
 }

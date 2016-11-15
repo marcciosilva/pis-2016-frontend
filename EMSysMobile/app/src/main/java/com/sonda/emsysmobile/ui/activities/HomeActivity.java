@@ -3,18 +3,14 @@ package com.sonda.emsysmobile.ui.activities;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,21 +21,14 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
-import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
-import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
-import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.managers.NotificationsManager;
-import com.sonda.emsysmobile.notifications.MyFirebaseInstanceIDService;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
@@ -51,17 +40,13 @@ import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
-
 public class HomeActivity extends RootActivity
         implements OnListFragmentInteractionListener,
         EventFilterDialogFragment.OnEventFilterDialogListener,
         NotificationsFragment.OnFragmentInteractionListener {
 
-    private static final String NOTIFICATION_RECEIVED = "notification_received";
     public static final String TAG = HomeActivity.class.getName();
-
+    private static final String NOTIFICATION_RECEIVED = "notification_received";
     private EventsMapView mMapView;
     private FrameLayout mMapContainer;
     private FrameLayout mFragmentsContainer;
@@ -69,16 +54,23 @@ public class HomeActivity extends RootActivity
     private boolean mContainerCollapsed;
     private MapExtensionsFragment mMapExtensionsFragment;
     private NotificationsFragment mNotificationsFragment;
+    private BroadcastReceiver broadcastReceiverNotifications = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setNotificationActive(true);
+        }
+    };
 
     @Override
     public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-        if (mMapContainer.getVisibility() == View.VISIBLE){
+        if (mMapContainer.getVisibility() == View.VISIBLE) {
             mMapExtensionsFragment.setFilter(selectedFilter);
             mMapExtensionsFragment.getMapEvents();
-        }else {
-            ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                    .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+        } else {
+            ExtensionsListFragment extensionsListFragment =
+                    (ExtensionsListFragment) getSupportFragmentManager()
+                            .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
             if (extensionsListFragment != null) {
                 extensionsListFragment.setFilter(selectedFilter);
                 extensionsListFragment.loadData(false);
@@ -89,7 +81,8 @@ public class HomeActivity extends RootActivity
     @SuppressLint("MissingSuperCall")
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_home, R.id.activity_main_layout, "Listado de eventos", RootActivity.EVENT_LIST);
+        super.onCreate(savedInstanceState, R.layout.activity_home, R.id.activity_main_layout,
+                "Listado de eventos", RootActivity.EVENT_LIST);
 
         // Start KeepAlive service.
         Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
@@ -132,17 +125,162 @@ public class HomeActivity extends RootActivity
         });
     }
 
+    private void toggleFragmentContainer() {
+        if (mContainerCollapsed) {
+            mFragmentsContainer.setVisibility(View.VISIBLE);
+            mFloatingButton.setImageDrawable(ContextCompat
+                    .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
+        } else {
+            mFragmentsContainer.setVisibility(View.GONE);
+            mFloatingButton.setImageDrawable(ContextCompat
+                    .getDrawable(this, R.drawable.ic_keyboard_arrow_up_white_24dp));
+        }
+        mContainerCollapsed = !mContainerCollapsed;
+    }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public final boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-            inflater.inflate(R.menu.embedded, menu);
-            menu.findItem(R.id.menu_1).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE).actionBar());
-            menu.findItem(R.id.menu_item_notif_on).setIcon(new IconicsDrawable(this, GoogleMaterial.Icon.gmd_notifications_active).color(Color.WHITE).actionBar());
+        inflater.inflate(R.menu.embedded, menu);
+        menu.findItem(R.id.menu_1).setIcon(
+                new IconicsDrawable(this, GoogleMaterial.Icon.gmd_filter_list).color(Color.WHITE)
+                        .actionBar());
+        menu.findItem(R.id.menu_item_notif_on).setIcon(
+                new IconicsDrawable(this, GoogleMaterial.Icon.gmd_notifications_active)
+                        .color(Color.WHITE).actionBar());
         return true;
+    }
+
+    @Override
+    public final boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_1) {
+            showMapView(false);
+
+            // Primero se redirige al listado.
+            ExtensionsListFragment extensionsListFragment =
+                    (ExtensionsListFragment) getSupportFragmentManager()
+                            .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+            if (extensionsListFragment == null) {
+                extensionsListFragment = new ExtensionsListFragment();
+            }
+            replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
+
+            // Luego se abre el diálogo para elegir el filtro.
+            FragmentManager fm = getSupportFragmentManager();
+            EventFilterDialogFragment eventFilterDialogFragment =
+                    EventFilterDialogFragment.newInstance();
+            eventFilterDialogFragment
+                    .show(fm, eventFilterDialogFragment.getClass().getSimpleName());
+
+        } else if (item.getItemId() == R.id.menu_item_notif_on) {
+
+            showMapView(false);
+            setNotificationActive(false);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            mNotificationsFragment = NotificationsFragment.newInstance();
+            mNotificationsFragment
+                    .show(fragmentManager, NotificationsFragment.class.getSimpleName());
+        }
+
+        return true;
+    }
+
+    private void showMapView(boolean visible) {
+        if (visible) {
+            mMapContainer.setVisibility(View.VISIBLE);
+            mFloatingButton.setVisibility(View.VISIBLE);
+            mContainerCollapsed = false;
+            mFloatingButton.setImageDrawable(ContextCompat
+                    .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
+        } else {
+            mMapContainer.setVisibility(View.GONE);
+            mFloatingButton.setVisibility(View.GONE);
+            mFragmentsContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void replaceFragment(Fragment fragment, String fragmentTAG) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
+    }
+
+    private void setNotificationActive(boolean active) {
+        //TODO: show badge in notifications icon
     }
 
     public final void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected final void goToEventCreateView() {
+        getSupportActionBar().setTitle("Creación de evento");
+        showFilterMenu(false);
+        showMapView(false);
+        Fragment fragment = new TestFragment();
+        Bundle args = new Bundle();
+        args.putString("text", getString(R.string.menu_create_event_string));
+        fragment.setArguments(args);
+        replaceFragment(fragment, "fragment1");
+    }
+
+    @Override
+    protected final void goToEventListView() {
+        getSupportActionBar().setTitle("Listado de eventos");
+        showFilterMenu(true);
+        showMapView(false);
+        ExtensionsListFragment extensionsFragment =
+                (ExtensionsListFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
+        if (extensionsFragment == null) {
+            extensionsFragment = new ExtensionsListFragment();
+        }
+        replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
+    }
+
+    @Override
+    protected final void goToEventMapView() {
+        getSupportActionBar().setTitle("Eventos en el mapa");
+        showFilterMenu(false);
+        showMapView(true);
+        if (mMapView == null) {
+            mMapView = EventsMapView.getInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.map_container, mMapView, EventsMapView.class.getSimpleName())
+                    .commit();
+        } else {
+            mMapView.updateView();
+        }
+        mMapExtensionsFragment = (MapExtensionsFragment) getSupportFragmentManager()
+                .findFragmentByTag(MapExtensionsFragment.class.getSimpleName());
+        if (mMapExtensionsFragment == null) {
+            mMapExtensionsFragment = new MapExtensionsFragment();
+        }
+        replaceFragment(mMapExtensionsFragment, MapExtensionsFragment.class.getSimpleName());
+    }
+
+    @Override
+    protected final void goToExternalServiceView() {
+        getSupportActionBar().setTitle("Servicio externo");
+        showFilterMenu(false);
+        showMapView(false);
+        ExternalServiceQueryFragment externalServiceFragment =
+                (ExternalServiceQueryFragment) getSupportFragmentManager()
+                        .findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
+        if (externalServiceFragment == null) {
+            externalServiceFragment = new ExternalServiceQueryFragment();
+        }
+        replaceFragment(externalServiceFragment,
+                ExternalServiceQueryFragment.class.getSimpleName());
+    }
+
+    private void showFilterMenu(boolean visible) {
+        if (visible) {
+            findViewById(R.id.menu_1).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.menu_1).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -168,152 +306,10 @@ public class HomeActivity extends RootActivity
     }
 
     @Override
-    public final boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_1){
-            showMapView(false);
-
-            // Primero se redirige al listado.
-            ExtensionsListFragment extensionsListFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                    .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
-            if (extensionsListFragment == null) {
-                extensionsListFragment = new ExtensionsListFragment();
-            }
-            replaceFragment(extensionsListFragment, ExtensionsListFragment.class.getSimpleName());
-
-            // Luego se abre el diálogo para elegir el filtro.
-            FragmentManager fm = getSupportFragmentManager();
-            EventFilterDialogFragment eventFilterDialogFragment = EventFilterDialogFragment.newInstance();
-            eventFilterDialogFragment.show(fm, eventFilterDialogFragment.getClass().getSimpleName());
-
-        } else if (item.getItemId() == R.id.menu_item_notif_on) {
-
-            showMapView(false);
-            setNotificationActive(false);
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            mNotificationsFragment = NotificationsFragment.newInstance();
-            mNotificationsFragment.show(fragmentManager, NotificationsFragment.class.getSimpleName());
-        }
-
-        return true;
-    }
-
-    @Override
-    protected void goToEventCreateView() {
-        getSupportActionBar().setTitle("Creación de evento");
-        showFilterMenu(false);
-        showMapView(false);
-        Fragment fragment = new TestFragment();
-        Bundle args = new Bundle();
-        args.putString("text", getString(R.string.menu_create_event_string));
-        fragment.setArguments(args);
-        replaceFragment(fragment, "fragment1");
-    }
-
-    @Override
-    protected void goToEventListView() {
-        getSupportActionBar().setTitle("Listado de eventos");
-        showFilterMenu(true);
-        showMapView(false);
-        ExtensionsListFragment extensionsFragment = (ExtensionsListFragment) getSupportFragmentManager()
-                .findFragmentByTag(ExtensionsListFragment.class.getSimpleName());
-        if (extensionsFragment == null) {
-            extensionsFragment = new ExtensionsListFragment();
-        }
-        replaceFragment(extensionsFragment, ExtensionsListFragment.class.getSimpleName());
-    }
-
-    @Override
-    protected void goToEventMapView() {
-        getSupportActionBar().setTitle("Eventos en el mapa");
-        showFilterMenu(false);
-        showMapView(true);
-        if (mMapView == null) {
-            mMapView = EventsMapView.getInstance();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.map_container, mMapView, EventsMapView.class.getSimpleName()).commit();
-        } else {
-            mMapView.updateView();
-        }
-        mMapExtensionsFragment = (MapExtensionsFragment) getSupportFragmentManager()
-                .findFragmentByTag(MapExtensionsFragment.class.getSimpleName());
-        if (mMapExtensionsFragment == null) {
-            mMapExtensionsFragment = new MapExtensionsFragment();
-        }
-        replaceFragment(mMapExtensionsFragment, MapExtensionsFragment.class.getSimpleName());
-    }
-
-    @Override
-    protected void goToExternalServiceView() {
-        getSupportActionBar().setTitle("Servicio externo");
-        showFilterMenu(false);
-        showMapView(false);
-        ExternalServiceQueryFragment externalServiceFragment = (ExternalServiceQueryFragment) getSupportFragmentManager()
-                .findFragmentByTag(ExternalServiceQueryFragment.class.getSimpleName());
-        if (externalServiceFragment == null) {
-            externalServiceFragment = new ExternalServiceQueryFragment();
-        }
-        replaceFragment(externalServiceFragment, ExternalServiceQueryFragment.class.getSimpleName());
-    }
-
-    private void replaceFragment(Fragment fragment, String fragmentTAG) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment, fragmentTAG).commit();
-    }
-
-    private void showMapView(boolean visible) {
-        if (visible) {
-            mMapContainer.setVisibility(View.VISIBLE);
-            mFloatingButton.setVisibility(View.VISIBLE);
-            mContainerCollapsed = false;
-            mFloatingButton.setImageDrawable(ContextCompat
-                    .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
-        } else {
-            mMapContainer.setVisibility(View.GONE);
-            mFloatingButton.setVisibility(View.GONE);
-            mFragmentsContainer.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void showFilterMenu(boolean visible){
-        if (visible) {
-            findViewById(R.id.menu_1).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.menu_1).setVisibility(View.GONE);
-        }
-    }
-
-    private void toggleFragmentContainer() {
-        if (mContainerCollapsed) {
-            mFragmentsContainer.setVisibility(View.VISIBLE);
-            mFloatingButton.setImageDrawable(ContextCompat
-                    .getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
-        } else {
-            mFragmentsContainer.setVisibility(View.GONE);
-            mFloatingButton.setImageDrawable(ContextCompat
-                    .getDrawable(this, R.drawable.ic_keyboard_arrow_up_white_24dp));
-        }
-        mContainerCollapsed = !mContainerCollapsed;
-    }
-
-    @Override
-    public void onNotificationSelected(Notification notification) {
+    public final void onNotificationSelected(Notification notification) {
         mNotificationsFragment.dismiss();
-        EventDetailsPresenter.loadEventDetails(HomeActivity.this, notification.getEventId(), notification.getExtensionId());
-    }
-
-    private void setNotificationActive(boolean active) {
-        //TODO: show badge in notifications icon
-    }
-
-    @Override
-    public final void onResume() {
-        super.onResume();
-
-        //We wants than Broadcast Receiver be registered when the fragment is active
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(broadcastReceiverNotifications,
-                        new IntentFilter(NOTIFICATION_RECEIVED));
+        EventDetailsPresenter.loadEventDetails(HomeActivity.this, notification.getEventId(),
+                notification.getExtensionId());
     }
 
     @Override
@@ -325,12 +321,15 @@ public class HomeActivity extends RootActivity
                 .unregisterReceiver(broadcastReceiverNotifications);
     }
 
-    private BroadcastReceiver broadcastReceiverNotifications = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            setNotificationActive(true);
-        }
-    };
+    @Override
+    public final void onResume() {
+        super.onResume();
+
+        //We wants than Broadcast Receiver be registered when the fragment is active
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(broadcastReceiverNotifications,
+                        new IntentFilter(NOTIFICATION_RECEIVED));
+    }
 
     /**
      * Fragment that appears in the "content_frame", shows a planet

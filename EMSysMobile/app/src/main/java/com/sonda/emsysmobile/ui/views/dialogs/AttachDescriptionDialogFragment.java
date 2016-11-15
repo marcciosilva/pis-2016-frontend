@@ -23,12 +23,13 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
 
     private OnAttachDescriptionDialogListener mListener;
     private EditText mDescriptionEditText;
-    private Button mCancelBtn;
-    private Button mUpdateBtn;
 
-    // Defines the listener interface
-    public interface OnAttachDescriptionDialogListener {
-        void onAttachDescription(String inputText);
+    public AttachDescriptionDialogFragment() {
+        // Required empty public constructor
+    }
+
+    public static AttachDescriptionDialogFragment newInstance() {
+        return new AttachDescriptionDialogFragment();
     }
 
     @Override
@@ -46,20 +47,6 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
     public final void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    // Call this method to send the data back to the parent fragment
-    public final void sendBackResult() {
-        mListener.onAttachDescription(mDescriptionEditText.getText().toString());
-        dismissDialog();
-    }
-
-    public AttachDescriptionDialogFragment() {
-        // Required empty public constructor
-    }
-
-    public static AttachDescriptionDialogFragment newInstance() {
-        return new AttachDescriptionDialogFragment();
     }
 
     @Override
@@ -84,7 +71,7 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
         mDescriptionEditText = (EditText) view.findViewById(R.id.input_description);
         mDescriptionEditText.requestFocus();
 
-        mCancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        Button mCancelBtn = (Button) view.findViewById(R.id.button_cancel);
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +79,7 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
             }
         });
 
-        mUpdateBtn = (Button) view.findViewById(R.id.button_update);
+        Button mUpdateBtn = (Button) view.findViewById(R.id.button_update);
         mUpdateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,4 +94,16 @@ public class AttachDescriptionDialogFragment extends DialogFragment {
     private void dismissDialog() {
         dismiss();
     }
+
+    // Call this method to send the data back to the parent fragment
+    public final void sendBackResult() {
+        mListener.onAttachDescription(mDescriptionEditText.getText().toString());
+        dismissDialog();
+    }
+
+    // Defines the listener interface
+    public interface OnAttachDescriptionDialogListener {
+        void onAttachDescription(String inputText);
+    }
+
 }

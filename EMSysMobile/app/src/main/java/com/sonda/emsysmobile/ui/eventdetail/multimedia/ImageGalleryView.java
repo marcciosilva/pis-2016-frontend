@@ -9,14 +9,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
 import com.sonda.emsysmobile.ui.views.adapters.GridViewAdapter;
-import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by marccio on 13/10/16.
@@ -25,8 +21,6 @@ import java.util.List;
 public class ImageGalleryView extends AppCompatActivity {
 
     private static final String TAG = ImageGalleryView.class.getName();
-    private GridView gridView;
-    private GridViewAdapter gridAdapter;
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -37,25 +31,26 @@ public class ImageGalleryView extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        gridView = (GridView) findViewById(R.id.gridView);
+        GridView gridView = (GridView) findViewById(R.id.gridView);
         Bundle extras = getIntent().getExtras();
         ArrayList<ImageDescriptionDto> imageDescriptions =
                 (ArrayList<ImageDescriptionDto>) extras.getSerializable("imageDescriptions");
-        gridAdapter = new GridViewAdapter(this, R.layout.grid_item_layout, imageDescriptions);
+        GridViewAdapter gridAdapter =
+                new GridViewAdapter(this, R.layout.grid_item_layout, imageDescriptions);
         gridView.setAdapter(gridAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                    ImageDescriptionDto item =
-                            (ImageDescriptionDto) parent.getItemAtPosition(position);
-                    Intent intent = new Intent(ImageGalleryView.this, ImageDetailView.class);
-                    intent.putExtra("imageId", item.getId());
-                    startActivity(intent);
+                ImageDescriptionDto item =
+                        (ImageDescriptionDto) parent.getItemAtPosition(position);
+                Intent intent = new Intent(ImageGalleryView.this, ImageDetailView.class);
+                intent.putExtra("imageId", item.getId());
+                startActivity(intent);
             }
         });
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
         // Se maneja la flecha de ir hacia atras.
         if (item.getItemId() == android.R.id.home) {
             // Cierra la Activity y vuelve a la Activity anterior (si la hubo).

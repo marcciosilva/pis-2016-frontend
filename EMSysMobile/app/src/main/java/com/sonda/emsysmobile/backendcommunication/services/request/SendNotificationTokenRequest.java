@@ -18,21 +18,21 @@ public class SendNotificationTokenRequest<T> extends AbstractRequest<T> {
         super(context, responseType, RequestType.POST);
     }
 
-    public String getToken() {
+    public final String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public final void setToken(String token) {
         this.token = token;
     }
 
     @Override
-    protected String getPath() {
+    protected final String getPath() {
         return "/users/SetRegistrationToken";
     }
 
     @Override
-    protected JsonObject getBody() {
+    protected final JsonObject getBody() {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("registrationTokens", this.token);
         return jsonObject;

@@ -40,23 +40,8 @@ public class ExtensionsListFragment
     private ExtensionRecyclerViewAdapter mAdapter;
     private OnListFragmentInteractionListener mListener;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_extensions, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
-        return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        mAdapter = null;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // Setup contentView == SwipeRefreshView
@@ -66,6 +51,17 @@ public class ExtensionsListFragment
         mAdapter = new ExtensionRecyclerViewAdapter(getActivity(), mListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected final String getErrorMessage(Throwable e, boolean pullToRefresh) {
+        return "";
+    }
+
+    @Override
+    public final void onDestroyView() {
+        super.onDestroyView();
+        mAdapter = null;
     }
 
     @Override
@@ -79,65 +75,30 @@ public class ExtensionsListFragment
         }
     }
 
+    @Nullable
     @Override
-    public final void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public final View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                                   @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_extensions, container, false);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.event_detail_list_extensions);
+        return view;
     }
 
     @Override
-    public
     @NonNull
-    LceViewState<List<ExtensionDto>, ExtensionsView> createViewState() {
+    public final LceViewState<List<ExtensionDto>, ExtensionsView> createViewState() {
         setRetainInstance(true);
         return new RetainingLceViewState<>();
     }
 
     @Override
-    public List<ExtensionDto> getData() {
-        return mAdapter == null ? null : mAdapter.getExtensions();
-    }
-
-    @Override
-    protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
-        return "";
-    }
-
-    @Override
-    public
-    @NonNull
-    ExtensionsPresenter createPresenter() {
-        EventManager eventManager =
-                EventManager.getInstance(this.getActivity().getApplicationContext());
-        LocalBroadcastManager localBroadcastManager =
-                LocalBroadcastManager.getInstance(getActivity());
-        return new ExtensionsListPresenter(eventManager, localBroadcastManager);
-    }
-
-    @Override
-    public void setData(List<ExtensionDto> data) {
-        mAdapter.setExtensions(data);
-        mAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void loadData(boolean pullToRefresh) {
-        presenter.loadExtensions(pullToRefresh);
-    }
-
-    @Override
-    public void onRefresh() {
-        loadData(true);
-    }
-
-    @Override
-    public void showContent() {
+    public final void showContent() {
         super.showContent();
         contentView.setRefreshing(false);
     }
 
     @Override
-    public void showLoading(boolean pullToRefresh) {
+    public final void showLoading(boolean pullToRefresh) {
         super.showLoading(pullToRefresh);
         if (pullToRefresh && !contentView.isRefreshing()) {
             contentView.post(new Runnable() {
@@ -150,7 +111,44 @@ public class ExtensionsListFragment
     }
 
     @Override
-    public void showError(String errorMessage, int errorCode, boolean pullToRefresh) {
+    public final List<ExtensionDto> getData() {
+        return mAdapter == null ? null : mAdapter.getExtensions();
+    }
+
+    @Override
+    public final void setData(List<ExtensionDto> data) {
+        mAdapter.setExtensions(data);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public final void loadData(boolean pullToRefresh) {
+        presenter.loadExtensions(pullToRefresh);
+    }
+
+    @Override
+    @NonNull
+    public final ExtensionsPresenter createPresenter() {
+        EventManager eventManager =
+                EventManager.getInstance(this.getActivity().getApplicationContext());
+        LocalBroadcastManager localBroadcastManager =
+                LocalBroadcastManager.getInstance(getActivity());
+        return new ExtensionsListPresenter(eventManager, localBroadcastManager);
+    }
+
+    @Override
+    public final void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public final void onRefresh() {
+        loadData(true);
+    }
+
+    @Override
+    public final void showError(String errorMessage, int errorCode, boolean pullToRefresh) {
         contentView.setRefreshing(false);
         if (!getActivity().isFinishing()) {
             UIUtils.handleErrorMessage(getActivity(), errorCode, errorMessage);
@@ -158,7 +156,7 @@ public class ExtensionsListFragment
     }
 
     @Override
-    public void showError(VolleyError error, final boolean pullToRefresh) {
+    public final void showError(VolleyError error, final boolean pullToRefresh) {
         contentView.setRefreshing(false);
         if (!getActivity().isFinishing()) {
             handleVolleyErrorResponse(getContext(), error, new DialogInterface.OnClickListener() {
@@ -170,7 +168,7 @@ public class ExtensionsListFragment
         }
     }
 
-    public void setFilter(String filter) {
+    public final void setFilter(String filter) {
         presenter.setSelectedFilter(filter);
     }
 }

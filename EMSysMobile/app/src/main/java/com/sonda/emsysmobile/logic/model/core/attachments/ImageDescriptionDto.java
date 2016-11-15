@@ -25,27 +25,27 @@ public class ImageDescriptionDto implements Serializable {
 
     private String imageUrl;
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
-    public String getUser() {
+    public final String getUser() {
         return user;
     }
 
-    public Date getDeliveryDate() {
+    public final Date getDeliveryDate() {
         return deliveryDate;
     }
 
-    public int getExtensionId() {
+    public final int getExtensionId() {
         return extensionId;
     }
 
-    public String getImageUrl() {
+    public final String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public final void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 }

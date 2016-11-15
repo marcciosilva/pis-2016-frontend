@@ -16,12 +16,11 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
 public class GsonGetRequest<T> extends Request<T> {
+    public static final String TAG = "VolleyRequest";
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS";
     private final Gson gson;
     private final Type type;
     private final Response.Listener<T> listener;
-
-    public static final String TAG = "VolleyRequest";
-    public static final String DATE_FORMAT = "yyyy-MM-dd'T'hh:mm:ss.SSS";
 
     public GsonGetRequest
             (
@@ -41,11 +40,6 @@ public class GsonGetRequest<T> extends Request<T> {
     }
 
     @Override
-    protected final void deliverResponse(T response) {
-        listener.onResponse(response);
-    }
-
-    @Override
     protected final Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             String json =
@@ -58,8 +52,13 @@ public class GsonGetRequest<T> extends Request<T> {
             return Response.error(new ParseError(e));
         } catch (JsonSyntaxException e) {
             Log.d(TAG, "Error en la sintaxis del mensaje recibido. Chequear JSON.");
-            e.printStackTrace();
+            Log.d(TAG, Log.getStackTraceString(e));
             return Response.error(new ParseError(e));
         }
+    }
+
+    @Override
+    protected final void deliverResponse(T response) {
+        listener.onResponse(response);
     }
 }

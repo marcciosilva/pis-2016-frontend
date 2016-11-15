@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.attachgeoloc;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 
 import com.android.volley.Response;
@@ -22,7 +21,6 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 public final class AttachGeoLocPresenter {
 
     private static GeolocationDto mGeolocationDto = null;
-    private static final String TAG = AttachGeoLocPresenter.class.getName();
 
     private AttachGeoLocPresenter() {
         // Debe ser privado porque no debe ser utilizado.
@@ -39,7 +37,8 @@ public final class AttachGeoLocPresenter {
                     int responseCode = response.getCode();
                     if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                         // Show toast with success message
-                        UIUtils.showToast(view.getApplicationContext(), view.getApplicationContext().getString(R.string.attach_geolocation_success_message));
+                        UIUtils.showToast(view.getApplicationContext(), view.getApplicationContext()
+                                .getString(R.string.attach_geolocation_success_message));
                         view.setResult(EventDetailsView.SHOULD_UPDATE_MAP);
                         view.finish();
                     } else {

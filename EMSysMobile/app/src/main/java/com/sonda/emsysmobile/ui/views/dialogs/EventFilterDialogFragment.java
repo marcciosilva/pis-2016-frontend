@@ -24,15 +24,15 @@ public class EventFilterDialogFragment extends DialogFragment {
 
     private OnEventFilterDialogListener mListener;
 
-    private Spinner mList;
     private String[] mValues = {"Prioridad", "Fecha", "Zona"};
     private String mSelectedFilter;
-    private Button mCancelBtn;
-    private Button mFilterBtn;
 
-    // Defines the listener interface
-    public interface OnEventFilterDialogListener {
-        void onEventFilter(String inputText);
+    public EventFilterDialogFragment() {
+        // Required empty public constructor
+    }
+
+    public static EventFilterDialogFragment newInstance() {
+        return new EventFilterDialogFragment();
     }
 
     @Override
@@ -50,20 +50,6 @@ public class EventFilterDialogFragment extends DialogFragment {
     public final void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    // Call this method to send the data back to the parent fragment
-    public final void sendBackResult() {
-        mListener.onEventFilter(mSelectedFilter);
-        dismissDialog();
-    }
-
-    public EventFilterDialogFragment() {
-        // Required empty public constructor
-    }
-
-    public static EventFilterDialogFragment newInstance() {
-        return new EventFilterDialogFragment();
     }
 
     @Override
@@ -85,22 +71,23 @@ public class EventFilterDialogFragment extends DialogFragment {
     public final void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mList = (Spinner) view.findViewById(R.id.filter_list);
+        Spinner mList = (Spinner) view.findViewById(R.id.filter_list);
         ArrayAdapter<String> adapter;
         adapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, mValues);
         mList.setAdapter(adapter);
-        mList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+        mList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l){
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 mSelectedFilter = mValues[i];
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView){
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
 
-        mCancelBtn = (Button) view.findViewById(R.id.button_cancel);
+        Button mCancelBtn = (Button) view.findViewById(R.id.button_cancel);
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +95,7 @@ public class EventFilterDialogFragment extends DialogFragment {
             }
         });
 
-        mFilterBtn = (Button) view.findViewById(R.id.button_filter);
+        Button mFilterBtn = (Button) view.findViewById(R.id.button_filter);
         mFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,4 +107,16 @@ public class EventFilterDialogFragment extends DialogFragment {
     private void dismissDialog() {
         dismiss();
     }
+
+    // Call this method to send the data back to the parent fragment
+    public final void sendBackResult() {
+        mListener.onEventFilter(mSelectedFilter);
+        dismissDialog();
+    }
+
+    // Defines the listener interface
+    public interface OnEventFilterDialogListener {
+        void onEventFilter(String inputText);
+    }
+
 }

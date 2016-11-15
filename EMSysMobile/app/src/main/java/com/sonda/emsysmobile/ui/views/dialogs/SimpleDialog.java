@@ -16,17 +16,6 @@ import com.sonda.emsysmobile.R;
  */
 public class SimpleDialog extends DialogFragment {
 
-    @Override
-    public final void onStart() {
-        super.onStart();
-        Window window = getDialog().getWindow();
-        WindowManager.LayoutParams windowParams = window.getAttributes();
-        // Se puede modificar el oscurecimiento del resto de la View.
-        //windowParams.dimAmount = 0.9f;
-        //windowParams.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        window.setAttributes(windowParams);
-    }
-
     @NonNull
     @Override
     public final Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -42,5 +31,16 @@ public class SimpleDialog extends DialogFragment {
                     }
                 })
                 .create();
+    }
+
+    @Override
+    public final void onStart() {
+        super.onStart();
+        Window window = getDialog().getWindow();
+        WindowManager.LayoutParams windowParams = window.getAttributes();
+        // Se puede modificar el oscurecimiento del resto de la View.
+        //windowParams.dimAmount = 0.9f;
+        //windowParams.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        window.setAttributes(windowParams);
     }
 }

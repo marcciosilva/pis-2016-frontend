@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.notifications;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -9,7 +8,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.backendcommunication.model.responses.EmsysResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.SendNotificationTokenRequest;
 
@@ -18,8 +16,8 @@ import com.sonda.emsysmobile.backendcommunication.services.request.SendNotificat
  */
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
-    private static final String TAG = "MyFirebaseIIDService";
     public static final String NOTIFICATION_TOKEN_KEY = "notif_token";
+    private static final String TAG = "MyFirebaseIIDService";
 
     /**
      * Called if InstanceID token is updated. This may occur if the security of
@@ -42,7 +40,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
     /**
      * Persist token to third-party servers.
-     *
+     * <p>
      * Modify this method to associate the user's FCM InstanceID token with any server-side account
      * maintained by your application.
      *
@@ -53,7 +51,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .getString(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY, null);
         if (oldToken == null) {
             //First time, save token and send it when user login
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            SharedPreferences sharedPrefs =
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             sharedPrefs.edit().putString(NOTIFICATION_TOKEN_KEY, token).apply();
         } else {
             SendNotificationTokenRequest<EmsysResponse> request =

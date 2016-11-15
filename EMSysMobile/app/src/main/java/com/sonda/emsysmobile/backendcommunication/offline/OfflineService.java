@@ -21,13 +21,13 @@ import java.util.concurrent.BlockingQueue;
 public class OfflineService extends Service {
 
     public static final String TAG = OfflineService.class.getName();
+    private static final int WAIT_TIME = 10000;
     private BlockingQueue<OfflineDto> queue;
     private Thread mainThread;
-    private final int WAIT_TIME = 10000;
     private boolean offline = false;
 
     @Override
-    public void onCreate() {
+    public final void onCreate() {
         queue = GlobalVariables.getQueue();
         Log.d(TAG, "Servicio offline iniciado.");
     }
@@ -96,12 +96,12 @@ public class OfflineService extends Service {
     }
 
     @Override
-    public final IBinder onBind(Intent intent) {
-        return null;
+    public final void onDestroy() {
+        mainThread.interrupt();
     }
 
     @Override
-    public void onDestroy() {
-        mainThread.interrupt();
+    public final IBinder onBind(Intent intent) {
+        return null;
     }
 }

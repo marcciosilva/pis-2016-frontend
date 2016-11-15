@@ -19,8 +19,8 @@ import com.sonda.emsysmobile.backendcommunication.services.request.KeepAliveRequ
 public class KeepAliveService extends Service {
 
     public static final String TAG = KeepAliveService.class.getName();
+    private static int waitingTime = BuildConfig.WAITING_TIME;
     private boolean logged;
-    public static int waitingTime = BuildConfig.WAITING_TIME;
 
     @Override
     public final void onCreate() {
@@ -39,7 +39,7 @@ public class KeepAliveService extends Service {
                             keepAlive();
                         }
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.d(TAG, Log.getStackTraceString(e));
                     }
                 }
             }
@@ -49,13 +49,13 @@ public class KeepAliveService extends Service {
     }
 
     @Override
-    public final IBinder onBind(Intent intent) {
-        return null;
+    public final void onDestroy() {
+        logged = false;
     }
 
     @Override
-    public final void onDestroy() {
-        logged = false;
+    public final IBinder onBind(Intent intent) {
+        return null;
     }
 
     private void keepAlive() {
