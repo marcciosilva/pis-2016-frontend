@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -41,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -313,6 +316,15 @@ public class EventDetailsView extends AppCompatActivity implements
                         "com.sonda.emsysmobile.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                List<ResolveInfo> resInfoList = this.getPackageManager()
+                        .queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolveInfo : resInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    this.grantUriPermission(packageName,
+                            photoURI,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
@@ -432,6 +444,11 @@ public class EventDetailsView extends AppCompatActivity implements
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
             mFloatingActionMenu.close(true);
         }
+    }
+
+    @Override
+    public void onCancelAttachDescription() {
+        UIUtils.hideSoftKeyboard(this);
     }
 
     public void onClick(View view) {
