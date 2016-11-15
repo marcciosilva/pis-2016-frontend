@@ -13,6 +13,10 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.offline.OfflineService;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.IOException;
+
 public class SplashActivity extends AppCompatActivity {
 
     private static final String TAG = SplashActivity.class.getName();
@@ -33,8 +37,6 @@ public class SplashActivity extends AppCompatActivity {
                 goToAuthActivity();
             }
         }, delayMillis);
-
-
         // Start Offline service.
         Intent intent = new Intent(SplashActivity.this, OfflineService.class);
         startService(intent);

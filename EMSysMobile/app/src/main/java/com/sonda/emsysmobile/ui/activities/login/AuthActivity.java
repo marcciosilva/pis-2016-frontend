@@ -194,7 +194,9 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
      */
     private void goToRoleChooser() {
         Intent intent = new Intent(this, RoleChooserActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 
     private void sendRegistrationToServer() {

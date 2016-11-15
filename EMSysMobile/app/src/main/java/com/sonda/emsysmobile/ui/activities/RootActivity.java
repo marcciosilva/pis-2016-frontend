@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -213,10 +214,6 @@ public abstract class RootActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (crossFader != null && crossFader.isCrossFaded()) {
             crossFader.crossFade();
-        } else {
-            DialogFragment dialog =
-                    UIUtils.getSimpleDialog("Debe cerrar sesión para modificar su rol.");
-            dialog.show(getSupportFragmentManager(), TAG);
         }
     }
 
@@ -229,7 +226,6 @@ public abstract class RootActivity extends AppCompatActivity {
     protected abstract void goToExternalServiceView();
 
     private void logout() {
-        //TODO Move this logic to other service
         LogoutRequest<LoginLogoutResponse> request =
                 new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
         request.setListener(new Response.Listener<LoginLogoutResponse>() {
@@ -272,8 +268,9 @@ public abstract class RootActivity extends AppCompatActivity {
     }
 
     private void goToSplash() {
+        GlobalVariables.setUserData(null);
         Intent intent = new Intent(this, SplashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

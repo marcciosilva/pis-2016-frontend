@@ -1,12 +1,15 @@
 package com.sonda.emsysmobile.ui.activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 import com.sonda.emsysmobile.ui.fragments.SettingsFragment;
 
 import java.util.List;

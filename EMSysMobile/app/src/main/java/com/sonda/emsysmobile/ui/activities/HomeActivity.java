@@ -209,10 +209,6 @@ public class HomeActivity extends RootActivity
         //TODO: show badge in notifications icon
     }
 
-    public final void onBackPressed() {
-        super.onBackPressed();
-    }
-
     @Override
     protected final void goToEventCreateView() {
         getSupportActionBar().setTitle("Creación de evento");

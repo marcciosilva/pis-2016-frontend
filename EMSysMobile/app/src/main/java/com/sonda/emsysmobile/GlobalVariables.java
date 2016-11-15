@@ -12,9 +12,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class GlobalVariables {
 
-    private static UserDto userData;
+    private static UserDto userData = null;
 
     private static BlockingQueue<OfflineDto> queue = new LinkedBlockingQueue<>();
+
+    public static void setQueue(
+            BlockingQueue<OfflineDto> queue) {
+        GlobalVariables.queue = queue;
+    }
 
     public static UserDto getUserData() {
         return userData;

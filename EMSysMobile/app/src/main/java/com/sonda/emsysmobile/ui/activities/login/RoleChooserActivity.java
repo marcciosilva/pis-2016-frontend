@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +16,20 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
+import com.sonda.emsysmobile.backendcommunication.model.responses.LoginLogoutResponse;
+import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.backendcommunication.services.request.GetRolesRequest;
+import com.sonda.emsysmobile.backendcommunication.services.request.LogoutRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
 import com.sonda.emsysmobile.logic.model.core.ZoneDto;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.activities.HomeActivity;
+import com.sonda.emsysmobile.ui.activities.RootActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -78,6 +85,59 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 mRecursoButton.setEnabled(containsRecurso);
             }
         });
+    }
+
+    @Override
+    public final void onBackPressed() {
+        logout();
+    }
+
+    private void logout() {
+        LogoutRequest<LoginLogoutResponse> request =
+                new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
+        request.setListener(new Response.Listener<LoginLogoutResponse>() {
+            @Override
+            public void onResponse(LoginLogoutResponse response) {
+                final int responseCode = response.getCode();
+                if (responseCode == 0) {
+                    // Stop KeepAlive service.
+                    Intent intent = new Intent(RoleChooserActivity.this, KeepAliveService.class);
+                    stopService(intent);
+                    // Se reinicia el token de autenticacion.
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
+                            .putString("access_token", "").commit();
+                    EventManager.getInstance(RoleChooserActivity.this).onLogout();
+                    goToAuth();
+                } else {
+                    String errorMsg = response.getInnerResponse().getMsg();
+                    if (!isFinishing()) {
+                        handleErrorMessage(RoleChooserActivity.this, responseCode, errorMsg);
+                    }
+                }
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, getString(R.string.error_http));
+                if (!isFinishing()) {
+                    handleVolleyErrorResponse(RoleChooserActivity.this, error, new DialogInterface
+                            .OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            logout();
+                        }
+                    });
+                }
+            }
+        });
+        request.execute();
+    }
+
+    private void goToAuth() {
+        GlobalVariables.setUserData(null);
+        Intent intent = new Intent(this, AuthActivity.class);
+        startActivity(intent);
     }
 
     @Override
