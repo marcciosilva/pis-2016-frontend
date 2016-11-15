@@ -66,6 +66,7 @@ public class ZoneDto implements Serializable {
         if (name != null ? !name.equals(zoneDto.name) : zoneDto.name != null) {
             return false;
         }
-        return execUnitName != null ? execUnitName.equals(zoneDto.execUnitName) : zoneDto.execUnitName == null;
+        return execUnitName != null ? execUnitName.equals(zoneDto.execUnitName) :
+                zoneDto.execUnitName == null;
     }
 }

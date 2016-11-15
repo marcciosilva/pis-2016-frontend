@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +24,6 @@ import static com.sonda.emsysmobile.utils.MapUtils.areBoundsTooSmall;
 public class AttachGeoLocMapView extends SupportMapFragment
         implements GoogleMap.OnMapClickListener {
 
-    private FragmentActivity mCallingActivity;
     private GoogleMap mMap;
     private int mExtensionId;
     private Marker mCurrentMarker;
@@ -43,7 +41,7 @@ public class AttachGeoLocMapView extends SupportMapFragment
         mPrevLatitude = prevLatitude;
         mPrevLongitude = prevLongitude;
         AttachGeoLocPresenter.setGeoLocation(mExtensionId, mPrevLatitude, mPrevLongitude);
-        mCallingActivity = callingActivity;
+        FragmentActivity mCallingActivity = callingActivity;
         if (this.isAdded()) {
             return;
         }

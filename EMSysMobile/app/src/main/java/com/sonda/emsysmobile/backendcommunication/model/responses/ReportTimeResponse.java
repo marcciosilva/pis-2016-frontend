@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Pape on 10/30/2016.
  */
 
-public class ReportTimeResponse extends EmsysResponse{
+public class ReportTimeResponse extends EmsysResponse {
 
     @SerializedName("response")
     private ErrorResponse innerResponse;

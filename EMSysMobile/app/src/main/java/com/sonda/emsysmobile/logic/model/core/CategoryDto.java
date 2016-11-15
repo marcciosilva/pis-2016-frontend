@@ -24,7 +24,8 @@ public class CategoryDto implements Serializable {
     @SerializedName("activo")
     private boolean isActive;
 
-    public CategoryDto(int identifier, String code, String key, CategoryPriority priority, boolean isActive) {
+    public CategoryDto(int identifier, String code, String key, CategoryPriority priority,
+                       boolean isActive) {
         this.identifier = identifier;
         this.code = code;
         this.key = key;

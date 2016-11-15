@@ -38,10 +38,10 @@ public class ExtensionDto implements Serializable {
     private boolean isAssigned;
 
     @SerializedName("descripcion_despachadores")
-    private List<DescriptionDto> dispatcher_description;
+    private List<DescriptionDto> dispatcherDescription;
 
     @SerializedName("asignaciones_recursos")
-    private List<ResourceAssignationDto> resource_assignations;
+    private List<ResourceAssignationDto> resourceAssignations;
 
     @SerializedName("recursos")
     private List<String> resources;
@@ -119,11 +119,11 @@ public class ExtensionDto implements Serializable {
         this.zone = zone;
     }
 
-    public boolean isAssigned() {
+    public final boolean isAssigned() {
         return isAssigned;
     }
 
-    public void setAssigned(boolean assigned) {
+    public final void setAssigned(boolean assigned) {
         isAssigned = assigned;
     }
 
@@ -143,33 +143,34 @@ public class ExtensionDto implements Serializable {
         isModified = modified;
     }
 
-    public List<DescriptionDto> getDispatcherDescription() {
-        return dispatcher_description;
+    public final List<DescriptionDto> getDispatcherDescription() {
+        return dispatcherDescription;
     }
 
-    public void setDispatcherDescription(List<DescriptionDto> dispatcher_description) {
-        this.dispatcher_description = dispatcher_description;
+    public final void setDispatcherDescription(List<DescriptionDto> dispatcherDescription) {
+        this.dispatcherDescription = dispatcherDescription;
     }
 
-    public List<ResourceAssignationDto> getResourceAssignations() {
-        return resource_assignations;
+    public final List<ResourceAssignationDto> getResourceAssignations() {
+        return resourceAssignations;
     }
 
-    public void setResourceAssignations(List<ResourceAssignationDto> resource_assignations) {
-        this.resource_assignations = resource_assignations;
+    public final void setResourceAssignations(List<ResourceAssignationDto> resourceAssignations) {
+        this.resourceAssignations = resourceAssignations;
     }
 
-    public final List<String> getResources(){
+    public final List<String> getResources() {
         return resources;
     }
 
-    public final void setResources(List<String> resources){
+    public final void setResources(List<String> resources) {
         this.resources = resources;
     }
 
     /**
      * Get priority for Event
      * Try to get priority for his Category, but if it does not have one, return event's category priority.
+     *
      * @return An instance of CategoryPriority Enum.
      */
     public final CategoryPriority getPriority() {
@@ -193,7 +194,7 @@ public class ExtensionDto implements Serializable {
         this.geolocations = geolocations;
     }
 
-    public List<ImageDescriptionDto> getImageDescriptions() {
+    public final List<ImageDescriptionDto> getImageDescriptions() {
         return imageDescriptions;
     }
 
@@ -213,7 +214,8 @@ public class ExtensionDto implements Serializable {
         if (identifier != that.identifier) {
             return false;
         }
-        if (description != null ? !description.equals(that.description) : that.description != null) {
+        if (description != null ? !description.equals(that.description) :
+                that.description != null) {
             return false;
         }
         if (extensionState != that.extensionState) {
@@ -230,7 +232,7 @@ public class ExtensionDto implements Serializable {
             return false;
         }
 
-        if (resources != null ? !resources.equals(that.resources) : that.resources != null){
+        if (resources != null ? !resources.equals(that.resources) : that.resources != null) {
             return false;
         }
 

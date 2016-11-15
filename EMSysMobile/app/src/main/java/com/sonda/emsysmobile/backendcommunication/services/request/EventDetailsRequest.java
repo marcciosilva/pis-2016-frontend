@@ -12,9 +12,7 @@ import java.lang.reflect.Type;
 
 public class EventDetailsRequest<T> extends AbstractRequest<T> {
 
-    private static final String TAG = EventDetailsRequest.class.getName();
     public static final String EVENT_DETAILS_PATH = "/eventos/obtener";
-
     private int eventId;
 
     public EventDetailsRequest(Context context, Type responseType) {

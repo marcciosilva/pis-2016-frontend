@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
@@ -31,9 +30,7 @@ public class EventDetailExtensionsFragment extends Fragment {
     private OnListFragmentInteractionListener mListFragmentInteractionListener;
     private ProgressBarListener mProgressBarListener;
     private List<ExtensionDto> mExtensions;
-    private ProgressBar mProgressBar;
     private EventDto mEventDto;
-    private static final String TAG = EventDetailExtensionsFragment.class.getName();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,6 +43,18 @@ public class EventDetailExtensionsFragment extends Fragment {
         EventDetailExtensionsFragment f = new EventDetailExtensionsFragment();
         f.mEventDto = eventDto;
         return f;
+    }
+
+    @Override
+    public final void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnListFragmentInteractionListener) {
+            mListFragmentInteractionListener = (OnListFragmentInteractionListener) context;
+            mProgressBarListener = (ProgressBarListener) context;
+        } else {
+            throw new UnsupportedOperationException(context.toString()
+                    + " must implement OnListFragmentInteractionListener");
+        }
     }
 
     @Override
@@ -70,18 +79,6 @@ public class EventDetailExtensionsFragment extends Fragment {
                 EventDetailExtensionsFragment.this
                         .getActivity(), mExtensions, mListFragmentInteractionListener));
         return view;
-    }
-
-    @Override
-    public final void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnListFragmentInteractionListener) {
-            mListFragmentInteractionListener = (OnListFragmentInteractionListener) context;
-            mProgressBarListener = (ProgressBarListener) context;
-        } else {
-            throw new UnsupportedOperationException(context.toString()
-                    + " must implement OnListFragmentInteractionListener");
-        }
     }
 
     @Override

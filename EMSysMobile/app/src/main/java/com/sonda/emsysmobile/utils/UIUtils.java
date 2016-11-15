@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -62,30 +61,31 @@ public final class UIUtils {
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 context);
         builder.setTitle("Error");
-        if (errorMsg == null) {
+        String localErrorMsg = errorMsg;
+        if (localErrorMsg == null) {
             if (responseCode == ErrorCodeCategory.NETWORK_ERROR.getNumVal()) {
-                errorMsg = ErrorCodeCategory.NETWORK_ERROR.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.NETWORK_ERROR.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA.getNumVal()) {
-                errorMsg = ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.NO_AVAILABLE_MULTIMEDIA.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.LOGIC_ERROR.getNumVal()) {
-                errorMsg = ErrorCodeCategory.LOGIC_ERROR.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.LOGIC_ERROR.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                errorMsg = ErrorCodeCategory.SUCCESS.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.SUCCESS.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.INVALID_CREDENTIALS.getNumVal()) {
-                errorMsg = ErrorCodeCategory.INVALID_CREDENTIALS.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.INVALID_CREDENTIALS.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.NO_AUTH.getNumVal()) {
-                errorMsg = ErrorCodeCategory.NO_AUTH.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.NO_AUTH.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getNumVal()) {
-                errorMsg = ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.RESOURCE_NOT_AVAILABLE.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.NOT_ALLOWED.getNumVal()) {
-                errorMsg = ErrorCodeCategory.NOT_ALLOWED.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.NOT_ALLOWED.getMsg(context);
             } else if (responseCode == ErrorCodeCategory.TIME_ALREADY_REPORTED.getNumVal()) {
-                errorMsg = ErrorCodeCategory.TIME_ALREADY_REPORTED.getMsg(context);
+                localErrorMsg = ErrorCodeCategory.TIME_ALREADY_REPORTED.getMsg(context);
             } else {
-                errorMsg = context.getString(R.string.error_unkown);
+                localErrorMsg = context.getString(R.string.error_unkown);
             }
         }
-        builder.setMessage(errorMsg);
+        builder.setMessage(localErrorMsg);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -146,8 +146,8 @@ public final class UIUtils {
     public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
+        final float v = 160f;
+        return dp * (metrics.densityDpi / v);
     }
 
 }

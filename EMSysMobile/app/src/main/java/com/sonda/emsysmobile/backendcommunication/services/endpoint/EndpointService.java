@@ -23,24 +23,25 @@ import java.util.Map;
  */
 public class EndpointService<T> {
 
-    private Context context;
     private static final String TAG = EndpointService.class.getName();
-
     //setting timeout to 60 sec beacuse azure delay is too long.
-    private int MY_SOCKET_TIMEOUT_MS = 60000;
+    private static final int MY_SOCKET_TIMEOUT_MS = 60000;
+    private Context context;
 
     public EndpointService(Context context) {
         this.context = context;
     }
 
-    public final void execute(String url, AbstractRequest.RequestType requestType, String path, JsonObject jsonObject, Type type, Response.Listener listener, Response.ErrorListener errorListener) {
+    public final void execute(String url, AbstractRequest.RequestType requestType, String path,
+                              JsonObject jsonObject, Type type, Response.Listener listener,
+                              Response.ErrorListener errorListener) {
         Log.d(TAG, "Base URL: " + url);
-        url += path;
+        String fullUrl = url + path;
         if (jsonObject != null) {
             // Se imprime body en json a enviar y la IP a la que va dirigida la request.
             Log.d(TAG, jsonObject.toString());
         }
-        Log.d("IP_REQUEST", url);
+        Log.d("IP_REQUEST", fullUrl);
         // Se obtiene el token de autenticacion.
         String accessToken = getAccesToken();
         Request<T> request = null;
@@ -55,19 +56,20 @@ public class EndpointService<T> {
         }
         // Genero una GET o POST request dependiendo del requestType.
         if (requestType == AbstractRequest.RequestType.GET) {
-            request = new GsonGetRequest(url, type, listener, errorListener) {
+            request = new GsonGetRequest(fullUrl, type, listener, errorListener) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     return mHeaders;
                 }
             };
         } else if (requestType == AbstractRequest.RequestType.POST) {
-            request = new GsonPostRequest(url, jsonObjectString, type, listener, errorListener) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    return mHeaders;
-                }
-            };
+            request =
+                    new GsonPostRequest(fullUrl, jsonObjectString, type, listener, errorListener) {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            return mHeaders;
+                        }
+                    };
             try {
                 Log.d(TAG, "Request prepared.");
                 Log.d(TAG, "Headers:");

@@ -2,11 +2,8 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.util.Log;
 
 import com.android.volley.NetworkError;
@@ -22,19 +19,16 @@ import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCateg
 import com.sonda.emsysmobile.backendcommunication.model.responses.ReportTimeResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.ReportTimeRequest;
 import com.sonda.emsysmobile.backendcommunication.services.request.UpdateDescriptionRequest;
-import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
-import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+import com.sonda.emsysmobile.logic.model.core.offline.OfflineAttachDescriptionDto;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import static android.provider.Settings.Global.getString;
-import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
  * Created by marccio on 15-Oct-16.
@@ -126,6 +120,12 @@ public final class EventDetailsPresenter {
         return result;
     }
 
+    public static void updateMapFragment() {
+        if (mMapFragment != null) {
+            mMapFragment.updateView();
+        }
+    }
+
     public static void initMapFragment(Context context, EventDto event) {
         mEventDetailsView = (EventDetailsView) context;
         boolean hasGeolocation = false;
@@ -151,12 +151,6 @@ public final class EventDetailsPresenter {
         }
     }
 
-    public static void updateMapFragment() {
-        if (mMapFragment != null) {
-            mMapFragment.updateView();
-        }
-    }
-
     public static void attachDescriptionForExtension(final Context context, final String
             description, final int extensionId) {
         UpdateDescriptionRequest<EmsysResponse> updateDescriptionRequest =
@@ -168,7 +162,8 @@ public final class EventDetailsPresenter {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     // Show toast with success message
-                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext().getString(R.string.update_desc_success_string));
+                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext()
+                            .getString(R.string.update_desc_success_string));
                 } else {
                     if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
                         UIUtils.handleErrorMessage(context, response.getCode(), context
@@ -223,9 +218,11 @@ public final class EventDetailsPresenter {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
                     // Show toast with success message
-                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext().getString(R.string.report_time_success));
+                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext()
+                            .getString(R.string.report_time_success));
                 } else if (responseCode == ErrorCodeCategory.TIME_ALREADY_REPORTED.getNumVal()) {
-                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext().getString(R.string.time_already_reported));
+                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext()
+                            .getString(R.string.time_already_reported));
                 } else {
                     if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
                         UIUtils.handleErrorMessage(context, response.getCode(), context

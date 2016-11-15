@@ -2,8 +2,6 @@ package com.sonda.emsysmobile.backendcommunication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
@@ -17,19 +15,14 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.sonda.emsysmobile.BuildConfig;
-import com.sonda.emsysmobile.logic.model.core.attachments.ImageDataDto;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.ArrayList;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -43,11 +36,11 @@ import javax.net.ssl.X509TrustManager;
  */
 public final class AppRequestQueue {
 
+    private static final String TAG = AppRequestQueue.class.getName();
     private static AppRequestQueue mInstance;
+    private static Context mCtx;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
-    private static Context mCtx;
-    private static final String TAG = AppRequestQueue.class.getName();
 
     private AppRequestQueue(Context context) {
         mCtx = context;
@@ -77,21 +70,15 @@ public final class AppRequestQueue {
                     public void onResponse(Bitmap response) {
                         onGetImageSuccess(cacheKey, response);
                     }
-                }, maxWidth, maxHeight, scaleType, Bitmap.Config.RGB_565, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        onGetImageError(cacheKey, error);
-                    }
-                });
+                }, maxWidth, maxHeight, scaleType, Bitmap.Config.RGB_565,
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                onGetImageError(cacheKey, error);
+                            }
+                        });
             }
         };
-    }
-
-    public static synchronized AppRequestQueue getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new AppRequestQueue(context);
-        }
-        return mInstance;
     }
 
     public RequestQueue getRequestQueue() {
@@ -106,10 +93,6 @@ public final class AppRequestQueue {
                         try {
                             TrustManager[] trustAllCerts = new TrustManager[]{
                                     new X509TrustManager() {
-                                        public X509Certificate[] getAcceptedIssuers() {
-                                            return new X509Certificate[0];
-                                        }
-
                                         @Override
                                         public void checkClientTrusted(X509Certificate[] certs,
                                                                        String authType) {
@@ -118,6 +101,10 @@ public final class AppRequestQueue {
                                         @Override
                                         public void checkServerTrusted(X509Certificate[] certs,
                                                                        String authType) {
+                                        }
+
+                                        public X509Certificate[] getAcceptedIssuers() {
+                                            return new X509Certificate[0];
                                         }
                                     }
                             };
@@ -146,6 +133,13 @@ public final class AppRequestQueue {
             }
         }
         return mRequestQueue;
+    }
+
+    public static synchronized AppRequestQueue getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new AppRequestQueue(context);
+        }
+        return mInstance;
     }
 
     public <T> void addToRequestQueue(Request<T> req) {

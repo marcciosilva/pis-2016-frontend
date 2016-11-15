@@ -34,20 +34,20 @@ public class NotificationAdapter
         this.listener = listener;
     }
 
-    public void setNotifications(List<Notification> newNotifications) {
+    public final void setNotifications(List<Notification> newNotifications) {
         notifications.clear();
         notifications.addAll(newNotifications);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_notification, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public final void onBindViewHolder(final ViewHolder holder, int position) {
         Notification notification = notifications.get(position);
 
         holder.setItem(notification);
@@ -56,10 +56,12 @@ public class NotificationAdapter
         holder.getDescription().setText(notification.getDescription());
 
         if (notification.isRead()) {
-            holder.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.gray_xxxlight));
+            holder.getView()
+                    .setBackgroundColor(ContextCompat.getColor(context, R.color.gray_xxxlight));
             holder.getTitle().setTypeface(null, Typeface.NORMAL);
         } else {
-            holder.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.gray_xxlight));
+            holder.getView()
+                    .setBackgroundColor(ContextCompat.getColor(context, R.color.gray_xxlight));
             holder.getTitle().setTypeface(null, Typeface.BOLD);
         }
 
@@ -76,7 +78,7 @@ public class NotificationAdapter
     }
 
     @Override
-    public int getItemCount() {
+    public final int getItemCount() {
         return notifications.size();
     }
 
@@ -96,28 +98,28 @@ public class NotificationAdapter
             description = (TextView) itemView.findViewById(R.id.label_description);
         }
 
-        public View getView() {
+        public final View getView() {
             return view;
         }
 
-        public TextView getDate() {
+        public final TextView getDate() {
             return date;
         }
 
-        public TextView getTitle() {
+        public final TextView getTitle() {
             return title;
         }
 
-        public Notification getItem() {
+        public final Notification getItem() {
             return item;
         }
 
-        public TextView getDescription() {
-            return description;
+        public final void setItem(Notification item) {
+            this.item = item;
         }
 
-        public void setItem(Notification item) {
-            this.item = item;
+        public final TextView getDescription() {
+            return description;
         }
     }
 }

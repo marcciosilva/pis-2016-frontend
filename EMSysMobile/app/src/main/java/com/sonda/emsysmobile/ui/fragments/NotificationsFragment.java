@@ -19,17 +19,23 @@ import com.sonda.emsysmobile.managers.NotificationsManager;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.views.adapters.NotificationAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class NotificationsFragment extends DialogFragment {
 
     private static final String NOTIFICATION_RECEIVED = "notification_received";
 
-    private ArrayList<Notification> mNotifications;
+    private List<Notification> mNotifications;
     private RecyclerView mRecyclerView;
     private OnFragmentInteractionListener mListener;
     private TextView mEmptyView;
+    private BroadcastReceiver broadcastReceiverNotifications = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getNotifications();
+        }
+    };
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -40,14 +46,8 @@ public class NotificationsFragment extends DialogFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setStyle(STYLE_NO_TITLE, 0);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notifications, container, false);
 
@@ -103,12 +103,6 @@ public class NotificationsFragment extends DialogFragment {
         notificationAdapter.notifyDataSetChanged();
     }
 
-    private void markNotificationsAsRead() {
-        for (Notification notification: mNotifications) {
-            notification.setRead(true);
-        }
-    }
-
     private void manageEmptyView() {
         if (mNotifications.isEmpty()) {
             mEmptyView.setVisibility(View.VISIBLE);
@@ -118,36 +112,41 @@ public class NotificationsFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public final void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
+            throw new UnsupportedOperationException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
     @Override
-    public void onStop() {
+    public final void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    @Override
+    public final void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(STYLE_NO_TITLE, 0);
+    }
+
+    @Override
+    public final void onStop() {
         super.onStop();
         markNotificationsAsRead();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private void markNotificationsAsRead() {
+        for (Notification notification : mNotifications) {
+            notification.setRead(true);
+        }
     }
 
     public interface OnFragmentInteractionListener {
         void onNotificationSelected(Notification notification);
     }
-
-    private BroadcastReceiver broadcastReceiverNotifications = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            getNotifications();
-        }
-    };
 }

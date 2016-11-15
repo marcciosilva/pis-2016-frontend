@@ -1,7 +1,9 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
 import android.content.Context;
+
 import com.google.gson.JsonObject;
+
 import java.lang.reflect.Type;
 
 /**

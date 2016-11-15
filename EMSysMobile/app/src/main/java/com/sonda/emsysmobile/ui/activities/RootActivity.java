@@ -37,7 +37,6 @@ import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.utils.CrossfadeWrapper;
 import com.sonda.emsysmobile.utils.UIUtils;
 
-
 import java.util.List;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
@@ -50,21 +49,19 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 public abstract class RootActivity extends AppCompatActivity {
 
 
-    private static final String TAG = RootActivity.class.getName();
     public static final int EVENT_LIST = 1;
     public static final int EVENT_MAP_LIST = 2;
     public static final int EXTERNAL_SERVICE = 3;
     public static final int CREATE_EVENT = 4;
+    private static final String TAG = RootActivity.class.getName();
     private static final int LOG_OUT = 5;
-
-    private UserDto userData;
     protected AccountHeader headerResult = null;
     protected Drawer result = null;
     protected MiniDrawer miniResult = null;
     protected Crossfader crossFader;
+    private UserDto userData;
 
-
-    protected void onCreate(Bundle savedInstanceState, int guestActivityId, int
+    protected final void onCreate(Bundle savedInstanceState, int guestActivityId, int
             guestActivityRootId, String title, int selectedItem) {
         super.onCreate(savedInstanceState);
         setContentView(guestActivityId);
@@ -167,8 +164,10 @@ public abstract class RootActivity extends AppCompatActivity {
         result.setSelection(selectedItem, false);
         miniResult = result.getMiniDrawer();
 
-        int firstWidth = (int) UIUtils.convertDpToPixel(300, this);
-        int secondWidth = (int) UIUtils.convertDpToPixel(72, this);
+        final int dp1 = 300;
+        int firstWidth = (int) UIUtils.convertDpToPixel(dp1, this);
+        final int dp = 72;
+        int secondWidth = (int) UIUtils.convertDpToPixel(dp, this);
 
         crossFader = new Crossfader()
                 .withContent(findViewById(guestActivityRootId))
@@ -190,7 +189,8 @@ public abstract class RootActivity extends AppCompatActivity {
 
     private String getRoleLabel() {
         if (userData.isZoneDispatcher()) {
-            return "Despachador de zona (" + String.valueOf(userData.getRoles().getZones().size()) +
+            return "Despachador de zona (" +
+                    Integer.toString(userData.getRoles().getZones().size()) +
                     ")";
         } else if (userData.isResource()) {
             List<ResourceDto> resources = userData.getRoles().getResources();

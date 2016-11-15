@@ -6,5 +6,6 @@ package com.sonda.emsysmobile.ui.interfaces;
 
 public interface ProgressBarListener {
     void showProgressBar();
+
     void hideProgressBar();
 }

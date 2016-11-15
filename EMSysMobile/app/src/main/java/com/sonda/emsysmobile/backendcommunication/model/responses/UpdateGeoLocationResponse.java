@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Pape on 20/10/2016.
  */
 
-public class UpdateGeoLocationResponse extends EmsysResponse{
+public class UpdateGeoLocationResponse extends EmsysResponse {
 
     @SerializedName("response")
     private ErrorResponse innerResponse;

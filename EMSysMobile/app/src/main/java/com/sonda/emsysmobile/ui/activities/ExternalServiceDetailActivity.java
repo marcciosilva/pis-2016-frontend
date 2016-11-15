@@ -1,6 +1,5 @@
 package com.sonda.emsysmobile.ui.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
@@ -15,9 +14,6 @@ import com.sonda.emsysmobile.utils.Constants;
 
 public class ExternalServiceDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = ExternalServiceDetailActivity.class.getName();
-
-    private Context context;
     private EditText mFirstET;
     private EditText mSecondET;
     private EditText mThirdET;
@@ -33,7 +29,6 @@ public class ExternalServiceDetailActivity extends AppCompatActivity {
     public final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_external_service_detail);
-        this.context = this;
 
         mFirstET = (EditText) findViewById(R.id.first_field_et);
         mSecondET = (EditText) findViewById(R.id.second_field_et);

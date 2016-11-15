@@ -21,7 +21,8 @@ public class ExternalServiceRequest<T> extends AbstractRequest<T> {
 
     private ExternalServiceQueryDto externalServiceQueryDto;
 
-    public ExternalServiceRequest(Context context, Type type, ExternalServiceQueryDto externalServiceQueryDto) {
+    public ExternalServiceRequest(Context context, Type type,
+                                  ExternalServiceQueryDto externalServiceQueryDto) {
         super(context, type, RequestType.POST);
         this.externalServiceQueryDto = externalServiceQueryDto;
     }

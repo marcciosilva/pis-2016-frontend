@@ -27,41 +27,50 @@ public class ResourceAssignationDto implements Serializable {
         this.descriptions = descriptions;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getResource() {
-        return resource;
-    }
-
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
-
-    public List<DescriptionDto> getDescriptions() {
-        return descriptions;
-    }
-
-    public void setDescriptions(List<DescriptionDto> descriptions) {
-        this.descriptions = descriptions;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ResourceAssignationDto)) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ResourceAssignationDto)) {
+            return false;
+        }
 
         ResourceAssignationDto that = (ResourceAssignationDto) o;
 
-        if (getId() != that.getId()) return false;
-        if (getResource() != null ? !getResource().equals(that.getResource()) : that.getResource() != null)
+        if (getId() != that.getId()) {
             return false;
-        return getDescriptions() != null ? getDescriptions().equals(that.getDescriptions()) : that.getDescriptions() == null;
+        }
+        if (getResource() != null ? !getResource().equals(that.getResource()) :
+                that.getResource() != null) {
+            return false;
+        }
+        return getDescriptions() != null ? getDescriptions().equals(that.getDescriptions()) :
+                that.getDescriptions() == null;
 
+    }
+
+    public final int getId() {
+        return id;
+    }
+
+    public final void setId(int id) {
+        this.id = id;
+    }
+
+    public final String getResource() {
+        return resource;
+    }
+
+    public final void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    public final List<DescriptionDto> getDescriptions() {
+        return descriptions;
+    }
+
+    public final void setDescriptions(List<DescriptionDto> descriptions) {
+        this.descriptions = descriptions;
     }
 }

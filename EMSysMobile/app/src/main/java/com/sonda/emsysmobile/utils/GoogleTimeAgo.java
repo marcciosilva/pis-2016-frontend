@@ -30,33 +30,57 @@ public class GoogleTimeAgo {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
+    private GoogleTimeAgo() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
 
     public static String getTimeAgo(long time, Context context) {
-        if (time < 1000000000000L) {
+        long localTime = time;
+        final long l = 1000000000000L;
+        if (localTime < l) {
             // if timestamp given in seconds, convert to millis
-            time *= 1000;
+            final int i = 1000;
+            localTime *= i;
         }
 
         long now = System.currentTimeMillis();
-        if (time > now || time <= 0) {
+        if (localTime > now || localTime <= 0) {
             return null;
         }
 
-        final long diff = now - time;
+        final long diff = now - localTime;
         if (diff < MINUTE_MILLIS) {
             return context.getString(R.string.date_text_just_now);
-        } else if (diff < 2 * MINUTE_MILLIS) {
-            return context.getString(R.string.date_text_a_minute_ago);
-        } else if (diff < 50 * MINUTE_MILLIS) {
-            return context.getResources().getString(R.string.date_text_minutes_ago, diff / MINUTE_MILLIS);
-        } else if (diff < 90 * MINUTE_MILLIS) {
-            return context.getString(R.string.date_text_an_hour_ago);
-        } else if (diff < 24 * HOUR_MILLIS) {
-            return context.getResources().getString(R.string.date_text_hours_ago, diff / HOUR_MILLIS);
-        } else if (diff < 48 * HOUR_MILLIS) {
-            return context.getString(R.string.date_text_yesterday);
         } else {
-            return diff / DAY_MILLIS + context.getString(R.string.date_text_days_ago);
+            final int i = 2;
+            if (diff < i * MINUTE_MILLIS) {
+                return context.getString(R.string.date_text_a_minute_ago);
+            } else {
+                final int i1 = 50;
+                if (diff < i1 * MINUTE_MILLIS) {
+                    return context.getResources()
+                            .getString(R.string.date_text_minutes_ago, diff / MINUTE_MILLIS);
+                } else {
+                    final int i2 = 90;
+                    if (diff < i2 * MINUTE_MILLIS) {
+                        return context.getString(R.string.date_text_an_hour_ago);
+                    } else {
+                        final int i3 = 24;
+                        if (diff < i3 * HOUR_MILLIS) {
+                            return context.getResources()
+                                    .getString(R.string.date_text_hours_ago, diff / HOUR_MILLIS);
+                        } else {
+                            final int i4 = 48;
+                            if (diff < i4 * HOUR_MILLIS) {
+                                return context.getString(R.string.date_text_yesterday);
+                            } else {
+                                return diff / DAY_MILLIS +
+                                        context.getString(R.string.date_text_days_ago);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

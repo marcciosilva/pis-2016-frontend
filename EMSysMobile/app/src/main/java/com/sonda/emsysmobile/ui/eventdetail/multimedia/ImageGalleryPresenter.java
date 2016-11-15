@@ -32,7 +32,9 @@ import okhttp3.Response;
  */
 public class ImageGalleryPresenter {
 
-    private static final String TAG = ImageGalleryPresenter.class.getName();
+    private ImageGalleryPresenter() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
 
     public static void loadGallery(final Context context, final List<ImageDescriptionDto>
             imageDescriptions) {

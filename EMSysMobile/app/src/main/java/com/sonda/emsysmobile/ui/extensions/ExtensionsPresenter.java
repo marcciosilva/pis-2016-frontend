@@ -7,7 +7,7 @@ import com.hannesdorfmann.mosby.mvp.MvpPresenter;
  */
 public interface ExtensionsPresenter extends MvpPresenter<ExtensionsView> {
 
-    public void loadExtensions(final boolean pullToRefresh);
+    void loadExtensions(final boolean pullToRefresh);
 
-    public void setSelectedFilter(String filter);
+    void setSelectedFilter(String filter);
 }

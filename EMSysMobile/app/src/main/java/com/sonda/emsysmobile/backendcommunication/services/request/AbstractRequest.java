@@ -25,8 +25,6 @@ public abstract class AbstractRequest<T> {
     private Response.ErrorListener errorListener;
     private RequestType requestType;
 
-    public enum RequestType {GET, POST}
-
     public AbstractRequest(Context context, Type responseType, RequestType requestType) {
         this.context = context;
         this.responseType = responseType;
@@ -41,7 +39,47 @@ public abstract class AbstractRequest<T> {
         Response.ErrorListener errorListener = getErrorListener();
 
         EndpointService endpointService = new EndpointService(context);
-        endpointService.execute(baseURL, requestType, path, jsonObject, responseType, listener, errorListener);
+        endpointService.execute(baseURL, requestType, path, jsonObject, responseType, listener,
+                errorListener);
+    }
+
+    /**
+     * If some request needs a different URL can Override this method.
+     * Can be used to set different environment just for one Request.
+     *
+     * @return A string with the BaseURL for the request.
+     */
+    protected final String getBaseURL() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
+    }
+
+    protected abstract String getPath();
+
+    protected abstract JsonObject getBody();
+
+    protected final Response.Listener<T> getListener() {
+        return this.listener;
+    }
+
+    public final void setListener(Response.Listener<T> listener) {
+        this.listener = listener;
+    }
+
+    protected final Response.ErrorListener getErrorListener() {
+        if (errorListener == null) {
+            errorListener = new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d(TAG, "Error en la comunicación con el servidor.");
+                }
+            };
+        }
+        return errorListener;
+    }
+
+    public final void setErrorListener(Response.ErrorListener errorListener) {
+        this.errorListener = errorListener;
     }
 
     public final Context getContext() {
@@ -60,42 +98,5 @@ public abstract class AbstractRequest<T> {
         this.responseType = responseType;
     }
 
-    public final void setListener(Response.Listener<T> listener) {
-        this.listener = listener;
-    }
-
-    protected final Response.Listener<T> getListener() {
-        return this.listener;
-    }
-
-    public final void setErrorListener(Response.ErrorListener errorListener) {
-        this.errorListener = errorListener;
-    }
-
-    protected final Response.ErrorListener getErrorListener() {
-        if (errorListener == null) {
-            errorListener = new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d(TAG, "Error en la comunicación con el servidor.");
-                }
-            };
-        }
-        return errorListener;
-    }
-
-    protected abstract String getPath();
-
-    protected abstract JsonObject getBody();
-
-    /**
-     * If some request needs a different URL can Override this method.
-     * Can be used to set different environment just for one Request.
-     *
-     * @return A string with the BaseURL for the request.
-     */
-    protected String getBaseURL() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
-    }
+    public enum RequestType {GET, POST}
 }

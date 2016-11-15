@@ -1,11 +1,8 @@
 package com.sonda.emsysmobile.backendcommunication.services.request;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.lang.reflect.Type;
 
@@ -16,7 +13,6 @@ import java.lang.reflect.Type;
 public class ReportTimeRequest<T> extends AbstractRequest {
 
     public static final String REPORTTIME_PATH = "/eventos/reportarhoraarribo?idExtension=";
-    private static final String TAG = LoginRequest.class.getName();
 
     private int idExtension;
 

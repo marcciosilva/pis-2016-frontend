@@ -16,8 +16,8 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
+import com.sonda.emsysmobile.backendcommunication.model.responses.GetRolesResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.GetRolesRequest;
 import com.sonda.emsysmobile.logic.model.core.ResourceDto;
 import com.sonda.emsysmobile.logic.model.core.RoleDto;
@@ -36,13 +36,10 @@ import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 public class RoleChooserActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = RoleChooserActivity.class.getName();
     private Button mDespachadorButton;
     private Button mRecursoButton;
     private RoleDto mRoles;
-    private static final String TAG = RoleChooserActivity.class.getName();
-
-    public enum EleccionRol {Despachador, Recurso;}
-
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -83,66 +80,6 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private void obtenerRoles(final VolleyCallbackGetRoles callback) {
-        GetRolesRequest<GetRolesResponse> request = new GetRolesRequest<>(getApplicationContext(), GetRolesResponse.class);
-        request.setListener(new Response.Listener<GetRolesResponse>() {
-            @Override
-            public void onResponse(GetRolesResponse response) {
-                final int responseCode = response.getCode();
-                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    RoleDto roles = response.getRoles();
-                    callback.onSuccess(roles);
-                } else {
-                    String errorMsg = response.getRoles().getMsg();
-                    if (!isFinishing()) {
-                        handleErrorMessage(RoleChooserActivity.this, responseCode, errorMsg);
-                    }
-                }
-            }
-        });
-        request.setErrorListener(new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "La respuesta del servidor incluye un código de error HTTP.");
-                handleVolleyErrorResponse(RoleChooserActivity.this, error, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        obtenerRoles(callback);
-                    }
-                });
-            }
-        });
-        request.execute();
-    }
-
-    @Override
-    public final void onClick(View view) {
-        if (view.getId() == R.id.button_despachador && mDespachadorButton.isEnabled()) {
-            goToZonasRecursosChooser(EleccionRol.Despachador);
-        } else if (view.getId() == R.id.button_recurso && mRecursoButton.isEnabled()) {
-            goToZonasRecursosChooser(EleccionRol.Recurso);
-        } else if (view.getId() == R.id.button_sin_seleccion) {
-            goToHome();
-        }
-    }
-
-    public final void goToHome() {
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToZonasRecursosChooser(EleccionRol eleccionRol) {
-        Intent intent = new Intent(this, ZonasRecursosChooserActivity.class);
-        // Paso data a la siguiente activity.
-        if (eleccionRol == EleccionRol.Despachador) {
-            intent.putExtra("zonas", (Serializable) mRoles.getZones());
-        } else if (eleccionRol == EleccionRol.Recurso) {
-            intent.putExtra("recursos", (Serializable) mRoles.getResources());
-        }
-        intent.putExtra("eleccionRol", eleccionRol);
-        startActivity(intent);
-    }
-
     @Override
     public final void onStart() {
         super.onStart();
@@ -176,6 +113,70 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
+
+    private void obtenerRoles(final VolleyCallbackGetRoles callback) {
+        GetRolesRequest<GetRolesResponse> request =
+                new GetRolesRequest<>(getApplicationContext(), GetRolesResponse.class);
+        request.setListener(new Response.Listener<GetRolesResponse>() {
+            @Override
+            public void onResponse(GetRolesResponse response) {
+                final int responseCode = response.getCode();
+                if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
+                    RoleDto roles = response.getRoles();
+                    callback.onSuccess(roles);
+                } else {
+                    String errorMsg = response.getRoles().getMsg();
+                    if (!isFinishing()) {
+                        handleErrorMessage(RoleChooserActivity.this, responseCode, errorMsg);
+                    }
+                }
+            }
+        });
+        request.setErrorListener(new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "La respuesta del servidor incluye un código de error HTTP.");
+                handleVolleyErrorResponse(RoleChooserActivity.this, error,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                obtenerRoles(callback);
+                            }
+                        });
+            }
+        });
+        request.execute();
+    }
+
+    @Override
+    public final void onClick(View view) {
+        if (view.getId() == R.id.button_despachador && mDespachadorButton.isEnabled()) {
+            goToZonasRecursosChooser(EleccionRol.Despachador);
+        } else if (view.getId() == R.id.button_recurso && mRecursoButton.isEnabled()) {
+            goToZonasRecursosChooser(EleccionRol.Recurso);
+        } else if (view.getId() == R.id.button_sin_seleccion) {
+            goToHome();
+        }
+    }
+
+    private void goToZonasRecursosChooser(EleccionRol eleccionRol) {
+        Intent intent = new Intent(this, ZonasRecursosChooserActivity.class);
+        // Paso data a la siguiente activity.
+        if (eleccionRol == EleccionRol.Despachador) {
+            intent.putExtra("zonas", (Serializable) mRoles.getZones());
+        } else if (eleccionRol == EleccionRol.Recurso) {
+            intent.putExtra("recursos", (Serializable) mRoles.getResources());
+        }
+        intent.putExtra("eleccionRol", eleccionRol);
+        startActivity(intent);
+    }
+
+    public final void goToHome() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    public enum EleccionRol {Despachador, Recurso;}
 
     /**
      * Interfaz implementada para recibir el resultado de la request

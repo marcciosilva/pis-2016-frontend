@@ -11,7 +11,6 @@ import android.util.Log;
 import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.offline.OfflineService;
-import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
 public class SplashActivity extends AppCompatActivity {
@@ -43,7 +42,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void setUpPreferences() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         //Log.d(TAG, "Clearing shared prefs...");
         //sharedPrefs.edit().clear().commit();
         final String backendUrl = "backendUrl";
