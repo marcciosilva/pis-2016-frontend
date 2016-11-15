@@ -76,24 +76,6 @@ public class DescriptionDto implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DescriptionDto)) return false;
-
-        DescriptionDto that = (DescriptionDto) o;
-
-        if (getOrigin() != that.getOrigin()) return false;
-        if (offline_added != that.offline_added) return false;
-        if (getUser() != null ? !getUser().equals(that.getUser()) : that.getUser() != null)
-            return false;
-        if (getDate() != null ? !getDate().equals(that.getDate()) : that.getDate() != null)
-            return false;
-        return getDescription() != null ? getDescription().equals(that.getDescription()) : that.getDescription() == null;
-
-    }
-
-
-    @Override
     public String toString() {
         String evaluatedDescription = "";
         if(description != null)

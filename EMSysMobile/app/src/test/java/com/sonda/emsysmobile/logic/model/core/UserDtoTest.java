@@ -3,6 +3,8 @@ package com.sonda.emsysmobile.logic.model.core;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,6 +25,8 @@ public class UserDtoTest {
         mPassword = "password";
         mUserDto.setPassword(mPassword);
         mRoles = new RoleDto();
+        mRoles.setResources(new ArrayList<ResourceDto>());
+        mRoles.setZones(new ArrayList<ZoneDto>());
         mUserDto.setRoles(mRoles);
     }
 
@@ -59,6 +63,20 @@ public class UserDtoTest {
     public void setRoles() throws Exception {
         mUserDto.setRoles(null);
         assertTrue(mUserDto.getRoles() == null);
+    }
+
+    @Test
+    public void isZoneDispatcher() throws Exception {
+        assertFalse(mUserDto.isZoneDispatcher());
+        mUserDto.setRoles(null);
+        assertFalse(mUserDto.isZoneDispatcher());
+    }
+
+    @Test
+    public void isResource() throws Exception {
+        assertFalse(mUserDto.isResource());
+        mUserDto.setRoles(null);
+        assertFalse(mUserDto.isResource());
     }
 
 }

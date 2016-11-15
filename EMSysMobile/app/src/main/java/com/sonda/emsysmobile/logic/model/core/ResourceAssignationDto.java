@@ -51,17 +51,4 @@ public class ResourceAssignationDto implements Serializable {
         this.descriptions = descriptions;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ResourceAssignationDto)) return false;
-
-        ResourceAssignationDto that = (ResourceAssignationDto) o;
-
-        if (getId() != that.getId()) return false;
-        if (getResource() != null ? !getResource().equals(that.getResource()) : that.getResource() != null)
-            return false;
-        return getDescriptions() != null ? getDescriptions().equals(that.getDescriptions()) : that.getDescriptions() == null;
-
-    }
 }
