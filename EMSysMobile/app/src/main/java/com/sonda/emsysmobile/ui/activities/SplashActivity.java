@@ -13,8 +13,6 @@ import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.offline.OfflineService;
 import com.sonda.emsysmobile.ui.activities.login.AuthActivity;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.IOException;
 
 public class SplashActivity extends AppCompatActivity {
