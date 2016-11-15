@@ -25,7 +25,6 @@ import java.util.List;
 public class ImageGalleryView extends AppCompatActivity {
 
     private static final String TAG = ImageGalleryView.class.getName();
-    private List<ImageDataDto> mImageDataList;
     private GridView gridView;
     private GridViewAdapter gridAdapter;
 

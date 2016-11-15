@@ -69,12 +69,10 @@ public class HomeActivity extends RootActivity
     private boolean mContainerCollapsed;
     private MapExtensionsFragment mMapExtensionsFragment;
     private NotificationsFragment mNotificationsFragment;
-    private String mSelectedFilter = "Prioridad";
 
     @Override
     public final void onEventFilter(String selectedFilter) {
         UIUtils.hideSoftKeyboard(this);
-        mSelectedFilter = selectedFilter;
         if (mMapContainer.getVisibility() == View.VISIBLE){
             mMapExtensionsFragment.setFilter(selectedFilter);
             mMapExtensionsFragment.getMapEvents();
@@ -296,60 +294,6 @@ public class HomeActivity extends RootActivity
                     .getDrawable(this, R.drawable.ic_keyboard_arrow_up_white_24dp));
         }
         mContainerCollapsed = !mContainerCollapsed;
-    }
-
-    private void logout() {
-        // Se borran los datos del usuario.
-        GlobalVariables.setUserData(null);
-        LogoutRequest<LoginLogoutResponse> request =
-                new LogoutRequest<>(getApplicationContext(), LoginLogoutResponse.class);
-        request.setListener(new Response.Listener<LoginLogoutResponse>() {
-            @Override
-            public void onResponse(LoginLogoutResponse response) {
-                final int responseCode = response.getCode();
-                if (responseCode == 0) {
-                    // Stop KeepAlive service.
-                    Intent intent = new Intent(HomeActivity.this, KeepAliveService.class);
-                    stopService(intent);
-                    // Se reinicia el token de autenticacion.
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit()
-                            .putString("access_token", "").commit();
-                    // Se reinicia el token de notificaciones
-                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    sharedPrefs.edit().remove(MyFirebaseInstanceIDService.NOTIFICATION_TOKEN_KEY).apply();
-                    EventManager.getInstance(HomeActivity.this).onLogout();
-                    goToSplash();
-                } else {
-                    String errorMsg = response.getInnerResponse().getMsg();
-                    if (!isFinishing()) {
-                        handleErrorMessage(HomeActivity.this, responseCode, errorMsg);
-                    }
-                }
-            }
-        });
-        request.setErrorListener(new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, getString(R.string.error_http));
-                if (!isFinishing()) {
-                    handleVolleyErrorResponse(HomeActivity.this, error, new DialogInterface
-                            .OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            logout();
-                        }
-                    });
-                }
-            }
-        });
-        request.execute();
-    }
-
-    private void goToSplash() {
-        Intent intent = new Intent(this, SplashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
     }
 
     @Override

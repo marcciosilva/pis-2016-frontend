@@ -51,9 +51,6 @@ public final class MultimediaManager {
         mImagesAlreadyInPath = new HashMap<>();
     }
 
-    public final void onLogout() {
-    }
-
     /**
      * Singleton para manejar objetos multimedia.
      *
@@ -66,94 +63,6 @@ public final class MultimediaManager {
             mInstance = new MultimediaManager(context);
         }
         return mInstance;
-    }
-
-    public final void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
-        // Si me llegan las mismas descripciones no se altera nada.
-        if (!mImageDescriptions.equals(imageDescriptions)) {
-            mImageDescriptions = imageDescriptions;
-        }
-    }
-
-    public final void clearInternalStorage() {
-        File dir = mContext.getFilesDir();
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                Log.d(TAG, "Borrando archivo " + children[i]);
-                new File(dir, children[i]).delete();
-            }
-        }
-    }
-
-    public final void fetchImages(final ApiCallback<List<ImageDataDto>> callback) {
-        Log.d(TAG, "Llamado a fetchImages");
-        mImageDataList.clear();
-        mImagesAlreadyInPath.clear();
-        // Genero array de strings con los nombres de los archivos del directorio
-        // de almacenamiento.
-        File[] files = mContext.getFilesDir().listFiles();
-        List<String> fileNames = new ArrayList<>();
-        for (int i = 0; i < files.length; i++) {
-            fileNames.add(files[i].getName());
-        }
-        // Genero un map que para cada descripcion indica si tengo que hacer la request
-        // o no.
-        for (ImageDescriptionDto imageDescription : mImageDescriptions) {
-            boolean shouldRequest = true;
-            Log.d(TAG, "Chequeando " + Integer.toString(imageDescription.getId()) + ".");
-            for (String fileName : fileNames) {
-                // Si algun archivo empieza con el nombre de la descripcion y punto,
-                // no se lo pide nuevamente.
-                if (fileName.startsWith(imageDescription.getId() + ".")) {
-                    shouldRequest = false;
-                    Log.d(TAG, "No se hace request para archivo " + fileName);
-                    break;
-                }
-            }
-            mImagesAlreadyInPath.put(imageDescription, shouldRequest);
-        }
-        // Cantidad de requests a realizar, para saber cuando llamar al callback.
-        final int requestsToBeMade = Collections
-                .frequency(new ArrayList<Boolean>(mImagesAlreadyInPath.values()), true);
-        // Hago requests necesarias.
-        if (requestsToBeMade != 0) {
-            for (final ImageDescriptionDto imageDescription : mImageDescriptions) {
-                // Variable a ser utilizada dentro de listener (debe ser final).
-                if (mImagesAlreadyInPath.get(imageDescription)) {
-                    GetImageDataRequest<GetImageDataResponse> request =
-                            new GetImageDataRequest<>(mContext, GetImageDataResponse.class);
-                    request.setAttributes(imageDescription.getId());
-                    request.setListener(new Response.Listener<GetImageDataResponse>() {
-                        @Override
-                        public void onResponse(GetImageDataResponse response) {
-                            int responseCode = response.getCode();
-                            if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                                mImageDataList.add(response.getImageData());
-                                // Si tienen el mismo size es porque me llegaron todas las
-                                // imagenes.
-                                if (mImageDataList.size() == requestsToBeMade) {
-                                    callback.onSuccess(mImageDataList);
-                                }
-                            } else {
-                                // TODO asociar un mensaje de error para cada codigo posible.
-                                callback.onLogicError(null, responseCode);
-                            }
-                        }
-                    });
-                    request.setErrorListener(new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            callback.onNetworkError(error);
-                        }
-                    });
-                    request.execute();
-                }
-            }
-        } else {
-            // Si no hay ninguna request que hacer, se devuelve una estructura vacia.
-            callback.onSuccess(mImageDataList);
-        }
     }
 
     public final void uploadImage(int extensionId, String name, Bitmap image, final ApiCallback callback) {
