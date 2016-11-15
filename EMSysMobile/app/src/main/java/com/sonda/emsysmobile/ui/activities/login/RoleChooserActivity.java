@@ -131,13 +131,6 @@ public class RoleChooserActivity extends AppCompatActivity implements View.OnCli
         startActivity(intent);
     }
 
-    public final void goToAuth() {
-        Intent intent = new Intent(this, AuthActivity.class);
-        // Se saca la activity actual del back stack para mejorar experiencia del usuario.
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
-
     private void goToZonasRecursosChooser(EleccionRol eleccionRol) {
         Intent intent = new Intent(this, ZonasRecursosChooserActivity.class);
         // Paso data a la siguiente activity.

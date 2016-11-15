@@ -1,6 +1,8 @@
 package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,10 +22,13 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.logic.model.core.UserDto;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
@@ -38,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -151,6 +157,14 @@ public class EventDetailsView extends AppCompatActivity implements
         });
 
         mReportTimeBtn = (FloatingActionButton) findViewById(R.id.button_report_time);
+        UserDto userDto = GlobalVariables.getUserData();
+        if (userDto != null){
+            // If user is not logged as resource
+            if (userDto.getRoles().getResources().size() == 0){
+                mReportTimeBtn.setVisibility(View.GONE);
+            }
+        }
+
         mReportTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,17 +173,6 @@ public class EventDetailsView extends AppCompatActivity implements
         });
 
         updateViewData((EventDto) getIntent().getSerializableExtra("EventDto"));
-
-        // Inicializacion de fragment de extensiones.
-        if (findViewById(R.id.fragment_container) != null) {
-            if (savedInstanceState != null) {
-                return;
-            }
-            EventDetailExtensionsFragment extensionsFragment =
-                    EventDetailExtensionsFragment.newInstance(mEvent);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
-        }
 
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
@@ -234,10 +237,22 @@ public class EventDetailsView extends AppCompatActivity implements
             if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))) {
                 mOrigin.setText(mEvent.getOrigin());
             }
+
+            if(mEvent.getImageDescriptions().size() == 0){
+                mImagesButton.setEnabled(false);
+                mImagesButton.setImageResource(R.drawable.ic_collections_grey_700_36dp);
+            }
+
+            // TODO enable when implemented
+            mVideosButton.setEnabled(false);
+            mVideosButton.setImageResource(R.drawable.ic_video_library_grey_700_36dp);
+            mAudioButton.setEnabled(false);
+            mAudioButton.setImageResource(R.drawable.ic_library_music_grey_700_36dp);
+
             EventDetailExtensionsFragment extensionsFragment =
                     EventDetailExtensionsFragment.newInstance(mEvent);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, extensionsFragment).commit();
+                    .replace(R.id.fragment_container, extensionsFragment).commit();
         }
     }
 
@@ -263,6 +278,7 @@ public class EventDetailsView extends AppCompatActivity implements
             extras.putInt("ExtensionId", extensionID);
             intent.putExtras(extras);
             EventDetailsPresenter.showGeolocationAttachView(intent);
+            mFloatingActionMenu.close(true);
         }
     }
 
@@ -292,6 +308,7 @@ public class EventDetailsView extends AppCompatActivity implements
             } catch (IOException ex) {
                 // Error occurred while creating the File
                 UIUtils.showToast(this, getString(R.string.error_access_camera_message));
+                mFloatingActionMenu.close(true);
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
@@ -299,6 +316,15 @@ public class EventDetailsView extends AppCompatActivity implements
                         "com.sonda.emsysmobile.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                List<ResolveInfo> resInfoList = this.getPackageManager()
+                        .queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                for (ResolveInfo resolveInfo : resInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    this.grantUriPermission(packageName,
+                            photoURI,
+                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                    | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
@@ -308,6 +334,7 @@ public class EventDetailsView extends AppCompatActivity implements
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
             EventDetailsPresenter.reportTime(this, extensionID);
+            mFloatingActionMenu.close(true);
         }
     }
 
@@ -337,6 +364,7 @@ public class EventDetailsView extends AppCompatActivity implements
                             mAttachImageBtn.hideProgress();
                             UIUtils.showToast(EventDetailsView.this,
                                     getString(R.string.message_image_attached));
+                            mFloatingActionMenu.close(true);
                         }
 
                         @Override
@@ -414,6 +442,7 @@ public class EventDetailsView extends AppCompatActivity implements
         if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
             int extensionID = mEvent.getExtensions().get(0).getIdentifier();
             EventDetailsPresenter.attachDescriptionForExtension(this, descriptionText, extensionID);
+            mFloatingActionMenu.close(true);
         }
     }
 

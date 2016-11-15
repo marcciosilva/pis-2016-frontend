@@ -55,6 +55,14 @@ public class NotificationAdapter
         holder.getTitle().setText(notification.getTitle());
         holder.getDescription().setText(notification.getDescription());
 
+        if (notification.isRead()) {
+            holder.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.gray_xxxlight));
+            holder.getTitle().setTypeface(null, Typeface.NORMAL);
+        } else {
+            holder.getView().setBackgroundColor(ContextCompat.getColor(context, R.color.gray_xxlight));
+            holder.getTitle().setTypeface(null, Typeface.BOLD);
+        }
+
         holder.getView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -13,7 +13,7 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.ui.activities.MainActivity;
+import com.sonda.emsysmobile.ui.activities.SplashActivity;
 
 /**
  * Created by ssainz on 9/5/16.
@@ -43,8 +43,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             String notificationCode = remoteMessage.getData().get("code");
-            int objectIdentifier = Integer.parseInt(remoteMessage.getData().get("eventId"));
-            Notification notification = new Notification(notificationCode, objectIdentifier);
+            int eventId = Integer.parseInt(remoteMessage.getData().get("eventId"));
+            int extensionId = Integer.parseInt(remoteMessage.getData().get("extensionId"));
+            String zoneName = remoteMessage.getData().get("zoneName");
+            Notification notification = new Notification(notificationCode, eventId, extensionId, zoneName);
             Log.d(TAG, notification.toString());
             postApplicationEvent(notification);
             showNotificationOnStatusBar("EMSYS Mobile", notification.getTitle());
@@ -58,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void showNotificationOnStatusBar(String messageTitle, String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, SplashActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

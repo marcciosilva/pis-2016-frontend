@@ -44,6 +44,9 @@ public class AttachGeoLocMapView extends SupportMapFragment
         mPrevLongitude = prevLongitude;
         AttachGeoLocPresenter.setGeoLocation(mExtensionId, mPrevLatitude, mPrevLongitude);
         mCallingActivity = callingActivity;
+        if (this.isAdded()) {
+            return;
+        }
         mCallingActivity.getSupportFragmentManager().beginTransaction().add(R.id.map_container,
                 this, AttachGeoLocMapView.class.getSimpleName()).commit();
 
@@ -110,7 +113,4 @@ public class AttachGeoLocMapView extends SupportMapFragment
         return;
     }
 
-    private void successAttach() {
-        Toast.makeText(this.getContext(), "Succes!!", Toast.LENGTH_SHORT).show();
-    }
 }

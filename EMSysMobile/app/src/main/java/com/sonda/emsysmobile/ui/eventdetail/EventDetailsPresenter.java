@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Log;
 
 import com.android.volley.NetworkError;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.provider.Settings.Global.getString;
 import static com.sonda.emsysmobile.utils.UIUtils.handleVolleyErrorResponse;
 
 /**
@@ -60,45 +62,6 @@ public final class EventDetailsPresenter {
             eventExtensionId) {
         final EventManager eventManager = EventManager.getInstance(context);
 
-        //TODO llamar eventManager.getLocalEventDetails(eventId):
-        EventDto event = eventManager.getLocalEventDetail(eventId);
-        initEventDetailsView(context, event);
-
-        eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
-            @Override
-            public void onSuccess(EventDto event) {
-                List<ExtensionDto> orderedExtensions =
-                        orderExtensions(event.getExtensions(), eventExtensionId);
-                eventManager.setEventAsRead(event);
-                event.setExtensions(orderedExtensions);
-                updateMapFragment();
-                mEventDetailsView.updateViewData(event);
-            }
-
-            @Override
-            public void onLogicError(String errorMessage, int errorCode) {
-                if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
-                    UIUtils.handleErrorMessage(context, errorCode, errorMessage);
-                }
-            }
-
-            @Override
-            public void onNetworkError(VolleyError error) {
-            }
-        });
-    }
-
-    /**
-     * Carga los detalles del evento (si es necesario), y se encarga de comenzar
-     * la inicializacion de la vista del detalle del evento.
-     *
-     * @param context
-     * @param eventId
-     */
-    public static void loadEventDetails(final Context context, final int eventId) {
-        final EventManager eventManager = EventManager.getInstance(context);
-
-        //TODO llamar eventManager.getLocalEventDetails(eventId):
         EventDto event = eventManager.getLocalEventDetail(eventId);
         if (event != null) {
             initEventDetailsView(context, event);
@@ -106,7 +69,10 @@ public final class EventDetailsPresenter {
             eventManager.getEventDetail(eventId, new ApiCallback<EventDto>() {
                 @Override
                 public void onSuccess(EventDto event) {
+                    List<ExtensionDto> orderedExtensions =
+                            orderExtensions(event.getExtensions(), eventExtensionId);
                     eventManager.setEventAsRead(event);
+                    event.setExtensions(orderedExtensions);
                     updateMapFragment();
                     mEventDetailsView.updateViewData(event);
                 }
@@ -182,11 +148,6 @@ public final class EventDetailsPresenter {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
             mEventDetailsView.showMap();
-//            mMapFragment = EventDetailMapView.getInstance();
-//            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
-//                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-//            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
-//            mMapFragment.showView();
         }
     }
 
@@ -206,13 +167,8 @@ public final class EventDetailsPresenter {
             public void onResponse(EmsysResponse response) {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.app_name));
-                    builder.setMessage(
-                            context.getString(R.string.update_desc_success_string));
-                    builder.setPositiveButton("OK", null);
-                    builder.show();
+                    // Show toast with success message
+                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext().getString(R.string.update_desc_success_string));
                 } else {
                     if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
                         UIUtils.handleErrorMessage(context, response.getCode(), context
@@ -266,19 +222,10 @@ public final class EventDetailsPresenter {
             public void onResponse(ReportTimeResponse response) {
                 int responseCode = response.getCode();
                 if (responseCode == ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    //Genero un AlertDialog para informarle al usuario cual fue el error ocurrido.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.app_name));
-                    builder.setMessage(
-                            context.getString(R.string.report_time_success));
-                    builder.setPositiveButton("OK", null);
-                    builder.show();
-                } else if (responseCode != ErrorCodeCategory.SUCCESS.getNumVal()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(context.getString(R.string.app_name));
-                    builder.setMessage(response.getInnerResponse().getMsg());
-                    builder.setPositiveButton("OK", null);
-                    builder.show();
+                    // Show toast with success message
+                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext().getString(R.string.report_time_success));
+                } else if (responseCode == ErrorCodeCategory.TIME_ALREADY_REPORTED.getNumVal()) {
+                    UIUtils.showToast(context, mEventDetailsView.getApplicationContext().getString(R.string.time_already_reported));
                 } else {
                     if (((context instanceof Activity) && (!((Activity) context).isFinishing()))) {
                         UIUtils.handleErrorMessage(context, response.getCode(), context

@@ -84,10 +84,6 @@ public class ExtensionsListPresenter extends MvpBasePresenter<ExtensionsView>
         });
     }
 
-    public void setFilter(String selectedFilter){
-        mFilter = selectedFilter;
-    }
-
     @Override public void detachView(boolean retainInstance) {
         super.detachView(retainInstance);
         //We should unregister Broadcast Reciever when te fragment is paused
