@@ -22,14 +22,12 @@ public class OfflineService extends Service {
 
     public static final String TAG = OfflineService.class.getName();
     private BlockingQueue<OfflineDto> queue;
-    private boolean running = false;
     private Thread mainThread;
     private final int WAIT_TIME = 10000;
     private boolean offline = false;
 
     @Override
     public void onCreate() {
-        running = true;
         queue = GlobalVariables.getQueue();
         Log.d(TAG, "Servicio offline iniciado.");
     }

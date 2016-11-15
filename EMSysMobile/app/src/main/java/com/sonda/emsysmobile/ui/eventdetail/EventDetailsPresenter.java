@@ -148,11 +148,6 @@ public final class EventDetailsPresenter {
             Log.d(TAG, "Assigning event id " + Integer.toString(event.getIdentifier())
                     + " to EventDetailMapPresenter");
             mEventDetailsView.showMap();
-//            mMapFragment = EventDetailMapView.getInstance();
-//            CustomScrollView mainScrollView = (CustomScrollView) ((Activity) context).getWindow()
-//                    .getDecorView().findViewById(R.id.main_scrollview_map_detail);
-//            mMapFragment.initializeView((FragmentActivity) context, mainScrollView);
-//            mMapFragment.showView();
         }
     }
 
