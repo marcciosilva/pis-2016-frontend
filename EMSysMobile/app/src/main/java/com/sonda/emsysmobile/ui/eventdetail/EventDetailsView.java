@@ -446,11 +446,6 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onCancelAttachDescription() {
-        UIUtils.hideSoftKeyboard(this);
-    }
-
     public void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
