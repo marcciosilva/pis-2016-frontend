@@ -37,6 +37,9 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import static com.sonda.emsysmobile.GlobalVariables.KEYSTORE_PASSWORD;
+import static com.sonda.emsysmobile.GlobalVariables.USING_CUSTOM_KEYSTORE;
+
 /**
  * Created by ssainz on 8/28/16.
  */
@@ -47,8 +50,6 @@ public final class AppRequestQueue {
     private static Context mCtx;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
-    private static final boolean USING_CUSTOM_KEYSTORE = false;
-    private static final String KEYSTORE_PASSWORD = "password";
 
     private AppRequestQueue(Context context) {
         mCtx = context;

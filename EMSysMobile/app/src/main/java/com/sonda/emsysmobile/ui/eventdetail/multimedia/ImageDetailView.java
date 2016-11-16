@@ -24,8 +24,6 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class ImageDetailView extends AppCompatActivity {
 
-    private static final String TAG = ImageDetailView.class.getName();
-
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +45,22 @@ public class ImageDetailView extends AppCompatActivity {
         // Agrego header de autenticacion a la request
         final String authToken = sharedPrefs.getString("access_token", "");
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = chain.request().newBuilder()
-                                .addHeader("auth", authToken)
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
+        OkHttpClient client;
+        if (imageUrl.contains("https")) {
+            client = CustomOkHttpClient.getCustomOkHttpClient(ImageDetailView.this);
+        } else {
+            client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request newRequest = chain.request().newBuilder()
+                                    .addHeader("auth", authToken)
+                                    .build();
+                            return chain.proceed(newRequest);
+                        }
+                    })
+                    .build();
+        }
 
         Picasso picasso = new Picasso.Builder(ImageDetailView.this)
                 .downloader(new OkHttp3Downloader(client))
