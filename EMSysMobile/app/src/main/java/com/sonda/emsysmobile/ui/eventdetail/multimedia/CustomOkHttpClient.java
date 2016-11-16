@@ -84,8 +84,7 @@ public final class CustomOkHttpClient {
             }
         } else {
             try {
-                String keyStoreType = "BKS";
-                KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+                KeyStore keyStore = KeyStore.getInstance(GlobalVariables.KEYSTORE_TYPE);
                 InputStream in =
                         context.getResources().openRawResource(R.raw.keystore);
                 try {

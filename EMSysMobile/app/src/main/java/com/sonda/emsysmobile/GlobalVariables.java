@@ -13,11 +13,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class GlobalVariables {
 
     private static UserDto userData;
-
     private static BlockingQueue<OfflineDto> queue = new LinkedBlockingQueue<>();
 
     public static final boolean USING_CUSTOM_KEYSTORE = false;
     public static final String KEYSTORE_PASSWORD = "password";
+    public static final String KEYSTORE_TYPE = "JKS";
 
     public static UserDto getUserData() {
         return userData;

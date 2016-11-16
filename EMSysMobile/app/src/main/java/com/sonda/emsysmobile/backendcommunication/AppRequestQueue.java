@@ -15,6 +15,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.GlobalVariables;
 import com.sonda.emsysmobile.R;
 
 import java.io.IOException;
@@ -136,8 +137,8 @@ public final class AppRequestQueue {
                             }
                         } else {
                             try {
-                                String keyStoreType = "BKS";
-                                KeyStore keyStore = KeyStore.getInstance(keyStoreType);
+                                KeyStore keyStore =
+                                        KeyStore.getInstance(GlobalVariables.KEYSTORE_TYPE);
                                 InputStream in =
                                         mCtx.getResources().openRawResource(R.raw.keystore);
                                 try {
