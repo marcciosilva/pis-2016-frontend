@@ -20,16 +20,15 @@ public class SettingsActivity extends PreferenceActivity {
     private static final String TAG = SettingsActivity.class.getName();
 
     @Override
-    protected final void onCreate(Bundle savedInstanceState)
-    {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkValues();
     }
 
 
-    private void checkValues()
-    {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+    private void checkValues() {
+        SharedPreferences sharedPrefs =
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         String backendUrl = sharedPrefs.getString("backendUrl", "Not assigned");
         // Se imprimen preferencias actuales.
         String msg = "Current preferences' values: ";
@@ -38,14 +37,12 @@ public class SettingsActivity extends PreferenceActivity {
     }
 
     @Override
-    public final void onBuildHeaders(List<Header> target)
-    {
+    public final void onBuildHeaders(List<Header> target) {
         loadHeadersFromResource(R.xml.headers_preference, target);
     }
 
     @Override
-    protected final boolean isValidFragment(String fragmentName)
-    {
+    protected final boolean isValidFragment(String fragmentName) {
         return SettingsFragment.class.getName().equals(fragmentName);
     }
 

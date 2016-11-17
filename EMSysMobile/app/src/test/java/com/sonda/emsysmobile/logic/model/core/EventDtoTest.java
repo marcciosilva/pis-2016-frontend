@@ -601,8 +601,10 @@ public class EventDtoTest {
 
     @Test
     public void equals_CompareWithDifferentCategory_ReturnsFalse() {
-        mExtensionEvent.setCategory(new CategoryDto());
-        testExtensionEvent.setCategory(null);
+        CategoryDto testCat = new CategoryDto(1, "test_code", "test_key", CategoryPriority.HIGH, true);
+        CategoryDto testCat2 = new CategoryDto(1, "test_code2", "test_key2", CategoryPriority.HIGH, true);
+        mExtensionEvent.setCategory(testCat);
+        testExtensionEvent.setCategory(testCat2);
         assertFalse(mExtensionEvent.equals(testExtensionEvent));
     }
 

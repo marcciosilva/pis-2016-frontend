@@ -46,13 +46,13 @@ public class MySSLSocketFactory extends SSLSocketFactory {
     }
 
     @Override
-    public final Socket createSocket(Socket socket, String host, int port, boolean autoClose)
-            throws IOException {
-        return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
+    public final Socket createSocket() throws IOException {
+        return sslContext.getSocketFactory().createSocket();
     }
 
     @Override
-    public final Socket createSocket() throws IOException {
-        return sslContext.getSocketFactory().createSocket();
+    public final Socket createSocket(Socket socket, String host, int port, boolean autoClose)
+            throws IOException {
+        return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
     }
 }

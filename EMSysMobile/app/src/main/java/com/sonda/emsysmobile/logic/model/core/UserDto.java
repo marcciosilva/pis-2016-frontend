@@ -12,42 +12,42 @@ import java.util.List;
 public class UserDto implements Serializable {
 
     @SerializedName("username")
-    String username;
+    private String username;
 
     @SerializedName("password")
-    String password;
+    private String password;
 
     @SerializedName("roles")
-    RoleDto roles;
+    private RoleDto roles;
 
     public UserDto() {
     }
 
-    public String getUsername() {
+    public final String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public final void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
+    public final String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public final void setPassword(String password) {
         this.password = password;
     }
 
-    public RoleDto getRoles() {
+    public final RoleDto getRoles() {
         return roles;
     }
 
-    public void setRoles(RoleDto roles) {
+    public final void setRoles(RoleDto roles) {
         this.roles = roles;
     }
 
-    public boolean isZoneDispatcher() {
+    public final boolean isZoneDispatcher() {
         if (roles != null) {
             List<ZoneDto> zones = roles.getZones();
             return ((zones != null) && (zones.size() != 0));
@@ -56,7 +56,7 @@ public class UserDto implements Serializable {
         }
     }
 
-    public boolean isResource() {
+    public final boolean isResource() {
         if (roles != null) {
             List<ResourceDto> resources = roles.getResources();
             return ((resources != null) && (resources.size() != 0));

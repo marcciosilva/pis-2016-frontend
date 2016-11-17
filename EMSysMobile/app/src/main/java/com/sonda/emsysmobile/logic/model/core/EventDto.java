@@ -164,7 +164,7 @@ public class EventDto implements Serializable {
         this.sectorCode = sectorCode;
     }
 
-    public final String getGeneralDescription(){
+    public final String getGeneralDescription() {
         return generalDescription;
     }
 
@@ -232,7 +232,7 @@ public class EventDto implements Serializable {
         this.longitude = longitude;
     }
 
-    public List<ImageDescriptionDto> getImageDescriptions() {
+    public final List<ImageDescriptionDto> getImageDescriptions() {
         return imageDescriptions;
     }
 
@@ -263,22 +263,26 @@ public class EventDto implements Serializable {
         if (inProcess != eventDto.inProcess) {
             return false;
         }
-        if (informant != null ? !informant.equals(eventDto.informant) : eventDto.informant != null) {
+        if (informant != null ? !informant.equals(eventDto.informant) :
+                eventDto.informant != null) {
             return false;
         }
         if (phone != null ? !phone.equals(eventDto.phone) : eventDto.phone != null) {
             return false;
         }
-        if (timeStamp != null ? !timeStamp.equals(eventDto.timeStamp) : eventDto.timeStamp != null) {
+        if (timeStamp != null ? !timeStamp.equals(eventDto.timeStamp) :
+                eventDto.timeStamp != null) {
             return false;
         }
-        if (createdDate != null ? !createdDate.equals(eventDto.createdDate) : eventDto.createdDate != null) {
+        if (createdDate != null ? !createdDate.equals(eventDto.createdDate) :
+                eventDto.createdDate != null) {
             return false;
         }
         if (origin != null ? !origin.equals(eventDto.origin) : eventDto.origin != null) {
             return false;
         }
-        if (sectorCode != null ? !sectorCode.equals(eventDto.sectorCode) : eventDto.sectorCode != null) {
+        if (sectorCode != null ? !sectorCode.equals(eventDto.sectorCode) :
+                eventDto.sectorCode != null) {
             return false;
         }
         if (street != null ? !street.equals(eventDto.street) : eventDto.street != null) {
@@ -290,10 +294,12 @@ public class EventDto implements Serializable {
         if (number != null ? !number.equals(eventDto.number) : eventDto.number != null) {
             return false;
         }
-        if (department != null ? !department.equals(eventDto.department) : eventDto.department != null) {
+        if (department != null ? !department.equals(eventDto.department) :
+                eventDto.department != null) {
             return false;
         }
-        if (extensions != null ? !extensions.equals(eventDto.extensions) : eventDto.extensions != null) {
+        if (extensions != null ? !extensions.equals(eventDto.extensions) :
+                eventDto.extensions != null) {
             return false;
         }
         return category != null ? category.equals(eventDto.category) : eventDto.category == null;

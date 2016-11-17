@@ -25,8 +25,6 @@ public abstract class AbstractRequest<T> {
     private Response.ErrorListener errorListener;
     private RequestType requestType;
 
-    public enum RequestType {GET, POST}
-
     public AbstractRequest(Context context, Type responseType, RequestType requestType) {
         this.context = context;
         this.responseType = responseType;
@@ -41,24 +39,24 @@ public abstract class AbstractRequest<T> {
         Response.ErrorListener errorListener = getErrorListener();
 
         EndpointService endpointService = new EndpointService(context);
-        endpointService.execute(baseURL, requestType, path, jsonObject, responseType, listener, errorListener);
+        endpointService.execute(baseURL, requestType, path, jsonObject, responseType, listener,
+                errorListener);
     }
 
-    public final Context getContext() {
-        return context;
+    /**
+     * If some request needs a different URL can Override this method.
+     * Can be used to set different environment just for one Request.
+     *
+     * @return A string with the BaseURL for the request.
+     */
+    protected final String getBaseURL() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
     }
 
-    public final void setContext(Context context) {
-        this.context = context;
-    }
+    protected abstract String getPath();
 
-    public final Type getResponseType() {
-        return responseType;
-    }
-
-    public final void setResponseType(Type responseType) {
-        this.responseType = responseType;
-    }
+    protected abstract JsonObject getBody();
 
     protected final Response.Listener<T> getListener() {
         return this.listener;
@@ -84,18 +82,21 @@ public abstract class AbstractRequest<T> {
         this.errorListener = errorListener;
     }
 
-    protected abstract String getPath();
-
-    protected abstract JsonObject getBody();
-
-    /**
-     * If some request needs a different URL can Override this method.
-     * Can be used to set different environment just for one Request.
-     *
-     * @return A string with the BaseURL for the request.
-     */
-    protected String getBaseURL() {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPrefs.getString("backendUrl", BuildConfig.BASE_URL);
+    public final Context getContext() {
+        return context;
     }
+
+    public final void setContext(Context context) {
+        this.context = context;
+    }
+
+    public final Type getResponseType() {
+        return responseType;
+    }
+
+    public final void setResponseType(Type responseType) {
+        this.responseType = responseType;
+    }
+
+    public enum RequestType {GET, POST}
 }

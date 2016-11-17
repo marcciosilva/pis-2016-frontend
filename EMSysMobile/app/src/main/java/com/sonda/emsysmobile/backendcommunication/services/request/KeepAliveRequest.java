@@ -23,5 +23,7 @@ public class KeepAliveRequest<T> extends AbstractRequest<T> {
     }
 
     @Override
-    protected final JsonObject getBody() { return null; }
+    protected final JsonObject getBody() {
+        return null;
+    }
 }

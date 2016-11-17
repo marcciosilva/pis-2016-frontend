@@ -16,13 +16,9 @@ import com.android.volley.VolleyError;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ExternalServiceResponse;
 import com.sonda.emsysmobile.backendcommunication.services.request.ExternalServiceRequest;
-import com.sonda.emsysmobile.logic.model.core.ExternalServiceItemDto;
 import com.sonda.emsysmobile.logic.model.core.ExternalServiceQueryDto;
 import com.sonda.emsysmobile.ui.views.adapters.ExternalServiceRecyclerViewAdapter;
 import com.sonda.emsysmobile.utils.constants.ExternalService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jmsmuy on 17/10/16.
@@ -59,8 +55,6 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
 
             executeExternalServiceQuery(query);
         }
-
-        List<ExternalServiceItemDto> mExternalServiceItems = new ArrayList<>();
     }
 
     private void executeExternalServiceQuery(ExternalServiceQueryDto query) {
@@ -87,11 +81,11 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
                         builder.setCancelable(true);
                         builder.setNegativeButton(getString(R.string.ok_button), new
                                 DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
                         builder.setTitle(getString(R.string.error_title));
                         builder.setMessage(getString(R.string.error_ws_unavailable));
                         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -108,11 +102,11 @@ public class ExternalServiceResultActivity extends AppCompatActivity {
                         builder.setCancelable(true);
                         builder.setNegativeButton(getString(R.string.ok_button), new
                                 DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
                         builder.setTitle(getString(R.string.error_title));
                         builder.setMessage(getString(R.string.error_generic));
                         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {

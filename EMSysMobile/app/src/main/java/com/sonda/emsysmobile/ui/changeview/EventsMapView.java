@@ -1,18 +1,12 @@
 package com.sonda.emsysmobile.ui.changeview;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ScrollView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -27,7 +21,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sonda.emsysmobile.R;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
 import com.sonda.emsysmobile.utils.UIUtils;
 
 import java.util.ArrayList;
@@ -45,10 +38,9 @@ public class EventsMapView extends SupportMapFragment
 
     private static final float DEFAULT_ZOOM = 14;
     private static final LatLng DEFAULT_LAT_LONG =
-            new LatLng(-34.9021945,-56.1644537);
-
-    private GoogleMap mMap;
+            new LatLng(-34.9021945, -56.1644537);
     private static final String TAG = EventsMapView.class.getName();
+    private GoogleMap mMap;
     private List<CustomMarkerData> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
     private boolean mAnimateCamera;
@@ -58,7 +50,7 @@ public class EventsMapView extends SupportMapFragment
     }
 
     @Override
-    public void onCreate(Bundle bundle) {
+    public final void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
         if (mMap == null) {
@@ -67,7 +59,8 @@ public class EventsMapView extends SupportMapFragment
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LAT_LONG, DEFAULT_ZOOM));
+                    mMap.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(DEFAULT_LAT_LONG, DEFAULT_ZOOM));
                     mAnimateCamera = true;
                     updateView();
                 }
@@ -75,13 +68,13 @@ public class EventsMapView extends SupportMapFragment
         }
     }
 
-    public void updateView() {
-        if (isGooglePlayServicesAvailable(getActivity())){
+    public final void updateView() {
+        if (isGooglePlayServicesAvailable(getActivity())) {
             EventsMapPresenter.loadEvents(getActivity().getApplicationContext(), this);
         }
     }
 
-    public boolean isGooglePlayServicesAvailable(Context context){
+    public final boolean isGooglePlayServicesAvailable(Context context) {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context);
         return resultCode == ConnectionResult.SUCCESS;
@@ -174,8 +167,9 @@ public class EventsMapView extends SupportMapFragment
         // Se pasa al presenter la informacion del marcador, en el tipo de datos
         // custom utilizado para ellos (CustomMarkerData).
         boolean successfulOperation = EventsMapPresenter
-                .showEventDetail(getActivity().getApplicationContext(), new CustomMarkerData(marker.getTitle(),
-                        marker.getSnippet(), marker.getPosition()));
+                .showEventDetail(getActivity().getApplicationContext(),
+                        new CustomMarkerData(marker.getTitle(),
+                                marker.getSnippet(), marker.getPosition()));
         // Si no se pudo completar la operacion de mostrar el detalle del evento,
         // se presenta un dialog informando al usuario acerca de ello.
         if (!successfulOperation) {

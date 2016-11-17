@@ -22,6 +22,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private static final String NOTIFICATION_KEY = "notification";
+
     /**
      * Called when message is received.
      *
@@ -46,39 +47,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             int eventId = Integer.parseInt(remoteMessage.getData().get("eventId"));
             int extensionId = Integer.parseInt(remoteMessage.getData().get("extensionId"));
             String zoneName = remoteMessage.getData().get("zoneName");
-            Notification notification = new Notification(notificationCode, eventId, extensionId, zoneName);
+            Notification notification =
+                    new Notification(notificationCode, eventId, extensionId, zoneName);
             Log.d(TAG, notification.toString());
             postApplicationEvent(notification);
             showNotificationOnStatusBar("EMSYS Mobile", notification.getTitle());
         }
     }
     // [END receive_message]
-
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
-    private void showNotificationOnStatusBar(String messageTitle, String messageBody) {
-        Intent intent = new Intent(this, SplashActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(messageTitle)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
 
     /**
      * Events are generated to notify changes to others app's modules.
@@ -94,5 +70,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent.putExtra(NOTIFICATION_KEY, notification);
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
+    }
+
+    /**
+     * Create and show a simple notification containing the received FCM message.
+     *
+     * @param messageBody FCM message body received.
+     */
+    private void showNotificationOnStatusBar(String messageTitle, String messageBody) {
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(messageTitle)
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }

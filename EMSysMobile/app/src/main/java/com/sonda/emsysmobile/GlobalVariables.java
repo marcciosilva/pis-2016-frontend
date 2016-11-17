@@ -27,4 +27,9 @@ public class GlobalVariables {
     public static BlockingQueue<OfflineDto> getQueue() {
         return queue;
     }
+
+    private GlobalVariables() {
+        // Debe ser privado porque no debe ser utilizado.
+    }
+
 }

@@ -27,10 +27,10 @@ import java.util.List;
 public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         .Adapter<EventDetailExtensionRecyclerViewAdapter.ViewHolder> {
 
+    private static final String TAG = EventDetailExtensionRecyclerViewAdapter.class.getName();
     private final List<ExtensionDto> mExtensions;
     private final OnListFragmentInteractionListener mListFragmentInteractionListener;
     private Context mContext;
-    private static final String TAG = EventDetailExtensionRecyclerViewAdapter.class.getName();
 
     public EventDetailExtensionRecyclerViewAdapter(Context context, List<ExtensionDto> extensions,
                                                    OnListFragmentInteractionListener
@@ -57,27 +57,33 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         if (position == 0) {
             holder.getCurrentExtensionTextView().setVisibility(View.VISIBLE);
         }
-        if ((extension.getDispatcherDescription() != null) && (!extension.getDispatcherDescription().isEmpty())) {
-            for (DescriptionDto desc: extension.getDispatcherDescription()) {
-                TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+        if ((extension.getDispatcherDescription() != null) &&
+                (!extension.getDispatcherDescription().isEmpty())) {
+            for (DescriptionDto desc : extension.getDispatcherDescription()) {
+                TextView view = (TextView) TextView
+                        .inflate(mContext, R.layout.event_details_description_row, null);
                 view.setText(desc.toString());
                 holder.getDispatcherDescriptionLinearLayout().addView(view);
             }
         } else {
-            TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+            TextView view = (TextView) TextView
+                    .inflate(mContext, R.layout.event_details_description_row, null);
             view.setText(R.string.event_details_missing_value);
             holder.getDispatcherDescriptionLinearLayout().addView(view);
         }
 
-        List<String> resourceDescriptions = getResourceDescriptions(extension.getResourceAssignations());
+        List<String> resourceDescriptions =
+                getResourceDescriptions(extension.getResourceAssignations());
         if ((resourceDescriptions != null) && (!resourceDescriptions.isEmpty())) {
-            for (String desc: resourceDescriptions) {
-                TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+            for (String desc : resourceDescriptions) {
+                TextView view = (TextView) TextView
+                        .inflate(mContext, R.layout.event_details_description_row, null);
                 view.setText(desc);
                 holder.getResourceDescriptionLinearLayout().addView(view);
             }
         } else {
-            TextView view = (TextView) TextView.inflate(mContext,R.layout.event_details_description_row,null);
+            TextView view = (TextView) TextView
+                    .inflate(mContext, R.layout.event_details_description_row, null);
             view.setText(R.string.event_details_missing_value);
             holder.getResourceDescriptionLinearLayout().addView(view);
         }
@@ -101,7 +107,7 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             }
         });
         // Disables multimedia buttons if extension donesn't have multimedia
-        if (extension.getImageDescriptions().size() == 0){
+        if (extension.getImageDescriptions().size() == 0) {
             holder.getImagesButton().setEnabled(false);
             holder.getImagesButton().setImageResource(R.drawable.ic_collections_grey_700_36dp);
         }
@@ -111,15 +117,34 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         holder.getAudioButton().setImageResource(R.drawable.ic_library_music_grey_700_36dp);
         holder.getVideosButton().setImageResource(R.drawable.ic_video_library_grey_700_36dp);
         // Initializes the resources list
-        ArrayAdapter<String> resourcesAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1,
-                android.R.id.text1, extension.getResources());
-        if (extension.getResources().size() > 0){
+        ArrayAdapter<String> resourcesAdapter =
+                new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1,
+                        android.R.id.text1, extension.getResources());
+        if (extension.getResources().size() > 0) {
             holder.getResourcesLabel().setVisibility(View.GONE);
             holder.getResourcesListView().setAdapter(resourcesAdapter);
             setListViewHeightBasedOnChildren(holder.getResourcesListView());
-        }else{
+        } else {
             holder.getResourcesListView().setVisibility(View.GONE);
         }
+    }
+
+    private List<String> getResourceDescriptions(
+            List<ResourceAssignationDto> resourceAssignationList) {
+        List<String> result = new ArrayList<>();
+        if (resourceAssignationList != null) {
+            for (ResourceAssignationDto resourceAssignation : resourceAssignationList) {
+                List<DescriptionDto> descriptions = resourceAssignation.getDescriptions();
+                for (DescriptionDto description : descriptions) {
+                    if (description.getUser() == null) {
+                        description.setUser(resourceAssignation.getResource());
+                    }
+                    result.add(description.toString());
+                }
+
+            }
+        }
+        return result;
     }
 
     // This sets the height of the list view to show all resources
@@ -143,22 +168,6 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         listView.requestLayout();
     }
 
-    private List<String> getResourceDescriptions(List<ResourceAssignationDto> resourceAssignationList) {
-        List<String> result = new ArrayList<>();
-        if (resourceAssignationList != null){
-            for (ResourceAssignationDto resourceAssignation: resourceAssignationList) {
-                List<DescriptionDto> descriptions = resourceAssignation.getDescriptions();
-                for (DescriptionDto description: descriptions){
-                    if(description.getUser() == null)
-                        description.setUser(resourceAssignation.getResource());
-                    result.add(description.toString());
-                }
-
-            }
-        }
-        return result;
-    }
-
     @Override
     public final int getItemCount() {
         return mExtensions.size();
@@ -171,12 +180,29 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         private final LinearLayout dispatcherDescriptionLinearLayout;
         private final LinearLayout resourceDescriptionLinearLayout;
         private final TextView dispatcherTextView;
+        private final ListView resourcesListView;
+        private final TextView resourcesLabel;
         private ImageButton imagesButton;
         private ImageButton videosButton;
         private ImageButton audioButton;
         private ExtensionDto item;
-        private final ListView resourcesListView;
-        private final TextView resourcesLabel;
+
+        public ViewHolder(View view) {
+            super(view);
+            this.view = view;
+            idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
+            currentExtension = (TextView) view.findViewById(R.id.current_extension);
+            dispatcherDescriptionLinearLayout =
+                    (LinearLayout) view.findViewById(R.id.dispatcher_description);
+            resourceDescriptionLinearLayout =
+                    (LinearLayout) view.findViewById(R.id.resource_description);
+            dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
+            imagesButton = (ImageButton) view.findViewById(R.id.button_images);
+            videosButton = (ImageButton) view.findViewById(R.id.button_video);
+            audioButton = (ImageButton) view.findViewById(R.id.button_audio);
+            resourcesListView = (ListView) view.findViewById(R.id.list_resources);
+            resourcesLabel = (TextView) view.findViewById(R.id.label_resources);
+        }
 
         public final View getView() {
             return view;
@@ -189,7 +215,6 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
         public final TextView getCurrentExtensionTextView() {
             return currentExtension;
         }
-
 
         public final LinearLayout getDispatcherDescriptionLinearLayout() {
             return dispatcherDescriptionLinearLayout;
@@ -207,39 +232,28 @@ public class EventDetailExtensionRecyclerViewAdapter extends RecyclerView
             this.item = item;
         }
 
-        public TextView getCurrentExtension() {
+        public final TextView getCurrentExtension() {
             return currentExtension;
         }
 
-        public ImageButton getImagesButton() {
+        public final ImageButton getImagesButton() {
             return imagesButton;
         }
 
-        public ImageButton getVideosButton() {
+        public final ImageButton getVideosButton() {
             return videosButton;
         }
 
-        public ImageButton getAudioButton() {
+        public final ImageButton getAudioButton() {
             return audioButton;
         }
 
-        public ListView getResourcesListView(){return resourcesListView;}
+        public final ListView getResourcesListView() {
+            return resourcesListView;
+        }
 
-        public TextView getResourcesLabel(){return resourcesLabel;}
-
-        public ViewHolder(View view) {
-            super(view);
-            this.view = view;
-            idAndZoneTextView = (TextView) view.findViewById(R.id.label_id_and_zone);
-            currentExtension = (TextView) view.findViewById(R.id.current_extension);
-            dispatcherDescriptionLinearLayout = (LinearLayout) view.findViewById(R.id.dispatcher_description);
-            resourceDescriptionLinearLayout = (LinearLayout) view.findViewById(R.id.resource_description);
-            dispatcherTextView = (TextView) view.findViewById(R.id.label_dispatcher);
-            imagesButton = (ImageButton) view.findViewById(R.id.button_images);
-            videosButton = (ImageButton) view.findViewById(R.id.button_video);
-            audioButton = (ImageButton) view.findViewById(R.id.button_audio);
-            resourcesListView = (ListView) view.findViewById(R.id.list_resources);
-            resourcesLabel = (TextView) view.findViewById(R.id.label_resources);
+        public final TextView getResourcesLabel() {
+            return resourcesLabel;
         }
 
         @Override

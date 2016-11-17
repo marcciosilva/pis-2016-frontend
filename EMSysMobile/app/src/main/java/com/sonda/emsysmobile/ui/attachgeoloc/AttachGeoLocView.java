@@ -10,8 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -32,12 +30,10 @@ public class AttachGeoLocView extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
+    private static final String TAG = AttachGeoLocView.class.getName();
     private AttachGeoLocMapView mGeoLocFragment = null;
     private GoogleApiClient mGoogleApiClient;
-    private Location mLastLocation;
-    private Button mConfirmationButton;
     private ProgressBar mProgressBar;
-    private static final String TAG = AttachGeoLocView.class.getName();
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -60,7 +56,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
         }
         // Inicializacion de fragment de mapa.
         mGeoLocFragment = AttachGeoLocMapView.getInstance();
-        mConfirmationButton = (Button) findViewById(R.id.button_send_geolocation);
+        Button mConfirmationButton = (Button) findViewById(R.id.button_send_geolocation);
         mConfirmationButton.setOnClickListener(this);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
@@ -85,7 +81,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
                 PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         int extensionId = getIntent().getIntExtra("ExtensionId", -1);
         if (mLastLocation != null) {
@@ -94,7 +90,9 @@ public class AttachGeoLocView extends AppCompatActivity implements
                             mLastLocation.getLongitude());
         } else {
             // Ubicacion por defecto en Montevideo, Uruguay.
-            LatLng defaultLocation = new LatLng(-34.9, -56.1);
+            final double v = -34.9;
+            final double v1 = -56.1;
+            LatLng defaultLocation = new LatLng(v, v1);
             mGeoLocFragment
                     .initializeView(this, extensionId, defaultLocation.latitude,
                             defaultLocation.longitude);
@@ -125,7 +123,7 @@ public class AttachGeoLocView extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
         // Se maneja la flecha de ir hacia atras.
         if (item.getItemId() == android.R.id.home) {
             // Cierra la Activity y vuelve a la Activity anterior (si la hubo).

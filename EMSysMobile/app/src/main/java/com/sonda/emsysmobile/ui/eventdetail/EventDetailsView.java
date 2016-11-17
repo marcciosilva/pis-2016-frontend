@@ -28,7 +28,6 @@ import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.UserDto;
-import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.ui.attachgeoloc.AttachGeoLocView;
 import com.sonda.emsysmobile.ui.eventdetail.multimedia.ImageGalleryPresenter;
@@ -53,7 +52,7 @@ import java.util.Locale;
 public class EventDetailsView extends AppCompatActivity implements
         OnListFragmentInteractionListener,
         AttachImageDialogFragment.OnAttachImageDialogListener,
-        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener, 
+        AttachDescriptionDialogFragment.OnAttachDescriptionDialogListener,
         View.OnClickListener,
         ProgressBarListener {
 
@@ -85,8 +84,6 @@ public class EventDetailsView extends AppCompatActivity implements
     private ProgressBar mProgressBar;
 
     private FloatingActionMenu mFloatingActionMenu;
-    private FloatingActionButton mUpdateDescriptionBtn;
-    private FloatingActionButton mAttachGeolocationBtn;
     private FloatingActionButton mAttachImageBtn;
     private FloatingActionButton mReportTimeBtn;
 
@@ -100,7 +97,8 @@ public class EventDetailsView extends AppCompatActivity implements
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        mGeneralInformationTitleEventIdentifier = (TextView) findViewById(R.id.general_information_title_event_identifier);
+        mGeneralInformationTitleEventIdentifier =
+                (TextView) findViewById(R.id.general_information_title_event_identifier);
 
         mInformantName = (TextView) findViewById(R.id.informant_name);
         mInformantPhone = (TextView) findViewById(R.id.informant_phone);
@@ -120,7 +118,6 @@ public class EventDetailsView extends AppCompatActivity implements
         mSector = (TextView) findViewById(R.id.informant_sector);
 
 
-
         mImagesButton = (ImageButton) findViewById(R.id.button_images);
         mImagesButton.setOnClickListener(this);
         mVideosButton = (ImageButton) findViewById(R.id.button_video);
@@ -132,7 +129,8 @@ public class EventDetailsView extends AppCompatActivity implements
 
         mFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_menu);
 
-        mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id.button_update_description);
+        FloatingActionButton mUpdateDescriptionBtn = (FloatingActionButton) findViewById(R.id
+                .button_update_description);
         mUpdateDescriptionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,7 +138,8 @@ public class EventDetailsView extends AppCompatActivity implements
             }
         });
 
-        mAttachGeolocationBtn = (FloatingActionButton) findViewById(R.id.button_attach_geolocation);
+        FloatingActionButton mAttachGeolocationBtn = (FloatingActionButton) findViewById(R.id
+                .button_attach_geolocation);
         mAttachGeolocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,11 +157,9 @@ public class EventDetailsView extends AppCompatActivity implements
 
         mReportTimeBtn = (FloatingActionButton) findViewById(R.id.button_report_time);
         UserDto userDto = GlobalVariables.getUserData();
-        if (userDto != null){
-            // If user is not logged as resource
-            if (userDto.getRoles().getResources().size() == 0){
-                mReportTimeBtn.setVisibility(View.GONE);
-            }
+        // If user is not logged as resource
+        if ((userDto != null) && (userDto.getRoles().getResources().size() == 0)) {
+            mReportTimeBtn.setVisibility(View.GONE);
         }
 
         mReportTimeBtn.setOnClickListener(new View.OnClickListener() {
@@ -176,91 +173,6 @@ public class EventDetailsView extends AppCompatActivity implements
 
         // Inicializacion de fragment de mapa.
         EventDetailsPresenter.initMapFragment(EventDetailsView.this, mEvent);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Se maneja la flecha de ir hacia atras.
-        if (item.getItemId() == android.R.id.home) {
-            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public final void updateViewData(EventDto event) {
-        mEvent = event;
-        if (mEvent != null) {
-            String eventIdentifier = mEvent.getIdentifier() + " - " + mEvent.getExtensions().get(0).getZone().getName();
-            mGeneralInformationTitleEventIdentifier.setText(eventIdentifier);
-
-            if ((mEvent.getInformant() != null) && (!mEvent.getInformant().equals(""))) {
-                mInformantName.setText(mEvent.getInformant());
-            }
-
-            if ((mEvent.getPhone() != null) && (!mEvent.getPhone().equals(""))) {
-                mInformantPhone.setText(mEvent.getPhone());
-            }
-
-            if (mEvent.getCreatedDate() != null) {
-                mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
-            }
-
-            if ((mEvent.getGeneralDescription() != null ) && (mEvent.getGeneralDescription() != "")){
-                mGeneralDescription.setText(mEvent.getGeneralDescription());
-            }
-
-            if ((mEvent.getStatus() != null) && (!mEvent.getStatus().equals(""))) {
-                mStatus.setText(mEvent.getStatus());
-            }
-
-            if ((mEvent.getStreet() != null) && (!mEvent.getStreet().equals(""))) {
-                mStreet.setText(mEvent.getStreet());
-            }
-            if ((mEvent.getNumber() != null) && (!mEvent.getNumber().equals(""))) {
-                mNumber.setText(mEvent.getNumber());
-            }
-            if (mEvent.getCorner() != null && !mEvent.getCorner().equals("")) {
-                mCorner.setText(mEvent.getCorner());
-            }
-
-            if ((mEvent.getCategory() != null) && (!mEvent.getCategory().getKey().equals(""))) {
-                mCategory.setText(mEvent.getCategory().getKey());
-            }
-
-            if ((mEvent.getSectorCode() != null) && (!mEvent.getSectorCode().equals(""))) {
-                mSector.setText(mEvent.getSectorCode());
-            }
-
-            mType.setText("Aplicación");
-            if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(""))) {
-                mOrigin.setText(mEvent.getOrigin());
-            }
-
-            if(mEvent.getImageDescriptions().size() == 0){
-                mImagesButton.setEnabled(false);
-                mImagesButton.setImageResource(R.drawable.ic_collections_grey_700_36dp);
-            }
-
-            // TODO enable when implemented
-            mVideosButton.setEnabled(false);
-            mVideosButton.setImageResource(R.drawable.ic_video_library_grey_700_36dp);
-            mAudioButton.setEnabled(false);
-            mAudioButton.setImageResource(R.drawable.ic_library_music_grey_700_36dp);
-
-            EventDetailExtensionsFragment extensionsFragment =
-                    EventDetailExtensionsFragment.newInstance(mEvent);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, extensionsFragment).commit();
-        }
-    }
-
-    public void showMap() {
-        findViewById(R.id.map_container).setVisibility(View.VISIBLE);
-        EventDetailMapView mapFragment = EventDetailMapView.getInstance();
-        getSupportFragmentManager().beginTransaction().add(R.id.map_container,
-                mapFragment, EventDetailMapView.class.getSimpleName()).commit();
     }
 
     private void showUpdateDescriptionDialog() {
@@ -289,8 +201,106 @@ public class EventDetailsView extends AppCompatActivity implements
         attachImageDialogFragment.show(fragmentManager, "fragment_attach_image_menu");
     }
 
+    private void reportTime() {
+        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
+            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
+            EventDetailsPresenter.reportTime(this, extensionID);
+            mFloatingActionMenu.close(true);
+        }
+    }
+
+    public final void updateViewData(EventDto event) {
+        mEvent = event;
+        if (mEvent != null) {
+            final String hyphen = " - ";
+            String eventIdentifier = mEvent.getIdentifier() + hyphen +
+                    mEvent.getExtensions().get(0).getZone().getName();
+            mGeneralInformationTitleEventIdentifier.setText(eventIdentifier);
+
+            final String emptyString = "";
+            if ((mEvent.getInformant() != null) && (!mEvent.getInformant().equals(emptyString))) {
+                mInformantName.setText(mEvent.getInformant());
+            }
+
+            if ((mEvent.getPhone() != null) && (!mEvent.getPhone().equals(emptyString))) {
+                mInformantPhone.setText(mEvent.getPhone());
+            }
+
+            if (mEvent.getCreatedDate() != null) {
+                mCreatedDate.setText(DateUtils.dateToString(mEvent.getCreatedDate()));
+            }
+
+            if ((mEvent.getGeneralDescription() != null) &&
+                    (!mEvent.getGeneralDescription().equals(emptyString))) {
+                mGeneralDescription.setText(mEvent.getGeneralDescription());
+            }
+
+            if ((mEvent.getStatus() != null) && (!mEvent.getStatus().equals(emptyString))) {
+                mStatus.setText(mEvent.getStatus());
+            }
+
+            if ((mEvent.getStreet() != null) && (!mEvent.getStreet().equals(emptyString))) {
+                mStreet.setText(mEvent.getStreet());
+            }
+            if ((mEvent.getNumber() != null) && (!mEvent.getNumber().equals(emptyString))) {
+                mNumber.setText(mEvent.getNumber());
+            }
+            if (mEvent.getCorner() != null && !mEvent.getCorner().equals(emptyString)) {
+                mCorner.setText(mEvent.getCorner());
+            }
+
+            if ((mEvent.getCategory() != null) &&
+                    (!mEvent.getCategory().getKey().equals(emptyString))) {
+                mCategory.setText(mEvent.getCategory().getKey());
+            }
+
+            if ((mEvent.getSectorCode() != null) && (!mEvent.getSectorCode().equals(emptyString))) {
+                mSector.setText(mEvent.getSectorCode());
+            }
+
+            mType.setText("Aplicación");
+            if ((mEvent.getOrigin() != null) && (!mEvent.getOrigin().equals(emptyString))) {
+                mOrigin.setText(mEvent.getOrigin());
+            }
+
+            if (mEvent.getImageDescriptions().size() == 0) {
+                mImagesButton.setEnabled(false);
+                mImagesButton.setImageResource(R.drawable.ic_collections_grey_700_36dp);
+            }
+
+            // TODO enable when implemented
+            mVideosButton.setEnabled(false);
+            mVideosButton.setImageResource(R.drawable.ic_video_library_grey_700_36dp);
+            mAudioButton.setEnabled(false);
+            mAudioButton.setImageResource(R.drawable.ic_library_music_grey_700_36dp);
+
+            EventDetailExtensionsFragment extensionsFragment =
+                    EventDetailExtensionsFragment.newInstance(mEvent);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, extensionsFragment).commit();
+        }
+    }
+
     @Override
-    public void onOpenGalleryButtonSelected() {
+    public final boolean onOptionsItemSelected(MenuItem item) {
+        // Se maneja la flecha de ir hacia atras.
+        if (item.getItemId() == android.R.id.home) {
+            // Cierra la Activity y vuelve a la Activity anterior (si la hubo).
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public final void showMap() {
+        findViewById(R.id.map_container).setVisibility(View.VISIBLE);
+        EventDetailMapView mapFragment = EventDetailMapView.getInstance();
+        getSupportFragmentManager().beginTransaction().add(R.id.map_container,
+                mapFragment, EventDetailMapView.class.getSimpleName()).commit();
+    }
+
+    @Override
+    public final void onOpenGalleryButtonSelected() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -298,7 +308,7 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
-    public void onOpenCameraButtonSelected() {
+    public final void onOpenCameraButtonSelected() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             // Create the File where the photo should go
@@ -317,7 +327,8 @@ public class EventDetailsView extends AppCompatActivity implements
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 List<ResolveInfo> resInfoList = this.getPackageManager()
-                        .queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                        .queryIntentActivities(takePictureIntent,
+                                PackageManager.MATCH_DEFAULT_ONLY);
                 for (ResolveInfo resolveInfo : resInfoList) {
                     String packageName = resolveInfo.activityInfo.packageName;
                     this.grantUriPermission(packageName,
@@ -330,12 +341,20 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
-    private void reportTime(){
-        if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
-            int extensionID = mEvent.getExtensions().get(0).getIdentifier();
-            EventDetailsPresenter.reportTime(this, extensionID);
-            mFloatingActionMenu.close(true);
-        }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        String imageFileName = "IMG_EM_" + timeStamp;
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 
     @Override
@@ -354,7 +373,8 @@ public class EventDetailsView extends AppCompatActivity implements
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
                     int extensionID = mEvent.getExtensions().get(0).getIdentifier();
-                    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+                    String timeStamp =
+                            new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
                     String fileName = "IMG_EM_" + timeStamp + ".jpg";
                     Log.d(TAG, "Uploading file: " + fileName);
                     MultimediaManager manager = MultimediaManager.getInstance(this);
@@ -383,13 +403,13 @@ public class EventDetailsView extends AppCompatActivity implements
                     });
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.d(TAG, Log.getStackTraceString(e));
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             mAttachImageBtn.setShowProgressBackground(true);
             mAttachImageBtn.setIndeterminate(true);
             File imgFile = new File(mCurrentPhotoPath);
-            if(imgFile.exists()){
+            if (imgFile.exists()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 if (mEvent.getExtensions() != null && mEvent.getExtensions().size() > 0) {
                     int extensionID = mEvent.getExtensions().get(0).getIdentifier();
@@ -427,12 +447,12 @@ public class EventDetailsView extends AppCompatActivity implements
     }
 
     @Override
-    public void showProgressBar() {
+    public final void showProgressBar() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void hideProgressBar() {
+    public final void hideProgressBar() {
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -446,7 +466,7 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
-    public void onClick(View view) {
+    public final void onClick(View view) {
         if (view.getId() == R.id.button_images) {
             Log.d(TAG, "Botón de imágenes pulsado");
             ImageGalleryPresenter
@@ -458,19 +478,5 @@ public class EventDetailsView extends AppCompatActivity implements
         }
     }
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        String imageFileName = "IMG_EM_" + timeStamp;
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
-    }
 }

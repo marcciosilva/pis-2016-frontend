@@ -80,12 +80,13 @@ public class ImageDetailView extends AppCompatActivity {
                     }
                 });
         // Se agrega un PhotoViewAttacher, que se encarga de toda la funcionalidad de zoom.
+        // No borrar.
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(imgAvatar);
 
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
         // Se maneja la flecha de ir hacia atras.
         if (item.getItemId() == android.R.id.home) {
             // Cierra la Activity y vuelve a la Activity anterior (si la hubo).

@@ -3,17 +3,15 @@ package com.sonda.emsysmobile.ui.changeview;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.google.android.gms.maps.model.LatLng;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.ApiCallback;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
-import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.logic.model.core.EventDto;
+import com.sonda.emsysmobile.managers.EventManager;
 import com.sonda.emsysmobile.ui.eventdetail.EventDetailsPresenter;
 import com.sonda.emsysmobile.utils.UIUtils;
 

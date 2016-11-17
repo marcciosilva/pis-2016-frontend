@@ -13,10 +13,11 @@ public interface ExtensionsView extends MvpLceView<List<ExtensionDto>> {
 
     /**
      * ExtensionsView show error view with @param errorMessage text
-     * @param errorMessage Message to be shown in errorView
+     *
+     * @param errorMessage  Message to be shown in errorView
      * @param pullToRefresh Boolean indicating if error was caused during pullToRefresh
      */
-    public void showError(String errorMessage, int errorCode, boolean pullToRefresh);
+    void showError(String errorMessage, int errorCode, boolean pullToRefresh);
 
-    public void showError(VolleyError error, boolean pullToRefresh);
+    void showError(VolleyError error, boolean pullToRefresh);
 }

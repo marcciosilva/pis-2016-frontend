@@ -1,7 +1,7 @@
 package com.sonda.emsysmobile.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,21 +50,22 @@ public class ConsumeWSActivity extends AppCompatActivity implements View.OnClick
         mResponseTextView.setText("");
         String url = mURLEditText.getText().toString();
         mProgressBar.setVisibility(View.VISIBLE);
-        JsonArrayRequest request = RequestFactory.genericGETRequest(url, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                mProgressBar.setVisibility(View.GONE);
-                Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                String json = gson.toJson(response);
-                mResponseTextView.setText(json);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mProgressBar.setVisibility(View.GONE);
-                mResponseTextView.setText(R.string.error_generic);
-            }
-        });
+        JsonArrayRequest request =
+                RequestFactory.genericGETRequest(url, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        mProgressBar.setVisibility(View.GONE);
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String json = gson.toJson(response);
+                        mResponseTextView.setText(json);
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        mProgressBar.setVisibility(View.GONE);
+                        mResponseTextView.setText(R.string.error_generic);
+                    }
+                });
         AppRequestQueue.getInstance(this).addToRequestQueue(request);
     }
 }

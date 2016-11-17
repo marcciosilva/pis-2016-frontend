@@ -2,13 +2,9 @@ package com.sonda.emsysmobile.ui.eventdetail;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ScrollView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,9 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.ui.changeview.CustomMarkerData;
-import com.sonda.emsysmobile.ui.views.CustomScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +33,9 @@ public class EventDetailMapView extends SupportMapFragment
 
     private static final float DEFAULT_ZOOM = 14;
     private static final LatLng DEFAULT_LAT_LONG =
-            new LatLng(-34.9021945,-56.1644537);
-
-    private GoogleMap mMap;
+            new LatLng(-34.9021945, -56.1644537);
     private static final String TAG = EventDetailMapView.class.getName();
+    private GoogleMap mMap;
     private List<List<CustomMarkerData>> mMarkerDataList;
     private List<Marker> mMarkers = new ArrayList<>();
 
@@ -51,7 +44,7 @@ public class EventDetailMapView extends SupportMapFragment
     }
 
     @Override
-    public void onCreate(Bundle bundle) {
+    public final void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
         if (mMap == null) {
@@ -60,14 +53,15 @@ public class EventDetailMapView extends SupportMapFragment
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     mMap = googleMap;
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LAT_LONG, DEFAULT_ZOOM));
+                    mMap.moveCamera(
+                            CameraUpdateFactory.newLatLngZoom(DEFAULT_LAT_LONG, DEFAULT_ZOOM));
                     updateView();
                 }
             });
         }
     }
 
-    public void updateView() {
+    public final void updateView() {
         EventDetailMapPresenter.loadEventDetails(getActivity(), this);
     }
 

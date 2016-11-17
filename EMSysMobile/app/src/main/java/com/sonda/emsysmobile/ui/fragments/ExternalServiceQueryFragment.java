@@ -19,7 +19,6 @@ import com.sonda.emsysmobile.utils.constants.ExternalService;
 
 public class ExternalServiceQueryFragment extends Fragment {
 
-    private static final String TAG = ExternalServiceQueryFragment.class.getName();
     private EditText mFirstParamET;
     private EditText mSecondParamET;
     private EditText mThirdParamET;
@@ -52,8 +51,8 @@ public class ExternalServiceQueryFragment extends Fragment {
             public void onClick(View v) {
 
                 String param1 = mFirstParamET.getText().toString();
-                String param2 = mFirstParamET.getText().toString();
-                String param3 = mFirstParamET.getText().toString();
+                String param2 = mSecondParamET.getText().toString();
+                String param3 = mThirdParamET.getText().toString();
 
                 performExternalServiceQuery(param1, param2, param3);
             }

@@ -26,7 +26,7 @@ public class EventDetailsRequestTest extends BaseMockTest {
     public void getPath() throws Exception {
         final int eventId = 1;
         mEventDetailsRequest.setAttributes(eventId);
-        assertTrue(mEventDetailsRequest.getPath().equals(EventDetailsRequest.EVENT_DETAILS_PATH +
+        assertTrue(mEventDetailsRequest.getPath().equals(EventDetailsRequest.EVENT_DETAILS_PATH + "?idEvento=" +
                 Integer.toString(eventId)));
     }
 
@@ -39,7 +39,7 @@ public class EventDetailsRequestTest extends BaseMockTest {
     public void setAttributes() throws Exception {
         final int eventId = 2;
         mEventDetailsRequest.setAttributes(eventId);
-        assertTrue(mEventDetailsRequest.getPath().equals(EventDetailsRequest.EVENT_DETAILS_PATH +
+        assertTrue(mEventDetailsRequest.getPath().equals(EventDetailsRequest.EVENT_DETAILS_PATH + "?idEvento=" +
                 Integer.toString(eventId)));
     }
 

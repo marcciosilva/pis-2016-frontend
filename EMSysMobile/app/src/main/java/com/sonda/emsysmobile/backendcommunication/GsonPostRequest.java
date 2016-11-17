@@ -16,12 +16,11 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 
 public class GsonPostRequest<T> extends JsonRequest<T> {
+    public static final String DATE_FORMAT = "dd-MM-yyyy'T'hh:mm:ss.SSS";
+    public static final String TAG = "getrequest";
     private final Gson gson;
     private final Type type;
     private final Response.Listener<T> listener;
-
-    public static final String DATE_FORMAT = "dd-MM-yyyy'T'hh:mm:ss.SSS";
-    public static final String TAG = "getrequest";
 
     public GsonPostRequest
             (

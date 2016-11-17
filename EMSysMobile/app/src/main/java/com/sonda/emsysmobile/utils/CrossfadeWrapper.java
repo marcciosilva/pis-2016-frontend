@@ -4,7 +4,7 @@ import com.mikepenz.crossfader.Crossfader;
 import com.mikepenz.materialdrawer.interfaces.ICrossfader;
 
 /**
- * Created by mikepenz on 18.07.15.
+ * Created by maserralta on 25.10.16.
  */
 public class CrossfadeWrapper implements ICrossfader {
     private Crossfader mCrossfader;
@@ -14,12 +14,12 @@ public class CrossfadeWrapper implements ICrossfader {
     }
 
     @Override
-    public void crossfade() {
+    public final void crossfade() {
         mCrossfader.crossFade();
     }
 
     @Override
-    public boolean isCrossfaded() {
+    public final boolean isCrossfaded() {
         return mCrossfader.isCrossFaded();
     }
 }

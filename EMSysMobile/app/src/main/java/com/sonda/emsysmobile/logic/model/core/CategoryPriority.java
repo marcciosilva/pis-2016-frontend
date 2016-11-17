@@ -15,5 +15,5 @@ public enum CategoryPriority implements Serializable {
     MEDIUM,
 
     @SerializedName("baja")
-    LOW
+    LOW;
 }

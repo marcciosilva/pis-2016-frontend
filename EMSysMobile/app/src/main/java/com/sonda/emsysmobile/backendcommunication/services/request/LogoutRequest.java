@@ -27,4 +27,6 @@ public class LogoutRequest<T> extends AbstractRequest<T> {
     protected final JsonObject getBody() {
         return null;
     }
+
+    private enum LogoutCase {Success, Cod2, Cod5}
 }
