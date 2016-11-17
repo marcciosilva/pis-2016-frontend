@@ -12,6 +12,9 @@ public class EventDetailsResponse extends EmsysResponse {
     @SerializedName("response")
     private EventDto event;
 
+    public EventDetailsResponse(EventDto event) {
+        this.event = event;
+    }
 
     public final EventDto getEvent() {
         return event;

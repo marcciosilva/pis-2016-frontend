@@ -1,5 +1,10 @@
 package com.sonda.emsysmobile.logic.model.core;
 
+import android.media.Image;
+
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.ImageDescriptionDto;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 
 public class EventDtoTest {
 
+    private EventDto testExtensionEvent;
     private EventDto mExtensionEvent;
     private int mIdentifier;
     private String mInformant;
@@ -100,6 +106,11 @@ public class EventDtoTest {
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
                 mExtensionEvent, mExtensionResources);
         mExtensions.add(mExtension);
+        testExtensionEvent = new EventDto(mIdentifier, mInformant, mPhone, mTimeStamp,
+                mCreatedDate,
+                mInProcess, mOrigin, mSectorCode, mStreet, mCorner, mNumber,
+                mDepartment,
+                mExtensions, mCategory, mLatitude, mLongitude);
     }
 
     @Test
@@ -264,7 +275,8 @@ public class EventDtoTest {
 
     @Test
     public void setCategory_DifferentCategory_ReturnsTrue() throws Exception {
-        CategoryDto testCategory = new CategoryDto(1, "alt_code", "alt_key", CategoryPriority.HIGH, false);
+        CategoryDto testCategory =
+                new CategoryDto(1, "alt_code", "alt_key", CategoryPriority.HIGH, false);
         mExtensionEvent.setCategory(testCategory);
         assertTrue(mExtensionEvent.getCategory().equals(testCategory));
     }
@@ -291,6 +303,20 @@ public class EventDtoTest {
         double testLongitude = -3.5;
         mExtensionEvent.setLongitude(testLongitude);
         assertTrue(mExtensionEvent.getLongitude() == testLongitude);
+    }
+
+    @Test
+    public void getStatus() throws Exception {
+        mExtensionEvent.setStatus("status");
+        testExtensionEvent.setStatus("alt_status");
+        assertFalse(mExtensionEvent.getStatus().equals(testExtensionEvent));
+    }
+
+    @Test
+    public void getImageDescriptions() throws Exception {
+        mExtensionEvent.setImageDescriptions(new ArrayList<ImageDescriptionDto>());
+        testExtensionEvent.setImageDescriptions(null);
+        assertFalse(mExtensionEvent.getImageDescriptions().equals(testExtensionEvent));
     }
 
     @Test
@@ -473,5 +499,114 @@ public class EventDtoTest {
         testExtensions.add(testExtension);
         assertFalse(mExtensionEvent.equals(testExtensionEvent));
     }
+
+
+    @Test
+    public void equals_CompareWithDifferentLatitude_ReturnsFalse() {
+        mExtensionEvent.setLatitude(0);
+        testExtensionEvent.setLatitude(1);
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentLongitude_ReturnsFalse() {
+        mExtensionEvent.setLongitude(0);
+        testExtensionEvent.setLongitude(1);
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentInProcess_ReturnsFalse() {
+        mExtensionEvent.setInProcess(true);
+        testExtensionEvent.setInProcess(false);
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentInformant_ReturnsFalse() {
+        mExtensionEvent.setInformant("1");
+        testExtensionEvent.setInformant("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentPhone_ReturnsFalse() {
+        mExtensionEvent.setPhone("1234");
+        testExtensionEvent.setPhone("1235");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentTimeStamp_ReturnsFalse() {
+        mExtensionEvent.setTimeStamp(new Date(1992, 1, 1));
+        testExtensionEvent.setTimeStamp(new Date(1992, 1, 2));
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentCreatedDate_ReturnsFalse() {
+        mExtensionEvent.setCreatedDate(new Date(1992, 1, 1));
+        testExtensionEvent.setCreatedDate(new Date(1992, 1, 2));
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentOrigin_ReturnsFalse() {
+        mExtensionEvent.setOrigin("1");
+        testExtensionEvent.setOrigin("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentSectorCode_ReturnsFalse() {
+        mExtensionEvent.setSectorCode("1");
+        testExtensionEvent.setSectorCode("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentStreet_ReturnsFalse() {
+        mExtensionEvent.setStreet("1");
+        testExtensionEvent.setStreet("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentCorner_ReturnsFalse() {
+        mExtensionEvent.setCorner("1");
+        testExtensionEvent.setCorner("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentNumber_ReturnsFalse() {
+        mExtensionEvent.setNumber("1");
+        testExtensionEvent.setNumber("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentDepartment_ReturnsFalse() {
+        mExtensionEvent.setDepartment("1");
+        testExtensionEvent.setDepartment("2");
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentExtensions_ReturnsFalse() {
+        mExtensionEvent.setExtensions(new ArrayList<ExtensionDto>());
+        testExtensionEvent.setExtensions(null);
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentCategory_ReturnsFalse() {
+        CategoryDto testCat = new CategoryDto(1, "test_code", "test_key", CategoryPriority.HIGH, true);
+        CategoryDto testCat2 = new CategoryDto(1, "test_code2", "test_key2", CategoryPriority.HIGH, true);
+        mExtensionEvent.setCategory(testCat);
+        testExtensionEvent.setCategory(testCat2);
+        assertFalse(mExtensionEvent.equals(testExtensionEvent));
+    }
+
 
 }

@@ -19,6 +19,9 @@ public class RoleDto extends ErrorResponse implements Serializable {
     @SerializedName("recursos")
     private List<ResourceDto> resources = new ArrayList<>();
 
+    public RoleDto() {
+    }
+
     public RoleDto(List<ZoneDto> zones, List<ResourceDto> resources) {
         this.zones = zones;
         this.resources = resources;

@@ -11,19 +11,20 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "3.0.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "BASE_URL", "\"http://pis2016.westus.cloudapp.azure.com/Liberacion3.7/Desarrollo/Servicios\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.11:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
             buildConfigField "Integer", "WAITING_TIME", "600000"
         }
         debug {
-            buildConfigField "String", "BASE_URL", "\"http://pis2016.westus.cloudapp.azure.com/Liberacion3.7/Desarrollo/Servicios\""
-            buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.43.220:8081\""
+            buildConfigField "String", "BASE_URL", "\"http://192.168.1.11:8081\""
+            buildConfigField "String", "BASE_MOCK_URL", "\"http://192.168.1.11:8081\""
             buildConfigField "String", "GOOGLE_APP_ID", "\"AIzaSyDaHD4n1WvCTIpdVaVe-KlG5B-BCAMxZfs\""
             buildConfigField "Integer", "WAITING_TIME", "600000"
             testCoverageEnabled true
@@ -39,7 +40,12 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
     testCompile 'org.powermock:powermock-module-junit4-rule:1.6.2'
     testCompile 'org.powermock:powermock-classloading-xstream:1.6.2'
-
+    androidTestCompile 'com.android.support:support-annotations:25.0.0'
+    androidTestCompile 'com.android.support.test:runner:0.4'
+    // Set this dependency to use JUnit 4 rules
+    androidTestCompile 'com.android.support.test:rules:0.4'
+    // Set this dependency to build and run Espresso tests
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'

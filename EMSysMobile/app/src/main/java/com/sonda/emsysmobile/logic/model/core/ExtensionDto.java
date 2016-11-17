@@ -167,6 +167,10 @@ public class ExtensionDto implements Serializable {
         this.resources = resources;
     }
 
+    public void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
+        this.imageDescriptions = imageDescriptions;
+    }
+
     /**
      * Get priority for Event
      * Try to get priority for his Category, but if it does not have one, return event's category priority.

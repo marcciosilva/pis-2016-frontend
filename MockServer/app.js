@@ -132,7 +132,7 @@ switch (loginChoice) {
 //consumeWS
 var WSChoice={};
 WSChoice.Enum('Success', 'Fail');
-wsChoice = LoginChoice.Success;
+wsChoice = WSChoice.Success;
 switch (wsChoice) {
 	case WSChoice.Success:
 		app.post('/consumeWS', consumeWS.postConsumeWSSuccess);

@@ -1,5 +1,7 @@
 package com.sonda.emsysmobile.logic.model.core;
 
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +16,6 @@ import static junit.framework.Assert.assertTrue;
  * Created by marccio on 10/5/16.
  */
 public class ExtensionDtoTest {
-
 
     private int mIdentifier;
     private String mInformant;
@@ -51,6 +52,28 @@ public class ExtensionDtoTest {
     private String mExtensionZoneName;
     private int mExtensionZoneIdentifier;
     private String mExtensionZoneExecUnitName;
+    // Test.
+    // Category.
+    private CategoryDto testCategory;
+    private int testCategoryIdentifier;
+    private String testCategoryCode;
+    private String testCategoryKey;
+    private CategoryPriority testCategoryPriority;
+    private boolean testCategoryIsActive;
+    // Extension.
+    private ExtensionDto testExtensionDto;
+    private int testExtensionIdentifier;
+    private String testExtensionInformant;
+    private String testExtensionDescription;
+    private ExtensionState testExtensionState;
+    private Date testExtensionTimestamp;
+    private CategoryDto testExtensionCategory;
+    private ZoneDto testExtensionZone;
+    private EventDto testExtensionEvent;
+    // Extension > ZoneDto.
+    private String testExtensionZoneName;
+    private int testExtensionZoneIdentifier;
+    private String testExtensionExecUnitName;
     private List<String> mExtensionResources;
 
     @Before
@@ -98,6 +121,32 @@ public class ExtensionDtoTest {
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
                 mExtensionEvent, mExtensionResources);
         mExtensions.add(mExtensionDto);
+        // Test.
+        // Category.
+        testCategoryIdentifier = 1;
+        testCategoryCode = "categoryCode";
+        testCategoryKey = "categoryKey";
+        testCategoryPriority = CategoryPriority.HIGH;
+        testCategoryIsActive = true;
+        testCategory = new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
+                testCategoryPriority, testCategoryIsActive);
+        testExtensionIdentifier = 1;
+        testExtensionDescription = "description";
+        testExtensionState = ExtensionState.CLOSED;
+        testExtensionTimestamp = new Date(2016, 10, 5);
+        testExtensionCategory = testCategory;
+        testExtensionZoneName = "zone1";
+        testExtensionZoneIdentifier = 1;
+        testExtensionExecUnitName = "ue1";
+        testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
+                testExtensionExecUnitName);
+        // EventDto.
+        // Se deja en null porque el equals no lo chequea (por dependencia circular).
+        testExtensionEvent = null;
+        testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
+                testExtensionState, testExtensionTimestamp, testExtensionCategory,
+                testExtensionZone, new ArrayList<GeolocationDto>(), testExtensionEvent,null);
+
     }
 
     @Test
@@ -160,8 +209,9 @@ public class ExtensionDtoTest {
         String testCategoryKey = "categoryKey";
         CategoryPriority testCategoryPriority = CategoryPriority.HIGH;
         boolean testCategoryIsActive = true;
-        CategoryDto testCategory = new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
-                testCategoryPriority, testCategoryIsActive);
+        CategoryDto testCategory =
+                new CategoryDto(testCategoryIdentifier, testCategoryCode, testCategoryKey,
+                        testCategoryPriority, testCategoryIsActive);
         mExtensionDto.setCategory(testCategory);
         assertTrue(mExtensionDto.getCategory().equals(testCategory));
     }
@@ -266,15 +316,54 @@ public class ExtensionDtoTest {
         testExtensionZone = new ZoneDto(testExtensionZoneName, testExtensionZoneIdentifier,
                 testExtensionZoneExecUnitName);
         // EventDto.
-        testExtensionEvent = new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp, testCreatedDate,
-                testInProcess, testOrigin, testSectorCode, testStreet, testCorner, testNumber, testDepartment,
-                testExtensions, testCategory, testLatitude, testLongitude);
+        testExtensionEvent =
+                new EventDto(testIdentifier, testInformant, testPhone, testTimeStamp,
+                        testCreatedDate,
+                        testInProcess, testOrigin, testSectorCode, testStreet, testCorner,
+                        testNumber, testDepartment,
+                        testExtensions, testCategory, testLatitude, testLongitude);
         testExtension = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTimeStamp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent, testExtensionResources);
         testExtensions.add(testExtension);
         mExtensionDto.setEvent(testExtensionEvent);
         assertTrue(mExtensionDto.getEvent().equals(testExtensionEvent));
+    }
+
+    @Test
+    public void getPriority_AllPossibleCases_ReturnsTrue() {
+        // Category no es null.
+        assertTrue(mExtensionDto.getPriority().equals(mCategoryPriority));
+        // Category es null.
+        mExtensionDto.setCategory(null);
+        assertTrue(mExtensionDto.getPriority()
+                .equals(mExtensionDto.getEvent().getCategory().getPriority()));
+        // Category del evento es null.
+        mExtensionDto.getEvent().setCategory(null);
+        assertTrue(mExtensionDto.getPriority().equals(CategoryPriority.LOW));
+    }
+
+    @Test
+    public void isModified() throws Exception {
+        mExtensionDto.setModified(true);
+        assertTrue(mExtensionDto.isModified());
+    }
+
+    @Test
+    public void getGeolocations() throws Exception {
+        mExtensionDto.setGeolocations(null);
+        assertTrue(mExtensionDto.getGeolocations() == null);
+    }
+
+    @Test
+    public void getImageDescriptions() throws Exception {
+        mExtensionDto.setImageDescriptions(null);
+        assertTrue(mExtensionDto.getImageDescriptions() == null);
+    }
+
+    @Test
+    public void equals_SameObject_ReturnsTrue() {
+        assertTrue(mExtensionDto.equals(mExtensionDto));
     }
 
     @Test
@@ -306,6 +395,7 @@ public class ExtensionDtoTest {
         CategoryDto testExtensionCategory;
         ZoneDto testExtensionZone;
         EventDto testExtensionEvent;
+        List<GeolocationDto> testExtensionGeoLoc;
         // Extension > ZoneDto.
         String testExtensionZoneNateste;
         int testExtensionZoneIdentifier;
@@ -332,6 +422,7 @@ public class ExtensionDtoTest {
         testExtensionResources = new ArrayList<>();
         // EventDto.
         testExtensionEvent = null;
+        testExtensionGeoLoc = new ArrayList<GeolocationDto>();
         testExtensionDto = new ExtensionDto(testExtensionIdentifier, testExtensionDescription,
                 testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent, testExtensionResources);
@@ -386,6 +477,50 @@ public class ExtensionDtoTest {
                 testExtensionState, testExtensionTitesteStatestp, testExtensionCategory, testExtensionZone, null,
                 testExtensionEvent, testExtensionResources);
         assertFalse(mExtensionDto.equals(testExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentIdentifier_ReturnsFalse() {
+        testExtensionDto.setIdentifier(2);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentDescription_ReturnsFalse() {
+        testExtensionDto.setDescription("alt_description");
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentExtensionState_ReturnsFalse() {
+        testExtensionDto.setExtensionState(ExtensionState.DISPATCH_MISSING);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentTimeStamp_ReturnsFalse() {
+        testExtensionDto.setTimeStamp(new Date(1992,1,1));
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentCategory_ReturnsFalse() {
+        testExtensionDto.setCategory(new CategoryDto(2, mCategoryCode, mCategoryKey,
+                mCategoryPriority, mCategoryIsActive));
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentGeolocations_ReturnsFalse() {
+        testExtensionDto.setGeolocations(new ArrayList<GeolocationDto>());
+        mExtensionDto.setGeolocations(null);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
+    }
+
+    @Test
+    public void equals_CompareWithDifferentZone_ReturnsFalse() {
+        testExtensionDto.setZone(null);
+        assertFalse(testExtensionDto.equals(mExtensionDto));
     }
 
 }

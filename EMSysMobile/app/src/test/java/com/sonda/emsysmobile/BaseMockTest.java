@@ -2,11 +2,14 @@ package com.sonda.emsysmobile;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.android.volley.toolbox.Volley;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -40,6 +43,8 @@ public abstract class BaseMockTest {
         mockStatic(Handler.class);
         mockStatic(TextUtils.class);
         mockStatic(PreferenceManager.class);
+        mockStatic(android.net.Uri.class);
+        mockStatic(Location.class);
 
         when(PreferenceManager.getDefaultSharedPreferences(any(Context.class))).thenReturn(sharedPreferences);
         when(Looper.getMainLooper()).thenReturn(null);

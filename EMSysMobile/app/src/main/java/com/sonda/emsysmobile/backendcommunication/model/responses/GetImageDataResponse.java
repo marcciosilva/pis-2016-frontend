@@ -14,6 +14,10 @@ public class GetImageDataResponse extends EmsysResponse {
     @SerializedName("response")
     private ImageDataDto imageData;
 
+    public GetImageDataResponse(ImageDataDto imageData) {
+        this.imageData = imageData;
+    }
+
     public final ImageDataDto getImageData() {
         return imageData;
     }

@@ -236,6 +236,10 @@ public class EventDto implements Serializable {
         return imageDescriptions;
     }
 
+    public void setImageDescriptions(List<ImageDescriptionDto> imageDescriptions) {
+        this.imageDescriptions = imageDescriptions;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) {

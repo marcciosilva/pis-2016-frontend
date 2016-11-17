@@ -43,4 +43,15 @@ public class OfflineAttachDescriptionDto implements OfflineDto {
         this.timeStamp = timeStamp;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public int getExtensionId() {
+        return extensionId;
+    }
+
+    public UserDto getUserData() {
+        return userData;
+    }
 }

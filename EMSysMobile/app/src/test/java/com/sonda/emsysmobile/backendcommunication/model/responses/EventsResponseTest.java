@@ -6,6 +6,7 @@ import com.sonda.emsysmobile.logic.model.core.EventDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
 import com.sonda.emsysmobile.logic.model.core.ExtensionState;
 import com.sonda.emsysmobile.logic.model.core.ZoneDto;
+import com.sonda.emsysmobile.logic.model.core.attachments.GeolocationDto;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -104,6 +105,7 @@ public class EventsResponseTest {
         mExtensionDto = new ExtensionDto(mExtensionIdentifier, mExtensionDescription,
                 mExtensionState, mExtensionTimeStamp, mExtensionCategory, mExtensionZone, null,
                 mExtensionEvent, mExtensionResources);
+
         mExtensions.add(mExtensionDto);
         mEvents = new ArrayList<>();
         mEvents.add(mExtensionEvent);
