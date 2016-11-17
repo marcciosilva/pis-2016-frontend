@@ -30,7 +30,7 @@ import okhttp3.Response;
 /**
  * Created by marccio on 27-Oct-16.
  */
-public class ImageGalleryPresenter {
+public final class ImageGalleryPresenter {
 
     private ImageGalleryPresenter() {
         // Debe ser privado porque no debe ser utilizado.
@@ -67,20 +67,29 @@ public class ImageGalleryPresenter {
         // Agrego header de autenticacion a la request
         final String authToken = sharedPrefs.getString("access_token", "");
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = chain.request().newBuilder()
-                                .addHeader("auth", authToken)
-                                .build();
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
+        Picasso picasso = null;
 
-        Picasso picasso = new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(client))
+        OkHttpClient client;
+        if (imageUrl.contains("https")) {
+            // Cliente custom para HTTPS.
+            client = CustomOkHttpClient.getCustomOkHttpClient(context);
+        } else {
+            client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request newRequest = chain.request().newBuilder()
+                                    .addHeader("auth", authToken)
+                                    .build();
+                            return chain.proceed(newRequest);
+                        }
+                    })
+                    .build();
+        }
+
+        picasso = new Picasso.Builder(context)
+                .downloader(
+                        new OkHttp3Downloader(client))
                 .build();
 
         picasso

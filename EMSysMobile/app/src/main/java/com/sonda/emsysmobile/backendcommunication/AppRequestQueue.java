@@ -15,13 +15,19 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
 import com.sonda.emsysmobile.BuildConfig;
+import com.sonda.emsysmobile.GlobalVariables;
+import com.sonda.emsysmobile.R;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 import javax.net.ssl.HostnameVerifier;
@@ -29,7 +35,11 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+
+import static com.sonda.emsysmobile.GlobalVariables.KEYSTORE_PASSWORD;
+import static com.sonda.emsysmobile.GlobalVariables.USING_CUSTOM_KEYSTORE;
 
 /**
  * Created by ssainz on 8/28/16.
@@ -90,39 +100,76 @@ public final class AppRequestQueue {
                     protected HttpURLConnection createConnection(URL url) throws IOException {
                         HttpsURLConnection httpsURLConnection =
                                 (HttpsURLConnection) super.createConnection(url);
-                        try {
-                            TrustManager[] trustAllCerts = new TrustManager[]{
-                                    new X509TrustManager() {
-                                        @Override
-                                        public void checkClientTrusted(X509Certificate[] certs,
-                                                                       String authType) {
-                                        }
+                        if (!USING_CUSTOM_KEYSTORE) {
+                            try {
+                                TrustManager[] trustAllCerts = new TrustManager[]{
+                                        new X509TrustManager() {
+                                            @Override
+                                            public void checkClientTrusted(X509Certificate[] certs,
+                                                                           String authType) {
+                                            }
 
-                                        @Override
-                                        public void checkServerTrusted(X509Certificate[] certs,
-                                                                       String authType) {
-                                        }
+                                            @Override
+                                            public void checkServerTrusted(X509Certificate[] certs,
+                                                                           String authType) {
+                                            }
 
-                                        public X509Certificate[] getAcceptedIssuers() {
-                                            return new X509Certificate[0];
+                                            public X509Certificate[] getAcceptedIssuers() {
+                                                return new X509Certificate[0];
+                                            }
                                         }
+                                };
+                                SSLContext sc = SSLContext.getInstance("SSL");
+                                sc.init(null, trustAllCerts, new SecureRandom());
+                                httpsURLConnection.setSSLSocketFactory(sc.getSocketFactory());
+                                httpsURLConnection.setHostnameVerifier(new HostnameVerifier() {
+                                    @Override
+                                    public boolean verify(String arg0, SSLSession arg1) {
+                                        return true;
                                     }
-                            };
-                            SSLContext sc = SSLContext.getInstance("SSL");
-                            sc.init(null, trustAllCerts, new SecureRandom());
-                            httpsURLConnection.setSSLSocketFactory(sc.getSocketFactory());
-                            httpsURLConnection.setHostnameVerifier(new HostnameVerifier() {
-                                @Override
-                                public boolean verify(String arg0, SSLSession arg1) {
-                                    return true;
+                                });
+
+
+                            } catch (KeyManagementException e) {
+                                Log.d(TAG, e.getStackTrace().toString());
+                            } catch (NoSuchAlgorithmException e) {
+                                Log.d(TAG, e.getStackTrace().toString());
+                            }
+                        } else {
+                            try {
+                                KeyStore keyStore =
+                                        KeyStore.getInstance(GlobalVariables.KEYSTORE_TYPE);
+                                InputStream in =
+                                        mCtx.getResources().openRawResource(R.raw.keystore);
+                                try {
+                                    // Se inicializa keystore con los certificados.
+                                    // Se agrega password para la keystore.
+                                    keyStore.load(in, KEYSTORE_PASSWORD.toCharArray());
+                                } finally {
+                                    in.close();
                                 }
-                            });
+                                // Se crea un TrustManager que confia en todas las CAs de nuestro
+                                // keystore.
+                                String tmfAlgorithm = TrustManagerFactory.getDefaultAlgorithm();
+                                TrustManagerFactory tmf =
+                                        TrustManagerFactory.getInstance(tmfAlgorithm);
+                                tmf.init(keyStore);
 
+                                // Se crea un SSLContext que usa nuestro TrustManager.
+                                SSLContext context = SSLContext.getInstance("TLS");
+                                context.init(null, tmf.getTrustManagers(), null);
 
-                        } catch (KeyManagementException e) {
-                            Log.d(TAG, e.getStackTrace().toString());
-                        } catch (NoSuchAlgorithmException e) {
-                            Log.d(TAG, e.getStackTrace().toString());
+                                // La URLConnection usa una SocketFactory de nuestro SSLContext.
+                                httpsURLConnection.setSSLSocketFactory(context.getSocketFactory());
+                            } catch (CertificateException e) {
+                                Log.d(TAG, e.getStackTrace().toString());
+                            } catch (NoSuchAlgorithmException e) {
+                                Log.d(TAG, e.getStackTrace().toString());
+                            } catch (KeyStoreException e) {
+                                Log.d(TAG, e.getStackTrace().toString());
+                            } catch (KeyManagementException e) {
+                                Log.d(TAG, e.getStackTrace().toString());
+                            }
                         }
                         return httpsURLConnection;
                     }
