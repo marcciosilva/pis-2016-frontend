@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * Created by Pape on 11/11/2016.
@@ -52,7 +53,7 @@ public class OfflineUpdateDescriptionRequestExecuteTest {
         mOfflineUpdateDescRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                assertFalse(true);
             }
         });
         mOfflineUpdateDescRequest.execute();

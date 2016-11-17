@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import static com.sonda.emsysmobile.utils.UIUtils.handleErrorMessage;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.fail;
 
 /**
@@ -48,7 +49,7 @@ public class AuthRequestExecuteTest {
         mAuthRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                assertFalse(true);
             }
         });
         mAuthRequest.execute();

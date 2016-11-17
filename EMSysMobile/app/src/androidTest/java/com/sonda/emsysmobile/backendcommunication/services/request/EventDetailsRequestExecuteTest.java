@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * Created by Pape on 8/11/2016.
@@ -31,7 +32,7 @@ public class EventDetailsRequestExecuteTest {
     @Test
     public void EventDetailsRequestTest() throws Exception {
         mEventDetailsRequest = new EventDetailsRequest<>(mActivityRule.getActivity().getApplicationContext(), EventDetailsResponse.class);
-        mEventDetailsRequest.setAttributes(1);
+        mEventDetailsRequest.setAttributes(2);
         mEventDetailsRequest.setListener(new Response.Listener<EventDetailsResponse>(){
             @Override
             public void onResponse(EventDetailsResponse response) {
@@ -42,7 +43,7 @@ public class EventDetailsRequestExecuteTest {
         mEventDetailsRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                assertFalse(true);
             }
         });
         mEventDetailsRequest.execute();

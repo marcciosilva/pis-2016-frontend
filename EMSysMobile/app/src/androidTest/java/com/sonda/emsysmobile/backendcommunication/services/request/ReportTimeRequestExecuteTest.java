@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * Created by Pape on 8/11/2016.
@@ -42,6 +43,7 @@ public class ReportTimeRequestExecuteTest {
         mReportTimeRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                assertFalse(true);
             }
         });
         mReportTimeRequest.execute();

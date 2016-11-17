@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 
 /**
  * Created by Pape on 8/11/2016.
@@ -56,6 +57,7 @@ public class LoginRequestExecuteTest {
         mLoginRequest.setErrorListener(new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                assertFalse(true);
             }
         });
         mLoginRequest.execute();
