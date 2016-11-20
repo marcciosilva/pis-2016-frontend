@@ -64,35 +64,8 @@ public final class ImageGalleryPresenter {
                 "/adjuntos/getimagethumbnail?idImagen="
                 + Integer.toString(item.getId());
         item.setImageUrl(imageUrl);
-        // Agrego header de autenticacion a la request
-        final String authToken = sharedPrefs.getString("access_token", "");
 
-        Picasso picasso = null;
-
-        OkHttpClient client;
-        if (imageUrl.contains("https")) {
-            // Cliente custom para HTTPS.
-            client = CustomOkHttpClient.getCustomOkHttpClient(context);
-        } else {
-            client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request newRequest = chain.request().newBuilder()
-                                    .addHeader("auth", authToken)
-                                    .build();
-                            return chain.proceed(newRequest);
-                        }
-                    })
-                    .build();
-        }
-
-        picasso = new Picasso.Builder(context)
-                .downloader(
-                        new OkHttp3Downloader(client))
-                .build();
-
-        picasso
+        Picasso.with(context)
                 .load(imageUrl)
                 .fit()
                 .centerInside()

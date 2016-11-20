@@ -22,12 +22,14 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.sonda.emsysmobile.R;
 import com.sonda.emsysmobile.backendcommunication.model.responses.ErrorCodeCategory;
 import com.sonda.emsysmobile.backendcommunication.services.KeepAliveService;
 import com.sonda.emsysmobile.logic.model.core.ExtensionDto;
+import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.sonda.emsysmobile.managers.NotificationsManager;
 import com.sonda.emsysmobile.notifications.Notification;
 import com.sonda.emsysmobile.ui.changeview.EventsMapView;
@@ -39,6 +41,7 @@ import com.sonda.emsysmobile.ui.fragments.NotificationsFragment;
 import com.sonda.emsysmobile.ui.interfaces.OnListFragmentInteractionListener;
 import com.sonda.emsysmobile.ui.views.dialogs.EventFilterDialogFragment;
 import com.sonda.emsysmobile.utils.UIUtils;
+import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends RootActivity
         implements OnListFragmentInteractionListener,
@@ -90,6 +93,9 @@ public class HomeActivity extends RootActivity
 
         // Creating notifications manager singleton
         NotificationsManager.getInstance(this);
+
+        // Creating multimedia manager singleton
+        MultimediaManager.getInstance(this);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout

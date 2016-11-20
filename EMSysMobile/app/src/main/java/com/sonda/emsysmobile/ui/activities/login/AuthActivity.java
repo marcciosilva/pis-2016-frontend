@@ -81,6 +81,13 @@ public class AuthActivity extends FragmentActivity implements View.OnClickListen
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mProgressBar.setVisibility(View.GONE);
+    }
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
