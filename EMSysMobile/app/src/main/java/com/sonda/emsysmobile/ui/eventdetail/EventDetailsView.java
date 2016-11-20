@@ -477,6 +477,4 @@ public class EventDetailsView extends AppCompatActivity implements
             Log.d(TAG, "Botón de audio pulsado");
         }
     }
-
-
 }

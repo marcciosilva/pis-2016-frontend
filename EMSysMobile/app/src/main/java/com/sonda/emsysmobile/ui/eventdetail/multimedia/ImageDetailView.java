@@ -2,7 +2,9 @@ package com.sonda.emsysmobile.ui.eventdetail.multimedia;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,7 +13,10 @@ import android.widget.ImageView;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.sonda.emsysmobile.BuildConfig;
 import com.sonda.emsysmobile.R;
+import com.sonda.emsysmobile.managers.MultimediaManager;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -28,11 +33,13 @@ public class ImageDetailView extends AppCompatActivity {
     protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_test);
+
         // Se agrega la flecha de ir hacia atras.
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
         final ImageView imgAvatar = (ImageView) findViewById(R.id.imgAvatar);
         Bundle extras = getIntent().getExtras();
         int imageId = extras.getInt("imageId");
@@ -42,32 +49,10 @@ public class ImageDetailView extends AppCompatActivity {
                 "/adjuntos/getimagedata?idImagen="
                 + Integer.toString(imageId);
 
-        // Agrego header de autenticacion a la request
-        final String authToken = sharedPrefs.getString("access_token", "");
-
-        OkHttpClient client;
-        if (imageUrl.contains("https")) {
-            client = CustomOkHttpClient.getCustomOkHttpClient(ImageDetailView.this);
-        } else {
-            client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public Response intercept(Chain chain) throws IOException {
-                            Request newRequest = chain.request().newBuilder()
-                                    .addHeader("auth", authToken)
-                                    .build();
-                            return chain.proceed(newRequest);
-                        }
-                    })
-                    .build();
-        }
-
-        Picasso picasso = new Picasso.Builder(ImageDetailView.this)
-                .downloader(new OkHttp3Downloader(client))
-                .build();
-
-        picasso
+        Picasso.with(ImageDetailView.this)
                 .load(imageUrl)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .resize(1024, 0)
                 .into(imgAvatar, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -85,7 +70,6 @@ public class ImageDetailView extends AppCompatActivity {
         // Se agrega un PhotoViewAttacher, que se encarga de toda la funcionalidad de zoom.
         // No borrar.
         PhotoViewAttacher mAttacher = new PhotoViewAttacher(imgAvatar);
-
     }
 
     @Override
